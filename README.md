@@ -86,7 +86,21 @@ So, if we want to implement a feature that pulls the x interesting events in the
 This is not a problem for implement the DATE -7 / +9 days model plots.
 
 
-## Running the app directly from Github (no need to clone the repository)
+## Running the app
+### Directly from Github
+
+```R
+library(shiny)
+
 runGitHub("Flood_forecasting", "fbaffie")
 
+```
 
+Or you can clone the git repository, then use `runApp()`:
+
+```R
+# First clone the repository with git. If you have cloned it into
+# ~/Flood_forecasting, first go to that directory, then use runApp().
+setwd("~/Flood_forecasting")
+runApp()
+```
