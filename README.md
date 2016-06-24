@@ -27,19 +27,19 @@ The GUI will be based on R Shiny, with the following tabs:
    * Taylor diagram
    * A hit/miss/false alarm/correct reject table could be interesting. But, if the timelapse is 1 year, the return level threshold should be discussed, 1 year return period being the maximum we could use.
 
-3. Tab3: MODELLER'S DASHBOARD - Analysis of model performance / properties during the calibration period.
-* time series graphs, available time period, zoom functionality, tick on/off which models:
-* discharge: observations and all models
-* temperature and precipitation
-* states/water balance: snow, sub-surface water, evaporation
-* accumulated difference observed – modelled discharge
-* model performance
+3. Tab 3: MODELLER'S DASHBOARD - Analysis of model performance / properties during the calibration period.
+ * time series graphs, available time period, zoom functionality, tick on/off which models:
+ * discharge: observations and all models
+ * temperature and precipitation
+ * states/water balance: snow, sub-surface water, evaporation
+ * accumulated difference observed – modelled discharge
+ * model performance
    * NSE
    * KGE
    * hit/miss/false alarm/correct reject table (And / Or success index) on calibration runs. This is not a forecast quality measure but is still useful for assessing the model performance
    * Taylor diagram
 
-3. Tab 3: Regional analysis of model runs
+4. Tab 4: Regional analysis of model runs
   * Ouputs one plot per station of the model runs
   * Should this include a map with polygon selection or should the group of stations only originate from tab 1?
 
