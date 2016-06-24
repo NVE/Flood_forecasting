@@ -19,7 +19,7 @@ The GUI will be based on R Shiny, with the following tabs:
   * Map markers could represent a selectable variable (temperature / precip...)
   * Plot (plotly, highchart or dygraph to have interactive plot features such as adding/removing lines) of model runs
  
-- The plot should include flood levels: mean flood and 5 year return level. The plots could be ticked out by default and then plotted when the forecast is within X% of those levels.
+  - The plot should include flood levels: mean flood and 5 year return level. The plots could be ticked out by default and then plotted when the forecast is within X% of those levels.
 - The plot should also include Temperature and precip. If it becomes messy with y scales, the mouse tip indicator with plotly is enough.
 - Would be good to highlight the current day somehow.
  * Summary of model performance. There is the tricky question of how long of a time-interval to use. All perf indicators should use the same interval. 1 year is probably a good choice
