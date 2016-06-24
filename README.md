@@ -87,7 +87,8 @@ This is not a problem for implement the DATE -7 / +9 days model plots.
 
 
 ## Running the app
-### Directly from Github
+
+#### Directly from Github
 
 ```R
 library(shiny)
@@ -96,7 +97,9 @@ runGitHub("Flood_forecasting", "fbaffie")
 
 ```
 
-Or you can clone the git repository, then use `runApp()`:
+#### Locally
+
+To have a copy on your computer, first clone the git repository and then use `runApp()`:
 
 ```R
 # First clone the repository with git. If you have cloned it into
