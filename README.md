@@ -8,7 +8,7 @@ Provide the flood forecasters with an easy to use and customizable graphical use
 ## Structure
 The GUI will be based on R Shiny, with the following tabs:
 
-1. Tab 1 [ ]: Station selection (returns a list of one or more stations) based on 4 methods:
+1. Tab 1: Station selection (returns a list of one or more stations) based on 4 methods:
   * Station identification number or name
   * Logic on catchment properties and model performance: coordinates, area, elevation, previous model performance...
   * Map selection: click or draw polygon
