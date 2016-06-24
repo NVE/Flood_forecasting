@@ -86,4 +86,7 @@ So, if we want to implement a feature that pulls the x interesting events in the
 This is not a problem for implement the DATE -7 / +9 days model plots.
 
 
+## Running the app directly from Github (no need to clone the repository)
+runGitHub("Flood_forecasting", "fbaffie")
+
 
