@@ -15,6 +15,7 @@ The GUI will be based on R Shiny, with the following tabs:
  * Map selection: click or draw polygon
  * Table selection: navigate on a big DT table (with similar variables as in the logic method) and click on the stations you want
 
+This station selection would update every other tab that uses groups of stations but the other tabs would also have a simple selection tool (i.e. regine + main numbers)
 
 2. Tab 2: FORECASTER'S DASHBOARD - plots and performance of model runs (-7 to +9 days). Only for a single station?
  * Selection of a single station based on region_number, main_number, clicking on map
@@ -34,7 +35,7 @@ The GUI will be based on R Shiny, with the following tabs:
  * discharge: observations and all models
  * temperature and precipitation
  * states/water balance: snow, sub-surface water, evaporation
- * accumulated difference observed – modelled discharge
+ * Running bias: accumulated difference observed – modelled discharge
  * model performance
      - NSE
      - KGE
@@ -44,6 +45,8 @@ The GUI will be based on R Shiny, with the following tabs:
 4. Tab 4: Regional analysis of model runs
   * Ouputs one plot per station of the model runs
   * Should this include a map with polygon selection or should the group of stations only originate from tab 1?
+
+Historical hindsight: pull out past interesting events for a specific station or group of stations
 
 
 To be continued...
