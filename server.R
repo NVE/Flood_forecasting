@@ -15,9 +15,11 @@ server <- function(input, output) {
 #   })
   
   
-  callModule(mapModule,"map1")
-  map_input <- callModule(mapModule_polygonFeature,"map2")
-  callModule(printoutModule,"map2_msg", map_input)
+  map1_input <- callModule(mapModule_polygonFeature,"map1") 
+  callModule(printoutModule,"map1_msg", map1_input)
+  
+  map2_input <- callModule(mapModule_polygonFeature,"map2")
+  callModule(printoutModule,"map2_msg", map2_input)
   
     
 }

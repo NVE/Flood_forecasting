@@ -13,6 +13,7 @@ ui <- fluidPage(
       
     ),
     mainPanel(
+      printoutModuleUI("map1_msg"),
       mapModuleUI("map1")
       
       

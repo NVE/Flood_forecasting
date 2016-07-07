@@ -1,3 +1,9 @@
+# Installing and loading required packages
+packages <- c("shiny", "leaflet", "magrittr", "sp")
+if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+  install.packages(setdiff(packages, rownames(installed.packages())))  
+}
+
 library(shiny)
 library(leaflet)
 library(magrittr)  # For piping
