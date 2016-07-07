@@ -8,16 +8,16 @@ source('global.R')
 server <- function(input, output) {
   
   
-  datafile <- callModule(csvFile, "datafile",
-                         stringsAsFactors = FALSE)
+#   datafile <- callModule(csvFile, "datafile",
+#                          stringsAsFactors = FALSE)
+#   output$table <- renderDataTable({
+#     datafile()
+#   })
   
-  #   output$table <- renderDataTable({
-  #     datafile()
-  #   })
   
-  
-  callModule(mapModule,"test_map")
-  callModule(mapModule_polygonFeature,"test_map2")
+  callModule(mapModule,"map1")
+  map_input <- callModule(mapModule_polygonFeature,"map2")
+  callModule(printoutModule,"map2_msg", map_input)
   
     
 }

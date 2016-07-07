@@ -3,14 +3,17 @@
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
-      csvFileInput("datafile", "User data (.csv format)"),
       
-      # leafletOutput("map1")
-      mapModuleUI("test_map2")
+      
+      # csvFileInput("datafile", "User data (.csv format)"),
+      
+      printoutModuleUI("map2_msg"),
+      
+      mapModuleUI("map2")
       
     ),
     mainPanel(
-      mapModuleUI("test_map")
+      mapModuleUI("map1")
       
       
       # dataTableOutput("table")  
