@@ -1,7 +1,9 @@
 # This is the server logic for a Shiny web application.
 
 
-source('modules.R')
+source('global.R')
+
+
 
 server <- function(input, output) {
   
@@ -14,8 +16,8 @@ server <- function(input, output) {
   #   })
   
   
-  callModule(mapModule2,"test_map")
-  callModule(mapModule2,"test_map2")
+  callModule(mapModule,"test_map")
+  callModule(mapModule,"test_map2")
   
     
 }
