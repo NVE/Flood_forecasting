@@ -1,23 +1,21 @@
-
 # This is the server logic for a Shiny web application.
-# You can find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com
-#
 
-library(shiny)
 
-shinyServer(function(input, output) {
+source('modules.R')
 
-  output$distPlot <- renderPlot({
-
-    # generate bins based on input$bins from ui.R
-    x    <- faithful[, 2]
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-    # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
-
-  })
-
-})
+server <- function(input, output) {
+  
+  
+  datafile <- callModule(csvFile, "datafile",
+                         stringsAsFactors = FALSE)
+  
+  #   output$table <- renderDataTable({
+  #     datafile()
+  #   })
+  
+  
+  callModule(mapModule2,"test_map")
+  callModule(mapModule2,"test_map2")
+  
+    
+}
