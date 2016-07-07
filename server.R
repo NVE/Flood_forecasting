@@ -17,7 +17,7 @@ server <- function(input, output) {
   
   
   callModule(mapModule,"test_map")
-  callModule(mapModule,"test_map2")
+  callModule(mapModule_polygonFeature,"test_map2")
   
     
 }
