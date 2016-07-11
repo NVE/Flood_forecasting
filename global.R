@@ -5,8 +5,9 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
 }
 
 if (require(leaflet) == FALSE) {
-library(devtools)
-install_github("fbaffie/leaflet")
+  if (require(devtools) == FALSE) {
+  library(devtools)
+  } install_github("fbaffie/leaflet")
 }
 
 
