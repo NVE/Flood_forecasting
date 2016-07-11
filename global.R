@@ -4,12 +4,20 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))  
 }
 
-if (require(leaflet) == FALSE) {
-  if (require(devtools) == FALSE) {
-    install.packages('devtools')
-  } library(devtools)
+packages <- c("leaflet")
+if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+  install.packages('devtools')
+  library(devtools)
   install_github("fbaffie/leaflet")
 }
+
+# 
+# if (require(leaflet) == FALSE) {
+#   if (require(devtools) == FALSE) {
+#     install.packages('devtools')
+#   } library(devtools)
+# 
+# }
 
 
 
