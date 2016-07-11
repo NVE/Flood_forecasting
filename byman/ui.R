@@ -38,14 +38,27 @@ renderInputs <- function(prefix) {
              #                        are colored since they have special CSS classes 
              #                        attached; for the data, we customize the 
              #                        length menu so we can display 5 rows per page.')
-      ) ))
+      )
+      
+      ## HACK FLO
+      
+#       column(2, wellPanel(
+#         selectInput(inputId='station', selected =  station$number[37], 
+#                     label = "Pick a station", choices = station$number)
+#       )
+#       ),
+#       column(4, leafletOutput('map'))
+      
+      ## HACK FLO END
+      
+      ))
   
 } 
 
 
 
 # Define UI for application that plots 
-shinyUI(fluidPage(theme="simplex.min.css", 
+ui <- fluidPage(theme="simplex.min.css", 
                   tags$style(type="text/css", 
                              "label {font-size: 12px;}", 
                              ".recalculating {opacity: 1.0;}" 
@@ -57,6 +70,10 @@ shinyUI(fluidPage(theme="simplex.min.css",
                   p("Model comparisons of HBV, DDD and DDM"), 
                   
                   dygraphOutput("mydygraph",height = 600),
+
+                
+                
+                
                   textOutput("message", container = h3),
                   
                   hr(), 
@@ -91,6 +108,17 @@ shinyUI(fluidPage(theme="simplex.min.css",
                                         dataTableOutput("mytable3"))
                                
                              ))
-                    ) 
+                    )
+                    
+                    
+                    
                   )
-))
+                ,
+                # fluidRow(
+                mydygraphModuleUI("dygraph1"),
+                mydygraphModuleUI("dygraph2"),
+                mydygraphModuleUI("dygraph3")
+                # )
+                  
+                  
+)

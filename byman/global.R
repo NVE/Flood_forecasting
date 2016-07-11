@@ -13,7 +13,8 @@ library(plyr)
 library(dygraphs)
 
 
-# setwd("F:\\ML\\VSRT\\newTest")
+source("./modules_byman.R")
+
 
 
 alldat <- read.table("./data/allstationsallmodels.csv", header = TRUE, skip = 0, as.is=TRUE,sep = ",")

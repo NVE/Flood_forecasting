@@ -1,4 +1,8 @@
-shinyServer(function(input, output,session) {
+# setwd("./byman")
+source("./global.R")
+
+
+server <- function(input, output,session) {
   
   filename=reactive({
     paste0(input$torre,input$tipo)
@@ -77,25 +81,55 @@ shinyServer(function(input, output,session) {
   #     re-executed when inputs change 
   #   2) Its output type is a plot 
   
+  
+  ## HACK FLO
+  
+  
+  
+  #   
+  #   
+  #   
+  
+  
+  # To be able to select stations directly on the map (for the first tab)
+  #   observeEvent(input$map_marker_click, { # update the map markers and view on map clicks
+  #     p <- input$map_marker_click
+  #     leafletProxy("map")
+  #     
+  #     updateSelectInput(session, inputId='station', selected =  p$id, 
+  #                       label = "Pick a station", choices = station$number)
+  #   })
+  #   
+  #   output$map <- renderLeaflet({
+  #     norway_map4server(input$station)
+  #   })
+  
+  # selection <- reactive({input$catch})
+  
+  
+  
+  callModule(mydygraphModule,"dygraph1") 
+
+  callModule(mydygraphModule,"dygraph2")
+  callModule(mydygraphModule,"dygraph3") 
+  
+  
+  ## HACK FLO END
+  
+  
+  
+
+  
+  
+  
+  
   output$mydygraph <- renderDygraph({
-    # start dygraph with all the states
-#     alldat <- read.table("C:\\Users\\byha\\Documents\\Visual Studio 2015\\Projects\\newTest\\myML\\Allstationsallmodels.csv", header = TRUE, skip = 0, as.is = TRUE, sep = ",")
-#     allmeas <- read.table("C:\\Users\\byha\\Documents\\Visual Studio 2015\\Projects\\newTest\\myML\\allmodelsperformancemeasures.csv", header = TRUE, skip = 0, sep = ",")
-     
+ 
     alldat$myDate <- as.Date(alldat$myDate)
     
-    mydat <- reshape(alldat,
-                     varying = c("Observed", "HBV", "NNET", "SVM", "GBM", "M5", "M5C"),
-                     v.names = "flow",
-                     timevar = "model",
-                     times = c("Observed", "HBV", "NNET", "SVM", "GBM", "M5", "M5C"),
-                     new.row.names = 1:(dim(alldat)[1] * dim(alldat)[2]),
-                     direction = "long")
-    mydat <- mydat[, -5]
-    
     dat1<-subset(alldat, Catchment %in% input$catch)
-    dat1<-dat1[,-2]
-    dat2<-dat1[complete.cases(dat1),]
+    dat_cropped<-dat1[,-2]
+    dat2<-dat_cropped[complete.cases(dat_cropped),]
     dat.z<-zoo(dat2[,2:8],dat2$myDate)
     myts<-as.ts(dat.z)
     dygraph(
@@ -106,9 +140,9 @@ shinyServer(function(input, output,session) {
   output$mydygraph2 <- renderDygraph({
     # start dygraph with all the states
     dat3<-subset(alldat, Catchment %in% input$catch &  myDate > as.character(input$dateRange[1]) & myDate <as.character(input$dateRange[2]))
-    dat3<-dat3[,-2]
+    dat_cropped<-dat3[,-2]
     #dat4<-dat3[complete.cases(dat3),]
-    dat.z1<-zoo(dat3[,2:8],dat3$myDate)
+    dat.z1<-zoo(dat_cropped[,2:8],dat_cropped$myDate)
     myts1<-as.ts(dat.z1)
     dygraph(
       myts1#%>%dyRangeSelector()
@@ -135,4 +169,7 @@ shinyServer(function(input, output,session) {
   })
   
   
-})
+  
+  
+  
+}
