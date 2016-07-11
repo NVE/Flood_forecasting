@@ -1,8 +1,15 @@
 # Installing and loading required packages
-packages <- c("shiny", "leaflet", "magrittr", "sp")
+packages <- c("shiny", "magrittr", "sp")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))  
 }
+
+if (require(leaflet) == FALSE) {
+library(devtools)
+install_github("fbaffie/leaflet")
+}
+
+
 
 library(shiny)
 library(leaflet)
