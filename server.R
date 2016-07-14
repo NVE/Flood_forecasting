@@ -3,17 +3,14 @@
 
 source('global.R')
 
-
+load("HBV_2014_GG.RData")
 
 server <- function(input, output) {
   
   
-#   datafile <- callModule(csvFile, "datafile",
-#                          stringsAsFactors = FALSE)
-#   output$table <- renderDataTable({
-#     datafile()
-#   })
-  
+  # HBV_2014_GG <<- reactiveFileReader(10000, session = NULL, filePath = "./HBV_2014_GG.Rdata", load, envir = .GlobalEnv)
+
+  callModule(forecast_plot_mod,"forecast_plot") 
   
   map1_input <- callModule(mapModule_polygonFeature,"map1") 
   callModule(printoutModule,"map1_msg", map1_input)

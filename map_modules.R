@@ -2,9 +2,9 @@ mapModuleUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
   
-  # fluidRow(
+  fluidRow(
   leafletOutput(ns("map"))
-  # )
+  )
   
 }
 

@@ -1,9 +1,13 @@
-# Installing and loading required packages
-packages <- c("shiny", "magrittr", "sp")
-if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-  install.packages(setdiff(packages, rownames(installed.packages())))  
+# Installing and loading required packages (https://gist.github.com/stevenworthington/3178163)
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, library, character.only = TRUE)
 }
 
+
+## Special case for leaflet which comes from a fork of Rcura on my repo
 packages <- c("leaflet")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages('devtools')
@@ -11,33 +15,17 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install_github("fbaffie/leaflet")
 }
 
-# 
-# if (require(leaflet) == FALSE) {
-#   if (require(devtools) == FALSE) {
-#     install.packages('devtools')
-#   } library(devtools)
-# 
-# }
 
+packages <- c("shiny", "leaflet", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate")
+ipak(packages)
+# sp: For the point.in.polygon function
 
-
-library(shiny)
-library(leaflet)
-library(magrittr)  # For piping
-library(sp)  # For the point.in.polygon function
 
 ## My modules: either load package or source modules from this directory
 # library(ShinyModules)
 source('map_modules.R')
+source('plot_modules.R')
+source('plotting_functions.R')
 
 
-##############################################
-
-# EXAMPLES
-
-# plotly filling exmaple
-
-# library(plotly)
-# p <- plot_ly(x = c(1, 2, 3, 4), y = c(0, 2, 3, 5), fill = "tozeroy")
-# add_trace(p, x = c(1, 2, 3, 4), y = c(3, 5, 1, 7), fill = "tonexty")
 

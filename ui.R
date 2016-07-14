@@ -4,20 +4,19 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       
-      
-      # csvFileInput("datafile", "User data (.csv format)"),
-      
+    
       printoutModuleUI("map2_msg"),
       
       mapModuleUI("map2")
       
     ),
     mainPanel(
+
+      forecast_plot_modUI("forecast_plot"),
+      
       printoutModuleUI("map1_msg"),
       mapModuleUI("map1")
-      
-      
-      # dataTableOutput("table")  
+  
     )
   )
 )
