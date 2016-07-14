@@ -3,12 +3,14 @@ mapModuleUI <- function(id) {
   ns <- NS(id)
   
   fluidRow(
-  leafletOutput(ns("map"))
+  leafletOutput(ns("map")),
+  selectInput(ns("station"), selected = "2.11", 
+              label = "Choose a station", choices = stations_available)
   )
   
 }
 
-mapModule <- function(input, output, session) {
+mapModule_simple <- function(input, output, session) {
   
   myMap <- leaflet() %>%
     addTiles() %>%
@@ -25,8 +27,56 @@ mapModule <- function(input, output, session) {
   
   
   output$map <- renderLeaflet({myMap})
+  return(input)
   
 }
+
+mapModule <- function(input, output, session) {
+  # stations is global but gets send to the mapping function so that this function can be used in other settings!
+
+  selected_regine_main <- reactive(input$station)
+  selected_name <- reactive(stations$name[which(station$regine_main == input$station)])
+  selected_long <- reactive(station$long[which(stations$regine_main == input$station)])
+  selected_lat <- reactive(station$lat[which(stations$regine_main == input$station)])
+  
+  output$map <- renderLeaflet({single_station_map(stations, selected_regine_main(),
+                                                  selected_name(),
+                                                  selected_long(),
+                                                  selected_lat())})
+  
+  # Interactivity of input between station selector and map
+  observeEvent(input$map_marker_click, { # update the map markers and view on map clicks
+    p <- input$map_marker_click
+    leafletProxy("map")
+    
+    updateSelectInput(session, inputId='station', selected =  p$id, 
+                      label = "Choose a station", choices = stations_available)
+  })
+  
+  
+  return(input)
+  
+}
+
+########################################
+
+  #   pal <- colorNumeric(
+  #     palette = heat.colors(5),
+  #     domain = c(0,30,60,90,120,150))
+  # qpal <- colorQuantile("RdYlBu", length.bins, n = 5)
+  
+#   my.colors <- c("black", "red", "orange", "green", "blue")
+#   
+#   my.color.func <- function(x2plot, my.colors) {
+#     color.bins <- c(0,30,60,90,120,150)
+#     color <- my.colors[trunc(x2plot/30)+1]
+#     invisible(color)
+#   }
+  
+
+
+########################################
+
 
 # Module server function
 mapModule_polygonFeature <- function(input, output, session) {
@@ -53,6 +103,30 @@ mapModule_polygonFeature <- function(input, output, session) {
   output$map <- renderLeaflet({myMap})
   return(input)
 }
+
+#############################################################################################
+# To be able to select stations directly on the map (for the first tab) 
+
+
+
+# change the station selection on the first tab when a new station is selected in the rlevels tab
+
+# observeEvent(input$station4rlevels, { 
+#   updateSelectInput(session, inputId='station', selected = input$station4rlevels, 
+#                     label = "Pick a station", choices = station$number)
+# })
+# # and accordingly change the station selection in the rlevels tab when a new station is selected in the main tab
+# observeEvent(input$station, { 
+#   updateSelectInput(session, inputId='station4rlevels', selected = input$station, 
+#                     label = "Pick a station", choices = station$number)
+# })
+
+
+
+
+
+
+##############################################################################################
 
 
 printoutModuleUI <- function(id) {

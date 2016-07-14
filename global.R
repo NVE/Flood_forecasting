@@ -28,4 +28,22 @@ source('plot_modules.R')
 source('plotting_functions.R')
 
 
+# Load the Rdata files that were prepared with the NVEDATA package.
+# This creates the global variable
+load("HBV_2014_GG.RData")
+load("meta_data.rda")
+stations_available <- as.character(unique(HBV_2014_GG$regine_main))
+stations_index <- which(meta_data$regine_main %in% stations_available)
+
+## Metadata organized as below is needed for the maps.
+# Maybe we can streamline with the rest later
+stations <- list()
+stations$regine_main <- meta_data$regine_main[stations_index]
+stations$name <- meta_data$station_name[stations_index]
+stations$long <- meta_data$longitude[stations_index]
+stations$lat <- meta_data$latitude[stations_index]
+
+# test <- meta_data[[1:80]][stations_index]  # doesn't work. something similar would be good for a subset of metadata
+
+
 

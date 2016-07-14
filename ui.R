@@ -4,19 +4,13 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       
-    
-      printoutModuleUI("map2_msg"),
-      
-      mapModuleUI("map2")
+    mapModuleUI("map1")
       
     ),
     mainPanel(
 
-      forecast_plot_modUI("forecast_plot"),
-      
-      printoutModuleUI("map1_msg"),
-      mapModuleUI("map1")
-  
+      forecast_plot_modUI("forecast_plot")
+    
     )
   )
 )
