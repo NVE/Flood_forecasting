@@ -6,8 +6,8 @@ load("HBV_2014_GG.RData")
 
 forecast_plot <- function(dat) {
   
-  d <- ggplot(dat, aes(x= ymd(time_vec), y= values, group=variables, colour=variables ) ) +
-       geom_line(size=2) +
+  d <- ggplot(dat, aes(x = ymd(time_vec), y = values, group = variables, colour = variables ) ) +
+       geom_line(size = 1.5) +
        facet_grid(.~regine_main)
   ggplotly(d)
   invisible(d)
