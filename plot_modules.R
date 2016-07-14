@@ -2,9 +2,8 @@ forecast_plot_mod <- function(input, output, session, map_input) {
   
   subset2plot <- reactive(dplyr::filter(HBV_2014_GG, regine_main == map_input$station))  # input$station
   
-  output$plot <- renderPlotly({
-    ggplotly(forecast_plot(subset2plot()))
-  })
+  output$plot <- renderPlotly(forecast_plot(subset2plot())
+                              )
   
 }
 
