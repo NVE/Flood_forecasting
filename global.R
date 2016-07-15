@@ -47,8 +47,13 @@ source('plotting_functions.R')
 
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
+<<<<<<< HEAD
 load("HBV_2014_GG.RData")
 load("HBV_2016_GG.RData")
+=======
+load("HBV_2014.RData")
+load("HBV_2016.RData")
+>>>>>>> master
 load("meta_data.rda")
 stations_available <- as.character(unique(HBV_2014_GG$regine_main))
 stations_index <- which(meta_data$regine_main %in% stations_available)
