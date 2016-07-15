@@ -16,7 +16,7 @@ forecast_plot_shading <- function(dat) {
 #       colClasses=c('Date', 'Date'), header=TRUE)
 
   d <- ggplot() +
-      geom_line(data = dat, aes(x = time, y = values, col = Variable), size = 1) +
+      geom_line(data = dat, aes(x = time, y = Values, col = Variable), size = 1) +
     geom_rect(data=current_day, aes(xmin=start, xmax=end, ymin=-Inf, ymax=Inf), fill='pink', alpha=0.2) +
       facet_grid(Type ~ ., scales="free_y") +
       theme_bw() + 
@@ -31,7 +31,7 @@ forecast_plot_shading <- function(dat) {
 forecast_plot <- function(dat) {
   
   dat$time <- as.Date(dat$time)
-  d <- ggplot(dat, aes(x = time, y = values))  +
+  d <- ggplot(dat, aes(x = time, y = Values))  +
     geom_line(aes(col = Variable), size = 1) +
     facet_grid(Type ~ ., scales="free_y") +
     theme_bw() +

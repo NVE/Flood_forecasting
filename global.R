@@ -23,17 +23,17 @@ ipak(packages)
 # This section below could/should be cut and pasted into a makefile running on the webserver so that
 # the model data gets updated everyday
 
-# Loading NVEDATA to make sure I can update the data
-if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
-library(devtools)
-remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
-# To tidy up later by tracking the version number rather than uninstalling arbitrarily!
-install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
-
-library(NVEDATA)
-
-
-load_flood_data()
+# # Loading NVEDATA to make sure I can update the data
+# if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
+# library(devtools)
+# remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
+# # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
+# install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
+# 
+# library(NVEDATA)
+# 
+# 
+# load_flood_data()
 
 ############################################################
 
@@ -50,7 +50,7 @@ source('plotting_functions.R')
 load("HBV_2014.RData")
 load("HBV_2016.RData")
 load("meta_data.rda")
-stations_available <- as.character(unique(HBV_2014_GG$regine_main))
+stations_available <- as.character(unique(HBV_2014$regine_main))
 stations_index <- which(meta_data$regine_main %in% stations_available)
 
 ## Metadata organized as below is needed for the maps.
