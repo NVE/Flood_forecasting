@@ -10,7 +10,15 @@ server <- function(input, output) {
 #   callModule(printoutModule,"map1_msg", map1_input)
   
   input4plot <- callModule(mapModule,"map1")
-  callModule(forecast_plot_mod,"forecast_plot", input4plot)
-  callModule(forecast_plot_mod_shading,"forecast_plot_shading", input4plot)
+  callModule(forecast_plot_mod,"forecast_plot", input4plot, HBV_2014)
+  callModule(forecast_plot_mod_shading,"forecast_plot_shading", input4plot, HBV_2014)
+  
+  input4plot_HBV_2014 <- callModule(mapModule,"map_HBV_2014")
+  callModule(forecast_plot_mod,"forecast_plot_HBV_2014", input4plot_HBV_2014, HBV_2014)
+  callModule(forecast_plot_mod_shading,"forecast_plot_shading_HBV_2014", input4plot_HBV_2014, HBV_2014)
+  
+  input4plot_HBV_2016 <- callModule(mapModule,"map_HBV_2016")
+  callModule(forecast_plot_mod,"forecast_plot_HBV_2016", input4plot_HBV_2016, HBV_2016)
+  callModule(forecast_plot_mod_shading,"forecast_plot_shading_HBV_2016", input4plot_HBV_2016, HBV_2016)
   
 }

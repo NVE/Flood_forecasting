@@ -1,6 +1,6 @@
-forecast_plot_mod <- function(input, output, session, map_input) {
+forecast_plot_mod <- function(input, output, session, map_input, dat) {
   
-  subset2plot <- reactive(dplyr::filter(HBV_2014_GG, regine_main == map_input$station))  # input$station
+  subset2plot <- reactive(dplyr::filter(dat, regine_main == map_input$station))  # input$station
   
   output$plot <- renderPlotly(forecast_plot(subset2plot())
                               )
@@ -8,9 +8,9 @@ forecast_plot_mod <- function(input, output, session, map_input) {
 }
 
 # Same plot but without plotly to get the shading for the current day
-forecast_plot_mod_shading <- function(input, output, session, map_input) {
+forecast_plot_mod_shading <- function(input, output, session, map_input, dat) {
   
-  subset2plot <- reactive(dplyr::filter(HBV_2014_GG, regine_main == map_input$station))  # input$station
+  subset2plot <- reactive(dplyr::filter(dat, regine_main == map_input$station))  # input$station
   
   output$plot <- renderPlot(forecast_plot_shading(subset2plot())
   )
