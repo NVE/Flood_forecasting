@@ -13,5 +13,6 @@ server <- function(input, output) {
   
   input4plot <- callModule(mapModule,"map1")
   callModule(forecast_plot_mod,"forecast_plot", input4plot)
+  callModule(forecast_plot_mod_shading,"forecast_plot_shading", input4plot)
   
 }

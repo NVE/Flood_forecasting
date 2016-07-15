@@ -37,7 +37,11 @@ mapModule <- function(input, output, session) {
   selected_regine_main <- reactive(input$station)
   selected_name <- reactive(stations$name[which(stations$regine_main == input$station)])
   selected_long <- reactive(stations$long[which(stations$regine_main == input$station)])
+<<<<<<< HEAD
   selected_lat <-  reactive(stations$lat[which(stations$regine_main == input$station)])
+=======
+  selected_lat <- reactive(stations$lat[which(stations$regine_main == input$station)])
+>>>>>>> master
   
   output$map <- renderLeaflet({single_station_map(stations, selected_regine_main(),
                                                   selected_name(),
