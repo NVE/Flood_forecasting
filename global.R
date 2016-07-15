@@ -24,12 +24,11 @@ ipak(packages)
 # Loading NVEDATA to make sure I can update the data
 if (!'NVEDATA' %in% installed.packages()) {
   if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
-  
   library(devtools)
   install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
-  library(NVEDATA)
 }
 
+library(NVEDATA)
 load_flood_data()
 
 ############################################################
