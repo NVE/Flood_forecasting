@@ -35,9 +35,9 @@ mapModule <- function(input, output, session) {
   # stations is global but gets send to the mapping function so that this function can be used in other settings!
 
   selected_regine_main <- reactive(input$station)
-  selected_name <- reactive(stations$name[which(station$regine_main == input$station)])
-  selected_long <- reactive(station$long[which(stations$regine_main == input$station)])
-  selected_lat <- reactive(station$lat[which(stations$regine_main == input$station)])
+  selected_name <- reactive(stations$name[which(stations$regine_main == input$station)])
+  selected_long <- reactive(stations$long[which(stations$regine_main == input$station)])
+  selected_lat <-  reactive(stations$lat[which(stations$regine_main == input$station)])
   
   output$map <- renderLeaflet({single_station_map(stations, selected_regine_main(),
                                                   selected_name(),

@@ -15,10 +15,24 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install_github("fbaffie/leaflet")
 }
 
-
 packages <- c("shiny", "leaflet", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate")
 ipak(packages)
 # sp: For the point.in.polygon function
+
+############################################################
+
+# Loading NVEDATA to make sure I can update the data
+if (!'NVEDATA' %in% installed.packages()) {
+  if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
+  
+  library(devtools)
+  install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
+  library(NVEDATA)
+}
+
+load_flood_data()
+
+############################################################
 
 
 ## My modules: either load package or source modules from this directory
@@ -31,6 +45,7 @@ source('plotting_functions.R')
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
 load("HBV_2014_GG.RData")
+load("HBV_2016_GG.RData")
 load("meta_data.rda")
 stations_available <- as.character(unique(HBV_2014_GG$regine_main))
 stations_index <- which(meta_data$regine_main %in% stations_available)
