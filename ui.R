@@ -13,9 +13,10 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                           
                  ),
                  tabPanel("Forecast HBV_2014", icon = icon("line-chart"),
-                          
+                          mapModuleUI("map1"),
                           forecast_plot_modUI("forecast_plot"),
-                          mapModuleUI("map1")
+                          forecast_plot_mod_shadingUI("forecast_plot_shading")
+
                  ),
                  navbarMenu("Mapping tools", icon = icon("globe"),
                             tabPanel("Map1"),

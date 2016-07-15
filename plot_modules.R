@@ -7,6 +7,34 @@ forecast_plot_mod <- function(input, output, session, map_input) {
   
 }
 
+# Same plot but without plotly to get the shading for the current day
+forecast_plot_mod_shading <- function(input, output, session, map_input) {
+  
+  subset2plot <- reactive(dplyr::filter(HBV_2014_GG, regine_main == map_input$station))  # input$station
+  
+  output$plot <- renderPlot(forecast_plot_shading(subset2plot())
+  )
+  
+}
+
+forecast_plot_mod_shadingUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  
+  fluidRow(plotOutput(ns("plot"))
+  )
+}
+
+
+forecast_plot_modUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  
+  fluidRow(plotlyOutput(ns("plot"))
+           )
+}
+
+
 # forecast_plot_modUI <- function(id) {
 #   # Create a namespace function using the provided id
 #   ns <- NS(id)
@@ -18,11 +46,3 @@ forecast_plot_mod <- function(input, output, session, map_input) {
 #   plotlyOutput(ns("plot"))
 #   )
 # }
-
-forecast_plot_modUI <- function(id) {
-  # Create a namespace function using the provided id
-  ns <- NS(id)
-  
-  fluidRow(plotlyOutput(ns("plot"))
-           )
-}
