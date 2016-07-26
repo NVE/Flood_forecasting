@@ -98,7 +98,7 @@ This is not a problem for implement the DATE -7 / +9 days model plots.
 ```R
 library(shiny)
 
-runGitHub("Flood_forecasting", "fbaffie", ref = "operational)
+runGitHub("Flood_forecasting", "fbaffie", ref = "operational")
 
 ```
 
