@@ -27,6 +27,11 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                                      mapModuleUI("map_HBV_2016"),
                                      forecast_plot_modUI("forecast_plot_HBV_2016"),
                                      forecast_plot_mod_shadingUI("forecast_plot_shading_HBV_2016")
+                            ),
+                            tabPanel("DDD",
+                                     mapModuleUI("map_DDD"),
+                                     forecast_plot_modUI("forecast_plot_DDD"),
+                                     forecast_plot_mod_shadingUI("forecast_plot_shading_DDD")
                             )
                  ),
                  navbarMenu("Mapping tools", icon = icon("globe"),

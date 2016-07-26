@@ -48,8 +48,9 @@ source('plotting_functions.R')
 # This creates the global variable
 load("HBV_2014.RData")
 load("HBV_2016.RData")
+load("DDD.RData")
 load("meta_data.rda")
-stations_available <- as.character(unique(HBV_2014$regine_main))
+stations_available <- as.character(unique(HBV_2014$regine.main))
 stations_index <- which(meta_data$regine_main %in% stations_available)
 
 ## Metadata organized as below is needed for the maps.

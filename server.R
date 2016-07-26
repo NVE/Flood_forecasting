@@ -23,4 +23,8 @@ server <- function(input, output) {
   callModule(forecast_plot_mod,"forecast_plot_HBV_2016", input4plot_HBV_2016, HBV_2016)
   callModule(forecast_plot_mod_shading,"forecast_plot_shading_HBV_2016", input4plot_HBV_2016, HBV_2016)
   
+  input4plot_DDD <- callModule(mapModule,"map_DDD")
+  callModule(forecast_plot_mod,"forecast_plot_DDD", input4plot_DDD, DDD)
+  callModule(forecast_plot_mod_shading,"forecast_plot_shading_DDD", input4plot_DDD, DDD)
+  
 }
