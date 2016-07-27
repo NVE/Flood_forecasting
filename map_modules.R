@@ -89,11 +89,11 @@ mapModule_polygonFeature <- function(input, output, session) {
       polyline = FALSE,
       circle = FALSE,
       marker = FALSE,
-      edit = FALSE,
+      edit = TRUE,
       polygon = TRUE,
       rectangle = TRUE,
-      remove = TRUE,
-      singleLayer = TRUE  # This allows only 1 polygon at a time when TRUE
+      remove = TRUE
+      # singleLayer = TRUE  # This allows only 1 polygon at a time when TRUE
     )
   
   observeEvent(input$map_selectbox_features, {
@@ -103,6 +103,17 @@ mapModule_polygonFeature <- function(input, output, session) {
   
   output$map <- renderLeaflet({myMap})
   return(input)
+}
+
+
+mapModule_polygonFeatureUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  
+  fluidRow(
+    leafletOutput(ns("map"))
+  )
+  
 }
 
 #############################################################################################

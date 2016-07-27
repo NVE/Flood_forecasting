@@ -26,5 +26,7 @@ server <- function(input, output) {
   input4plot_DDD <- callModule(mapModule,"map_DDD")
   callModule(forecast_plot_mod,"forecast_plot_DDD", input4plot_DDD, DDD)
   callModule(forecast_plot_mod_shading,"forecast_plot_shading_DDD", input4plot_DDD, DDD)
-  
+
+  # stations_list <- callModule(mapModule_polygonFeature,"map_polygon")  
+  callModule(mapModule_polygonFeature,"map_polygon")  
 }

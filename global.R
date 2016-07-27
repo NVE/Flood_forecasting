@@ -15,7 +15,7 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install_github("fbaffie/leaflet")
 }
 
-packages <- c("curl", "shiny", "leaflet", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate")
+packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet")
 ipak(packages)
 # sp: For the point.in.polygon function
 
@@ -24,15 +24,16 @@ ipak(packages)
 # the model data gets updated everyday
 
 # Loading NVEDATA to make sure I can update the data
-if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
-library(devtools)
-remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
-# To tidy up later by tracking the version number rather than uninstalling arbitrarily!
-install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
 
-library(NVEDATA)
-
-load_flood_data()
+# if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
+# library(devtools)
+# remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
+# # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
+# install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
+# 
+# library(NVEDATA)
+# 
+# load_flood_data()
 
 ############################################################
 
@@ -42,7 +43,9 @@ load_flood_data()
 source('map_modules.R')
 source('plot_modules.R')
 source('plotting_functions.R')
-
+# Source all files from the RCura version of leaflet DOESNT WORK
+# file.sources = list.files("./leaflet-plugins", pattern="*.R", full.names=TRUE)
+# for (f in file.sources) {source(f) }
 
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
