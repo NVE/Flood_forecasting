@@ -2,7 +2,6 @@
 # library(ggplot2)
 # library(dplyr)
 # library(plotly)
-# load("HBV_2014_GG.RData")
 
 # This function only produces "static" ggplot for the moment, but I need to find a way to do the shading with plotly
 forecast_plot_shading <- function(dat) {
@@ -41,27 +40,3 @@ forecast_plot <- function(dat) {
   
 }
 
-single_station_map <- function(stations, selected_regine_main,
-                                         selected_name,
-                                         selected_long,
-                                         selected_lat) {
-
-  map <- leaflet() %>% addTiles() %>%
-  setView(13, 64, zoom = 5)  %>%
-  addCircleMarkers(data = stations, lng = ~ long, lat = ~ lat, 
-                   popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
-                                 sep = " "), radius = 5, 
-                   color = "black",  #  ~my.color.func(station$length_rec, my.colors), 
-                   stroke = FALSE, fillOpacity = 0.5,
-                   layerId = stations$regine_main) %>%
-  addPopups(selected_long, selected_lat, paste("Name:", as.character(selected_name), "Number:", 
-                                                               selected_regine_main, sep = " "),
-            options = popupOptions(closeButton = FALSE, maxWidth = 100)) 
-
-#  %>%
-
-#     addLegend(position = "bottomright", colors = my.colors, labels = c("0-30", "30-60", "60-90", "90-120", "120-150"),
-#               title = "Length of flood record (years)",
-#               opacity = 1)
-  return(map)
-}

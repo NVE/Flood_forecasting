@@ -25,15 +25,15 @@ ipak(packages)
 
 # Loading NVEDATA to make sure I can update the data
 
-if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
-library(devtools)
-remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
-# To tidy up later by tracking the version number rather than uninstalling arbitrarily!
-install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
-
-library(NVEDATA)
-
-load_flood_data()
+# if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
+# library(devtools)
+# remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
+# # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
+# install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
+# 
+# library(NVEDATA)
+# 
+# load_flood_data()
 
 ############################################################
 
@@ -43,6 +43,8 @@ load_flood_data()
 source('map_modules.R')
 source('plot_modules.R')
 source('plotting_functions.R')
+source('mapping_functions.R')
+
 # Source all files from the RCura version of leaflet DOESNT WORK
 # file.sources = list.files("./leaflet-plugins", pattern="*.R", full.names=TRUE)
 # for (f in file.sources) {source(f) }
@@ -53,7 +55,7 @@ load("HBV_2014.RData")
 load("HBV_2016.RData")
 load("DDD.RData")
 load("meta_data.rda")
-stations_available <- as.character(unique(HBV_2014$regine.main))
+stations_available <- as.character(unique(HBV_2014$regine.main))  # NOT OPTIMAL PROG
 stations_index <- which(meta_data$regine_main %in% stations_available)
 
 ## Metadata organized as below is needed for the maps.

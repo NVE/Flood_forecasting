@@ -29,4 +29,7 @@ server <- function(input, output) {
 
   # stations_list <- callModule(mapModule_polygonFeature,"map_polygon")  
   callModule(mapModule_polygonFeature,"map_polygon")  
+#   selected_stations <- callModule(mapModule_polygonFeature,"map_polygon")  
+#   callModule(forecast_plot_mod2,"DDD_from_poly", selected_stations(), DDD)
+  
 }

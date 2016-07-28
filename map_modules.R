@@ -10,27 +10,6 @@ mapModuleUI <- function(id) {
   
 }
 
-mapModule_simple <- function(input, output, session) {
-  
-  myMap <- leaflet() %>%
-    addTiles() %>%
-    addDrawToolbar(
-      layerID = "selectbox",
-      polyline = FALSE,
-      circle = FALSE,
-      marker = FALSE,
-      edit = FALSE,
-      polygon = TRUE,
-      rectangle = TRUE,
-      remove = TRUE,
-      singleLayer = TRUE)  # This allows only 1 polygon at a time when TRUE
-  
-  
-  output$map <- renderLeaflet({myMap})
-  return(input)
-  
-}
-
 mapModule <- function(input, output, session) {
   # stations is global but gets send to the mapping function so that this function can be used in other settings!
 
@@ -59,50 +38,51 @@ mapModule <- function(input, output, session) {
   
 }
 
-########################################
-
-  #   pal <- colorNumeric(
-  #     palette = heat.colors(5),
-  #     domain = c(0,30,60,90,120,150))
-  # qpal <- colorQuantile("RdYlBu", length.bins, n = 5)
-  
-#   my.colors <- c("black", "red", "orange", "green", "blue")
-#   
-#   my.color.func <- function(x2plot, my.colors) {
-#     color.bins <- c(0,30,60,90,120,150)
-#     color <- my.colors[trunc(x2plot/30)+1]
-#     invisible(color)
-#   }
-  
-
-
-########################################
-
-
-# Module server function
 mapModule_polygonFeature <- function(input, output, session) {
   
-  myMap <- leaflet() %>%
-    addTiles() %>%
-    addDrawToolbar(
-      layerID = "selectbox",
-      polyline = FALSE,
-      circle = FALSE,
-      marker = FALSE,
-      edit = TRUE,
-      polygon = TRUE,
-      rectangle = TRUE,
-      remove = TRUE
-      # singleLayer = TRUE  # This allows only 1 polygon at a time when TRUE
-    )
+  # Create reactive values to be used in mapping function
+  selected_regine_main <- reactive(input$station)
+  selected_name <- reactive(stations$name[which(stations$regine_main == input$station)])
+  selected_long <- reactive(stations$long[which(stations$regine_main == input$station)])
+  selected_lat <-  reactive(stations$lat[which(stations$regine_main == input$station)])
   
-  observeEvent(input$map_selectbox_features, {
-    myMap <- addGeoJSON(myMap, input$map_selectbox_features, color="green")
-    # coord <- input$mymap_selectbox_features$features$geometry$coordinates
-  })
+  map <- reactive(multiple_station_map(stations, selected_regine_main(),
+                  selected_name(), selected_long(), selected_lat()))
   
-  output$map <- renderLeaflet({myMap})
-  return(input)
+  # First simple map with the drawing toolbar
+  output$map <- renderLeaflet(map()) 
+  
+#   # When a polygon is drawn do:
+#   observeEvent(input$map_selectbox_features, {
+#     # change the color of the completed polygon to green
+#     output$map <- renderLeaflet( map() %>% addGeoJSON(input$map_selectbox_features, color="green")  )
+#     
+#     # Get coordinates of the selected polygon
+#     map_selection <- input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]]
+#     # Check which stations are inside the polygon
+#     output$res <- renderText(which_station_in_polygon(stations, map_selection))
+# 
+#   })
+  
+  
+  # Get coordinates of the selected polygon
+  map_selection <- reactive(input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]])
+  
+  # change the color of the completed polygon to green
+  observeEvent(input$map_selectbox_features, 
+    output$map <- renderLeaflet( map() %>% addGeoJSON(input$map_selectbox_features, color="green")  ) ) 
+  
+  # Check which stations are inside the polygon
+  output$res <- renderText(which_station_in_polygon(stations, map_selection()))
+  
+  selected_stations <- reactive(which_station_in_polygon(stations, map_selection()))  
+  
+  # callModule(forecast_plot_mod2, "inner", selected_stations(), DDD)
+  
+  # return(selected_stations)
+  
+
+                
 }
 
 
@@ -111,10 +91,35 @@ mapModule_polygonFeatureUI <- function(id) {
   ns <- NS(id)
   
   fluidRow(
-    leafletOutput(ns("map"))
+    leafletOutput(ns("map")),
+    selectInput(ns("station"), selected = "2.11", 
+                label = "Choose a station", choices = stations_available),
+    
+    verbatimTextOutput(ns("res"))
+    
+    # forecast_plot_modUI("inner")
   )
   
 }
+
+########################################
+
+#   pal <- colorNumeric(
+#     palette = heat.colors(5),
+#     domain = c(0,30,60,90,120,150))
+# qpal <- colorQuantile("RdYlBu", length.bins, n = 5)
+
+#   my.colors <- c("black", "red", "orange", "green", "blue")
+#   
+#   my.color.func <- function(x2plot, my.colors) {
+#     color.bins <- c(0,30,60,90,120,150)
+#     color <- my.colors[trunc(x2plot/30)+1]
+#     invisible(color)
+#   }
+
+
+
+########################################
 
 #############################################################################################
 # To be able to select stations directly on the map (for the first tab) 
