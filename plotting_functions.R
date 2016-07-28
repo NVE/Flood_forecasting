@@ -39,8 +39,8 @@ forecast_plot_shading2 <- function(dat) {
   
   d <- ggplot() +
     geom_line(data = dat, aes(x = time, y = Values, col = Variable), size = 1) +
-    geom_rect(data=current_day, aes(xmin=start, xmax=end, ymin=-Inf, ymax=Inf), fill='pink', alpha=0.2) +
-    facet_grid(regine.main ~ .) +
+#     geom_rect(data=current_day, aes(xmin=start, xmax=end, ymin=-Inf, ymax=Inf), fill='pink', alpha=0.2) +
+    facet_grid(regine.main ~ . , scales = "free_y") +
     theme_bw() + 
     scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
   
@@ -54,7 +54,7 @@ forecast_plot <- function(dat) {
   dat$time <- as.Date(dat$time)
   d <- ggplot(dat, aes(x = time, y = Values))  +
     geom_line(aes(col = Variable), size = 1) +
-    facet_grid(Type ~ ., scales="free_y") +
+    facet_grid(Type ~ ., scales = "free_y") +
     theme_bw() +
     scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
   
@@ -68,7 +68,7 @@ forecast_plot2 <- function(dat) {
   dat$time <- as.Date(dat$time)
   d <- ggplot(dat, aes(x = time, y = Values))  +
     geom_line(aes(col = Variable), size = 1) +
-    facet_grid(regine.main ~ .) +
+    facet_grid(regine.main ~ . , scales = "free") +
     theme_bw() +
     scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
   
