@@ -68,16 +68,20 @@ mapModule_polygonFeature <- function(input, output, session) {
   # Get coordinates of the selected polygon
   map_selection <- reactive(input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]])
   
-  # change the color of the completed polygon to green
-  observeEvent(input$map_selectbox_features, 
-    output$map <- renderLeaflet( map() %>% addGeoJSON(input$map_selectbox_features, color="green")  ) ) 
+
+  observeEvent(input$map_selectbox_features, {
+    # change the color of the completed polygon to green
+    output$map <- renderLeaflet( map() %>% addGeoJSON(input$map_selectbox_features, color="green")  ) 
+    # Check which stations are inside the polygon
+    output$res <- renderText(which_station_in_polygon(stations, map_selection()))
+    }) 
   
-  # Check which stations are inside the polygon
-  output$res <- renderText(which_station_in_polygon(stations, map_selection()))
-  
+
+  observeEvent(input$map_selectbox_features, {
   selected_stations <- reactive(which_station_in_polygon(stations, map_selection()))  
-  
-  # callModule(forecast_plot_mod2, "inner", selected_stations(), DDD)
+  callModule(forecast_plot_mod2, "inner", selected_stations, HBV_2016)
+  callModule(forecast_plot_mod_shading2, "inner2", selected_stations, HBV_2016)
+  })
   
   # return(selected_stations)
   
@@ -95,9 +99,10 @@ mapModule_polygonFeatureUI <- function(id) {
     selectInput(ns("station"), selected = "2.11", 
                 label = "Choose a station", choices = stations_available),
     
-    verbatimTextOutput(ns("res"))
-    
-    # forecast_plot_modUI("inner")
+    verbatimTextOutput(ns("res")),
+  
+    forecast_plot_modUI(ns("inner")),
+    forecast_plot_mod_shadingUI(ns("inner2"))
   )
   
 }

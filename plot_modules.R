@@ -9,9 +9,9 @@ forecast_plot_mod <- function(input, output, session, map_input, dat) {
 
 forecast_plot_mod2 <- function(input, output, session, selected_stations, dat) {
   
-  subset2plot <- reactive(dplyr::filter(dat, regine.main == selected_stations[1]))  # input$station
+  subset2plot <- reactive(dplyr::filter(dat, regine.main == selected_stations(), Type == "Runoff"))  
   
-  output$plot <- renderPlotly(forecast_plot(subset2plot())
+  output$plot <- renderPlotly(forecast_plot2(subset2plot())
   )
   
 }
@@ -26,11 +26,21 @@ forecast_plot_mod_shading <- function(input, output, session, map_input, dat) {
   
 }
 
+
+# Same plot but without plotly to get the shading for the current day
+forecast_plot_mod_shading2 <- function(input, output, session, selected_stations, dat) {
+  
+  subset2plot <- reactive(dplyr::filter(dat, regine.main == selected_stations(), Type == "Runoff")) 
+  
+  output$plot <- renderPlot(forecast_plot_shading(subset2plot()))
+  
+}
+
 forecast_plot_mod_shadingUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
   
-  fluidRow(plotOutput(ns("plot"))
+  fluidRow(plotOutput(ns("plot"), height = "800px")
   )
 }
 
@@ -39,7 +49,7 @@ forecast_plot_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
   
-  fluidRow(plotlyOutput(ns("plot"))
+  fluidRow(plotlyOutput(ns("plot"), height = "800px")
            )
 }
 
