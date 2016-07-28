@@ -52,19 +52,6 @@ mapModule_polygonFeature <- function(input, output, session) {
   # First simple map with the drawing toolbar
   output$map <- renderLeaflet(map()) 
   
-#   # When a polygon is drawn do:
-#   observeEvent(input$map_selectbox_features, {
-#     # change the color of the completed polygon to green
-#     output$map <- renderLeaflet( map() %>% addGeoJSON(input$map_selectbox_features, color="green")  )
-#     
-#     # Get coordinates of the selected polygon
-#     map_selection <- input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]]
-#     # Check which stations are inside the polygon
-#     output$res <- renderText(which_station_in_polygon(stations, map_selection))
-# 
-#   })
-  
-  
   # Get coordinates of the selected polygon
   map_selection <- reactive(input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]])
   
@@ -76,11 +63,13 @@ mapModule_polygonFeature <- function(input, output, session) {
     output$res <- renderText(which_station_in_polygon(stations, map_selection()))
     }) 
   
-
-  observeEvent(input$map_selectbox_features, {
+  # model <- reactive(input$model)
+  
+  observeEvent({input$map_selectbox_features
+                input$model}, {
   selected_stations <- reactive(which_station_in_polygon(stations, map_selection()))  
-  callModule(forecast_plot_mod2, "inner", selected_stations, HBV_2016)
-  callModule(forecast_plot_mod_shading2, "inner2", selected_stations, HBV_2016)
+  callModule(forecast_plot_mod2, "multi_station_plot", selected_stations, eval(as.symbol(input$model)))
+  # callModule(forecast_plot_mod_shading2, "inner2", selected_stations, HBV_2016)
   })
   
   # return(selected_stations)
@@ -100,9 +89,11 @@ mapModule_polygonFeatureUI <- function(id) {
                 label = "Choose a station", choices = stations_available),
     
     verbatimTextOutput(ns("res")),
-  
-    forecast_plot_modUI(ns("inner")),
-    forecast_plot_mod_shadingUI(ns("inner2"))
+    selectInput(ns("model"), selected = "HBV_2014", 
+                label = "Choose a model", choices = c("HBV_2014", "HBV_2016", "DDD")),
+    
+    forecast_plot_modUI(ns("multi_station_plot"))
+    # forecast_plot_mod_shadingUI(ns("inner2"))
   )
   
 }

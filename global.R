@@ -56,7 +56,7 @@ load("HBV_2016.RData")
 load("DDD.RData")
 load("meta_data.rda")
 stations_available <- as.character(unique(HBV_2014$regine.main))  # NOT OPTIMAL PROG
-stations_index <- which(meta_data$regine_main %in% stations_available)
+stations_index <- which(meta_data$regine_main %in% stations_available)  # 1 station in HBV_2014 is not in the metadata
 
 ## Metadata organized as below is needed for the maps.
 # Maybe we can streamline with the rest later
