@@ -8,9 +8,8 @@ server <- function(input, output) {
   # but it creates a reactive whih ends up being probably more trouble than usefulness...
   # HBV_2014_GG <<- reactiveFileReader(10000, session = NULL, filePath = "./HBV_2014_GG.Rdata", load, envir = .GlobalEnv)
 
-  input4plot <- callModule(mapModule,"map1")
-  callModule(forecast_plot_mod,"forecast_plot", input4plot, HBV_2014)
-  callModule(forecast_plot_mod_shading,"forecast_plot_shading", input4plot, HBV_2014)
+  input4plot <- callModule(mapModule,"multimod_forecast_map")
+  callModule(multimod_forecast_plot_mod,"multimod_forecast_plot", input4plot, HBV_2014, HBV_2016, DDD)
   
   input4plot_HBV_2014 <- callModule(mapModule,"map_HBV_2014")
   callModule(forecast_plot_mod,"forecast_plot_HBV_2014", input4plot_HBV_2014, HBV_2014)

@@ -3,9 +3,11 @@ mapModuleUI <- function(id) {
   ns <- NS(id)
   
   fluidRow(
-  leafletOutput(ns("map")),
+    column(8, leafletOutput(ns("map")) ),
+    column(4,
   selectInput(ns("station"), selected = "2.11", 
               label = "Choose a station", choices = stations_available)
+    )
   )
   
 }

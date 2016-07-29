@@ -12,12 +12,11 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                             ))
                           
                  ),
-                 tabPanel("Forecast HBV_2014", icon = icon("line-chart"),
-                          mapModuleUI("map1"),
-                          forecast_plot_modUI("forecast_plot"),
-                          forecast_plot_mod_shadingUI("forecast_plot_shading")
+                 tabPanel("Forecast - multi-model", icon = icon("random"),
+                          mapModuleUI("multimod_forecast_map"),
+                          multimod_forecast_plot_modUI("multimod_forecast_plot")
                  ),
-                 navbarMenu("Forecast - all models", icon = icon("line-chart"),
+                 navbarMenu("Forecast - single model", icon = icon("line-chart"),
                             tabPanel("HBV_2014",
                                      mapModuleUI("map_HBV_2014"),
                                      forecast_plot_modUI("forecast_plot_HBV_2014"),
@@ -40,7 +39,13 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                                      )
 #                             ,
 #                             tabPanel("Map2")
-                 )
+                 ),
+                navbarMenu("Historical tools", icon = icon("history"),
+                            tabPanel("Past performance"
+                                    # mapModule_polygonFeatureUI("map_polygon")
+                                    ),
+                             tabPanel("Past events")
+)
 )
       
 

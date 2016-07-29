@@ -63,6 +63,37 @@ forecast_plot <- function(dat) {
 }
 
 
+multimod_forecast_plot <- function(dat_1, dat_2, dat_3) {
+  
+  d <- ggplot()
+  
+  if (!is.null(dat_1)) {
+    dat_1$time <- as.Date(dat_1$time)
+  d <- d + geom_line(data = dat_1, aes(x = time, y = Values, col = Variable), size = 1)
+  }
+  
+  if (!is.null(dat_2)) {
+    dat_2$time <- as.Date(dat_2$time)
+    d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable), size = 1)
+  }
+  
+  if (!is.null(dat_3)) {
+    dat_3$time <- as.Date(dat_3$time)
+    d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1)
+  }
+  
+  d <- d +
+    # facet_grid(Variable ~ ., scales = "free_y") +
+    theme_bw() + 
+    scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
+  
+  return(ggplotly(d))
+  
+}
+
+
+
+
 forecast_plot2 <- function(dat) {
   
   dat$time <- as.Date(dat$time)
