@@ -41,10 +41,11 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
 #                             tabPanel("Map2")
                  ),
                 navbarMenu("Historical tools", icon = icon("history"),
-                            tabPanel("Past performance"
+                            tabPanel("Past forecasting performance"
                                     # mapModule_polygonFeatureUI("map_polygon")
                                     ),
-                             tabPanel("Past events")
+                             tabPanel("Past events"),
+                             tabPanel("Calibration results")
 )
 )
       
