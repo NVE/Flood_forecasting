@@ -10,40 +10,32 @@ forecast_plot_mod <- function(input, output, session, map_input, dat) {
 
 multimod_forecast_plot_mod <- function(input, output, session, map_input, model_1, model_2, model_3) {
   
-  subset2plot_m1 <- NULL
-  subset2plot_m2 <- NULL
-  subset2plot_m3 <- NULL
+  subset2plot_m1 <- eventReactive({ input$variable_1
+                                    map_input$station},
+                                  if (is.null(input$variable_1)) {
+                                    subset2plot_m1 <- NULL
+                                  } else {
+                                    dplyr::filter(model_1, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable_1) 
+                                  })
   
-#   observeEvent(input$model, {
-#      if ("HBV_2014" %in% input$model) {
-#         subset2plot_m1 <- dplyr::filter(model_1, regine.main == map_input$station & Type == "Runoff") 
-#      }
-#      if ("HBV_2016" %in% input$model) {
-#         subset2plot_m2 <- dplyr::filter(model_2, regine.main == map_input$station & Type == "Runoff") 
-#      }
-#      if ("DDD" %in% input$model) {
-#         subset2plot_m3 <- dplyr::filter(model_3, regine.main == map_input$station & Type == "Runoff") 
-#     }
-#     output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_m1, subset2plot_m2, subset2plot_m3))
-#   })
+  subset2plot_m2 <- eventReactive({ input$variable_2
+                                    map_input$station},
+                                  if (is.null(input$variable_2)) {
+                                    subset2plot_m2 <- NULL
+                                  } else {
+                                    dplyr::filter(model_2, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable_2) 
+                                  })
   
-  observeEvent({input$model
-                input$variable
-                map_input$station}, {
-    if ("HBV_2014" %in% input$model) {
-      subset2plot_m1 <- dplyr::filter(model_1, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable) 
-    }
-    if ("HBV_2016" %in% input$model) {
-      subset2plot_m2 <- dplyr::filter(model_2, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable) 
-    }
-    if ("DDD" %in% input$model) {
-      subset2plot_m3 <- dplyr::filter(model_3, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable) 
-    }
-    output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_m1, subset2plot_m2, subset2plot_m3))
-  })
+  subset2plot_m3 <- eventReactive({ input$variable_3
+                                    map_input$station},
+                                  if (is.null(input$variable_3)) {
+                                    subset2plot_m3 <- NULL
+                                  } else {
+                                    dplyr::filter(model_3, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable_3) 
+                                  })
   
-  
-  
+  output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_m1(), subset2plot_m2(), subset2plot_m3()))
+
 }
 
 multimod_forecast_plot_modUI <- function(id) {
@@ -51,11 +43,9 @@ multimod_forecast_plot_modUI <- function(id) {
   ns <- NS(id)
   fluidPage(
   fluidRow(
-    column(6, checkboxGroupInput(ns("model"), selected = "HBV_2014", inline = TRUE,
-              label = "Choose a model", choices = c("HBV_2014", "HBV_2016", "DDD"))
-    ),
-    column(6, checkboxGroupInput(ns("variable"), selected = c("Sim", "Obs"), inline = TRUE,
-                                  label = "Choose variables to plot", choices = c("Sim", "Obs", "SimRaw", "SimCorr")))
+    column(3, selectInput(ns("variable_1"), label = "Variables for HBV_2014", choices = unique(filter(HBV_2014, Type == "Runoff")$Variable), multiple = TRUE) ),
+    column(3, selectInput(ns("variable_2"), label = "Variables for HBV_2016", choices = unique(filter(HBV_2016, Type == "Runoff")$Variable), multiple = TRUE) ),
+    column(3, selectInput(ns("variable_3"), label = "Variables for DDD", choices = unique(filter(DDD, Type == "Runoff")$Variable), multiple = TRUE) )
   ),
   fluidRow(plotlyOutput(ns("plot"), height = "800px")
   )
@@ -73,7 +63,6 @@ forecast_plot_mod2 <- function(input, output, session, selected_stations, dat) {
   
   output$plot <- renderPlotly(forecast_plot2(subset2plot())
   )
-  
 }
 
 # Same plot but without plotly to get the shading for the current day

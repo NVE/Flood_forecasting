@@ -56,8 +56,6 @@ forecast_plot <- function(dat) {
   d <- ggplot() +
     geom_line(data = subset(dat, Variable!="Precip"), aes(x = time, y = Values, col = Variable), size = 1) +
     geom_bar(data = subset(dat, Variable=="Precip"), aes(x = time, y = Values, col = Variable), size = 1, stat="identity", width = 0.4) + 
-#   d <- ggplot(subset(dat, Variable!="Precip"), aes(x = time, y = Values))  +
-#     geom_line(aes(col = Variable), size = 1) +
     facet_grid(Type ~ ., scales = "free_y") +
     theme_bw() +
     scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
@@ -71,19 +69,19 @@ multimod_forecast_plot <- function(dat_1, dat_2, dat_3) {
   
   d <- ggplot()
   
-  if (!is.null(dat_1)) {
+  if (length(dat_1) > 0) {
     dat_1$time <- as.Date(dat_1$time)
-  d <- d + geom_line(data = dat_1, aes(x = time, y = Values, col = Variable), size = 1)
+    d <- d + geom_line(data = dat_1, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
   }
   
-  if (!is.null(dat_2)) {
+  if (length(dat_2) > 0) {
     dat_2$time <- as.Date(dat_2$time)
-    d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable), size = 1)
+    d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable), size = 1, linetype = 2)
   }
   
-  if (!is.null(dat_3)) {
+  if (length(dat_3) > 0) {
     dat_3$time <- as.Date(dat_3$time)
-    d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1)
+    d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1, linetype = 3)
   }
   
   d <- d +
