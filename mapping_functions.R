@@ -29,7 +29,7 @@ single_station_map <- function(stations, selected_regine_main,
 multiple_station_map <- function(stations, selected_regine_main,
                                  selected_name,
                                  selected_long,
-                                 selected_lat) {
+                                 selected_lat, with_popups = FALSE) {
   
   
   map <- leaflet() %>%
@@ -40,10 +40,7 @@ multiple_station_map <- function(stations, selected_regine_main,
                                    sep = " "), radius = 5, 
                      color = "black",  #  ~my.color.func(station$length_rec, my.colors), 
                      stroke = FALSE, fillOpacity = 0.5,
-                     layerId = stations$regine_main) %>%
-    addPopups(selected_long, selected_lat, paste("Name:", as.character(selected_name), "Number:", 
-                                                 selected_regine_main, sep = " "),
-              options = popupOptions(closeButton = FALSE, maxWidth = 100))  %>%
+                     layerId = stations$regine_main)   %>%
     addDrawToolbar(
                 layerID = "selectbox",
                 polyline = FALSE,
@@ -56,13 +53,19 @@ multiple_station_map <- function(stations, selected_regine_main,
                 singleLayer = TRUE  # This allows only 1 polygon at a time when TRUE
               ) 
   
-  
+  if (!is.null(selected_regine_main) && with_popups == TRUE) {
+    map <- map %>% addPopups(selected_long, selected_lat, paste("Name:", as.character(selected_name), "Number:", 
+                                                 selected_regine_main, sep = " "),
+              options = popupOptions(closeButton = FALSE, maxWidth = 100))
+  }
   
   return(map)
 }
 
 
 which_station_in_polygon <- function(stations, map_selection) {
+  
+  if (!is.null(map_selection)) {
   
   temp <- as.matrix(map_selection)
   nb_points <- length(temp[ , 1]) - 1
@@ -74,7 +77,7 @@ which_station_in_polygon <- function(stations, map_selection) {
   }
 
   # Apply point.in.polygon over all stations available
-  is_in_poly <- rep(0, length(stations$regine_main))
+  is_in_poly <- rep(NA, length(stations$regine_main))
   stations_in_poly <- c()
   j <- 1
   
@@ -92,8 +95,9 @@ which_station_in_polygon <- function(stations, map_selection) {
   }
   # Is there a way to "apply" this thing
   # test <- sapply(stations$regine_main, point.in.polygon, point.x = stations$long, point.y = stations$lat, pol.x = coord[ , 1], pol.y = coord[ , 2], mode.checked=FALSE)
+
+  return(which(is_in_poly == 1))
+  }
   
-  print(sum(is_in_poly)) 
-  return(stations_in_poly)
 }
 

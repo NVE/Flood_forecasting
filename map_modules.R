@@ -40,42 +40,35 @@ mapModule <- function(input, output, session) {
 
 mapModule_polygonFeature <- function(input, output, session) {
   
-  # Create reactive values to be used in mapping function
-  selected_regine_main <- reactive(input$station)
-  selected_name <- reactive(stations$name[which(stations$regine_main == input$station)])
-  selected_long <- reactive(stations$long[which(stations$regine_main == input$station)])
-  selected_lat <-  reactive(stations$lat[which(stations$regine_main == input$station)])
-  
-  map <- reactive(multiple_station_map(stations, selected_regine_main(),
-                  selected_name(), selected_long(), selected_lat()))
-  
-  # First simple map with the drawing toolbar
-  output$map <- renderLeaflet(map()) 
-  
-  # Get coordinates of the selected polygon
-  map_selection <- reactive(input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]])
-  
 
-  observeEvent(input$map_selectbox_features, {
-    # change the color of the completed polygon to green
-    output$map <- renderLeaflet( map() %>% addGeoJSON(input$map_selectbox_features, color="green")  ) 
-    # Check which stations are inside the polygon
-    output$res <- renderText(which_station_in_polygon(stations, map_selection()))
-    }) 
-  
-  # model <- reactive(input$model)
-  
+#   map <- reactive(multiple_station_map(stations, selected_regine_main(),
+#                                        selected_name(), selected_long(), selected_lat()))
+ 
+
   observeEvent({input$map_selectbox_features
                 input$model}, {
-  selected_stations <- reactive(which_station_in_polygon(stations, map_selection()))  
-  callModule(forecast_plot_mod2, "multi_station_plot", selected_stations, eval(as.symbol(input$model)))
-  # callModule(forecast_plot_mod_shading2, "inner2", selected_stations, HBV_2016)
+ 
+                  # Get coordinates of the selected polygon
+                  map_selection <- input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]]
+                  
+                  selected_stations_indices <- which_station_in_polygon(stations, map_selection)
+                  selected_regine_main <- stations$regine_main[selected_stations_indices]
+                  selected_name <- stations$name[selected_stations_indices]
+                  selected_long <- stations$long[selected_stations_indices]
+                  selected_lat <-  stations$lat[selected_stations_indices]
+                  
+                  map <- multiple_station_map(stations, selected_regine_main,
+                                              selected_name, selected_long, selected_lat)
+
+                  # change the color of the completed polygon to green
+                  output$map <- renderLeaflet( map %>% addGeoJSON(input$map_selectbox_features, color="green")  ) 
+                  
+                  # Check which stations are inside the polygon
+                  output$print_selection <- renderText({ paste("-", selected_regine_main) })
+                  
+  callModule(forecast_plot_mod2, "multi_station_plot", as.character(selected_regine_main), eval(as.symbol(input$model)))
   })
   
-  # return(selected_stations)
-  
-
-                
 }
 
 
@@ -83,19 +76,24 @@ mapModule_polygonFeatureUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
   
-  fluidRow(
-    leafletOutput(ns("map")),
-    selectInput(ns("station"), selected = "2.11", 
-                label = "Choose a station", choices = stations_available),
-    
-    verbatimTextOutput(ns("res")),
-    selectInput(ns("model"), selected = "HBV_2014", 
-                label = "Choose a model", choices = c("HBV_2014", "HBV_2016", "DDD")),
-    
-    forecast_plot_modUI(ns("multi_station_plot"))
-    # forecast_plot_mod_shadingUI(ns("inner2"))
-  )
+fluidPage(
+fluidRow(
   
+      column(6, leafletOutput(ns("map")) ),
+      column(6,
+             wellPanel(h4('Select a group of stations with the map, using the polygon or rectangle tools')),
+             wellPanel(
+  selectInput(ns("model"), selected = "HBV_2014", 
+              label = "Choose a model", choices = c("HBV_2014", "HBV_2016", "DDD"))
+  ),
+  wellPanel(
+        h4('Selected stations'),    
+        verbatimTextOutput(ns("print_selection"))
+        )
+  )),
+  
+forecast_plot_modUI(ns("multi_station_plot"))
+)
 }
 
 ########################################

@@ -9,7 +9,9 @@ forecast_plot_mod <- function(input, output, session, map_input, dat) {
 
 forecast_plot_mod2 <- function(input, output, session, selected_stations, dat) {
   
-  subset2plot <- reactive(dplyr::filter(dat, regine.main %in% selected_stations() & Type == "Runoff"))  
+  print(selected_stations)
+  
+  subset2plot <- reactive(dplyr::filter(dat, regine.main %in% selected_stations & Type == "Runoff"))  
   
   output$plot <- renderPlotly(forecast_plot2(subset2plot())
   )
@@ -53,6 +55,14 @@ forecast_plot_modUI <- function(id) {
            )
 }
 
+
+TEST_forecast_plot_modUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  
+  plotlyOutput(ns("plot"), height = "800px")
+  
+}
 
 # forecast_plot_modUI <- function(id) {
 #   # Create a namespace function using the provided id
