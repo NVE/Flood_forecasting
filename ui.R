@@ -34,7 +34,7 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                             )
                  ),
                  navbarMenu("Mapping tools", icon = icon("globe"),
-                            tabPanel("Map1",
+                            tabPanel("Multi-station / single model",
                                      mapModule_polygonFeatureUI("map_polygon")
                                      )
 #                             ,

@@ -28,7 +28,8 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
 #   })
   
   observeEvent({input$model
-                input$variable}, {
+                input$variable
+                map_input$station}, {
     if ("HBV_2014" %in% input$model) {
       subset2plot_m1 <- dplyr::filter(model_1, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable) 
     }
