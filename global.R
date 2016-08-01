@@ -54,6 +54,8 @@ source('mapping_functions.R')
 load("HBV_2014.RData")
 load("HBV_2016.RData")
 load("DDD.RData")
+load("flomtabell.RData")
+load("HBV_past_year.RData")
 load("meta_data.rda")
 stations_available <- as.character(unique(HBV_2014$regine.main))  # NOT OPTIMAL PROG
 stations_index <- which(meta_data$regine_main %in% stations_available)  # 1 station in HBV_2014 is not in the metadata

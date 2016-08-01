@@ -24,5 +24,8 @@ server <- function(input, output) {
   callModule(forecast_plot_mod_shading,"forecast_plot_shading_DDD", input4plot_DDD, DDD)
 
   callModule(mapModule_polygonFeature,"map_polygon")  
+  
+  input4plot <- callModule(mapModule,"past_year_map")
+  callModule(multimod_forecast_plot_mod,"past_year_plot", input4plot, HBV_past_year, HBV_2016, DDD)
 
 }

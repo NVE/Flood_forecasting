@@ -68,6 +68,7 @@ mapModule_polygonFeature <- function(input, output, session) {
                   # Check which stations are inside the polygon
                   output$print_selection <- renderText({ paste("-", selected_regine_main) })
                   
+                  # eval(as.symbol(input$model)) transforms a string input into the corresponding data
   callModule(forecast_plot_mod2, "multi_station_plot", as.character(selected_regine_main), eval(as.symbol(input$model)))
   })
   

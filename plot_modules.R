@@ -43,7 +43,7 @@ multimod_forecast_plot_modUI <- function(id) {
   ns <- NS(id)
   fluidPage(
   fluidRow(
-    column(3, selectInput(ns("variable_1"), label = "Variables for HBV_2014", choices = unique(filter(HBV_2014, Type == "Runoff")$Variable), multiple = TRUE) ),
+    column(3, selectInput(ns("variable_1"), label = "Variables for HBV_past_year", choices = unique(filter(HBV_past_year, Type == "Runoff")$Variable), multiple = TRUE) ),
     column(3, selectInput(ns("variable_2"), label = "Variables for HBV_2016", choices = unique(filter(HBV_2016, Type == "Runoff")$Variable), multiple = TRUE) ),
     column(3, selectInput(ns("variable_3"), label = "Variables for DDD", choices = unique(filter(DDD, Type == "Runoff")$Variable), multiple = TRUE) )
   ),
