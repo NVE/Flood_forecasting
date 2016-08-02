@@ -8,8 +8,8 @@ server <- function(input, output, session) {
   # but it creates a reactive whih ends up being probably more trouble than usefulness...
   # HBV_2014_GG <<- reactiveFileReader(10000, session = NULL, filePath = "./HBV_2014_GG.Rdata", load, envir = .GlobalEnv)
 
-  input4multimod_plot <- callModule(mapModule,"multimod_forecast_map")
-  callModule(multimod_forecast_plot_mod,"multimod_forecast_plot", input4multimod_plot, HBV_2014, HBV_2016, DDD, HBV_past_year)
+#   input4multimod_plot <- callModule(mapModule,"multimod_forecast_map")
+#   callModule(multimod_forecast_plot_mod,"multimod_forecast_plot", input4multimod_plot, HBV_2014, HBV_2016, DDD, HBV_past_year)
   
 #   input4past_year_plot <- callModule(mapModule,"past_map")
 #   callModule(multimod_forecast_plot_mod,"past_plot", input4past_year_plot, HBV_past_year, HBV_2014, HBV_2016, DDD)
@@ -26,8 +26,9 @@ server <- function(input, output, session) {
   callModule(forecast_plot_mod,"forecast_plot_DDD", input4plot_DDD, DDD)
   callModule(forecast_plot_mod_shading,"forecast_plot_shading_DDD", input4plot_DDD, DDD)
 
-  stations_model_vect <- callModule(mapModule_polygonFeature,"map_polygon") 
-  # callModule(multimod_forecast_plot_EXP, "multi_station_plot", stations_model_vect, HBV_2014, HBV_2016, DDD, HBV_past_year)
+  # stations_model_vect <- 
+    callModule(mapModule_polygonFeature,"map_polygon") 
+  callModule(multimod_forecast_plot_EXP, "multi_plot", "2.11", HBV_2014, HBV_2016, DDD)
   
   
   # observe(callModule(forecast_plot_mod2, "multi_station_plot", stations_model_vect(), HBV_2014))

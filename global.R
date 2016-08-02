@@ -71,9 +71,9 @@ stations$lat <- meta_data$latitude[stations_index]
 # test <- meta_data[[1:80]][stations_index]  # doesn't work. something similar would be good for a subset of metadata
 
 
-library(shinyjs)
+# library(shinyjs)
 
-jsResetCode <- "shinyjs.reset = function() {history.go(0)}"
+# jsResetCode <- "shinyjs.reset = function() {history.go(0)}"
 
 hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
 

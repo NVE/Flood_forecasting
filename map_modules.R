@@ -48,7 +48,7 @@ mapModule_polygonFeature <- function(input, output, session) {
 
 #   map <- reactive(multiple_station_map(stations, selected_regine_main(),
 #                                        selected_name(), selected_long(), selected_lat()))
- 
+
   # Get coordinates of the selected polygon
   map_selection <- reactive(input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]])
   # Reactive parameters of the stations inside the polygon
@@ -66,8 +66,8 @@ mapModule_polygonFeature <- function(input, output, session) {
   output$map <- renderLeaflet( map()   ) 
                   
   output$print_selection <- renderText({ paste("-", selected_regine_main()) })
-                  
-  return(selected_regine_main)
+         
+  # return(selected_regine_main)
 }
 
 
