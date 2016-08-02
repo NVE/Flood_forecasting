@@ -100,10 +100,45 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
   
 }
 
-
+multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL) {
+  
+  print("prout")
+  print(summary(dat_1))
+  d <- ggplot()
+  
+  if (length(dat_1) > 0) {
+    dat_1$time <- as.Date(dat_1$time)
+    d <- d + geom_line(data = dat_1, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
+  }
+  
+  if (length(dat_2) > 0) {
+    dat_2$time <- as.Date(dat_2$time)
+    d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable), size = 1, linetype = 2)
+  }
+  
+  if (length(dat_3) > 0) {
+    dat_3$time <- as.Date(dat_3$time)
+    d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1, linetype = 3)
+  }
+  
+  if (length(dat_4) > 0) {
+    dat_4$time <- as.Date(dat_4$time)
+    d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable), size = 1, linetype = 4)
+  }
+  
+  d <- d +
+    facet_grid(regine.main ~ . , scales = "free") +
+    theme_bw() + 
+    scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
+  
+  return(ggplotly(d))
+  
+}
 
 
 forecast_plot2 <- function(dat) {
+  
+  print(summary(dat))
   
   dat$time <- as.Date(dat$time)
   d <- ggplot(dat, aes(x = time, y = Values))  +

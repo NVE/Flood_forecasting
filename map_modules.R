@@ -6,7 +6,10 @@ mapModuleUI <- function(id) {
     column(8, leafletOutput(ns("map")) ),
     column(4,
   selectInput(ns("station"), selected = "2.11", 
-              label = "Choose a station", choices = stations_available)
+              label = "Choose a station", choices = stations_available)),
+  column(4,
+         radioButtons(ns("map_layer"), selected = "open streetmap", 
+                     label = "Choose a map layer", choices = c("open streetmap", "topo map", "aerial"))
     )
   )
   
@@ -24,7 +27,7 @@ mapModule <- function(input, output, session) {
   output$map <- renderLeaflet({single_station_map(stations, selected_regine_main(),
                                                   selected_name(),
                                                   selected_long(),
-                                                  selected_lat())})
+                                                  selected_lat(), input$map_layer)})
   
   # Interactivity of input between station selector and map
   observeEvent(input$map_marker_click, { # update the map markers and view on map clicks
@@ -46,32 +49,25 @@ mapModule_polygonFeature <- function(input, output, session) {
 #   map <- reactive(multiple_station_map(stations, selected_regine_main(),
 #                                        selected_name(), selected_long(), selected_lat()))
  
-
-  observeEvent({input$map_selectbox_features
-                input$model}, {
- 
-                  # Get coordinates of the selected polygon
-                  map_selection <- input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]]
-                  
-                  selected_stations_indices <- which_station_in_polygon(stations, map_selection)
-                  selected_regine_main <- stations$regine_main[selected_stations_indices]
-                  selected_name <- stations$name[selected_stations_indices]
-                  selected_long <- stations$long[selected_stations_indices]
-                  selected_lat <-  stations$lat[selected_stations_indices]
-                  
-                  map <- multiple_station_map(stations, selected_regine_main,
-                                              selected_name, selected_long, selected_lat)
-
-                  # change the color of the completed polygon to green
-                  output$map <- renderLeaflet( map %>% addGeoJSON(input$map_selectbox_features, color="green")  ) 
-                  
-                  # Check which stations are inside the polygon
-                  output$print_selection <- renderText({ paste("-", selected_regine_main) })
-                  
-                  # eval(as.symbol(input$model)) transforms a string input into the corresponding data
-  callModule(forecast_plot_mod2, "multi_station_plot", as.character(selected_regine_main), eval(as.symbol(input$model)))
-  })
+  # Get coordinates of the selected polygon
+  map_selection <- reactive(input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]])
+  # Reactive parameters of the stations inside the polygon
+  selected_stations_indices <- reactive(which_station_in_polygon(stations, map_selection()))
+  selected_regine_main <-      reactive(stations$regine_main[selected_stations_indices()])
+  selected_name <-             reactive(stations$name[selected_stations_indices()])
+  selected_long <-             reactive(stations$long[selected_stations_indices()])
+  selected_lat <-              reactive(stations$lat[selected_stations_indices()])
   
+  # Create map and update the color of the completed polygon to green
+  map <- reactive(multiple_station_map(stations, selected_regine_main(),
+                              selected_name(), selected_long(), selected_lat()) %>% 
+                  addGeoJSON(input$map_selectbox_features, color="green"))
+  
+  output$map <- renderLeaflet( map()   ) 
+                  
+  output$print_selection <- renderText({ paste("-", selected_regine_main()) })
+                  
+  return(selected_regine_main)
 }
 
 
@@ -79,24 +75,21 @@ mapModule_polygonFeatureUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
   
-fluidPage(
+# fluidPage(
 fluidRow(
   
       column(6, leafletOutput(ns("map")) ),
       column(6,
              wellPanel(h4('Select a group of stations with the map, using the polygon or rectangle tools')),
-             wellPanel(
-  selectInput(ns("model"), selected = "HBV_2014", 
-              label = "Choose a model", choices = c("HBV_2014", "HBV_2016", "DDD"))
-  ),
+#              wellPanel(
+#   selectInput(ns("model"), selected = "HBV_2014", 
+#               label = "Choose a model", choices = c("HBV_2014", "HBV_2016", "DDD"))
+#   ),
   wellPanel(
         h4('Selected stations'),    
         verbatimTextOutput(ns("print_selection"))
         )
-  )),
-  
-forecast_plot_modUI(ns("multi_station_plot"))
-)
+  ))
 }
 
 ########################################

@@ -75,4 +75,5 @@ library(shinyjs)
 
 jsResetCode <- "shinyjs.reset = function() {history.go(0)}"
 
+hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
 

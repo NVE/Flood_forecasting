@@ -15,7 +15,7 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                  tabPanel("Forecast - multi-model", icon = icon("random"),
                           mapModuleUI("multimod_forecast_map"),
                           multimod_forecast_selection_modUI("multimod_forecast_plot"),
-                          multimod_forecast_plot_modUI("multimod_forecast_plot")
+                          forecast_plot_modUI("multimod_forecast_plot")
                  ),
                  navbarMenu("Forecast - single model", icon = icon("line-chart"),
                             tabPanel("HBV_2014",
@@ -37,15 +37,17 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                  navbarMenu("Mapping tools", icon = icon("globe"),
                             tabPanel("Multi-station / single model",
                                      mapModule_polygonFeatureUI("map_polygon")
+#                                      multimod_forecast_selection_modUI("multi_station_plot"),
+#                                      forecast_plot_modUI("multi_station_plot")
                                      )
 #                             ,
 #                             tabPanel("Map2")
                  ),
                 navbarMenu("Historical tools", icon = icon("history"),
-                            tabPanel("Past forecasting performance",
-                                     mapModuleUI("past_map"),
-                                     multimod_forecast_selection_modUI("past_plot"),
-                                     multimod_forecast_plot_modUI("past_plot")
+                            tabPanel("Past forecasting performance"
+#                                      mapModuleUI("past_map"),
+#                                      multimod_forecast_selection_modUI("past_plot"),
+#                                      multimod_forecast_plot_modUI("past_plot")
                                     ),
                              tabPanel("Past events"),
                              tabPanel("Calibration results")

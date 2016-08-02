@@ -3,10 +3,11 @@
 single_station_map <- function(stations, selected_regine_main,
                                selected_name,
                                selected_long,
-                               selected_lat) {
+                               selected_lat, map_layer = "open streetmap") {
   
-  map <- leaflet() %>% addTiles() %>%
+  map <- leaflet() %>%
     setView(13, 64, zoom = 5)  %>%
+    addGeoJSON(hbv_catchments, weight = 3, color = "#444444", fill = FALSE)  %>%  # This could also be as an if
     addCircleMarkers(data = stations, lng = ~ long, lat = ~ lat, 
                      popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
                                    sep = " "), radius = 5, 
@@ -17,8 +18,31 @@ single_station_map <- function(stations, selected_regine_main,
                                                  selected_regine_main, sep = " "),
               options = popupOptions(closeButton = FALSE, maxWidth = 100)) 
   
-  #  %>%
-  
+  if (map_layer == "topo map") {
+    map <- addWMSTiles(map,
+    "http://wms.geonorge.no/skwms1/wms.topo2",
+    layers = "topo2_WMS",
+    options = WMSTileOptions(format = "image/png", transparent = TRUE),
+    tileOptions(tms = TRUE),
+    attribution = "Kartverket")
+  }
+  if (map_layer == "aerial") {
+    map <- addWMSTiles(map,
+                       "http://wms.geonorge.no/skwms1/wms.nib",
+                       layers = "ortofoto",
+                       
+                       # "http://wms.geonorge.no/skwms1/wms.terrengmodell",
+                       # "http://openwms.statkart.no/skwms1/wms.terrengmodell",
+                        # layers = "terreng",  # did not work,
+                       
+                       # options = WMSTileOptions(format:"image/png", transparent = FALSE),
+                       tileOptions(tms = TRUE),
+                       attribution = "Kartverket")
+  }
+  if (map_layer == "open streetmap") {
+    map <- addTiles(map)
+  }
+
   #     addLegend(position = "bottomright", colors = my.colors, labels = c("0-30", "30-60", "60-90", "90-120", "120-150"),
   #               title = "Length of flood record (years)",
   #               opacity = 1)
@@ -35,6 +59,7 @@ multiple_station_map <- function(stations, selected_regine_main,
   map <- leaflet() %>%
     addTiles() %>%
     setView(13, 64, zoom = 5)  %>%
+    addGeoJSON(hbv_catchments, weight = 3, color = "#444444", fill = FALSE)  %>%
     addCircleMarkers(data = stations, lng = ~ long, lat = ~ lat, 
                      popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
                                    sep = " "), radius = 5, 
