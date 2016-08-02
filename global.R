@@ -25,15 +25,15 @@ ipak(packages)
 
 # Loading NVEDATA to make sure I can update the data
 
-if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
-library(devtools)
-remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
-# To tidy up later by tracking the version number rather than uninstalling arbitrarily!
-install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
-
-library(NVEDATA)
-
-load_flood_data()
+# if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
+# library(devtools)
+# remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
+# # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
+# install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
+# 
+# library(NVEDATA)
+# 
+# load_flood_data()
 
 ############################################################
 
@@ -70,5 +70,9 @@ stations$lat <- meta_data$latitude[stations_index]
 
 # test <- meta_data[[1:80]][stations_index]  # doesn't work. something similar would be good for a subset of metadata
 
+
+library(shinyjs)
+
+jsResetCode <- "shinyjs.reset = function() {history.go(0)}"
 
 

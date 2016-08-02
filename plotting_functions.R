@@ -65,8 +65,10 @@ forecast_plot <- function(dat) {
 }
 
 
-multimod_forecast_plot <- function(dat_1, dat_2, dat_3) {
+multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL) {
   
+  print("prout")
+  print(summary(dat_1))
   d <- ggplot()
   
   if (length(dat_1) > 0) {
@@ -82,6 +84,11 @@ multimod_forecast_plot <- function(dat_1, dat_2, dat_3) {
   if (length(dat_3) > 0) {
     dat_3$time <- as.Date(dat_3$time)
     d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1, linetype = 3)
+  }
+  
+  if (length(dat_4) > 0) {
+    dat_4$time <- as.Date(dat_4$time)
+    d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable), size = 1, linetype = 4)
   }
   
   d <- d +

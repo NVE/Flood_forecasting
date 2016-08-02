@@ -14,6 +14,7 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                  ),
                  tabPanel("Forecast - multi-model", icon = icon("random"),
                           mapModuleUI("multimod_forecast_map"),
+                          multimod_forecast_selection_modUI("multimod_forecast_plot"),
                           multimod_forecast_plot_modUI("multimod_forecast_plot")
                  ),
                  navbarMenu("Forecast - single model", icon = icon("line-chart"),
@@ -42,8 +43,9 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                  ),
                 navbarMenu("Historical tools", icon = icon("history"),
                             tabPanel("Past forecasting performance",
-                                     mapModuleUI("past_year_map"),
-                                     multimod_forecast_plot_modUI("past_year_plot")
+                                     mapModuleUI("past_map"),
+                                     multimod_forecast_selection_modUI("past_plot"),
+                                     multimod_forecast_plot_modUI("past_plot")
                                     ),
                              tabPanel("Past events"),
                              tabPanel("Calibration results")
