@@ -247,3 +247,38 @@ TEST_forecast_plot_modUI <- function(id) {
 #   plotlyOutput(ns("plot"))
 #   )
 # }
+
+
+
+
+OLD_multimod_forecast_plot <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL, variable_1, variable_2, variable_3, variable_4) {
+  
+  print(selected_stations)
+  
+  if (is.null(variable_1)) {
+    subset2plot_m1 <- NULL
+  } else {
+    subset2plot_m1 <- dplyr::filter(model_1, regine.main %in% selected_stations & Type == "Runoff" & Variable %in% variable_1) 
+  }
+  
+  if (is.null(variable_2)) {
+    subset2plot_m2 <- NULL
+  } else {
+  subset2plot_m2 <- dplyr::filter(model_2, regine.main %in% selected_stations & Type == "Runoff" & Variable %in% variable_2) 
+  }
+  
+  if (is.null(variable_3)) {
+    subset2plot_m3 <- NULL
+  } else {
+  subset2plot_m3 <- dplyr::filter(model_3, regine.main %in% selected_stations & Type == "Runoff" & Variable %in% variable_3) 
+  }
+  
+  if (is.null(variable_4)) {
+    subset2plot_m4 <- NULL
+  } else {
+  subset2plot_m4 <- dplyr::filter(model_4, regine.main %in% selected_stations & Type == "Runoff" & Variable %in% variable_4) 
+  }
+  
+  output$plot <- renderPlotly(multimod_forecast_plot_EXP(subset2plot_m1, subset2plot_m2, subset2plot_m3, subset2plot_m4))
+  
+}

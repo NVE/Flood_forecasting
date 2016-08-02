@@ -125,11 +125,14 @@ multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL,
     dat_4$time <- as.Date(dat_4$time)
     d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable), size = 1, linetype = 4)
   }
-  
   d <- d +
-    facet_grid(regine.main ~ . , scales = "free") +
     theme_bw() + 
     scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
+  
+  # if (length(dat_1) > 0 | length(dat_2) > 0 | length(dat_3) > 0 | length(dat_4) > 0) {
+  d <- d +
+    facet_grid(regine.main ~ . , scales = "free")
+  # }
   
   return(ggplotly(d))
   
