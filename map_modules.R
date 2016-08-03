@@ -1,16 +1,18 @@
 mapModuleUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
-  print("proutMap")
   fluidRow(
     column(8, leafletOutput(ns("map")) ),
     column(4,
   selectInput(ns("station"), selected = "2.11", 
               label = "Choose a station", choices = stations_available)),
-  column(4,
+  column(2,
          radioButtons(ns("map_layer"), selected = "open streetmap", 
                      label = "Choose a map layer", choices = c("open streetmap", "topo map", "aerial"))
-    )
+    ),
+  column(2,
+         checkboxInput(ns("catchments"), "Show catchment boundaries", FALSE)
+  )
   )
   
 }
@@ -18,16 +20,15 @@ mapModuleUI <- function(id) {
 mapModule <- function(input, output, session) {
   # stations is global but gets send to the mapping function so that this function can be used in other settings!
 
-  selected_regine_main <- reactive(input$station)
+  # selected_regine_main <- reactive(input$station)
   selected_name <- reactive(stations$name[which(stations$regine_main == input$station)])
   selected_long <- reactive(stations$long[which(stations$regine_main == input$station)])
   selected_lat <-  reactive(stations$lat[which(stations$regine_main == input$station)])
 
-  
-  output$map <- renderLeaflet({single_station_map(stations, selected_regine_main(),
+  output$map <- renderLeaflet({single_station_map(stations, input$station,
                                                   selected_name(),
                                                   selected_long(),
-                                                  selected_lat(), input$map_layer)})
+                                                  selected_lat(), input$map_layer, input$catchments)})
   
   # Interactivity of input between station selector and map
   observeEvent(input$map_marker_click, { # update the map markers and view on map clicks
@@ -130,27 +131,33 @@ fluidRow(
 
 OLD_mapModule_polygonFeature <- function(input, output, session) {
   
+  # actionButton("goButton", "Go!")
   
-  #   map <- reactive(multiple_station_map(stations, selected_regine_main(),
-  #                                        selected_name(), selected_long(), selected_lat()))
+  map <- multiple_station_map(stations, with_popups = FALSE, catchments = FALSE, single_poly = FALSE)
+  output$map <- renderLeaflet( map )
+  proxy <- leafletProxy("map", deferUntilFlush = FALSE)
   
   
   observe({
       
       # Get coordinates of the selected polygon
-      map_selection <- input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]]
+      # map_selection <- input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]]
       
-      selected_stations_indices <- which_station_in_polygon(stations, map_selection)
+#       nb_poly <- length(input$map_selectbox_features$features)
+#       map_selection <- input$map_selectbox_features$features
+      selected_stations_indices <- which_station_in_polygon_TEST(stations, input$map_selectbox_features$features)
+      
+      # selected_stations_indices <- which_station_in_polygon(stations, map_selection)
       selected_regine_main <- stations$regine_main[selected_stations_indices]
       selected_name <- stations$name[selected_stations_indices]
       selected_long <- stations$long[selected_stations_indices]
       selected_lat <-  stations$lat[selected_stations_indices]
       
-      map <- multiple_station_map(stations, selected_regine_main,
-                                  selected_name, selected_long, selected_lat)
+#       map <- multiple_station_map(stations, selected_regine_main,
+#                                   selected_name, selected_long, selected_lat, 
+#                                   with_popups = FALSE, catchments = FALSE, single_poly = FALSE)
       
-      # change the color of the completed polygon to green
-      output$map <- renderLeaflet( map %>% addGeoJSON(input$map_selectbox_features, color="green")  ) 
+      proxy %>%  addGeoJSON(input$map_selectbox_features$features, color="green")
       
       # Check which stations are inside the polygon
       output$print_selection <- renderText({ paste("-", selected_regine_main) })

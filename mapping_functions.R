@@ -1,13 +1,12 @@
 # library(leaflet)
 
-single_station_map <- function(stations, selected_regine_main,
-                               selected_name,
-                               selected_long,
-                               selected_lat, map_layer = "open streetmap") {
+single_station_map <- function(stations, selected_regine_main = NULL,
+                               selected_name  = NULL,
+                               selected_long  = NULL,
+                               selected_lat  = NULL, map_layer = "open streetmap", catchments = FALSE) {
   
   map <- leaflet() %>%
     setView(13, 64, zoom = 5)  %>%
-    addGeoJSON(hbv_catchments, weight = 3, color = "#444444", fill = FALSE)  %>%  # This could also be as an if
     addCircleMarkers(data = stations, lng = ~ long, lat = ~ lat, 
                      popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
                                    sep = " "), radius = 5, 
@@ -18,6 +17,9 @@ single_station_map <- function(stations, selected_regine_main,
                                                  selected_regine_main, sep = " "),
               options = popupOptions(closeButton = FALSE, maxWidth = 100)) 
   
+  if (catchments == TRUE) {
+    map <- addGeoJSON(map, hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
+  }
   if (map_layer == "topo map") {
     map <- addWMSTiles(map,
     "http://wms.geonorge.no/skwms1/wms.topo2",
@@ -50,16 +52,15 @@ single_station_map <- function(stations, selected_regine_main,
 }
 
 
-multiple_station_map <- function(stations, selected_regine_main,
-                                 selected_name,
-                                 selected_long,
-                                 selected_lat, with_popups = FALSE) {
+multiple_station_map <- function(stations, selected_regine_main = NULL,
+                                 selected_name = NULL,
+                                 selected_long = NULL,
+                                 selected_lat = NULL, with_popups = FALSE, catchments = FALSE, single_poly = FALSE) {
   
   
   map <- leaflet() %>%
     addTiles() %>%
     setView(13, 64, zoom = 5)  %>%
-    addGeoJSON(hbv_catchments, weight = 3, color = "#444444", fill = FALSE)  %>%
     addCircleMarkers(data = stations, lng = ~ long, lat = ~ lat, 
                      popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
                                    sep = " "), radius = 5, 
@@ -75,9 +76,12 @@ multiple_station_map <- function(stations, selected_regine_main,
                 polygon = TRUE,
                 rectangle = TRUE,
                 remove = TRUE,
-                singleLayer = TRUE  # This allows only 1 polygon at a time when TRUE
+                singleLayer = single_poly  # This allows only 1 polygon at a time when TRUE
               ) 
   
+  if (catchments == TRUE) {
+    map <- addGeoJSON(map, hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
+  }
   if (!is.null(selected_regine_main) && with_popups == TRUE) {
     map <- map %>% addPopups(selected_long, selected_lat, paste("Name:", as.character(selected_name), "Number:", 
                                                  selected_regine_main, sep = " "),
@@ -126,3 +130,51 @@ which_station_in_polygon <- function(stations, map_selection) {
   
 }
 
+
+which_station_in_polygon_TEST <- function(stations, map_selection) {
+  
+#   print("in which function")
+#   print(nb_poly)
+  nb_poly <- length(map_selection)
+  station_list <- c()
+  if (nb_poly == 0) {
+    station_list <- NULL
+  } else {
+  for (p in 1:nb_poly) {
+  if (!is.null(map_selection[[p]])) {
+    
+    nb_points <- length(map_selection[[p]]$geometry$coordinates[[1]]) - 1
+    coord <- matrix(data = NA, nrow = nb_points, ncol = 2)
+    
+    for (i in 1:nb_points) {
+      coord[i, ] <- c(map_selection[[p]]$geometry$coordinates[[1]][[i]][[1]],
+                      map_selection[[p]]$geometry$coordinates[[1]][[i]][[2]])
+    }
+    
+    # Apply point.in.polygon over all stations available
+    is_in_poly <- rep(NA, length(stations$regine_main))
+    stations_in_poly <- c()
+    j <- 1
+    
+    for (i in seq(along = stations$regine_main)) {
+      # integer array; values are: 
+      # 0: point is strictly exterior to pol; 
+      # 1: point is strictly interior to pol; 
+      # 2: point lies on the relative interior of an edge of pol; 
+      # 3: point is a vertex of pol.
+      if (point.in.polygon(stations$long[i], stations$lat[i], coord[ , 1], coord[ , 2], mode.checked=FALSE) != 0) {
+        is_in_poly[i] <- 1
+        stations_in_poly[j] <- stations$regine_main[i]
+        j <- j+1
+      }
+    }
+    # Is there a way to "apply" this thing
+    # test <- sapply(stations$regine_main, point.in.polygon, point.x = stations$long, point.y = stations$lat, pol.x = coord[ , 1], pol.y = coord[ , 2], mode.checked=FALSE)
+    station_list <- c(station_list, which(is_in_poly == 1))
+  }
+  }
+  }
+    return(station_list)
+  
+  
+}
