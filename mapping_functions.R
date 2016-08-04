@@ -55,8 +55,8 @@ single_station_map <- function(stations, selected_regine_main = NULL,
 multiple_station_map <- function(stations, selected_regine_main = NULL,
                                  selected_name = NULL,
                                  selected_long = NULL,
-                                 selected_lat = NULL, with_popups = FALSE, catchments = FALSE, single_poly = FALSE) {
-  
+                                 selected_lat = NULL, single_poly = FALSE) {
+  # with_popups = FALSE, catchments = FALSE, 
   
   map <- leaflet() %>%
     addTiles() %>%
@@ -79,14 +79,14 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
                 singleLayer = single_poly  # This allows only 1 polygon at a time when TRUE
               ) 
   
-  if (catchments == TRUE) {
-    map <- addGeoJSON(map, hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
-  }
-  if (!is.null(selected_regine_main) && with_popups == TRUE) {
-    map <- map %>% addPopups(selected_long, selected_lat, paste("Name:", as.character(selected_name), "Number:", 
-                                                 selected_regine_main, sep = " "),
-              options = popupOptions(closeButton = FALSE, maxWidth = 100))
-  }
+#   if (catchments == TRUE) {
+#     map <- addGeoJSON(map, hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
+#   }
+#   if (!is.null(selected_regine_main) && with_popups == TRUE) {
+#     map <- map %>% addPopups(selected_long, selected_lat, paste("Name:", as.character(selected_name), "Number:", 
+#                                                  selected_regine_main, sep = " "),
+#               options = popupOptions(closeButton = FALSE, maxWidth = 100))
+#   }
   
   return(map)
 }
@@ -133,8 +133,6 @@ which_station_in_polygon <- function(stations, map_selection) {
 
 which_station_in_polygon_TEST <- function(stations, map_selection) {
   
-#   print("in which function")
-#   print(nb_poly)
   nb_poly <- length(map_selection)
   station_list <- c()
   if (nb_poly == 0) {
