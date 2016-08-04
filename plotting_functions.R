@@ -42,7 +42,19 @@ forecast_plot <- function(dat) {
 
 multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, return_levels = NULL) {
   
-  d <- ggplot()
+  # The palette with grey:
+  cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+  
+  # The palette with black:
+  # cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+  
+  d <- ggplot() + scale_colour_manual(
+    values = c("Obs" = cbPalette[1],"SimRaw" = cbPalette[2],"Sim.sim" = cbPalette[2],
+               "SimCorr" = cbPalette[3],"Sim.sim.corr" = cbPalette[3], "Sim.obs" = cbPalette[4],
+               "Sim" = cbPalette[5],"SimPrecipM50" = cbPalette[6], "SimPrecipP50" = cbPalette[6],
+               "SimH50" = cbPalette[7], "SimL50" = cbPalette[7],
+               "SimH90" = cbPalette[8], "SimL90" = cbPalette[8],
+               "1Y" = "yellow", "5Y" = "orange", "50Y" = "red"))
   p <- 0
   
   if (length(dat_1) > 0) {
@@ -59,13 +71,16 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
   
   if (length(dat_3) > 0) {
     dat_3$time <- as.Date(dat_3$time)
-    d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1, linetype = 3)
+    d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
     p <- 1
   }
   
   if (length(dat_4) > 0) {
     dat_4$time <- as.Date(dat_4$time)
-    d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable), size = 1, linetype = 4)
+    d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
+    
+#     d <- d + geom_line(data = subset(dat_4, Variable="Obs"), aes(x = time, y = Values), size = 1)
+#     d <- d + geom_line(data = subset(dat_4, Variable="Sim.obs"), aes(x = time, y = Values), size = 1)
     p <- 1
   }
   
