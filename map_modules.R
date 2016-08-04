@@ -1,3 +1,5 @@
+# eval(as.symbol(input$model)) transforms a string input into the corresponding data
+
 mapModuleUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -20,7 +22,6 @@ mapModuleUI <- function(id) {
 mapModule <- function(input, output, session) {
   # stations is global but gets send to the mapping function so that this function can be used in other settings!
 
-  # selected_regine_main <- reactive(input$station)
   selected_name <- reactive(stations$name[which(stations$regine_main == input$station)])
   selected_long <- reactive(stations$long[which(stations$regine_main == input$station)])
   selected_lat <-  reactive(stations$lat[which(stations$regine_main == input$station)])
@@ -46,10 +47,6 @@ mapModule <- function(input, output, session) {
 
 mapModule_polygonFeature <- function(input, output, session) {
   
-
-#   map <- reactive(multiple_station_map(stations, selected_regine_main(),
-#                                        selected_name(), selected_long(), selected_lat()))
-
   # Get coordinates of the selected polygon
   map_selection <- reactive(input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]])
   # Reactive parameters of the stations inside the polygon
@@ -93,24 +90,6 @@ fluidRow(
   ))
 }
 
-########################################
-
-#   pal <- colorNumeric(
-#     palette = heat.colors(5),
-#     domain = c(0,30,60,90,120,150))
-# qpal <- colorQuantile("RdYlBu", length.bins, n = 5)
-
-#   my.colors <- c("black", "red", "orange", "green", "blue")
-#   
-#   my.color.func <- function(x2plot, my.colors) {
-#     color.bins <- c(0,30,60,90,120,150)
-#     color <- my.colors[trunc(x2plot/30)+1]
-#     invisible(color)
-#   }
-
-
-
-########################################
 
 #############################################################################################
 # To be able to select stations directly on the map (for the first tab) 
@@ -147,7 +126,7 @@ OLD_mapModule_polygonFeature <- function(input, output, session) {
   observe({
     
       # Get coordinates of the selected polygon
-      selected_stations_indices <- which_station_in_polygon_TEST(stations, input$map_selectbox_features$features)
+      selected_stations_indices <- which_station_in_polygon(stations, input$map_selectbox_features$features)
       selected_regine_main <- stations$regine_main[selected_stations_indices]
       selected_name <- stations$name[selected_stations_indices]
       selected_long <- stations$long[selected_stations_indices]
@@ -164,11 +143,9 @@ OLD_mapModule_polygonFeature <- function(input, output, session) {
       # Check which stations are inside the polygon
       output$print_selection <- renderText({ paste("-", selected_regine_main) })
       
-      # eval(as.symbol(input$model)) transforms a string input into the corresponding data
-      callModule(OLD_multimod_forecast_plot, "multi_station_plot", as.character(selected_regine_main), HBV_2014, HBV_2016, DDD, HBV_past_year,
-                 input$variable_1, input$variable_2, input$variable_3, input$variable_4)
+      callModule(OLD_multimod_forecast_plot, "multi_station_plot", as.character(selected_regine_main), HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell,
+                 input$variable_1, input$variable_2, input$variable_3, input$variable_4, input$type_rl)
     })
-  
 }
 
 
@@ -194,20 +171,21 @@ OLD_mapModule_polygonFeatureUI <- function(id) {
       )
       ),
     fluidRow(
-      column(3,
+      column(2,
                selectInput(ns("variable_1"), label = "Variables for HBV_2014", 
                            choices = unique(filter(HBV_2014, Type == "Runoff")$Variable), multiple = TRUE) ),
-      column(3,
+      column(2,
                selectInput(ns("variable_2"), label = "Variables for HBV_2016", 
                            choices = unique(filter(HBV_2016, Type == "Runoff")$Variable), multiple = TRUE) ),
-      column(3,  
+      column(2,  
                selectInput(ns("variable_3"), label = "Variables for DDD", 
                            choices = unique(filter(DDD, Type == "Runoff")$Variable), multiple = TRUE) ),
-      column(3,
+      column(2,
                selectInput(ns("variable_4"), label = "Variables for HBV_past_year", 
-                           choices = unique(filter(HBV_past_year, Type == "Runoff")$Variable), multiple = TRUE) )
-             ),
-    
+                           choices = unique(filter(HBV_past_year, Type == "Runoff")$Variable), multiple = TRUE) ),
+    column(2,
+           selectInput(ns("type_rl"), label = "Choose a method for return periods", 
+                       choices = unique(filter(flomtabell)$Type), multiple = TRUE) )),
     forecast_plot_modUI(ns("multi_station_plot"))
   )
 }
