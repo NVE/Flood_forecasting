@@ -110,42 +110,42 @@ fluidRow(
 
 OLD_mapModule_polygonFeature <- function(input, output, session) {
 
-
-  
   map <- multiple_station_map(stations, single_poly = FALSE)
   output$map <- renderLeaflet( map )
   ns <- session$ns
   proxy <- leafletProxy(ns("map"), session)  
   
+  # Check which stations are inside the polygon
+  selected_stations_indices <- reactive(which_station_in_polygon(stations, input$map_selectbox_features$features))
+  selected_regine_main <- reactive(stations$regine_main[selected_stations_indices()])
+  selected_name <- reactive(stations$name[selected_stations_indices()])
+  selected_long <- reactive(stations$long[selected_stations_indices()])
+  selected_lat <-  reactive(stations$lat[selected_stations_indices()])
+
   observeEvent(input$catchments, {
     if (input$catchments == TRUE) {
       proxy %>% addGeoJSON(hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
     } else {proxy %>% clearGeoJSON()}
   })
+  
+  observeEvent(input$popups, {
+    if (length(selected_regine_main()) > 0 && input$popups == TRUE) {
+      proxy %>% addPopups(selected_long(), selected_lat(), paste("Name:", as.character(selected_name()), "Number:", 
+                                                                 selected_regine_main(), sep = " "),
+                          options = popupOptions(closeButton = FALSE, maxWidth = 100))
+    } else {proxy %>% clearPopups()}
+  })
 
-  observe({
-    
-      # Get coordinates of the selected polygon
-      selected_stations_indices <- which_station_in_polygon(stations, input$map_selectbox_features$features)
-      selected_regine_main <- stations$regine_main[selected_stations_indices]
-      selected_name <- stations$name[selected_stations_indices]
-      selected_long <- stations$long[selected_stations_indices]
-      selected_lat <-  stations$lat[selected_stations_indices]
-      
-      # proxy %>%  addGeoJSON(input$map_selectbox_features$features, color="green")
-
-      if (length(selected_regine_main) > 0 && input$popups == TRUE) {
-        proxy %>% addPopups(selected_long, selected_lat, paste("Name:", as.character(selected_name), "Number:", 
-                                                                    selected_regine_main, sep = " "),
-                                 options = popupOptions(closeButton = FALSE, maxWidth = 100))
-      } else {proxy %>% clearPopups()}
-      
-      # Check which stations are inside the polygon
-      output$print_selection <- renderText({ paste("-", selected_regine_main) })
-      
-      callModule(OLD_multimod_forecast_plot, "multi_station_plot", as.character(selected_regine_main), HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell,
-                 input$variable_1, input$variable_2, input$variable_3, input$variable_4, input$type_rl)
-    })
+  observe( output$print_selection <- renderText({ paste("-", selected_regine_main()) }))
+  
+    observeEvent({input$variable_1
+                  input$variable_2
+                  input$variable_3
+                  input$variable_4
+                  input$type_rl
+                  input$map_selectbox_features$features},
+    callModule(OLD_multimod_forecast_plot, "multi_station_plot", as.character(selected_regine_main()), HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell,
+               input$variable_1, input$variable_2, input$variable_3, input$variable_4, input$type_rl))
 }
 
 
