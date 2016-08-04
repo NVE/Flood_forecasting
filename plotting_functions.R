@@ -26,29 +26,6 @@ forecast_plot_shading <- function(dat) {
   
 }
 
-
-forecast_plot_shading2 <- function(dat) {
-  
-  dat$time <- as.Date(dat$time)
-  #Shading for current day
-  today <- Sys.Date()
-  current_day <- data.frame(start = as.Date(today), end = as.Date(today + 1) )
-  #   current_day = read.table(textConnection("start, end
-  #       2016-07-11, 2016-07-12"), sep=',',
-  #       colClasses=c('Date', 'Date'), header=TRUE)
-  
-  d <- ggplot() +
-    geom_line(data = dat, aes(x = time, y = Values, col = Variable), size = 1) +
-#     geom_rect(data=current_day, aes(xmin=start, xmax=end, ymin=-Inf, ymax=Inf), fill='pink', alpha=0.2) +
-    facet_grid(regine.main ~ . , scales = "free_y") +
-    theme_bw() + 
-    scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
-  
-  # p <- ggplotly(d) # %>% add_trace(x = c(ymd(2016-07-11), ymd(2016-07-12)), y = c(10, 10), fill = "tonexty")
-  return(d)
-  
-}
-
 forecast_plot <- function(dat) {
   
   dat$time <- as.Date(dat$time)
@@ -61,43 +38,60 @@ forecast_plot <- function(dat) {
     scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
   
   return(ggplotly(d))
-  
 }
 
-
-multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL) {
+multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, return_levels = NULL) {
   
-  print("prout")
-  print(summary(dat_1))
   d <- ggplot()
+  p <- 0
   
   if (length(dat_1) > 0) {
     dat_1$time <- as.Date(dat_1$time)
     d <- d + geom_line(data = dat_1, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
+    p <- 1
   }
   
   if (length(dat_2) > 0) {
     dat_2$time <- as.Date(dat_2$time)
     d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable), size = 1, linetype = 2)
+    p <- 1
   }
   
   if (length(dat_3) > 0) {
     dat_3$time <- as.Date(dat_3$time)
     d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1, linetype = 3)
+    p <- 1
   }
   
   if (length(dat_4) > 0) {
     dat_4$time <- as.Date(dat_4$time)
     d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable), size = 1, linetype = 4)
+    p <- 1
   }
   
-  d <- d +
-    # facet_grid(Variable ~ ., scales = "free_y") +
-    theme_bw() + 
-    scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
-  
+  if (is.data.frame(return_levels) && nrow(return_levels) > 0) {
+    # return_levels$time <- as.Date(dat_1$time)
+    print("return_levels")
+        print(return_levels)
+    d <- d + 
+      geom_hline(data = return_levels, aes(yintercept = Values, col = Variable), size = 1, linetype = 5)
+    p <- 1
+  }
+
+#   today <- Sys.Date()
+#   today <- which(dat_1$time == today)
+#   print("today")
+#   print(today)
+#   d <- d + geom_vline(xintercept = today, linetype="dashed", 
+#                       color = "blue", size=1)
+  if (p == 1) {
+    d <- d +
+      facet_grid(regine.main ~ . , scales = "free") +
+      theme_bw() + 
+      scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
+  }
+
   return(ggplotly(d))
-  
 }
 
 multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL) {
@@ -133,22 +127,6 @@ multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL,
   d <- d +
     facet_grid(regine.main ~ . , scales = "free")
   # }
-  
-  return(ggplotly(d))
-  
-}
-
-
-forecast_plot2 <- function(dat) {
-  
-  print(summary(dat))
-  
-  dat$time <- as.Date(dat$time)
-  d <- ggplot(dat, aes(x = time, y = Values))  +
-    geom_line(aes(col = Variable), size = 1) +
-    facet_grid(regine.main ~ . , scales = "free") +
-    theme_bw() +
-    scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
   
   return(ggplotly(d))
   

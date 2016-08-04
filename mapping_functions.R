@@ -1,5 +1,20 @@
 # library(leaflet)
 
+########################################
+
+#   pal <- colorNumeric(
+#     palette = heat.colors(5),
+#     domain = c(0,30,60,90,120,150))
+# qpal <- colorQuantile("RdYlBu", length.bins, n = 5)
+
+#   my.colors <- c("black", "red", "orange", "green", "blue")
+#   
+#   my.color.func <- function(x2plot, my.colors) {
+#     color.bins <- c(0,30,60,90,120,150)
+#     color <- my.colors[trunc(x2plot/30)+1]
+#     invisible(color)
+#   }
+
 single_station_map <- function(stations, selected_regine_main = NULL,
                                selected_name  = NULL,
                                selected_long  = NULL,
@@ -56,7 +71,6 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
                                  selected_name = NULL,
                                  selected_long = NULL,
                                  selected_lat = NULL, single_poly = FALSE) {
-  # with_popups = FALSE, catchments = FALSE, 
   
   map <- leaflet() %>%
     addTiles() %>%
@@ -78,60 +92,11 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
                 remove = TRUE,
                 singleLayer = single_poly  # This allows only 1 polygon at a time when TRUE
               ) 
-  
-#   if (catchments == TRUE) {
-#     map <- addGeoJSON(map, hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
-#   }
-#   if (!is.null(selected_regine_main) && with_popups == TRUE) {
-#     map <- map %>% addPopups(selected_long, selected_lat, paste("Name:", as.character(selected_name), "Number:", 
-#                                                  selected_regine_main, sep = " "),
-#               options = popupOptions(closeButton = FALSE, maxWidth = 100))
-#   }
-  
   return(map)
 }
 
 
 which_station_in_polygon <- function(stations, map_selection) {
-  
-  if (!is.null(map_selection)) {
-  
-  temp <- as.matrix(map_selection)
-  nb_points <- length(temp[ , 1]) - 1
-  coord <- matrix(data = NA, nrow = nb_points, ncol = 2)
-  
-  for (i in 1:nb_points) {
-    coord[i, ] <- c(map_selection[[i]][[1]],
-                    map_selection[[i]][[2]])
-  }
-
-  # Apply point.in.polygon over all stations available
-  is_in_poly <- rep(NA, length(stations$regine_main))
-  stations_in_poly <- c()
-  j <- 1
-  
-  for (i in seq(along = stations$regine_main)) {
-    # integer array; values are: 
-    # 0: point is strictly exterior to pol; 
-    # 1: point is strictly interior to pol; 
-    # 2: point lies on the relative interior of an edge of pol; 
-    # 3: point is a vertex of pol.
-    if (point.in.polygon(stations$long[i], stations$lat[i], coord[ , 1], coord[ , 2], mode.checked=FALSE) != 0) {
-      is_in_poly[i] <- 1
-      stations_in_poly[j] <- stations$regine_main[i]
-      j <- j+1
-    }
-  }
-  # Is there a way to "apply" this thing
-  # test <- sapply(stations$regine_main, point.in.polygon, point.x = stations$long, point.y = stations$lat, pol.x = coord[ , 1], pol.y = coord[ , 2], mode.checked=FALSE)
-
-  return(which(is_in_poly == 1))
-  }
-  
-}
-
-
-which_station_in_polygon_TEST <- function(stations, map_selection) {
   
   nb_poly <- length(map_selection)
   station_list <- c()
@@ -173,6 +138,4 @@ which_station_in_polygon_TEST <- function(stations, map_selection) {
   }
   }
     return(station_list)
-  
-  
 }
