@@ -11,7 +11,8 @@ forecast_plot_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
   
-  fluidRow(plotlyOutput(ns("plot"), height = "800px")
+  fluidRow(uiOutput(ns("print_msg")),
+    plotlyOutput(ns("plot"), height = "800px")
   )
 }
 
@@ -44,7 +45,6 @@ forecast_plot_mod_shadingUI <- function(id) {
 
 multimod_forecast_plot_mod <- function(input, output, session, map_input, model_1, model_2, model_3, model_4, return_levels = NULL) {
   
-  # observeEvent(map_input$station, {js$reset()})
   ns <- session$ns
   # To get the name in char of the data sent to the module
   name_model1 <- as.character(substitute(model_1))
@@ -54,7 +54,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
   
   if (!is.null(model_1)) {
     output$model1_selection <- renderUI({
-      selectInput(ns("variable_1"), label = paste("Variables for", name_model1), 
+      selectInput(ns("variable_1"), label = paste("Variables for", name_model1), c("SimRaw", "SimCorr"),
                   choices = unique(filter(model_1, Type == "Runoff")$Variable), multiple = TRUE) 
     })
   }
@@ -69,7 +69,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
   
   if (!is.null(model_2)) {
   output$model2_selection <- renderUI({
-    selectInput(ns("variable_2"), label = paste("Variables for", name_model2), 
+    selectInput(ns("variable_2"), label = paste("Variables for", name_model2), c("SimRaw", "SimCorr"),
                 choices = unique(filter(model_2, Type == "Runoff")$Variable), multiple = TRUE) 
   })
   }
@@ -84,8 +84,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
   
   if (!is.null(model_3)) {
   output$model3_selection <- renderUI({
-    # Crazy trick: deparse(substitute(model)) to print the name of the variable
-    selectInput(ns("variable_3"), label = paste("Variables for", name_model3), 
+    selectInput(ns("variable_3"), label = paste("Variables for", name_model3), selected = c("Sim", "Obs"), 
                 choices = unique(filter(model_3, Type == "Runoff")$Variable), multiple = TRUE) 
   })
   }
@@ -100,25 +99,23 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
   
   if (!is.null(model_4)) {
     output$model4_selection <- renderUI({
-      # Crazy trick: deparse(substitute(model)) to print the name of the variable
       selectInput(ns("variable_4"), label = paste("Variables for", name_model4), 
                   choices = unique(filter(model_4, Type == "Runoff")$Variable), multiple = TRUE) 
     })
   }
-  
+
   subset2plot_m4 <- eventReactive({ input$variable_4
     map_input$station},
     if (is.null(input$variable_4)) {
       subset2plot_m4 <- NULL
     } else {
-      subset2plot_m4 <- dplyr::filter(model_4, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable_4) 
+      subset2plot_m4 <- dplyr::filter(model_4, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable_4)
     })
   
   if (!is.null(return_levels)) {
     output$return_levels <- renderUI({
-      # Crazy trick: deparse(substitute(model)) to print the name of the variable
       selectInput(ns("type_rl"), label = "Choose a method for return periods", 
-                  choices = unique(filter(return_levels)$Type), multiple = TRUE) 
+                  choices = c("Obs", "Sim"), multiple = TRUE) 
     })
   }
   
@@ -130,19 +127,44 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
       subset2plot_rl <- dplyr::filter(return_levels, regine.main == map_input$station & Type %in% input$type_rl) 
     })
   
-#   observe({
-#     if (is.null(input$variable_1) &
-#         is.null(input$variable_2) &
-#                 is.null(input$variable_3) &
-#                         is.null(input$variable_4) &
-#                                 is.null(input$type_rl)) {
-#       output$plot <- renderPlotly(ggplotly(ggplot()))
-#                                   
-#                                 } else {
+  
+  observe({
+    is_msg <- FALSE
+    info_msg <- character()
+    if (is.data.frame(subset2plot_m1()) && nrow(subset2plot_m1()) == 0) {
+      info_msg <- paste(name_model1)
+      is_msg <- TRUE
+    }
+    if (is.data.frame(subset2plot_m2()) && nrow(subset2plot_m2()) == 0) {
+      info_msg <- paste(info_msg, name_model2)
+      is_msg <- TRUE
+    }
+    if (is.data.frame(subset2plot_m3()) && nrow(subset2plot_m3()) == 0) {
+      info_msg <- paste(info_msg, name_model3)
+      is_msg <- TRUE
+    }
+    if (is.data.frame(subset2plot_m4()) && nrow(subset2plot_m4()) == 0) {
+      info_msg <- paste(info_msg, name_model4)
+      is_msg <- TRUE
+    }
+    if (is.data.frame(subset2plot_rl()) && nrow(subset2plot_rl()) == 0) {
+      info_msg <- paste(info_msg, "return levels")
+      is_msg <- TRUE
+    }
+    
+    if (is_msg) {
+      output$msg <- renderText( paste("The following data are unavailable at this station:", info_msg, sep = " ") )
+
+    } else {
+      output$msg <- renderText("")
+    }
+    output$print_msg <- renderUI({
+      verbatimTextOutput(ns("msg"))
+    }) 
+  })
+  
   output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_m1(), subset2plot_m2(), 
                                                      subset2plot_m3(), subset2plot_m4(), subset2plot_rl()))
-#                                 }
-#   })
 
 }
 

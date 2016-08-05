@@ -136,16 +136,18 @@ OLD_mapModule_polygonFeature <- function(input, output, session) {
     } else {proxy %>% clearPopups()}
   })
 
-  observe( output$print_selection <- renderText({ paste("-", selected_regine_main()) }))
+  output$print_selection <- renderText({ "Please select stations with the map drawing tools. You can draw several polygons / rectangles. You can delete them to modify your selection" })
   
     observeEvent({input$variable_1
                   input$variable_2
                   input$variable_3
                   input$variable_4
                   input$type_rl
-                  input$map_selectbox_features$features},
+                  input$map_selectbox_features$features}, {
     callModule(OLD_multimod_forecast_plot, "multi_station_plot", as.character(selected_regine_main()), HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell,
-               input$variable_1, input$variable_2, input$variable_3, input$variable_4, input$type_rl))
+               input$variable_1, input$variable_2, input$variable_3, input$variable_4, input$type_rl)
+    output$print_selection <- renderText( paste("-", selected_regine_main()) )
+    })
 }
 
 
@@ -181,7 +183,7 @@ OLD_mapModule_polygonFeatureUI <- function(id) {
                selectInput(ns("variable_3"), label = "Variables for DDD", 
                            choices = unique(filter(DDD, Type == "Runoff")$Variable), multiple = TRUE) ),
       column(2,
-               selectInput(ns("variable_4"), label = "Variables for HBV_past_year", 
+               selectInput(ns("variable_4"), label = "Variables for HBV_past_year", selected = "Obs",
                            choices = unique(filter(HBV_past_year, Type == "Runoff")$Variable), multiple = TRUE) ),
     column(2,
            selectInput(ns("type_rl"), label = "Choose a method for return periods", 
