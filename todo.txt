@@ -1,0 +1,28 @@
+Fix the minor interactivity problems between map and plot in both the single and multi station visualization
+For example the fact that the plot doesn't delete the last line when the selection is back to empty
+
+The single station tab could have a cumulative model selection and a input/runoff/state selection
+Eventually we could even put the option to select multiple stations on this same tab and delete the specific multi-station tab
+
+In the multi-station tab, make an automatic increase of the plotOutput size. this could be tricky but important
+and might require using a single-station ploting function many times, reather than faceting with ggplot
+
+In the main plotting function, there needs to be either a - for flomtabell$area or area should not be taken into account from the start
+in the NVEDATA package (easier!)
+Look at boxplots for LH50-90 and maybe shading for PM50, in order to have a more varied visual impression than just a bunch of lines.
+This could partially fix the problem of having different line types for diferent models. 
+If we stick to different line types, a legend is needed.
+
+Add a tab with tables. We need to be able to search for a station by name.
+Need to think about the design and maybe coming bak to the idea of doing a station selection tab.
+An option to save groups of stations could be very interesting!
+
+a -10000 remains in HBV_2016 and maybe in return levels too: double check
+
+In NVEDATA: add ODM by reading the http json/txt (webchartservice)
+Grid data could be added at a later stage: "grid time series" in wiki
+htsr = hydra observed
+qc: hourly quantile
+qm: daily quantile
+
+Do some ? info points using bsmodal
