@@ -189,5 +189,8 @@ OLD_mapModule_polygonFeatureUI <- function(id) {
            selectInput(ns("type_rl"), label = "Choose a method for return periods", 
                        choices = unique(filter(flomtabell)$Type), multiple = TRUE) )),
     forecast_plot_modUI(ns("multi_station_plot"))
+#     fluidRow(uiOutput(ns("print_msg")),
+#              plotlyOutput(ns("plot"), height = "800px")
+#     )
   )
 }
