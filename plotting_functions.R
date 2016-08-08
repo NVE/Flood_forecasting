@@ -2,7 +2,6 @@
 # library(ggplot2)
 # library(dplyr)
 # library(plotly)
-# load("HBV_2014_GG.RData")
 
 # This function only produces "static" ggplot for the moment, but I need to find a way to do the shading with plotly
 forecast_plot_shading <- function(dat) {
@@ -27,41 +26,122 @@ forecast_plot_shading <- function(dat) {
   
 }
 
-
 forecast_plot <- function(dat) {
   
   dat$time <- as.Date(dat$time)
-  d <- ggplot(dat, aes(x = time, y = Values))  +
-    geom_line(aes(col = Variable), size = 1) +
-    facet_grid(Type ~ ., scales="free_y") +
+
+  d <- ggplot() +
+    geom_line(data = subset(dat, Variable!="Precip"), aes(x = time, y = Values, col = Variable), size = 1) +
+    geom_bar(data = subset(dat, Variable=="Precip"), aes(x = time, y = Values, col = Variable), size = 1, stat="identity", width = 0.4) + 
+    facet_grid(Type ~ ., scales = "free_y") +
     theme_bw() +
     scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
   
   return(ggplotly(d))
-  
 }
 
-single_station_map <- function(stations, selected_regine_main,
-                                         selected_name,
-                                         selected_long,
-                                         selected_lat) {
+multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, return_levels = NULL) {
+  
+  # The palette with grey:
+  # cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+  # The palette with black:
+  cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+  
+  d <- ggplot() + scale_colour_manual(
+    values = c("Obs" = cbPalette[1],"SimRaw" = cbPalette[2],"Sim.sim" = cbPalette[2],
+               "SimCorr" = cbPalette[3],"Sim.sim.corr" = cbPalette[3], "Sim.obs" = cbPalette[4],
+               "Sim" = cbPalette[5],"SimPrecipM50" = cbPalette[6], "SimPrecipP50" = cbPalette[6],
+               "SimH50" = cbPalette[7], "SimL50" = cbPalette[7],
+               "SimH90" = cbPalette[8], "SimL90" = cbPalette[8],
+               "1Y" = "yellow", "5Y" = "orange", "50Y" = "red"))
+  p <- 0
+  # We check every that each dataset is not an empty data frame.
+  if (is.data.frame(dat_1) && nrow(dat_1) > 0) {
+    dat_1$time <- as.Date(dat_1$time)
+    d <- d + geom_line(data = dat_1, aes(x = time, y = Values, col = Variable), size = 1, linetype = 2)
+    p <- 1
+  }
+  
+  if (is.data.frame(dat_2) && nrow(dat_2) > 0) {
+    dat_2$time <- as.Date(dat_2$time)
+    d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
+    p <- 1
+  }
+  
+  if (is.data.frame(dat_3) && nrow(dat_3) > 0) {
+    dat_3$time <- as.Date(dat_3$time)
+    d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
+    p <- 1
+  }
+  
+  if (is.data.frame(dat_4) && nrow(dat_4) > 0) {
+    dat_4$time <- as.Date(dat_4$time)
+    d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
+    
+#     d <- d + geom_line(data = subset(dat_4, Variable="Obs"), aes(x = time, y = Values), size = 1)
+#     d <- d + geom_line(data = subset(dat_4, Variable="Sim.obs"), aes(x = time, y = Values), size = 1)
+    p <- 1
+  }
+  
+  if (is.data.frame(return_levels) && nrow(return_levels) > 0) {
+    # return_levels$time <- as.Date(dat_1$time)
+    print("return_levels")
+        print(return_levels)
+    d <- d + 
+      geom_hline(data = return_levels, aes(yintercept = Values, col = Variable), size = 1, linetype = 5)
+    p <- 1
+  }
 
-  map <- leaflet() %>% addTiles() %>%
-  setView(13, 64, zoom = 5)  %>%
-  addCircleMarkers(data = stations, lng = ~ long, lat = ~ lat, 
-                   popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
-                                 sep = " "), radius = 5, 
-                   color = "black",  #  ~my.color.func(station$length_rec, my.colors), 
-                   stroke = FALSE, fillOpacity = 0.5,
-                   layerId = stations$regine_main) %>%
-  addPopups(selected_long, selected_lat, paste("Name:", as.character(selected_name), "Number:", 
-                                                               selected_regine_main, sep = " "),
-            options = popupOptions(closeButton = FALSE, maxWidth = 100)) 
+#   today <- Sys.Date()
+#   today <- which(dat_1$time == today)
+#   print("today")
+#   print(today)
+#   d <- d + geom_vline(xintercept = today, linetype="dashed", 
+#                       color = "blue", size=1)
+  if (p == 1) {
+    d <- d +
+      facet_grid(regine.main ~ . , scales = "free") +
+      theme_bw() + 
+      scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
+  }
 
-#  %>%
+  return(ggplotly(d))
+}
 
-#     addLegend(position = "bottomright", colors = my.colors, labels = c("0-30", "30-60", "60-90", "90-120", "120-150"),
-#               title = "Length of flood record (years)",
-#               opacity = 1)
-  return(map)
+multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL) {
+  
+  print("prout")
+  print(summary(dat_1))
+  d <- ggplot()
+  
+  if (length(dat_1) > 0) {
+    dat_1$time <- as.Date(dat_1$time)
+    d <- d + geom_line(data = dat_1, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
+  }
+  
+  if (length(dat_2) > 0) {
+    dat_2$time <- as.Date(dat_2$time)
+    d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable), size = 1, linetype = 2)
+  }
+  
+  if (length(dat_3) > 0) {
+    dat_3$time <- as.Date(dat_3$time)
+    d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1, linetype = 3)
+  }
+  
+  if (length(dat_4) > 0) {
+    dat_4$time <- as.Date(dat_4$time)
+    d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable), size = 1, linetype = 4)
+  }
+  d <- d +
+    theme_bw() + 
+    scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
+  
+  # if (length(dat_1) > 0 | length(dat_2) > 0 | length(dat_3) > 0 | length(dat_4) > 0) {
+  d <- d +
+    facet_grid(regine.main ~ . , scales = "free")
+  # }
+  
+  return(ggplotly(d))
+  
 }

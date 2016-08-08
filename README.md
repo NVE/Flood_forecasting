@@ -96,9 +96,13 @@ This is not a problem for implement the DATE -7 / +9 days model plots.
 #### Directly from Github
 
 ```R
+# If you don't have Shiny installed start with:
+install.packages('shiny')
+
+# Then load the package and run the app:
 library(shiny)
 
-runGitHub("Flood_forecasting", "fbaffie")
+runGitHub("Flood_forecasting", "fbaffie", ref = "operational")
 
 ```
 
