@@ -19,25 +19,6 @@ packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "
 ipak(packages)
 # sp: For the point.in.polygon function
 
-############################################################
-# This section below could/should be cut and pasted into a makefile running on the webserver so that
-# the model data gets updated everyday
-
-# Loading NVEDATA to make sure I can update the data
-
-if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
-library(devtools)
-remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
-# To tidy up later by tracking the version number rather than uninstalling arbitrarily!
-install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
-
-library(NVEDATA)
-
-load_flood_data()
-
-############################################################
-
-
 ## My modules: either load package or source modules from this directory
 # library(ShinyModules)
 source('map_modules.R')
