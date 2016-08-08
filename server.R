@@ -13,19 +13,12 @@ server <- function(input, output, session) {
   
   input4plot_HBV_2014 <- callModule(mapModule,"map_HBV_2014")
   callModule(forecast_plot_mod,"forecast_plot_HBV_2014", input4plot_HBV_2014, HBV_2014)
-  # callModule(forecast_plot_mod_shading,"forecast_plot_shading_HBV_2014", input4plot_HBV_2014, HBV_2014)
   
   input4plot_HBV_2016 <- callModule(mapModule,"map_HBV_2016")
   callModule(forecast_plot_mod,"forecast_plot_HBV_2016", input4plot_HBV_2016, HBV_2016)
-  # callModule(forecast_plot_mod_shading,"forecast_plot_shading_HBV_2016", input4plot_HBV_2016, HBV_2016)
-  
+
   input4plot_DDD <- callModule(mapModule,"map_DDD")
   callModule(forecast_plot_mod,"forecast_plot_DDD", input4plot_DDD, DDD)
-  # callModule(forecast_plot_mod_shading,"forecast_plot_shading_DDD", input4plot_DDD, DDD)
 
-  ## Commented: first intended way to do the multi-station multi-model tab
-# stations_model_vect <- callModule(mapModule_polygonFeature,"map_polygon") 
-#   callModule(multimod_forecast_plot_EXP, "multi_plot", "2.11", HBV_2014, HBV_2016, DDD)
-  
   callModule(OLD_mapModule_polygonFeature,"map_polygon")  
 }
