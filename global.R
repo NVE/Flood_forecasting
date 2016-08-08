@@ -38,7 +38,7 @@ load("DDD.RData")
 load("flomtabell.RData")
 load("HBV_past_year.RData")
 load("meta_data.rda")
-hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
+hbv_catchments <- readLines("./data/hbv_catchments.json") %>% paste(collapse = "\n")
 stations_available <- as.character(unique(HBV_2014$regine.main))  # NOT OPTIMAL PROG
 stations_index <- which(meta_data$regine_main %in% stations_available)  # 1 station in HBV_2014 is not in the metadata
 
