@@ -29,7 +29,7 @@ forecast_plot_shading <- function(dat) {
 forecast_plot <- function(dat) {
   
   dat$time <- as.Date(dat$time)
-  
+
   d <- ggplot() +
     geom_line(data = subset(dat, Variable!="Precip"), aes(x = time, y = Values, col = Variable), size = 1) +
     geom_bar(data = subset(dat, Variable=="Precip"), aes(x = time, y = Values, col = Variable), size = 1, stat="identity", width = 0.4) + 
