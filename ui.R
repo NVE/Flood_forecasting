@@ -21,17 +21,14 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                             tabPanel("HBV_2014",
                                      mapModuleUI("map_HBV_2014"),
                                      forecast_plot_modUI("forecast_plot_HBV_2014")
-                                     # forecast_plot_mod_shadingUI("forecast_plot_shading_HBV_2014")
                                      ),
                             tabPanel("HBV_2016",
                                      mapModuleUI("map_HBV_2016"),
                                      forecast_plot_modUI("forecast_plot_HBV_2016")
-                                     # forecast_plot_mod_shadingUI("forecast_plot_shading_HBV_2016")
                             ),
                             tabPanel("DDD",
                                      mapModuleUI("map_DDD"),
                                      forecast_plot_modUI("forecast_plot_DDD")
-                                     # forecast_plot_mod_shadingUI("forecast_plot_shading_DDD")
                             )
                  ),
                  navbarMenu("Mapping tools", icon = icon("globe"),
@@ -42,18 +39,7 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                                      # forecast_plot_modUI("multi_plot")
                                      OLD_mapModule_polygonFeatureUI("map_polygon")
                                      )
-#                             ,
-#                             tabPanel("Map2")
-                 ),
-                navbarMenu("Historical tools", icon = icon("history"),
-                            tabPanel("Past forecasting performance"
-#                                      mapModuleUI("past_map"),
-#                                      multimod_forecast_selection_modUI("past_plot"),
-#                                      multimod_forecast_plot_modUI("past_plot")
-                                    ),
-                             tabPanel("Past events"),
-                             tabPanel("Calibration results")
-)
+                 )
 )
       
 
