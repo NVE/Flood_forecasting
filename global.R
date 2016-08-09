@@ -1,22 +1,22 @@
 # Installing and loading required packages (https://gist.github.com/stevenworthington/3178163)
-ipak <- function(pkg){
-  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-  if (length(new.pkg)) 
-    install.packages(new.pkg, dependencies = TRUE)
-  sapply(pkg, library, character.only = TRUE)
-}
+# ipak <- function(pkg){
+#   new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+#   if (length(new.pkg)) 
+#     install.packages(new.pkg, dependencies = TRUE)
+#   sapply(pkg, library, character.only = TRUE)
+# }
 
 
 ## Special case for leaflet which comes from a fork of Rcura on my repo
-packages <- c("leaflet")
-if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-  install.packages('devtools')
-  library(devtools)
-  install_github("fbaffie/leaflet")
-}
+# packages <- c("leaflet")
+# if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+#   install.packages('devtools')
+#   library(devtools)
+#   install_github("fbaffie/leaflet")
+# }
 
-packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet")
-ipak(packages)
+# packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet")
+# ipak(packages)
 # sp: For the point.in.polygon function
 
 ############################################################
@@ -29,7 +29,7 @@ ipak(packages)
 # library(devtools)
 # remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
 # # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
-# install_github("fbaffie/NVEDATA", ref = "florian")
+# install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
 # 
 # library(NVEDATA)
 # 
