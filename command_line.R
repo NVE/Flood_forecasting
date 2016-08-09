@@ -1,0 +1,22 @@
+recurrence <- "daily"
+task_name <- "update_app22"
+bat_loc <- "C:\\Users\\flbk\\Documents\\GitHub\\Flood_forecasting\\update_app.bat"
+time <- "10:00"
+
+system(sprintf("schtasks /create /sc %s /tn %s /tr \"%s\" /st %s", recurrence, task_name, bat_loc, time))
+
+##########################
+
+
+# system2(sprintf("schtasks /create /sc %s /tn %s /tr \"%s\" /st %s", recurrence, task_name, bat_loc, time), 
+#         stdout = TRUE, 
+#         stderr = TRUE)
+
+#         stdout = "C:\Users\flbk\Documents\GitHub\Flood_forecasting\stdout.txt", 
+#         stderr = "C:\Users\flbk\Documents\GitHub\Flood_forecasting\stderr.txt")
+
+## Additional arguments
+# browseURL("https://msdn.microsoft.com/en-us/library/windows/desktop/bb736357%28v=vs.85%29.aspx")
+
+## Open the scheduled tasks
+# system("control schedtasks")

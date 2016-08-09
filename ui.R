@@ -7,7 +7,7 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                           fluidRow(
                             column(8, wellPanel(
                               HTML('
-<p style="margin-left:1em; style="text-align:justify"> Blabla... flood data in Norway </p>')
+<p style="margin-left:1em; style="text-align:justify"> This is florians dev branch of the app: flood data in Norway.</p>')
                               )    
                             ))
                           
