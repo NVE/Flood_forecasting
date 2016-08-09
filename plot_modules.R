@@ -1,6 +1,6 @@
 forecast_plot_mod <- function(input, output, session, map_input, dat) {
   
-  subset2plot <- reactive(dplyr::filter(dat, regine.main == map_input$station))  # input$station
+  subset2plot <- reactive(dplyr::filter(dat, nbname == map_input$station))  # input$station
   
   output$plot <- renderPlotly(forecast_plot(subset2plot())
                               )
@@ -20,19 +20,10 @@ forecast_plot_modUI <- function(id) {
 # Same plot but without plotly to get the shading for the current day
 forecast_plot_mod_shading <- function(input, output, session, map_input, dat) {
   
-  subset2plot <- reactive(dplyr::filter(dat, regine.main == map_input$station))  # input$station
+  subset2plot <- reactive(dplyr::filter(dat, nbname == map_input$station))  # input$station
   
   output$plot <- renderPlot(forecast_plot_shading(subset2plot())
   )
-  
-}
-
-# Same plot but without plotly to get the shading for the current day
-forecast_plot_mod_shading2 <- function(input, output, session, selected_stations, dat) {
-  
-  subset2plot <- reactive(dplyr::filter(dat, regine.main %in% selected_stations() & Type == "Runoff")) 
-  
-  output$plot <- renderPlot(forecast_plot_shading(subset2plot()))
   
 }
 
