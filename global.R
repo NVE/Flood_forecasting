@@ -38,25 +38,22 @@ load("DDD.RData")
 load("flomtabell.RData")
 load("HBV_past_year.RData")
 load("meta_data.rda")
-hbv_catchments <- readLines("./data/hbv_catchments.json") %>% paste(collapse = "\n")
-stations_available <- as.character(unique(HBV_2014$regine.main))  # NOT OPTIMAL PROG
-stations_index <- which(meta_data$regine_main %in% stations_available)  # 1 station in HBV_2014 is not in the metadata
+
+hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
+station_numbers <- as.character(unique(HBV_2014$regine.main))  # All of the HBV_2016 and DD stations are in HBV_2014
+station_names <- as.character(unique(HBV_2014$station.name))  # May not be optimal (if 2 stations had same name), but it works
+station_nbname <- as.character(unique(HBV_2014$nbname))
 
 ## Metadata organized as below is needed for the maps.
 # Maybe we can streamline with the rest later
+station_indices <- which(meta_data$regine_main %in% station_numbers)  # 1 station in HBV_2014 is not in the metadata
 stations <- list()
-stations$regine_main <- meta_data$regine_main[stations_index]
-stations$name <- meta_data$station_name[stations_index]
-stations$long <- meta_data$longitude[stations_index]
-stations$lat <- meta_data$latitude[stations_index]
+stations$regine_main <- meta_data$regine_main[station_indices]
+stations$name <- meta_data$station_name[station_indices]
+stations$nbname <- paste(stations$regine_main, "-", stations$name, sep ="")
+stations$long <- meta_data$longitude[station_indices]
+stations$lat <- meta_data$latitude[station_indices]
 
-
-
-
-
-
-
-# test <- meta_data[[1:80]][stations_index]  # doesn't work. something similar would be good for a subset of metadata
 
 # library(shinyjs)
 

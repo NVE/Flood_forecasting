@@ -7,8 +7,10 @@ Provide the flood forecasters with an easy to use and customizable graphical use
 
 ## Running the app
 
-This branch is intended to be run as a demonstration branch. It is available on shinyapps.io
+
+This branch is intended to be run as a demonstration branch. It is not yet available on shinyapps.io
 you can also run it locally as follows:
+
 
 #### Directly from Github
 
@@ -18,6 +20,7 @@ install.packages('shiny')
 
 # Then load the package and run the app:
 library(shiny)
+
 
 runGitHub("Flood_forecasting", "fbaffie", ref = "demo")
 
