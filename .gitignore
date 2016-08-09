@@ -1,6 +1,5 @@
 .Rproj.user
 .Rhistory
-data/to_investigate/*
 rsconnect/*
 *.rda
 *.RData
