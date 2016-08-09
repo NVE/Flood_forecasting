@@ -7,8 +7,6 @@ Eventually we could even put the option to select multiple stations on this same
 In the multi-station tab, make an automatic increase of the plotOutput size. this could be tricky but important
 and might require using a single-station ploting function many times, reather than faceting with ggplot
 
-In the main plotting function, there needs to be either a - for flomtabell$area or area should not be taken into account from the start
-in the NVEDATA package (easier!)
 Look at boxplots for LH50-90 and maybe shading for PM50, in order to have a more varied visual impression than just a bunch of lines.
 This could partially fix the problem of having different line types for diferent models. 
 If we stick to different line types, a legend is needed.
