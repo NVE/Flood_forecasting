@@ -50,7 +50,7 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
   d <- ggplot() + scale_colour_manual(
     values = c("Obs" = cbPalette[1],"SimRaw" = cbPalette[2],"Sim.sim" = cbPalette[2],
                "SimCorr" = cbPalette[3],"Sim.sim.corr" = cbPalette[3], "Sim.obs" = cbPalette[4],
-               "Sim" = cbPalette[5],"SimPrecipM50" = cbPalette[6], "SimPrecipP50" = cbPalette[6],
+               "DDD.Sim" = cbPalette[5],"SimPrecipM50" = cbPalette[6], "SimPrecipP50" = cbPalette[6],
                "SimH50" = cbPalette[7], "SimL50" = cbPalette[7],
                "SimH90" = cbPalette[8], "SimL90" = cbPalette[8],
                "1Y" = "yellow", "5Y" = "orange", "50Y" = "red"))
