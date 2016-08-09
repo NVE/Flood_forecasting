@@ -34,7 +34,7 @@ mapModule <- function(input, output, session) {
     p <- input$map_marker_click
     leafletProxy("map")
     
-    updateSelectInput(session, inputId='station', selected =  p$id, 
+    updateSelectInput(session, inputId='station', selected =  station_nbname[which(station_numbers ==p$id)], 
                       label = "Choose a station", choices = station_nbname)
   })
   

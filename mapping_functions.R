@@ -26,7 +26,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
                                    sep = " "), radius = 5, 
                      color = "black",  #  ~my.color.func(station$length_rec, my.colors), 
                      stroke = FALSE, fillOpacity = 0.5,
-                     layerId = stations$nbname) %>%
+                     layerId = stations$regine_main) %>%
     addPopups(selected_long, selected_lat, paste(selected_nbname),
               options = popupOptions(closeButton = FALSE, maxWidth = 100)) 
   

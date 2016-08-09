@@ -60,7 +60,6 @@ load("meta_data.rda")
 hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
 station_numbers <- as.character(unique(HBV_2014$regine.main))  # All of the HBV_2016 and DD stations are in HBV_2014
 station_names <- as.character(unique(HBV_2014$station.name))  # May not be optimal (if 2 stations had same name), but it works
-station_nbname <- paste(station_numbers, "-", station_names, sep = "") 
 station_nbname <- as.character(unique(HBV_2014$nbname))
 
 
