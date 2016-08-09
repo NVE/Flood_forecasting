@@ -6,8 +6,8 @@ mapModuleUI <- function(id) {
   fluidRow(
     column(8, leafletOutput(ns("map")) ),
     column(4,
-  selectInput(ns("station"), selected = "2.11", 
-              label = "Choose a station", choices = stations_available)),
+  selectInput(ns("station"), selected = station_nbname[1], 
+              label = "Choose a station", choices = station_nbname)),
   column(2,
          radioButtons(ns("map_layer"), selected = "open streetmap", 
                      label = "Choose a map layer", choices = c("open streetmap", "topo map", "aerial"))
@@ -22,12 +22,10 @@ mapModuleUI <- function(id) {
 mapModule <- function(input, output, session) {
   # stations is global but gets send to the mapping function so that this function can be used in other settings!
 
-  selected_name <- reactive(stations$name[which(stations$regine_main == input$station)])
-  selected_long <- reactive(stations$long[which(stations$regine_main == input$station)])
-  selected_lat <-  reactive(stations$lat[which(stations$regine_main == input$station)])
+  selected_long <- reactive(stations$long[which(station_nbname == input$station)])
+  selected_lat <-  reactive(stations$lat[which(station_nbname == input$station)])
 
   output$map <- renderLeaflet({single_station_map(stations, input$station,
-                                                  selected_name(),
                                                   selected_long(),
                                                   selected_lat(), input$map_layer, input$catchments)})
   
@@ -37,9 +35,8 @@ mapModule <- function(input, output, session) {
     leafletProxy("map")
     
     updateSelectInput(session, inputId='station', selected =  p$id, 
-                      label = "Choose a station", choices = stations_available)
+                      label = "Choose a station", choices = station_nbname)
   })
-  
   
   return(input)
   

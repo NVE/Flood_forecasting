@@ -15,21 +15,19 @@
 #     invisible(color)
 #   }
 
-single_station_map <- function(stations, selected_regine_main = NULL,
-                               selected_name  = NULL,
+single_station_map <- function(stations, selected_nbname = NULL,
                                selected_long  = NULL,
                                selected_lat  = NULL, map_layer = "open streetmap", catchments = FALSE) {
   
   map <- leaflet() %>%
     setView(13, 64, zoom = 5)  %>%
     addCircleMarkers(data = stations, lng = ~ long, lat = ~ lat, 
-                     popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
+                     popup = paste(as.character(stations$nbname),
                                    sep = " "), radius = 5, 
                      color = "black",  #  ~my.color.func(station$length_rec, my.colors), 
                      stroke = FALSE, fillOpacity = 0.5,
-                     layerId = stations$regine_main) %>%
-    addPopups(selected_long, selected_lat, paste("Name:", as.character(selected_name), "Number:", 
-                                                 selected_regine_main, sep = " "),
+                     layerId = stations$nbname) %>%
+    addPopups(selected_long, selected_lat, paste(selected_nbname),
               options = popupOptions(closeButton = FALSE, maxWidth = 100)) 
   
   if (catchments == TRUE) {

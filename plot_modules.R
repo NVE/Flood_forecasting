@@ -12,7 +12,8 @@ forecast_plot_modUI <- function(id) {
   ns <- NS(id)
   
   fluidRow(uiOutput(ns("print_msg")),
-    plotlyOutput(ns("plot"), height = "800px")
+    plotlyOutput(ns("plot"), height = "800px"),
+    plotlyOutput(ns("plot_input"), height = "800px")
   )
 }
 
@@ -52,6 +53,10 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
   name_model3 <- as.character(substitute(model_3))
   name_model4 <- as.character(substitute(model_4))
   
+  observe({
+  if ("Runoff" %in% input$type_choice) {
+    
+  
   if (!is.null(model_1)) {
     output$model1_selection <- renderUI({
       selectInput(ns("variable_1"), label = paste("Variables for", name_model1), c("SimRaw", "SimCorr"),
@@ -64,7 +69,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
     if (is.null(input$variable_1)) {
       subset2plot_m1 <- NULL
     } else {
-      subset2plot_m1 <- dplyr::filter(model_1, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable_1) 
+      subset2plot_m1 <- dplyr::filter(model_1, nbname == map_input$station & Type == "Runoff" & Variable %in% input$variable_1) 
     })
   
   if (!is.null(model_2)) {
@@ -79,7 +84,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
     if (is.null(input$variable_2)) {
       subset2plot_m2 <- NULL
     } else {
-      subset2plot_m2 <- dplyr::filter(model_2, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable_2) 
+      subset2plot_m2 <- dplyr::filter(model_2, nbname == map_input$station & Type == "Runoff" & Variable %in% input$variable_2) 
     })
   
   if (!is.null(model_3)) {
@@ -94,7 +99,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
     if (is.null(input$variable_3)) {
       subset2plot_m3 <- NULL
     } else {
-      subset2plot_m3 <- dplyr::filter(model_3, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable_3) 
+      subset2plot_m3 <- dplyr::filter(model_3, nbname == map_input$station & Type == "Runoff" & Variable %in% input$variable_3) 
     })
   
   if (!is.null(model_4)) {
@@ -109,7 +114,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
     if (is.null(input$variable_4)) {
       subset2plot_m4 <- NULL
     } else {
-      subset2plot_m4 <- dplyr::filter(model_4, regine.main == map_input$station & Type == "Runoff" & Variable %in% input$variable_4)
+      subset2plot_m4 <- dplyr::filter(model_4, nbname == map_input$station & Type == "Runoff" & Variable %in% input$variable_4)
     })
   
   if (!is.null(return_levels)) {
@@ -124,7 +129,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
     if (is.null(input$type_rl)) {
       subset2plot_rl <- NULL
     } else {
-      subset2plot_rl <- dplyr::filter(return_levels, regine.main == map_input$station & Type %in% input$type_rl) 
+      subset2plot_rl <- dplyr::filter(return_levels, nbname == map_input$station & Type %in% input$type_rl) 
     })
   
   
@@ -165,6 +170,23 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
   
   output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_m1(), subset2plot_m2(), 
                                                      subset2plot_m3(), subset2plot_m4(), subset2plot_rl()))
+  }
+  })
+  
+  
+  #### TEST: will have to be in an apply of for loop later
+  
+  observe({
+    if ("Input" %in% input$type_choice) {
+      
+      subset2plot_m1 <- reactive(subset2plot_m1 <- dplyr::filter(model_1, nbname == map_input$station & Type == "Input") )
+      subset2plot_m2 <- reactive(subset2plot_m1 <- dplyr::filter(model_2, nbname == map_input$station & Type == "Input") )
+      subset2plot_m3 <- reactive(subset2plot_m1 <- dplyr::filter(model_3, nbname == map_input$station & Type == "Input") )
+      
+      output$plot_input <- renderPlotly(forecast_plot(subset2plot_m1(), subset2plot_m2(), 
+                                                         subset2plot_m3()))
+    }
+  })
 
 }
 
@@ -212,6 +234,8 @@ multimod_forecast_selection_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
   fluidRow(
+    column(2, selectInput(ns("type_choice"), label = "Choose the type of variable to plot", selected = "Runoff",
+                          choices = c("Input", "Runoff", "State"), multiple = TRUE) ),
     column(2, uiOutput(ns("model1_selection"))),
     column(2, uiOutput(ns("model2_selection"))),
     column(2, uiOutput(ns("model3_selection"))),
