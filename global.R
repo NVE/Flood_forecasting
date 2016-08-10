@@ -61,7 +61,6 @@ station_numbers <- as.character(unique(HBV_2014$regine.main))  # All of the HBV_
 station_names <- as.character(unique(HBV_2014$station.name))  # May not be optimal (if 2 stations had same name), but it works
 station_nbname <- as.character(unique(HBV_2014$nbname))
 
-
 ## Metadata organized as below is needed for the maps.
 # Maybe we can streamline with the rest later
 station_indices <- which(meta_data$regine_main %in% station_numbers)  # 1 station in HBV_2014 is not in the metadata
@@ -71,6 +70,28 @@ stations$name <- meta_data$station_name[station_indices]
 stations$nbname <- paste(stations$regine_main, "-", stations$name, sep ="")
 stations$long <- meta_data$longitude[station_indices]
 stations$lat <- meta_data$latitude[station_indices]
+
+# Calculation of a stations$flood_warning indicator for the forecast period
+# I want to have it under the "stations" list for the moment as this list is used by the map functions
+HBV_2014_SimCorr <- dplyr::filter(HBV_2014, Type == "Runoff" & Variable == "SimCorr")
+HBV_2014_SimCorr_maxed <- group_by(HBV_2014_SimCorr, nbname, regine.main) %>% dplyr::summarise(maxed = max(na.omit(Values)))
+
+flom_obs1Y <- dplyr::filter(flomtabell, Type == "Obs" & Variable == "1Y") 
+
+index_HBV <- which(HBV_2014_SimCorr_maxed$regine.main %in% stations$regine_main)
+
+index_flomtabell <- c()
+for (i in seq(along = index_HBV)) {
+  if (length(which(flom_obs1Y$regine.main == HBV_2014_SimCorr_maxed$regine.main[index_HBV[i]])) > 0) {
+    index_flomtabell[i] <- which(flom_obs1Y$regine.main == HBV_2014_SimCorr_maxed$regine.main[index_HBV[i]])    
+  } else {
+    index_flomtabell[i] <- NA
+    
+  }
+
+}
+## WARNING: this first implementation has potential bugs and requires decisions on which variables o use!
+stations$flood_warning <- HBV_2014_SimCorr_maxed$maxed[index_HBV] / flom_obs1Y$Values[index_flomtabell]
 
 
 # library(shinyjs)

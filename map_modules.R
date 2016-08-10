@@ -27,7 +27,7 @@ mapModule <- function(input, output, session) {
 
   output$map <- renderLeaflet({single_station_map(stations, input$station,
                                                   selected_long(),
-                                                  selected_lat(), input$map_layer, input$catchments)})
+                                                  selected_lat(), input$map_layer, input$catchments, colored_markers = TRUE)})
   
   # Interactivity of input between station selector and map
   observeEvent(input$map_marker_click, { # update the map markers and view on map clicks
@@ -37,6 +37,9 @@ mapModule <- function(input, output, session) {
     updateSelectInput(session, inputId='station', selected =  station_nbname[which(station_numbers %in% p$id)], 
                       label = "Choose a station", choices = station_nbname)
   })
+  
+  # Lets try to add a color scale to the markers
+  
   
   return(input)
   

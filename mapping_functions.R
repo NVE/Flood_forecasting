@@ -1,35 +1,49 @@
 # library(leaflet)
 
-########################################
-
-#   pal <- colorNumeric(
-#     palette = heat.colors(5),
-#     domain = c(0,30,60,90,120,150))
+# pal <- colorNumeric(
+#   palette = heat.colors(5),
+#   domain = c(0, 1/3, 2/3, 1, 4/3, 5/3))
 # qpal <- colorQuantile("RdYlBu", length.bins, n = 5)
-
-#   my.colors <- c("black", "red", "orange", "green", "blue")
-#   
-#   my.color.func <- function(x2plot, my.colors) {
-#     color.bins <- c(0,30,60,90,120,150)
-#     color <- my.colors[trunc(x2plot/30)+1]
-#     invisible(color)
-#   }
 
 single_station_map <- function(stations, selected_nbname = NULL,
                                selected_long  = NULL,
-                               selected_lat  = NULL, map_layer = "open streetmap", catchments = FALSE) {
+                               selected_lat  = NULL, map_layer = "open streetmap", catchments = FALSE, colored_markers = FALSE) {
   
   map <- leaflet() %>%
-    setView(13, 64, zoom = 5)  %>%
-    addCircleMarkers(data = stations, lng = ~ long, lat = ~ lat, 
-                     popup = paste(as.character(stations$nbname),
-                                   sep = " "), radius = 5, 
-                     color = "black",  #  ~my.color.func(station$length_rec, my.colors), 
-                     stroke = FALSE, fillOpacity = 0.5,
-                     layerId = stations$regine_main) %>%
+    setView(13, 64, zoom = 5) %>%
     addPopups(selected_long, selected_lat, paste(selected_nbname),
               options = popupOptions(closeButton = FALSE, maxWidth = 100)) 
   
+  ## Color the markers to indicate potential flood issues
+    if (colored_markers == TRUE)  {
+      
+        my.colors <- c("blue", "yellow", "orange", "red", "black")
+         
+        my.color.func <- function(x2plot, my.colors) {
+          color.bins <- c(0, 1/3, 2/3, 1, 4/3, 5/3)
+          color <- my.colors[trunc(x2plot * 3) + 1]
+          invisible(color)
+        }
+        
+        map <- addCircleMarkers(map, data = stations, lng = ~ long, lat = ~ lat, 
+                         popup = paste(as.character(stations$nbname),
+                                       sep = " "), radius = 5, 
+                         color = ~my.color.func(stations$flood_warning, my.colors), 
+                         stroke = FALSE, fillOpacity = 0.5,
+                         layerId = stations$regine_main) %>%
+          addLegend(position = "bottomright", colors = my.colors, labels = c("0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
+                    title = "Ratio of forecast runoff and mean annual flood at each station",
+                    opacity = 1)
+    } else {
+      map <- addCircleMarkers(map, data = stations, lng = ~ long, lat = ~ lat, 
+                     popup = paste(as.character(stations$nbname),
+                                   sep = " "), radius = 5, 
+                     color = "black",
+                     stroke = FALSE, fillOpacity = 0.5,
+                     layerId = stations$regine_main)
+    }
+    
+  ## Add catchment boundaries to the map and change base layer
   if (catchments == TRUE) {
     map <- addGeoJSON(map, hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
   }
@@ -58,9 +72,6 @@ single_station_map <- function(stations, selected_nbname = NULL,
     map <- addTiles(map)
   }
 
-  #     addLegend(position = "bottomright", colors = my.colors, labels = c("0-30", "30-60", "60-90", "90-120", "120-150"),
-  #               title = "Length of flood record (years)",
-  #               opacity = 1)
   return(map)
 }
 
