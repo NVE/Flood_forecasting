@@ -12,7 +12,8 @@ forecast_plot_modUI <- function(id) {
   ns <- NS(id)
   
   fluidRow(uiOutput(ns("print_msg")),
-    plotlyOutput(ns("plot"), height = "800px"),
+    # plotlyOutput(ns("plot"), height = "800px"),
+    uiOutput(ns("rendered_plot")),
     plotlyOutput(ns("plot_input"), height = "800px")
   )
 }
@@ -161,6 +162,9 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
   
   output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_m1(), subset2plot_m2(), 
                                                      subset2plot_m3(), subset2plot_m4(), subset2plot_rl()))
+# Using renderUI to automatically increase plotting size when more stations are selected
+  output$rendered_plot <- renderUI( plotlyOutput(ns("plot"), height = paste(400 * length(map_input$station), "px", sep ="")) ) 
+  
   }
   })
   

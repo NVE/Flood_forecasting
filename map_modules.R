@@ -42,30 +42,6 @@ mapModule <- function(input, output, session) {
   
 }
 
-# multistation_mapModule <- function(input, output, session) {
-#   # stations is global but gets send to the mapping function so that this function can be used in other settings!
-#   
-#   selected_long <- reactive(stations$long[which(station_nbname == input$station)])
-#   selected_lat <-  reactive(stations$lat[which(station_nbname == input$station)])
-#   
-#   output$map <- renderLeaflet({single_station_map(stations, input$station,
-#                                                   selected_long(),
-#                                                   selected_lat(), input$map_layer, input$catchments)})
-#   
-#   # Interactivity of input between station selector and map
-#   observeEvent(input$map_marker_click, { # update the map markers and view on map clicks
-#     p <- input$map_marker_click
-#     leafletProxy("map")
-#     
-#     updateSelectInput(session, inputId='station', selected =  station_nbname[which(station_numbers ==p$id)], 
-#                       label = "Choose a station", choices = station_nbname)
-#   })
-#   
-#   return(input)
-#   
-# }
-
-
 mapModule_polygonFeature <- function(input, output, session) {
   
   # Get coordinates of the selected polygon
