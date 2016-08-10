@@ -17,6 +17,11 @@ ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
                           multimod_forecast_selection_modUI("multimod_forecast_plot"),
                           forecast_plot_modUI("multimod_forecast_plot")
                  ),
+                 tabPanel("TEST", icon = icon("random"),
+                          mapModuleUI("multistation_map", multiple = TRUE),
+                          multimod_forecast_selection_modUI("multistation_plot"),
+                          forecast_plot_modUI("multistation_plot")
+                 ),
                  navbarMenu("Forecast - single model", icon = icon("line-chart"),
                             tabPanel("HBV_2014",
                                      mapModuleUI("map_HBV_2014"),

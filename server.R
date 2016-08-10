@@ -28,4 +28,10 @@ server <- function(input, output, session) {
 #   callModule(multimod_forecast_plot_EXP, "multi_plot", "2.11", HBV_2014, HBV_2016, DDD)
   
   callModule(OLD_mapModule_polygonFeature,"map_polygon")  
+  
+  # Let's try a tab that allows multiple station selection but with the same selector as the first tab
+  input4multi_forecast_plot <- callModule(mapModule,"multistation_map")
+  callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell)
+  
+  
 }

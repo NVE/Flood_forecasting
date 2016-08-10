@@ -60,7 +60,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
     if (is.null(input$variable_1)) {
       subset2plot_m1 <- NULL
     } else {
-      subset2plot_m1 <- dplyr::filter(model_1, nbname == map_input$station & Type == "Runoff" & Variable %in% input$variable_1) 
+      subset2plot_m1 <- dplyr::filter(model_1, nbname %in% map_input$station & Type == "Runoff" & Variable %in% input$variable_1) 
     })
   
   if (!is.null(model_2)) {
@@ -75,7 +75,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
     if (is.null(input$variable_2)) {
       subset2plot_m2 <- NULL
     } else {
-      subset2plot_m2 <- dplyr::filter(model_2, nbname == map_input$station & Type == "Runoff" & Variable %in% input$variable_2) 
+      subset2plot_m2 <- dplyr::filter(model_2, nbname %in% map_input$station & Type == "Runoff" & Variable %in% input$variable_2) 
     })
   
   if (!is.null(model_3)) {
@@ -90,7 +90,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
     if (is.null(input$variable_3)) {
       subset2plot_m3 <- NULL
     } else {
-      subset2plot_m3 <- dplyr::filter(model_3, nbname == map_input$station & Type == "Runoff" & Variable %in% input$variable_3) 
+      subset2plot_m3 <- dplyr::filter(model_3, nbname %in% map_input$station & Type == "Runoff" & Variable %in% input$variable_3) 
     })
   
   if (!is.null(model_4)) {
@@ -105,7 +105,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
     if (is.null(input$variable_4)) {
       subset2plot_m4 <- NULL
     } else {
-      subset2plot_m4 <- dplyr::filter(model_4, nbname == map_input$station & Type == "Runoff" & Variable %in% input$variable_4)
+      subset2plot_m4 <- dplyr::filter(model_4, nbname %in% map_input$station & Type == "Runoff" & Variable %in% input$variable_4)
     })
   
   if (!is.null(return_levels)) {
@@ -120,7 +120,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
     if (is.null(input$type_rl)) {
       subset2plot_rl <- NULL
     } else {
-      subset2plot_rl <- dplyr::filter(return_levels, nbname == map_input$station & Type %in% input$type_rl) 
+      subset2plot_rl <- dplyr::filter(return_levels, nbname %in% map_input$station & Type %in% input$type_rl) 
     })
   
   
@@ -170,9 +170,9 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
   observe({
     if ("Input" %in% input$type_choice) {
       
-      subset2plot_m1 <- reactive(subset2plot_m1 <- dplyr::filter(model_1, nbname == map_input$station & Type == "Input") )
-      subset2plot_m2 <- reactive(subset2plot_m1 <- dplyr::filter(model_2, nbname == map_input$station & Type == "Input") )
-      subset2plot_m3 <- reactive(subset2plot_m1 <- dplyr::filter(model_3, nbname == map_input$station & Type == "Input") )
+      subset2plot_m1 <- reactive(subset2plot_m1 <- dplyr::filter(model_1, nbname %in% map_input$station & Type == "Input") )
+      subset2plot_m2 <- reactive(subset2plot_m1 <- dplyr::filter(model_2, nbname %in% map_input$station & Type == "Input") )
+      subset2plot_m3 <- reactive(subset2plot_m1 <- dplyr::filter(model_3, nbname %in% map_input$station & Type == "Input") )
       
       output$plot_input <- renderPlotly(forecast_plot(subset2plot_m1(), subset2plot_m2(), 
                                                          subset2plot_m3()))
