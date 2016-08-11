@@ -17,23 +17,42 @@ single_station_map <- function(stations, selected_nbname = NULL,
   ## Color the markers to indicate potential flood issues
     if (colored_markers == TRUE)  {
       
-        my.colors <- c("blue", "yellow", "orange", "red", "black")
+      index <- is.na(stations$flood_warning)
+      NA_stations <- lapply(stations, function(x) x[index])
+      OK_stations <- lapply(stations, function(x) x[!index])
+      
+      
+        my.colors <- c("green", "blue", "yellow", "orange", "red", "black")
          
         my.color.func <- function(x2plot, my.colors) {
           color.bins <- c(0, 1/3, 2/3, 1, 4/3, 5/3)
-          color <- my.colors[trunc(x2plot * 3) + 1]
+          color <- my.colors[trunc(x2plot * 3) + 2]
           invisible(color)
         }
         
-        map <- addCircleMarkers(map, data = stations, lng = ~ long, lat = ~ lat, weight = 10 * stations$flood_warning,
-                         popup = paste(as.character(stations$nbname),
-                                       sep = " "), radius = 5, 
-                         color = ~my.color.func(stations$flood_warning, my.colors), 
-                         stroke = FALSE, fillOpacity = 0.5,
-                         layerId = stations$regine_main) %>%
-          addLegend(position = "bottomright", colors = my.colors, labels = c("0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
-                    title = "Ratio of forecast runoff and mean annual flood at each station",
+        my.radius.func <- function(x2plot) {
+          radius <- 4 * exp(x2plot * 3)
+        }
+        
+        map <- addCircleMarkers(map, data = OK_stations, lng = ~ long, lat = ~ lat, 
+                         popup = paste(as.character(OK_stations$nbname),"Warning:", OK_stations$flood_warning,
+                                       sep = " "), radius = ~my.radius.func(OK_stations$flood_warning), 
+                         color = ~my.color.func(OK_stations$flood_warning, my.colors), 
+                         stroke = FALSE, fillOpacity = 1,
+                         layerId = OK_stations$regine_main) %>%
+          addCircleMarkers(data = NA_stations, lng = ~ long, lat = ~ lat, 
+                                  popup = paste(as.character(NA_stations$nbname),"Warning:", NA_stations$flood_warning,
+                                                sep = " "), radius = 4, 
+                                  color = "green", 
+                                  stroke = FALSE, fillOpacity = 1,
+                                  layerId = NA_stations$regine_main) %>%
+          addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
+                    title = "Max forecast / mean annual flood",
                     opacity = 1)
+        
+        
+        
+        
     } else {
       map <- addCircleMarkers(map, data = stations, lng = ~ long, lat = ~ lat, 
                      popup = paste(as.character(stations$nbname),
