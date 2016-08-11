@@ -30,7 +30,7 @@ ipak(packages)
 # remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
 # # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
 # install_github("fbaffie/NVEDATA", ref = "florian")
-
+# 
 # library(NVEDATA)
 # load_flood_data()
 
@@ -78,20 +78,24 @@ HBV_2014_SimCorr_maxed <- group_by(HBV_2014_SimCorr, nbname, regine.main) %>% dp
 
 flom_obs1Y <- dplyr::filter(flomtabell, Type == "Obs" & Variable == "1Y") 
 
-index_HBV <- which(HBV_2014_SimCorr_maxed$regine.main %in% stations$regine_main)
+index_HBV <- match(stations$regine_main, HBV_2014_SimCorr_maxed$regine.main)
+index_flomtabell <- match(HBV_2014_SimCorr_maxed$regine.main, flom_obs1Y$regine.main)
 
-index_flomtabell <- c()
-for (i in seq(along = index_HBV)) {
-  if (length(which(flom_obs1Y$regine.main == HBV_2014_SimCorr_maxed$regine.main[index_HBV[i]])) > 0) {
-    index_flomtabell[i] <- which(flom_obs1Y$regine.main == HBV_2014_SimCorr_maxed$regine.main[index_HBV[i]])    
-  } else {
-    index_flomtabell[i] <- NA
-    
-  }
 
-}
+# index_flomtabell <- c()
+# for (i in seq(along = index_HBV)) {
+#   if (length(which(flom_obs1Y$regine.main == HBV_2014_SimCorr_maxed$regine.main[index_HBV[i]])) > 0) {
+#     index_flomtabell[i] <- which(flom_obs1Y$regine.main == HBV_2014_SimCorr_maxed$regine.main[index_HBV[i]])    
+#   } else {
+#     index_flomtabell[i] <- NA
+#     
+#   }
+# 
+# }
+
+
 ## WARNING: this first implementation has potential bugs and requires decisions on which variables o use!
-stations$flood_warning <- HBV_2014_SimCorr_maxed$maxed[index_HBV] / flom_obs1Y$Values[index_flomtabell]
+stations$flood_warning <- HBV_2014_SimCorr_maxed$maxed[index_HBV] / flom_obs1Y$Values[index_flomtabell[index_HBV]]
 
 
 # library(shinyjs)

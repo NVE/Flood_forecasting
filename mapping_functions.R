@@ -25,7 +25,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
           invisible(color)
         }
         
-        map <- addCircleMarkers(map, data = stations, lng = ~ long, lat = ~ lat, 
+        map <- addCircleMarkers(map, data = stations, lng = ~ long, lat = ~ lat, weight = 10 * stations$flood_warning,
                          popup = paste(as.character(stations$nbname),
                                        sep = " "), radius = 5, 
                          color = ~my.color.func(stations$flood_warning, my.colors), 
