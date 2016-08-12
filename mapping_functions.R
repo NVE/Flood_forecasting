@@ -42,6 +42,10 @@ single_station_map <- function(stations, selected_nbname = NULL,
       NA_stations <- lapply(stations, function(x) x[index])
       OK_stations <- lapply(stations, function(x) x[!index])
       
+      index <- is.na(stations$uncertainty)
+      NA_stations_uncertainty <- lapply(stations, function(x) x[index])
+      OK_stations_uncertainty <- lapply(stations, function(x) x[!index])
+      
       
         my.colors <- c("green", "blue", "yellow", "orange", "red", "black")
          
@@ -54,13 +58,15 @@ single_station_map <- function(stations, selected_nbname = NULL,
         my.radius.func <- function(x2plot) {
           radius <- 4 * exp(x2plot * 3)
         }
+       
         
+         
         map <- addCircleMarkers(map, data = OK_stations, lng = ~ longitude, lat = ~ latitude, 
                          popup = paste(as.character(OK_stations$nbname),"Warning ratio:", round(OK_stations$flood_warning,2),
                                        sep = " "), radius = ~my.radius.func(OK_stations$flood_warning), 
                          color = ~my.color.func(OK_stations$flood_warning, my.colors), 
                          stroke = FALSE, fillOpacity = 1,
-                         group = "OK_stations",
+                         group = "Warning ratio available",
                          layerId = OK_stations$regine_main
                          ) %>%
           addCircleMarkers(data = NA_stations, lng = ~ longitude, lat = ~ latitude, 
@@ -68,13 +74,29 @@ single_station_map <- function(stations, selected_nbname = NULL,
                                                 sep = " "), radius = 4, 
                                   color = "green", 
                                   stroke = FALSE, fillOpacity = 1,
-                           group = "NA_stations",
+                           group = "No warning ratio",
                                   layerId = NA_stations$regine_main
                      ) %>%
+          addCircleMarkers(map, data = OK_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
+                           popup = paste(as.character(OK_stations_uncertainty$nbname),"Warning ratio:", round(OK_stations_uncertainty$uncertainty,2),
+                                         sep = " "), radius = ~my.radius.func(OK_stations_uncertainty$flood_warning), 
+                           color = ~my.color.func(OK_stations_uncertainty$flood_warning, my.colors), 
+                           stroke = FALSE, fillOpacity = 1,
+                           group = "Uncertainty of HBV_2014",
+                           layerId = OK_stations_uncertainty$regine_main
+          ) %>%
+          addCircleMarkers(data = NA_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
+                           popup = paste(as.character(NA_stations_uncertainty$nbname),"No warning ratio available",
+                                         sep = " "), radius = 4, 
+                           color = "green", 
+                           stroke = FALSE, fillOpacity = 1,
+                           group = "No uncertainty figure",
+                           layerId = NA_stations_uncertainty$regine_main
+          ) %>%
           addLayersControl(position = "bottomleft",
                            baseGroups = c("OpenStreetMap", "Esri.WorldImagery","Topo map", "Aerial"),
-                           overlayGroups = c("OK_stations",
-                                             "NA_stations")) %>%
+                           overlayGroups = c("Warning ratio available",
+                                             "No warning ratio", "Uncertainty of HBV_2014", "No uncertainty figure")) %>%
           addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
                     title = "Max forecast / mean annual flood",
                     opacity = 1)

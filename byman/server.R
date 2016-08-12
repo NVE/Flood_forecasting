@@ -84,30 +84,6 @@ server <- function(input, output,session) {
   
   ## HACK FLO
   
-  
-  
-  #   
-  #   
-  #   
-  
-  
-  # To be able to select stations directly on the map (for the first tab)
-  #   observeEvent(input$map_marker_click, { # update the map markers and view on map clicks
-  #     p <- input$map_marker_click
-  #     leafletProxy("map")
-  #     
-  #     updateSelectInput(session, inputId='station', selected =  p$id, 
-  #                       label = "Pick a station", choices = station$number)
-  #   })
-  #   
-  #   output$map <- renderLeaflet({
-  #     norway_map4server(input$station)
-  #   })
-  
-  # selection <- reactive({input$catch})
-  
-  
-  
   callModule(mydygraphModule,"dygraph1") 
 
   callModule(mydygraphModule,"dygraph2")

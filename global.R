@@ -25,14 +25,14 @@ ipak(packages)
 
 # Loading NVEDATA to make sure I can update the data
 
-if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
-library(devtools)
-remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
-# To tidy up later by tracking the version number rather than uninstalling arbitrarily!
-install_github("fbaffie/NVEDATA", ref = "florian")
-# 
-library(NVEDATA)
-load_flood_data()
+# if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
+# library(devtools)
+# remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
+# # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
+# install_github("fbaffie/NVEDATA", ref = "florian")
+
+# library(NVEDATA)
+# load_flood_data()
 
 ############################################################
 
@@ -81,6 +81,15 @@ index_HBV <- match(stations$regine_main, HBV_2014_SimCorr_maxed$regine.main)
 index_flomtabell <- match(HBV_2014_SimCorr_maxed$regine.main, flom_obs1Y$regine.main)
 
 stations$flood_warning <- HBV_2014_SimCorr_maxed$maxed[index_HBV] / flom_obs1Y$Values[index_flomtabell[index_HBV]]
+
+
+HBV_2014_SimH90 <- dplyr::filter(HBV_2014, Type == "Runoff" & Variable == "SimH90")
+HBV_2014_SimL90 <- dplyr::filter(HBV_2014, Type == "Runoff" & Variable == "SimL90")
+HBV_2014_diff <- HBV_2014_SimH90
+HBV_2014_diff$Values <- HBV_2014_SimH90$Values - HBV_2014_SimL90$Values
+
+HBV_2014_diff_maxed <- group_by(HBV_2014_diff, nbname, regine.main) %>% dplyr::summarise(maxed = max(Values, na.rm = TRUE))
+stations$uncertainty <- HBV_2014_diff_maxed$maxed[index_HBV] / flom_obs1Y$Values[index_flomtabell[index_HBV]]
 
 
 # library(shinyjs)

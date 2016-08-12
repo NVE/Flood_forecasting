@@ -7,6 +7,16 @@ forecast_plot_mod <- function(input, output, session, map_input, dat) {
   
 }
 
+OLD_forecast_plot_modUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  
+  fluidRow(uiOutput(ns("print_msg")),
+           plotlyOutput(ns("plot"), height = "800px")
+  )
+}
+
+
 forecast_plot_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
