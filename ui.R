@@ -1,14 +1,22 @@
 # This is the user-interface definition of a Shiny web application.
 
-ui <- navbarPage("Flomvarsling",  # cut off:  id = "nav",
+ui <- navbarPage("Flomvarsling", 
                  
                  tabPanel("About", icon = icon("info"),
                           
                           fluidRow(
-                            column(8, wellPanel(
+                            column(12, wellPanel(
                               HTML('
-<p style="margin-left:1em; style="text-align:justify"> This is florians dev branch of the app: flood data in Norway.</p>')
-                              )    
+<p style="margin-left:1em; style="text-align:justify"> This is florians dev branch of the app: flood data in Norway.</p>
+<p style="margin-left:1em; style="text-align:justify"> If you find bugs or want to request new features, please file them                              
+                              <a href="https://trello.com/invite/b/KrVO7fEq/ae340c8f77522811cfe30dccf45b3e14/flood-forecasting-app" target="_blank">there</a></p>')
+                              ),
+#                               helpText(   a("If you find bugs or want to request new features, please file them there",
+#                                             href="https://trello.com/invite/b/KrVO7fEq/ae340c8f77522811cfe30dccf45b3e14/flood-forecasting-app")),
+                              
+                              img(src='flood.jpg', align = "right")
+                              # img(src='multimodel_tab_with_warning.png', align = "right")
+
                             ))
                           
                  ),
