@@ -62,11 +62,18 @@ single_station_map <- function(stations, selected_nbname = NULL,
         
          
         map <- map %>%
-          addMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
-                           popup = paste(as.character(stations$nbname),
-                                         sep = " "),
-                     group = "Selectable stations",
-                           layerId = stations$regine_main) %>%
+#           addMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
+#                            popup = paste(as.character(stations$nbname),
+#                                          sep = " "),
+#                      group = "Selectable stations",
+#                            layerId = stations$regine_main) %>%
+          addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
+                                  popup = paste(as.character(stations$nbname),
+                                                sep = " "), radius = 5, 
+                                  color = "black", weight = 3, stroke = TRUE,
+                                  fillOpacity = 1, fillColor = "white",
+                                  group = "Selectable stations",
+                                  layerId = stations$regine_main) %>%
           addCircleMarkers(data = OK_stations, lng = ~ longitude, lat = ~ latitude, 
                          popup = paste(as.character(OK_stations$nbname),"Warning ratio:", round(OK_stations$flood_warning,2),
                                        sep = " "), radius = ~my.radius.func(OK_stations$flood_warning), 
@@ -99,8 +106,8 @@ single_station_map <- function(stations, selected_nbname = NULL,
                            group = "No uncertainty figure"
                            # layerId = NA_stations_uncertainty$regine_main
           ) %>%
-          addLayersControl(position = "topright", # options = layersControlOptions(collapsed = FALSE),
-                           baseGroups = c("OpenStreetMap", "Esri.WorldImagery","Topo map", "Aerial"),
+          addLayersControl(position = "topright", options = layersControlOptions(collapsed = FALSE),
+                           baseGroups = c("OpenStreetMap", "Esri.WorldImagery","Topo map"),
                            overlayGroups = c("Selectable stations", 
                                              "Warning ratio available", "No warning ratio", 
                                              "Uncertainty of HBV_2014", "No uncertainty figure")) %>%
