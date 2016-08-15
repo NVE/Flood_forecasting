@@ -1,37 +1,60 @@
 # This is the user-interface definition of a Shiny web application.
 
-ui <- navbarPage("Flomvarsling", 
+ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
                  
                  tabPanel("About", icon = icon("info"),
                           
                           fluidRow(
-                            column(12, wellPanel(
+                            column(6, wellPanel(
                               HTML('
 <p style="margin-left:1em; style="text-align:justify"> This is florians dev branch of the app: flood data in Norway.</p>
 <p style="margin-left:1em; style="text-align:justify"> If you find bugs or want to request new features, please file them                              
-                              <a href="https://trello.com/invite/b/KrVO7fEq/ae340c8f77522811cfe30dccf45b3e14/flood-forecasting-app" target="_blank">there</a></p>')
-                              ),
-#                               helpText(   a("If you find bugs or want to request new features, please file them there",
-#                                             href="https://trello.com/invite/b/KrVO7fEq/ae340c8f77522811cfe30dccf45b3e14/flood-forecasting-app")),
-                              
-                              img(src='flood.jpg', align = "right")
-                              # img(src='multimodel_tab_with_warning.png', align = "right")
+                              <a href="https://github.com/fbaffie/Flood_forecasting/issues" target="_blank">on GitHub</a></p>
+ <p style="margin-left:1em; style="text-align:justify"> The to-do list for this project can be consulted                              
+                              <a href="https://trello.com/b/KrVO7fEq" target="_blank">online</a> and shows what is currently in development.</p>  
+<p style="margin-left:1em; style="text-align:justify"> The app is structed as follows:</p>
 
-                            ))
+                         <p style="margin-left:1em; style="text-align:justify"> <big> <b> Multi-station and multi-model tab </b> </big> </p>
+                          <div> <dl>
+                        <p style="margin-left:1em; style="text-align:justify"> Select multiple stations </p>
+                        <p style="margin-left:1em; style="text-align:justify"> Select which type of variable to plot: input, discharge or state variables </p>
+                        <p style="margin-left:1em; style="text-align:justify"> Select which variables to plot </p>
+                        <p style="margin-left:1em; style="text-align:justify"> The map features selectable layers with both a flood warning indicator and a measure of model uncertainty </p>
+                          </div> </dl>                          
+                        <p style="margin-left:1em; style="text-align:justify"> <b> Model performance on past forecast dsta and calibration data </b> </p>
+                          <p style="margin-left:1em; style="text-align:justify"> At present, 1 year of past forecast is available with HBV_2014 </p>
+                                   ')
+                              )),
+                            column(6,
+                              img(src='flood.jpg', align = "right")
+                            )
+                            ),
+                          fluidRow(
+                            column(6, wellPanel(
+                              HTML('
+<p style="margin-left:1em; style="text-align:justify"> This is florians dev branch of the app: flood data in Norway.</p>
+                      <p style="margin-left:1em; style="text-align:justify"> At present, 1 year of past forecast is available with HBV_2014 </p>
+                                   ')
+                            )),
+                            column(6,
+                                   img(src='multimodel_tab_with_warning.png', align = "right")
+                          ))
+                          
                           
                  ),
-                  tabPanel("Multi-station-model / DropDown selector", icon = icon("random"),
+                 navbarMenu("Multi-station / Multi-model", icon = icon("random"),
+                  tabPanel("DropDown station selection", 
                           mapModuleUI("multistation_map", multiple = TRUE),
                           multimod_forecast_selection_modUI("multistation_plot"),
                           forecast_plot_modUI("multistation_plot")
                   ),
-                  tabPanel("Multi-station-model / Polygon",
+                  tabPanel("Polygon selection",
                            ## Commented: first intended way to do the multi-station multi-model tab
          #                                      mapModule_polygonFeatureUI("map_polygon"),
          #                                      multimod_forecast_selection_modUI("multi_plot")
          # forecast_plot_modUI("multi_plot")
                           OLD_mapModule_polygonFeatureUI("map_polygon")
-                  ),
+                  )),
                  navbarMenu("Forecast - single model", icon = icon("line-chart"),
                             tabPanel("HBV_2014",
                                      mapModuleUI("map_HBV_2014"),

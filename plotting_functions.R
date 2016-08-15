@@ -102,16 +102,24 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
     d <- d +
       facet_grid(regine.main ~ . , scales = "free") +
       theme_bw() + 
-      scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
+      scale_x_date(date_breaks = "1 day", date_labels = "%m %d") +
+      theme(axis.title.x = element_blank()) +   # Remove x-axis label
+      ylab("Runoff (m3/s)")             +          # Set y-axis label
+      theme(axis.text.x = element_text(angle = 90, size = 12) ) # plot.margin = unit(c(10,0,0,0),"mm")
+      
   }
 
-  return(ggplotly(d))
+  l <- plotly_build(d) 
+  # %>%  layout(margin = list(l=100)) 
+  # l$layout$margin$l <- l$layout$margin$l + 10
+  # return(ggplotly(d))
+  return(l)
 }
 
 multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL) {
   
-  print("prout")
-  print(summary(dat_1))
+#   print("prout")
+#   print(summary(dat_1))
   d <- ggplot()
   
   if (length(dat_1) > 0) {
@@ -135,7 +143,10 @@ multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL,
   }
   d <- d +
     theme_bw() + 
-    scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
+    scale_x_date(date_breaks = "1 day", date_labels = "%m %d") +
+    theme(axis.title.x = element_blank()) +   # Remove x-axis label
+    ylab("Runoff (m3/s)")                       # Set y-axis label
+    
   
   # if (length(dat_1) > 0 | length(dat_2) > 0 | length(dat_3) > 0 | length(dat_4) > 0) {
   d <- d +
