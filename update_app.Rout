@@ -1,0 +1,191 @@
+
+R version 3.3.1 (2016-06-21) -- "Bug in Your Hair"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> setwd("D:/Github/Flood_forecasting")
+> 
+> ############################################################################################################
+> ## Installing and loading required packages (https://gist.github.com/stevenworthington/3178163)
+> ipak <- function(pkg){
++   new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
++   if (length(new.pkg)) 
++     install.packages(new.pkg, dependencies = TRUE)
++   sapply(pkg, library, character.only = TRUE)
++ }
+> 
+> 
+> ## Special case for leaflet which comes from a fork of Rcura on my repo
+> packages <- c("leaflet")
+> if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
++   install.packages('devtools')
++   library(devtools)
++   install_github("fbaffie/leaflet")
++ }
+> 
+> packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet")
+> ipak(packages)
+Loading required package: ggplot2
+
+Attaching package: 'plotly'
+
+The following object is masked from 'package:ggplot2':
+
+    last_plot
+
+The following object is masked from 'package:graphics':
+
+    layout
+
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: 'lubridate'
+
+The following object is masked from 'package:base':
+
+    date
+
+$curl
+[1] "curl"      "stats"     "graphics"  "grDevices" "utils"     "datasets" 
+[7] "methods"   "base"     
+
+$shiny
+[1] "shiny"     "curl"      "stats"     "graphics"  "grDevices" "utils"    
+[7] "datasets"  "methods"   "base"     
+
+$magrittr
+ [1] "magrittr"  "shiny"     "curl"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$sp
+ [1] "sp"        "magrittr"  "shiny"     "curl"      "stats"     "graphics" 
+ [7] "grDevices" "utils"     "datasets"  "methods"   "base"     
+
+$plotly
+ [1] "plotly"    "ggplot2"   "sp"        "magrittr"  "shiny"     "curl"     
+ [7] "stats"     "graphics"  "grDevices" "utils"     "datasets"  "methods"  
+[13] "base"     
+
+$dplyr
+ [1] "dplyr"     "plotly"    "ggplot2"   "sp"        "magrittr"  "shiny"    
+ [7] "curl"      "stats"     "graphics"  "grDevices" "utils"     "datasets" 
+[13] "methods"   "base"     
+
+$ggplot2
+ [1] "dplyr"     "plotly"    "ggplot2"   "sp"        "magrittr"  "shiny"    
+ [7] "curl"      "stats"     "graphics"  "grDevices" "utils"     "datasets" 
+[13] "methods"   "base"     
+
+$lubridate
+ [1] "lubridate" "dplyr"     "plotly"    "ggplot2"   "sp"        "magrittr" 
+ [7] "shiny"     "curl"      "stats"     "graphics"  "grDevices" "utils"    
+[13] "datasets"  "methods"   "base"     
+
+$leaflet
+ [1] "leaflet"   "lubridate" "dplyr"     "plotly"    "ggplot2"   "sp"       
+ [7] "magrittr"  "shiny"     "curl"      "stats"     "graphics"  "grDevices"
+[13] "utils"     "datasets"  "methods"   "base"     
+
+> # sp: For the point.in.polygon function
+> 
+> ############################################################################################################
+> ## Loading NVEDATA to make sure I can update the data
+> 
+> if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
+> library(devtools)
+> remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
+Removing package from 'C:/Program Files/R/R-3.3.1/library'
+(as 'lib' is unspecified)
+> # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
+> install_github("fbaffie/NVEDATA", ref = "florian")
+Downloading GitHub repo fbaffie/NVEDATA@florian
+from URL https://api.github.com/repos/fbaffie/NVEDATA/zipball/florian
+Installing NVEDATA
+"C:/PROGRA~1/R/R-33~1.1/bin/x64/R" --no-site-file --no-environ --no-save  \
+  --no-restore --quiet CMD INSTALL  \
+  "C:/Users/adm-byha/AppData/Local/Temp/RtmpkLmS7d/devtools1a602539332f/fbaffie-NVEDATA-0a1bf81"  \
+  --library="C:/Program Files/R/R-3.3.1/library" --install-tests 
+
+* installing *source* package 'NVEDATA' ...
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** preparing package for lazy loading
+Warning: replacing previous import 'dplyr::intersect' by 'lubridate::intersect' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::union' by 'lubridate::union' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::setdiff' by 'lubridate::setdiff' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::contains' by 'purrr::contains' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::order_by' by 'purrr::order_by' when loading 'NVEDATA'
+Warning: replacing previous import 'lubridate::stamp' by 'reshape::stamp' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::rename' by 'reshape::rename' when loading 'NVEDATA'
+Warning: replacing previous import 'reshape::expand' by 'tidyr::expand' when loading 'NVEDATA'
+** help
+Warning: C:/Users/adm-byha/AppData/Local/Temp/RtmpkLmS7d/devtools1a602539332f/fbaffie-NVEDATA-0a1bf81/man/read_HBV_P.Rd:13: unexpected section header '\value'
+Warning: C:/Users/adm-byha/AppData/Local/Temp/RtmpkLmS7d/devtools1a602539332f/fbaffie-NVEDATA-0a1bf81/man/read_HBV_P.Rd:17: unexpected END_OF_INPUT '
+'
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+*** arch - i386
+Warning: replacing previous import 'dplyr::intersect' by 'lubridate::intersect' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::setdiff' by 'lubridate::setdiff' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::union' by 'lubridate::union' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::order_by' by 'purrr::order_by' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::contains' by 'purrr::contains' when loading 'NVEDATA'
+Warning: replacing previous import 'lubridate::stamp' by 'reshape::stamp' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::rename' by 'reshape::rename' when loading 'NVEDATA'
+Warning: replacing previous import 'reshape::expand' by 'tidyr::expand' when loading 'NVEDATA'
+*** arch - x64
+Warning: replacing previous import 'dplyr::intersect' by 'lubridate::intersect' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::union' by 'lubridate::union' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::setdiff' by 'lubridate::setdiff' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::contains' by 'purrr::contains' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::order_by' by 'purrr::order_by' when loading 'NVEDATA'
+Warning: replacing previous import 'lubridate::stamp' by 'reshape::stamp' when loading 'NVEDATA'
+Warning: replacing previous import 'dplyr::rename' by 'reshape::rename' when loading 'NVEDATA'
+Warning: replacing previous import 'reshape::expand' by 'tidyr::expand' when loading 'NVEDATA'
+* DONE (NVEDATA)
+> 
+> library(NVEDATA)
+Warning messages:
+1: replacing previous import 'dplyr::intersect' by 'lubridate::intersect' when loading 'NVEDATA' 
+2: replacing previous import 'dplyr::union' by 'lubridate::union' when loading 'NVEDATA' 
+3: replacing previous import 'dplyr::setdiff' by 'lubridate::setdiff' when loading 'NVEDATA' 
+4: replacing previous import 'dplyr::contains' by 'purrr::contains' when loading 'NVEDATA' 
+5: replacing previous import 'dplyr::order_by' by 'purrr::order_by' when loading 'NVEDATA' 
+6: replacing previous import 'lubridate::stamp' by 'reshape::stamp' when loading 'NVEDATA' 
+7: replacing previous import 'dplyr::rename' by 'reshape::rename' when loading 'NVEDATA' 
+8: replacing previous import 'reshape::expand' by 'tidyr::expand' when loading 'NVEDATA' 
+> 
+> load_flood_data()
+Error in file(filename, open = "rt") : cannot open the connection
+Calls: load_flood_data -> read_HBV_data -> file
+In addition: Warning message:
+In file(filename, open = "rt") :
+  cannot open file '//hdata/drift/flom/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt': Permission denied
+Execution halted
