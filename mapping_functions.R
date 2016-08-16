@@ -10,27 +10,8 @@ single_station_map <- function(stations, selected_nbname = NULL,
                                selected_lat  = NULL, variable2plot, map_layer = "open streetmap", catchments = FALSE, colored_markers = FALSE) {
   
   map <- leaflet() %>%
-    setView(13, 64, zoom = 5) %>%
-    addProviderTiles("OpenStreetMap", group = "OpenStreetMap") %>% 
-    addProviderTiles("Esri.WorldImagery", group = "Esri.WorldImagery") %>%
-    addWMSTiles("http://wms.geonorge.no/skwms1/wms.topo2",
-                       layers = "topo2_WMS",
-                       options = WMSTileOptions(format = "image/png", transparent = TRUE),
-                       tileOptions(tms = TRUE),
-                       attribution = "Kartverket",
-                        group = "Topo map") %>%
-    addWMSTiles("http://wms.geonorge.no/skwms1/wms.nib",
-                     layers = "ortofoto",
-                     
-                     # "http://wms.geonorge.no/skwms1/wms.terrengmodell",
-                     # "http://openwms.statkart.no/skwms1/wms.terrengmodell",
-                     # layers = "terreng",  # did not work,
-                     
-                     # options = WMSTileOptions(format:"image/png", transparent = FALSE),
-                     tileOptions(tms = TRUE),
-                     attribution = "Kartverket",
-                      group = "Aerial")
-    
+    setView(13, 64, zoom = 5)
+
     
 #     addPopups(selected_long, selected_lat, paste(selected_nbname),
 #               options = popupOptions(closeButton = FALSE, maxWidth = 100)) 
@@ -47,7 +28,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
       OK_stations_uncertainty <- lapply(stations, function(x) x[!index])
       
       
-        my.colors <- c("green", "blue", "yellow", "orange", "red", "black")
+        my.colors <- c("blue", "green", "yellow", "orange", "red", "black")
          
         my.color.func <- function(x2plot, my.colors) {
           color.bins <- c(0, 1/3, 2/3, 1, 4/3, 5/3)
@@ -107,7 +88,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
                            # layerId = NA_stations_uncertainty$regine_main
           ) %>%
           addLayersControl(position = "topright", options = layersControlOptions(collapsed = FALSE),
-                           baseGroups = c("OpenStreetMap", "Esri.WorldImagery","Topo map"),
+                           # baseGroups = c("OpenStreetMap", "Esri.WorldImagery","Topo map"),
                            overlayGroups = c("Selectable stations", 
                                              "Warning ratio available", "No warning ratio", 
                                              "Uncertainty of HBV_2014", "No uncertainty figure")) %>%
@@ -140,17 +121,17 @@ single_station_map <- function(stations, selected_nbname = NULL,
     attribution = "Kartverket")
   }
   if (map_layer == "aerial") {
-    map <- addWMSTiles(map,
-                       "http://wms.geonorge.no/skwms1/wms.nib",
-                       layers = "ortofoto",
-                       
-                       # "http://wms.geonorge.no/skwms1/wms.terrengmodell",
-                       # "http://openwms.statkart.no/skwms1/wms.terrengmodell",
-                        # layers = "terreng",  # did not work,
-                       
-                       # options = WMSTileOptions(format:"image/png", transparent = FALSE),
-                       tileOptions(tms = TRUE),
-                       attribution = "Kartverket")
+    map <- addProviderTiles(map, "Esri.WorldImagery", group = "Esri.WorldImagery") 
+      
+      
+#       addWMSTiles(map, "http://wms.geonorge.no/skwms1/wms.nib",
+#                        layers = "ortofoto",
+#                        # "http://wms.geonorge.no/skwms1/wms.terrengmodell",
+#                        # "http://openwms.statkart.no/skwms1/wms.terrengmodell",
+#                         # layers = "terreng",  # did not work,
+#                        # options = WMSTileOptions(format:"image/png", transparent = FALSE),
+#                        tileOptions(tms = TRUE),
+#                        attribution = "Kartverket")
   }
   if (map_layer == "open streetmap") {
     map <- addTiles(map)
