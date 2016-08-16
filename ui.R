@@ -30,12 +30,16 @@ ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
                             )
                             ),
                           fluidRow(
-                            column(6, wellPanel(
-                              HTML('
-<p style="margin-left:1em; style="text-align:justify"> This is florians dev branch of the app: flood data in Norway.</p>
-                      <p style="margin-left:1em; style="text-align:justify"> At present, 1 year of past forecast is available with HBV_2014 </p>
-                                   ')
-                            )),
+#                             column(6, wellPanel(
+#                               HTML('
+# <p style="margin-left:1em; style="text-align:justify"> This is florians dev branch of the app: flood data in Norway.</p>
+#                       <p style="margin-left:1em; style="text-align:justify"> At present, 1 year of past forecast is available with HBV_2014 </p>
+#                                    ')
+#                             )),
+                            column(6,
+                                   includeMarkdown("about.md")),
+                            
+                            
                             column(6,
                                    img(src='multimodel_tab_with_warning.png', align = "right")
                           ))
