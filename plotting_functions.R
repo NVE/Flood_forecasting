@@ -104,14 +104,14 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
       theme_bw() + 
       scale_x_date(date_breaks = "1 day", date_labels = "%m %d") +
       theme(axis.title.x = element_blank()) +   # Remove x-axis label
-      ylab("Runoff (m3/s)")             +          # Set y-axis label
-      theme(axis.text.x = element_text(angle = 90, size = 12) ) # plot.margin = unit(c(10,0,0,0),"mm")
+      ylab("Runoff (m3/s)")                       # Set y-axis label
+      # theme(axis.text.x = element_text(angle = 90, size = 12) ) # plot.margin = unit(c(10,0,0,0),"mm")
+    # theme(plot.margin=unit(c(0,0,0,0),"mm")) 
       
   }
 
-  l <- plotly_build(d) 
-  # %>%  layout(margin = list(l=100)) 
-  # l$layout$margin$l <- l$layout$margin$l + 10
+  l <- plotly_build(d)  # %>%  layout(margin = list(l=100)) 
+  # l$layout$margin$l <- l$layout$margin$l + 100
   # return(ggplotly(d))
   return(l)
 }

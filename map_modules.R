@@ -14,6 +14,9 @@ mapModuleUI <- function(id, multiple_choice = FALSE) {
     ),
   column(2,
          checkboxInput(ns("catchments"), "Show catchment boundaries", FALSE)
+  ),
+  column(2,
+         checkboxInput(ns("popups"), "Pop-ups for selected stations", FALSE)
   )
   )
   
@@ -24,21 +27,34 @@ mapModule <- function(input, output, session) {
 
   selected_long <- reactive(stations$long[which(station_nbname %in% input$station)])
   selected_lat <-  reactive(stations$lat[which(station_nbname %in% input$station)])
-
+  
   output$map <- renderLeaflet({single_station_map(stations, input$station,
                                                   selected_long(),
-                                                  selected_lat(), input$map_layer, input$catchments, colored_markers = TRUE)})
+                                                  selected_lat(), map_layer = input$map_layer, catchments = input$catchments, colored_markers = TRUE)})
+  
+  ns <- session$ns
+  proxy <- leafletProxy(ns("map"), session)  
   
   # Interactivity of input between station selector and map
   observeEvent(input$map_marker_click, { # update the map markers and view on map clicks
     p <- input$map_marker_click
-    leafletProxy("map")
     
     updateSelectInput(session, inputId='station', selected =  station_nbname[which(station_numbers %in% p$id)], 
                       label = "Choose a station", choices = station_nbname)
   })
   
-  # Lets try to add a color scale to the markers
+#   observeEvent(input$catchments, {
+#     if (input$catchments == TRUE) {
+#       proxy %>% addGeoJSON(hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
+#     } else {proxy %>% clearGeoJSON()}
+#   })
+  
+  observeEvent(input$popups, {
+    if (length(selected_long()) > 0 && input$popups == TRUE) {
+      proxy %>% addPopups(selected_long(), selected_lat(), paste("Station:", input$station, sep = " "),
+                          options = popupOptions(closeButton = FALSE, maxWidth = 100))
+    } else {proxy %>% clearPopups()}
+  })
   
   
   return(input)

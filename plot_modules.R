@@ -325,3 +325,109 @@ multimod_forecast_plot_EXP <- function(input, output, session, selected_stations
   output$plot <- renderPlotly(multimod_forecast_plot_EXP(subset2plot_m1(), subset2plot_m2(), subset2plot_m3(), subset2plot_m4()))
   
 }
+
+
+############### FROM BYMAN
+
+taylor_mod <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
+  
+output$TDplot <- renderPlot({ 
+  mydat0<-subset(alldat, Catchment %in% input$catch)
+  # now add the model
+  taylor.diagram(mydat0[,3], mydat0[,4], pos.cor = TRUE, main = paste("Taylor Diagram for ", input$catch, sep = ""), 
+                 ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
+  
+  taylor.diagram(mydat0[,3], mydat0[,5],, add = TRUE, col = "grey", 
+                 pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
+  taylor.diagram(mydat0[,3], mydat0[,6],, add = TRUE, col = "blue", 
+                 pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
+  taylor.diagram(mydat0[,3], mydat0[,7],, add = TRUE, col = "brown", 
+                 pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
+  taylor.diagram(mydat0[,3], mydat0[,8],, add = TRUE, col = "green", 
+                 pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
+  
+  lpos<-1.4*sd(mydat0$Observed)
+  legend(lpos,lpos,legend=c("HBV", "NNET", "SVM","GBM","M5","M5c"),pch=19,col=c("red","grey","blue","brown","green","pink"))  
+}) 
+
+}
+
+taylor_modUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  
+  fluidRow(plotOutput(ns("plot_input"), height = "400px", width = "100%")
+  )
+}
+
+
+dygraph_mod <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
+  
+output$mydygraph <- renderDygraph({
+  
+  alldat$myDate <- as.Date(alldat$myDate)
+  
+  dat1<-subset(alldat, Catchment %in% input$catch)
+  dat_cropped<-dat1[,-2]
+  dat2<-dat_cropped[complete.cases(dat_cropped),]
+  dat.z<-zoo(dat2[,2:8],dat2$myDate)
+  myts<-as.ts(dat.z)
+  dygraph(
+    myts#%>%dyRangeSelector()
+  )
+})
+}
+
+dygraph_mod2 <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
+  
+output$mydygraph2 <- renderDygraph({
+  # start dygraph with all the states
+  dat3<-subset(alldat, Catchment %in% input$catch &  myDate > as.character(input$dateRange[1]) & myDate <as.character(input$dateRange[2]))
+  dat_cropped<-dat3[,-2]
+  #dat4<-dat3[complete.cases(dat3),]
+  dat.z1<-zoo(dat_cropped[,2:8],dat_cropped$myDate)
+  myts1<-as.ts(dat.z1)
+  dygraph(
+    myts1#%>%dyRangeSelector()
+  )
+})
+}
+
+dygraph_modUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  
+  fluidRow(dygraphOutput("mydygraph",height = 600)
+  )
+}
+
+mydygraphModule <- function(input, output, session) {
+  
+  output$module_graph <- renderDygraph({
+    
+    alldat$myDate <- as.Date(alldat$myDate)
+    
+    dat_module<-subset(alldat, Catchment %in% input$catchment)
+    
+    
+    dat_cropped<-dat_module[,-2]
+    dat2<-dat_cropped[complete.cases(dat_cropped),]
+    dat.z1<-zoo(dat2[,2:8],dat2$myDate)
+    
+    myts<-as.ts(dat.z1)
+    
+    dygraph(
+      myts#%>%dyRangeSelector()
+    )
+  })
+}
+
+
+mydygraphModuleUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  fluidRow(
+    selectInput(ns("catchment"), 'Catchment to analyse', as.character(unique(alldat$Catchment))),
+    dygraphOutput(ns("module_graph"),height = 600)
+  )
+}

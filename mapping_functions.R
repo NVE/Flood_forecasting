@@ -7,15 +7,33 @@
 
 single_station_map <- function(stations, selected_nbname = NULL,
                                selected_long  = NULL,
-                               selected_lat  = NULL, variable2plot, map_layer = "open streetmap", catchments = FALSE, colored_markers = FALSE) {
+                               selected_lat  = NULL, variable2plot, map_layer = "open streetmap", catchments = FALSE, colored_markers = FALSE, radius_function = TRUE)  {
   
-  map <- leaflet() %>%
-    setView(13, 64, zoom = 5)
-
+  ## Functions controling color and size of markers
+  my.colors <- c("blue", "green", "yellow", "orange", "red", "black")
+  
+  my.color.func <- function(x2plot, my.colors) {
+    color.bins <- c(0, 1/3, 2/3, 1, 4/3, 5/3)
+    color <- my.colors[trunc(x2plot * 3) + 2]
+    invisible(color)
+  }
+ if (radius_function) {
+   my.radius.func <- function(x2plot) {
+     radius <- 4 * exp(x2plot * 2)
+   }
+ } else {
+   my.radius.func <- function(x2plot) {
+     radius <- 4
+   }
+ }
+  
+  ## Custom icon
+#   custom_icon <- iconList(blue = makeIcon("./www/icon.png", iconWidth = 24, iconHeight =32),
+#                          green = makeIcon("/Users/jazzurro/Documents/Stack Overflow/green.png", iconWidth = 24, iconHeight =32),
+#                          orange = makeIcon("/Users/jazzurro/Documents/Stack Overflow/orange.png", iconWidth = 24, iconHeight =32))
+  
+  map <- leaflet() 
     
-#     addPopups(selected_long, selected_lat, paste(selected_nbname),
-#               options = popupOptions(closeButton = FALSE, maxWidth = 100)) 
-  
   ## Color the markers to indicate potential flood issues
     if (colored_markers == TRUE)  {
       
@@ -27,34 +45,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
       NA_stations_uncertainty <- lapply(stations, function(x) x[index])
       OK_stations_uncertainty <- lapply(stations, function(x) x[!index])
       
-      
-        my.colors <- c("blue", "green", "yellow", "orange", "red", "black")
-         
-        my.color.func <- function(x2plot, my.colors) {
-          color.bins <- c(0, 1/3, 2/3, 1, 4/3, 5/3)
-          color <- my.colors[trunc(x2plot * 3) + 2]
-          invisible(color)
-        }
-        
-        my.radius.func <- function(x2plot) {
-          radius <- 4 * exp(x2plot * 2)
-        }
-       
-        
-         
         map <- map %>%
-#           addMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
-#                            popup = paste(as.character(stations$nbname),
-#                                          sep = " "),
-#                      group = "Selectable stations",
-#                            layerId = stations$regine_main) %>%
-          addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
-                                  popup = paste(as.character(stations$nbname),
-                                                sep = " "), radius = 5, 
-                                  color = "black", weight = 3, stroke = TRUE,
-                                  fillOpacity = 1, fillColor = "white",
-                                  group = "Selectable stations",
-                                  layerId = stations$regine_main) %>%
           addCircleMarkers(data = OK_stations, lng = ~ longitude, lat = ~ latitude, 
                          popup = paste(as.character(OK_stations$nbname),"Warning ratio:", round(OK_stations$flood_warning,2),
                                        sep = " "), radius = ~my.radius.func(OK_stations$flood_warning), 
@@ -66,7 +57,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
           addCircleMarkers(data = NA_stations, lng = ~ longitude, lat = ~ latitude, 
                                   popup = paste(as.character(NA_stations$nbname),"No warning ratio available",
                                                 sep = " "), radius = 4, 
-                                  color = "green", 
+                                  color = "blue", 
                                   stroke = FALSE, fillOpacity = 1,
                            group = "No warning ratio"
                                   # layerId = NA_stations$regine_main
@@ -82,31 +73,43 @@ single_station_map <- function(stations, selected_nbname = NULL,
           addCircleMarkers(data = NA_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
                            popup = paste(as.character(NA_stations_uncertainty$nbname),"No warning ratio available",
                                          sep = " "), radius = 4, 
-                           color = "green", 
+                           color = "blue", 
                            stroke = FALSE, fillOpacity = 1,
                            group = "No uncertainty figure"
                            # layerId = NA_stations_uncertainty$regine_main
           ) %>%
           addLayersControl(position = "topright", options = layersControlOptions(collapsed = FALSE),
                            # baseGroups = c("OpenStreetMap", "Esri.WorldImagery","Topo map"),
-                           overlayGroups = c("Selectable stations", 
-                                             "Warning ratio available", "No warning ratio", 
+                           overlayGroups = c("Warning ratio available", "No warning ratio", 
                                              "Uncertainty of HBV_2014", "No uncertainty figure")) %>%
           addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
                     title = "Max forecast / mean annual flood",
                     opacity = 1)
         
-        
-        
-        
-    } else {
-      map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                     popup = paste(as.character(stations$nbname),
-                                   sep = " "), radius = 5, 
-                     color = "black",
-                     stroke = FALSE, fillOpacity = 0.5,
-                     layerId = stations$regine_main)
-    }
+    } 
+
+  
+    map <- setView(map, 13, 64, zoom = 5) %>%
+#       addMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, icon = custom_icon[1],
+#                        popup = paste(as.character(stations$nbname),
+#                                      sep = " "), 
+#                        layerId = stations$regine_main)
+      addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
+                       popup = paste(as.character(stations$nbname),
+                                     sep = " "), radius = 10, 
+                       color = "white", weight = 3, stroke = TRUE,
+                       fillOpacity = 0, fillColor = "white",
+                       # group = "Selectable stations",
+                       layerId = stations$regine_main)
+      
+      #     addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
+#                      popup = paste(as.character(stations$nbname),
+#                                    sep = " "), radius = 5, 
+#                      color = "black", weight = 4, stroke = TRUE,
+#                      fillOpacity = 0, fillColor = "white",
+#                      # group = "Selectable stations",
+#                      layerId = stations$regine_main)
+  
     
   ## Add catchment boundaries to the map and change base layer
   if (catchments == TRUE) {
@@ -122,8 +125,6 @@ single_station_map <- function(stations, selected_nbname = NULL,
   }
   if (map_layer == "aerial") {
     map <- addProviderTiles(map, "Esri.WorldImagery", group = "Esri.WorldImagery") 
-      
-      
 #       addWMSTiles(map, "http://wms.geonorge.no/skwms1/wms.nib",
 #                        layers = "ortofoto",
 #                        # "http://wms.geonorge.no/skwms1/wms.terrengmodell",
