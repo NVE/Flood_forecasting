@@ -94,4 +94,9 @@ ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
       
 
 
+# # From Radiant app. To integrate
+# help_and_report(modal_title = "Design of Experiments", fun_name = "doe",
+#                 help_file = inclMD(file.path(r_path,"analytics/tools/help/doe.md")))
+
+
     
