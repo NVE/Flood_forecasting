@@ -36,6 +36,11 @@ server <- function(input, output, session) {
   
   callModule(OLD_mapModule_polygonFeature,"map_polygon")  
   
+  callModule(table_mod,"metadata_table", meta_data) 
+  callModule(table_mod,"RL_table", flomtabell) 
+  callModule(table_mod,"HBV_2014_table", HBV_2014) 
+  callModule(table_mod,"HBV_2016_table", HBV_2016) 
+  callModule(table_mod,"DDD_table", DDD) 
 
   
   

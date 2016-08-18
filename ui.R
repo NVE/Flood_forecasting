@@ -76,10 +76,22 @@ ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
                                      # forecast_plot_mod_shadingUI("forecast_plot_shading_DDD")
                             )
                  ),
-                 navbarMenu("Mapping tools", icon = icon("globe")
-
-#                             ,
-#                             tabPanel("Map2")
+                 navbarMenu("Table tools", icon = icon("globe"),
+                            tabPanel("Metadata",
+                                     table_modUI("metadata_table")
+                            ),
+                            tabPanel("Return levels",
+                                     table_modUI("RL_table")
+                            ),
+                            tabPanel("HBV_2014",
+                                     table_modUI("HBV_2014_table")
+                            ),
+                            tabPanel("HBV_2016",
+                                     table_modUI("HBV_2016_table")
+                            ),
+                            tabPanel("DDD",
+                                     table_modUI("DDD_table")
+                            )
                  ),
                 navbarMenu("Historical tools", icon = icon("history"),
                             tabPanel("Past forecasting performance"
@@ -97,6 +109,15 @@ ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
 # # From Radiant app. To integrate
 # help_and_report(modal_title = "Design of Experiments", fun_name = "doe",
 #                 help_file = inclMD(file.path(r_path,"analytics/tools/help/doe.md")))
+
+# output$dtree_save_yaml <- downloadHandler(
+#   filename = function() {"dtree.yaml"},
+#   content = function(file) {
+#     isolate({
+#       cat(paste0(input$dtree_edit,"\n"), file = file)
+#     })
+#   }
+# )
 
 
     

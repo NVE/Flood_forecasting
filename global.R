@@ -40,6 +40,7 @@ ipak(packages)
 ## My modules: either load package or source modules from this directory
 # library(ShinyModules)
 source('map_modules.R')
+source('table_modules.R')
 source('plot_modules.R')
 source('plotting_functions.R')
 source('mapping_functions.R')
