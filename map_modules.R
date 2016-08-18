@@ -44,7 +44,7 @@ mapModule <- function(input, output, session) {
   observeEvent(input$map_marker_click, { # update the map markers and view on map clicks
     p <- input$map_marker_click
     
-    updateSelectInput(session, inputId='station', selected =  station_nbname[which(station_numbers %in% p$id)], 
+    updateSelectInput(session, inputId='station', selected =  c(input$station, station_nbname[which(station_numbers %in% p$id)]), 
                       label = "Choose a station", choices = station_nbname)
   })
   
