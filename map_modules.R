@@ -17,7 +17,12 @@ mapModuleUI <- function(id, multiple_choice = FALSE) {
   ),
   column(2,
          checkboxInput(ns("popups"), "Pop-ups for selected stations", FALSE)
+  ),
+  column(2,
+         radioButtons(ns("variable"), selected = "none", 
+                      label = "Select a color markers", choices = c("none", "flood_warning", "uncertainty"))
   )
+  
   )
   
 }
@@ -30,7 +35,7 @@ mapModule <- function(input, output, session) {
   
   output$map <- renderLeaflet({single_station_map(stations, input$station,
                                                   selected_long(),
-                                                  selected_lat(), map_layer = input$map_layer, catchments = input$catchments, colored_markers = TRUE)})
+                                                  selected_lat(), variable2plot = input$variable, map_layer = input$map_layer, catchments = input$catchments, colored_markers = FALSE)})
   
   ns <- session$ns
   proxy <- leafletProxy(ns("map"), session)  
