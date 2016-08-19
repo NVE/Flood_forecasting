@@ -52,7 +52,7 @@ source('mapping_functions.R')
 hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
-setwd("D:/Flomvarsling")
+setwd("C:\Users\flbk\Documents\GitHub\shiny_experiments")
 load(paste(getwd(), "/HBV_2014.RData", sep = ""))
 load(paste(getwd(), "/HBV_2016.RData", sep = ""))
 load(paste(getwd(), "/DDD.RData", sep = ""))
