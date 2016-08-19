@@ -37,8 +37,6 @@
 
 ############################################################
 
-setwd(getwd())
-
 ## My modules: either load package or source modules from this directory
 # library(ShinyModules)
 source('map_modules.R')
@@ -52,12 +50,21 @@ source('mapping_functions.R')
 
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
-load("HBV_2014.RData")
-load("HBV_2016.RData")
-load("DDD.RData")
-load("flomtabell.RData")
-load("HBV_past_year.RData")
-load("meta_data.rda")
+
+load(paste(getwd(), "/HBV_2014.RData", sep = ""))
+load(paste(getwd(), "/HBV_2016.RData", sep = ""))
+load(paste(getwd(), "/DDD.RData", sep = ""))
+load(paste(getwd(), "/flomtabell.RData", sep = ""))
+load(paste(getwd(), "/HBV_past_year.RData", sep = ""))
+load(paste(getwd(), "/meta_data.rda", sep = ""))
+
+
+# load("HBV_2014.RData")
+# load("HBV_2016.RData")
+# load("DDD.RData")
+# load("flomtabell.RData")
+# load("HBV_past_year.RData")
+# load("meta_data.rda")
 hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
 station_numbers <- as.character(unique(HBV_2014$regine.main))  # All of the HBV_2016 and DD stations are in HBV_2014
 station_names <- as.character(unique(HBV_2014$station.name))  # May not be optimal (if 2 stations had same name), but it works
