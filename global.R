@@ -36,11 +36,11 @@
 
 ############################################################
 
-setwd("C:/Users/flbk/Documents/GitHub/shiny_experiments")
+
 
 ## My modules: either load package or source modules from this directory
 # library(ShinyModules)
-source('map_modules.R')
+source((paste(getwd(), 'map_modules.R', sep = "")
 source('table_modules.R')
 source('plot_modules.R')
 source('plotting_functions.R')
@@ -52,7 +52,7 @@ source('mapping_functions.R')
 
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
-
+setwd("C:/Users/flbk/Documents/GitHub/shiny_experiments")
 load(paste(getwd(), "/HBV_2014.RData", sep = ""))
 load(paste(getwd(), "/HBV_2016.RData", sep = ""))
 load(paste(getwd(), "/DDD.RData", sep = ""))
