@@ -37,8 +37,6 @@
 
 ############################################################
 
-setwd(getwd())
-
 ## My modules: either load package or source modules from this directory
 # library(ShinyModules)
 source('map_modules.R')
