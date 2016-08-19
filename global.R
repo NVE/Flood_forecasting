@@ -49,7 +49,7 @@ source('mapping_functions.R')
 # Source all files from the RCura version of leaflet DOESNT WORK
 # file.sources = list.files("./leaflet-plugins", pattern="*.R", full.names=TRUE)
 # for (f in file.sources) {source(f) }
-
+hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
 setwd("C:/Users/flbk/Documents/GitHub/shiny_experiments")
@@ -67,7 +67,7 @@ load(paste(getwd(), "/meta_data.rda", sep = ""))
 # load("flomtabell.RData")
 # load("HBV_past_year.RData")
 # load("meta_data.rda")
-hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
+
 station_numbers <- as.character(unique(HBV_2014$regine.main))  # All of the HBV_2016 and DD stations are in HBV_2014
 station_names <- as.character(unique(HBV_2014$station.name))  # May not be optimal (if 2 stations had same name), but it works
 station_nbname <- as.character(unique(HBV_2014$nbname))
