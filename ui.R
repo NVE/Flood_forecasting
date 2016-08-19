@@ -45,6 +45,7 @@ ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
 #                                   img(src='multimodel_tab_with_warning.png', align = "center"))
 #           
 #                  ),
+
                  navbarMenu("Multi-station / Multi-model", icon = icon("random"),
                   tabPanel("DropDown station selection", 
                           mapModuleUI("multistation_map", multiple = TRUE),
