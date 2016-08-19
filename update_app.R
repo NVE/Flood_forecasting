@@ -36,8 +36,15 @@ library(NVEDATA)
 load_flood_data()
 ############################################################################################################
 
-
 stopApp()
+
+load("HBV_2014.RData")
+load("HBV_2016.RData")
+load("DDD.RData")
+load("flomtabell.RData")
+load("HBV_past_year.RData")
+load("meta_data.rda")
+
 runGitHub("Flood_forecasting", "fbaffie", ref = "operational", launch.browser = TRUE)
 # runApp(launch.browser = TRUE)
 
