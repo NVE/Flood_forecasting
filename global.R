@@ -40,7 +40,7 @@
 
 ## My modules: either load package or source modules from this directory
 # library(ShinyModules)
-source((paste(getwd(), 'map_modules.R', sep = "")
+source('map_modules.R')
 source('table_modules.R')
 source('plot_modules.R')
 source('plotting_functions.R')
