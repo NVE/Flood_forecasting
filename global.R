@@ -36,7 +36,7 @@
 
 ############################################################
 
-setwd("C:/Users/flbk/Documents/GitHub/Flood_forecasting")
+setwd("C:/Users/flbk/Documents/GitHub/shiny_experiments")
 
 ## My modules: either load package or source modules from this directory
 # library(ShinyModules)
