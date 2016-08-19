@@ -2,49 +2,6 @@
 
 ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
                  
-                 tabPanel("About", icon = icon("info"),
-                          
-                          fluidRow(
-                            column(6, wellPanel(
-                              wellPanel(includeMarkdown("about.md")))
-
-                              ),
-                            column(6,
-                              img(src='flood.jpg', align = "right")
-                            )),
-                          # TAB 1
-                          fluidRow(
-                            column(6,
-                                   wellPanel(includeMarkdown("tab1.md"))
-                                   ),
-                            column(6,
-                                   img(id = "tab1", src='multimodel_tab_with_warning.png', align = "right")
-                          )),
-                          bsModal("modalExample", "Your plot", "tab1", size = "large",
-                                  img(src='multimodel_tab_with_warning.png', align = "center")),
-                          bsTooltip("tab1", "Click to enlarge", 
-                                    "left", options = list(container="body")),
-                 
-                          # TAB 2
-                          fluidRow(
-                            column(6,
-                                   wellPanel(includeMarkdown("tab2.md"))),
-                            column(6,
-                                   img(id = "tab2", src='multimodel_tab_with_warning.png', align = "right")
-                            )),
-                          bsModal("modalExample", "Your plot", "tab2", size = "large",
-                                  img(src='multimodel_tab_with_warning.png', align = "center")),
-                          # TAB 3
-                          fluidRow(
-                            column(6,
-                                   wellPanel(includeMarkdown("tab3.md"))),
-                            column(6,
-                                   img(id = "tab3", src='multimodel_tab_with_warning.png', align = "right")
-                            )),
-                          bsModal("modalExample", "Your plot", "tab3", size = "large",
-                                  img(src='multimodel_tab_with_warning.png', align = "center"))
-          
-                 ),
                  navbarMenu("Multi-station / Multi-model", icon = icon("random"),
                   tabPanel("DropDown station selection", 
                           mapModuleUI("multistation_map", multiple = TRUE),
