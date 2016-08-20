@@ -7,7 +7,8 @@
 
 single_station_map <- function(stations, selected_nbname = NULL,
                                selected_long  = NULL,
-                               selected_lat  = NULL, variable2plot = "none", map_layer = "open streetmap", catchments = FALSE, colored_markers = FALSE, radius_function = TRUE)  {
+                               selected_lat  = NULL, variable2plot = "none", map_layer = "open streetmap", catchments = FALSE, 
+                               colored_markers = FALSE, radius_function = TRUE, popups = FALSE)  {
   
   ## Functions controling color and size of markers
   my.colors <- c("blue", "green", "yellow", "orange", "red", "black")
@@ -26,14 +27,36 @@ single_station_map <- function(stations, selected_nbname = NULL,
      radius <- 4
    }
  }
-  
+
   ## Custom icon
 #   custom_icon <- iconList(blue = makeIcon("./www/icon.png", iconWidth = 24, iconHeight =32),
 #                          green = makeIcon("/Users/jazzurro/Documents/Stack Overflow/green.png", iconWidth = 24, iconHeight =32),
 #                          orange = makeIcon("/Users/jazzurro/Documents/Stack Overflow/orange.png", iconWidth = 24, iconHeight =32))
   
   map <- leaflet() %>% setView(13, 64, zoom = 5)
-    
+
+  
+#   if (popups == TRUE) {
+#     # map <- map %>% clearPopups()
+#     for (i in seq(along = selected_nbname)) {
+#       print(i)
+#       print(selected_long[i])
+#       print(selected_lat[i])
+#       print(selected_nbname[i])
+#       addPopups(map, lng = as.numeric(selected_long[i]), lat = as.numeric(selected_lat[i]), paste(selected_nbname[i]),
+#                 options = popupOptions(closeButton = FALSE, maxWidth = 100), group = "Show popups",
+#                 data = getMapData(map))
+#     }
+#     addLayersControl(map, position = "topright",
+#                      overlayGroups = c("Show popups"))
+#   } else if (popups == FALSE) {
+#     # map <- map %>% clearPopups()
+#   }
+#   
+  
+  
+  
+      
   ## Color the markers to indicate potential flood issues
   if (variable2plot == "flood_warning") {
     
@@ -65,7 +88,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
                        color = "white", weight = 0, stroke = TRUE,
                        fillOpacity = 0, fillColor = "white",
                        # group = "Selectable stations",
-                       layerId = stations$regine_main)
+                       layerId = stations$nbname)
   }
   
     if (variable2plot == "uncertainty")  {
@@ -94,11 +117,14 @@ single_station_map <- function(stations, selected_nbname = NULL,
                     opacity = 1) %>%
           addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
                            popup = paste(as.character(stations$nbname),"Warning ratio:", round(stations$uncertainty,2),
-                                         sep = " "), radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
+                                         sep = " "),
+                           
+                           
+                           radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
                            color = "white", weight = 0, stroke = TRUE,
                            fillOpacity = 0, fillColor = "white",
                            # group = "Selectable stations",
-                           layerId = stations$regine_main)
+                           layerId = stations$nbname)
         
     } 
   if (variable2plot == "none") {
@@ -108,8 +134,10 @@ single_station_map <- function(stations, selected_nbname = NULL,
                            color = "black", weight = 4, stroke = TRUE,
                            fillOpacity = 1, fillColor = "black",
                            # group = "Selectable stations",
-                           layerId = stations$regine_main)
+                           layerId = stations$nbname)
   }
+  
+
 
   ## Add catchment boundaries to the map and change base layer
   if (catchments == TRUE) {

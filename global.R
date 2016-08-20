@@ -49,17 +49,22 @@ source('mapping_functions.R')
 # Source all files from the RCura version of leaflet DOESNT WORK
 # file.sources = list.files("./leaflet-plugins", pattern="*.R", full.names=TRUE)
 # for (f in file.sources) {source(f) }
+
 hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
+
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
-setwd("C:/Users/flbk/Documents/GitHub/shiny_experiments")
+
+
+setwd("C:/Users/flbk/Documents/GitHub/shiny_experiments")    # UPDATE PATH!
+
+
 load(paste(getwd(), "/HBV_2014.RData", sep = ""))
 load(paste(getwd(), "/HBV_2016.RData", sep = ""))
 load(paste(getwd(), "/DDD.RData", sep = ""))
 load(paste(getwd(), "/flomtabell.RData", sep = ""))
 load(paste(getwd(), "/HBV_past_year.RData", sep = ""))
 load(paste(getwd(), "/meta_data.rda", sep = ""))
-
 
 # load("HBV_2014.RData")
 # load("HBV_2016.RData")
@@ -86,7 +91,7 @@ stations$nbname <- paste(stations$regine_main, "-", station_names[match(stations
 HBV_2014_SimCorr <- dplyr::filter(HBV_2014, Type == "Runoff" & Variable == "SimCorr")
 HBV_2014_SimCorr_maxed <- group_by(HBV_2014_SimCorr, nbname, regine.main) %>% dplyr::summarise(maxed = max(na.omit(Values)))
 
-flom_obs1Y <- dplyr::filter(flomtabell, Type == "Obs" & Variable == "1Y") 
+flom_obs1Y <- dplyr::filter(flomtabell, Type == "Obs" & Variable == "mean") 
 
 index_HBV <- match(stations$regine_main, HBV_2014_SimCorr_maxed$regine.main)
 index_flomtabell <- match(HBV_2014_SimCorr_maxed$regine.main, flom_obs1Y$regine.main)
