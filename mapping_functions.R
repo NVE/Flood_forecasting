@@ -32,16 +32,16 @@ single_station_map <- function(stations, selected_nbname = NULL,
 #                          green = makeIcon("/Users/jazzurro/Documents/Stack Overflow/green.png", iconWidth = 24, iconHeight =32),
 #                          orange = makeIcon("/Users/jazzurro/Documents/Stack Overflow/orange.png", iconWidth = 24, iconHeight =32))
   
-  map <- leaflet() %>% setView(13, 64, zoom = 5)
+  # map <- leaflet() %>% setView(13, 64, zoom = 5)
     
   ## Color the markers to indicate potential flood issues
   if (variable2plot == "flood_warning") {
-    
+    print("flood_warning")
     index <- is.na(stations$flood_warning)
     NA_stations <- lapply(stations, function(x) x[index])
     OK_stations <- lapply(stations, function(x) x[!index])
     
-    map <- map %>%
+    map <- leaflet() %>% setView(13, 64, zoom = 5) %>%
       addCircleMarkers(data = OK_stations, lng = ~ longitude, lat = ~ latitude, 
                        radius = ~my.radius.func(OK_stations$flood_warning), 
                        color = ~my.color.func(OK_stations$flood_warning, my.colors), 
@@ -60,21 +60,22 @@ single_station_map <- function(stations, selected_nbname = NULL,
                 title = "Max forecast / mean annual flood",
                 opacity = 1) %>%
       addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
-                       popup = paste(as.character(stations$nbname),"Warning ratio:", round(stations$flood_warning,2),
-                                     sep = " "), radius = ~my.radius.func(OK_stations$flood_warning), 
+#                        popup = paste(as.character(stations$nbname),"Warning ratio:", round(stations$flood_warning,2),
+#                                      sep = " "),
+                       radius = ~my.radius.func(OK_stations$flood_warning), 
                        color = "white", weight = 0, stroke = TRUE,
                        fillOpacity = 0, fillColor = "white",
                        # group = "Selectable stations",
-                       layerId = stations$regine_main)
+                       layerId = stations$nbname)
   }
   
     if (variable2plot == "uncertainty")  {
-  
+      print("uncertainty")
       index <- is.na(stations$uncertainty)
       NA_stations_uncertainty <- lapply(stations, function(x) x[index])
       OK_stations_uncertainty <- lapply(stations, function(x) x[!index])
       
-        map <- map %>%
+        map <- leaflet() %>% setView(13, 64, zoom = 5) %>%
           addCircleMarkers(data = OK_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
                            radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
                            color = ~my.color.func(OK_stations_uncertainty$uncertainty, my.colors), 
@@ -93,22 +94,25 @@ single_station_map <- function(stations, selected_nbname = NULL,
                     title = "Max forecast / mean annual flood",
                     opacity = 1) %>%
           addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
-                           popup = paste(as.character(stations$nbname),"Warning ratio:", round(stations$uncertainty,2),
-                                         sep = " "), radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
+#                            popup = paste(as.character(stations$nbname),"Uncertainty:", round(stations$uncertainty,2),
+#                                          sep = " "), 
+                           radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
                            color = "white", weight = 0, stroke = TRUE,
                            fillOpacity = 0, fillColor = "white",
                            # group = "Selectable stations",
-                           layerId = stations$regine_main)
+                           layerId = stations$nbname)
         
     } 
   if (variable2plot == "none") {
-    map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                           popup = paste(as.character(stations$nbname),
-                                         sep = " "), radius = 5, 
+    print("none")
+    map <- leaflet() %>% setView(13, 64, zoom = 5) %>% addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
+#                            popup = paste(as.character(stations$nbname),
+#                                          sep = " "),
+                           radius = 5, 
                            color = "black", weight = 4, stroke = TRUE,
                            fillOpacity = 1, fillColor = "black",
                            # group = "Selectable stations",
-                           layerId = stations$regine_main)
+                           layerId = stations$nbname)
   }
 
   ## Add catchment boundaries to the map and change base layer

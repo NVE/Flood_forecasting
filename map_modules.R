@@ -44,7 +44,7 @@ mapModule <- function(input, output, session) {
   observeEvent(input$map_marker_click, { # update the map markers and view on map clicks
     p <- input$map_marker_click
     
-    updateSelectInput(session, inputId='station', selected =  c(input$station, station_nbname[which(station_numbers %in% p$id)]), 
+    updateSelectInput(session, inputId='station', selected =  c(input$station, p$id), # station_nbname[which(station_numbers %in% p$id)]
                       label = "Choose a station", choices = station_nbname)
   })
   
@@ -54,10 +54,25 @@ mapModule <- function(input, output, session) {
 #     } else {proxy %>% clearGeoJSON()}
 #   })
   
-  observeEvent(input$popups, {
+  observe({
     if (length(selected_long()) > 0 && input$popups == TRUE) {
-      proxy %>% addPopups(selected_long(), selected_lat(), paste("Station:", input$station, sep = " "),
-                          options = popupOptions(closeButton = FALSE, maxWidth = 100))
+      if (input$variable == "none") {
+        proxy %>% clearPopups()
+        proxy %>% addPopups(selected_long(), selected_lat(), paste(as.character(stations$nbname), sep = " "),
+                            options = popupOptions(closeButton = FALSE, maxWidth = 100))
+      }
+#     if (input$variable == "flood_warning") {
+#       proxy %>% clearPopups()
+#       proxy %>% addPopups(selected_long(), selected_lat(), paste(as.character(stations$nbname),"Warning ratio:", round(stations$flood_warning,2), sep = " "),
+#                           options = popupOptions(closeButton = FALSE, maxWidth = 100))
+#       
+#     }
+#       if (input$variable == "uncertainty") {
+#         proxy %>% clearPopups()
+#         proxy %>% addPopups(selected_long(), selected_lat(), paste(as.character(stations$nbname),"Uncertainty:", round(stations$uncertainty,2), sep = " "),
+#                             options = popupOptions(closeButton = FALSE, maxWidth = 100))
+#       }
+      
     } else {proxy %>% clearPopups()}
   })
   

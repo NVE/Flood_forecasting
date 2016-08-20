@@ -65,7 +65,7 @@ station_nbname <- as.character(unique(HBV_2014$nbname))
 ## Metadata organized as below is needed for the maps.
 # Maybe we can streamline with the rest later
 station_indices <- which(meta_data$regine_main %in% station_numbers)  # 1 station in HBV_2014 is not in the metadata
-stations <- lapply(meta_data, function(x) x[station_indices])
+stations <- lapply(meta_data, function(x) {x[station_indices]})
 # stations$nbname_SPECIALCHAR <- paste(stations$regine_main, "-", stations$name, sep ="")
 stations$nbname <- paste(stations$regine_main, "-", station_names[match(stations$regine_main, station_numbers)], sep ="")
 
