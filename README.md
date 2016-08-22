@@ -8,21 +8,22 @@ Provide the flood forecasters with an easy to use and customizable graphical use
 ## Running the app
 
 ```R
-# Create a folder where the data computed by the app will be saved, open RStudio and make sure the working directory is the folder you created:
-setwd("C:/YOURPATH")
-# Be careful, the path uses / and not \ that windows explorer will give you
-
-# Then install the "shiny" package. Open RStudio, go to Tools -> Install packages and type "shiny"
+# IF YOU ARE HAVE NOT INSTALLED THE SHINY PACKAGE
+# Install the "shiny" package. Open RStudio, go to Tools -> Install packages and type "shiny"
 # If it is the first package you install I will likely suggest a path to install future packages. It is usually a sensible path, so check and click accept.
 
 # Another way to install the package is to type
 install.packages('shiny')
 # But this command chooses strange default paths so please use the RStudio buttons for installing your first package.
 
-# Then load the package and run the app:
+# ----------------------------------------------- #
+# IF YOU HAVE ALREADY INSTALLED SHINY
+
+# Load the shiny package and run the app:
 library(shiny)
 runGitHub("Flood_forecasting", "fbaffie", ref = "operational_manual")
-# If you want to update the data used by the app, first press the "Stop" button on RStudio to stop the app. Then run again:
+
+# If you want to update the data used by the app, first press the "Stop" button on RStudio to stop the app (Top right of the console). # Then run again:
 library(shiny)
 runGitHub("Flood_forecasting", "fbaffie", ref = "operational_manual")
 ```
