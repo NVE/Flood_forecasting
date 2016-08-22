@@ -56,7 +56,8 @@ hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n
 # This creates the global variable
 
 
-setwd("C:/Users/flbk/Documents/GitHub/shiny_experiments")    # UPDATE PATH!
+# setwd("C:/Users/flbk/Documents/GitHub/shiny_experiments")    # UPDATE PATH!
+setwd("//nve/fil/h/Fastgrupper/Varslingstjenester-flom-jordskred/VarslingsVerktoy")
 
 
 load(paste(getwd(), "/HBV_2014.RData", sep = ""))
