@@ -8,7 +8,10 @@ Provide the flood forecasters with an easy to use and customizable graphical use
 ## Running the app
 
 ```R
-# First install the "shiny" package. Open RStudio, go to Tools -> Install packages and type "shiny"
+# Create a folder where the data computed by the app will be saved, open RStudio and make sure the working directory is the folder you created:
+setwd("C:/YOURPATH")
+
+# Then install the "shiny" package. Open RStudio, go to Tools -> Install packages and type "shiny"
 # If it is the first package you install I will likely suggest a path to install future packages. It is usually a sensible path, so check and click accept.
 
 # Another way to install the package is to type
