@@ -7,14 +7,22 @@ Provide the flood forecasters with an easy to use and customizable graphical use
 
 ## Running the app
 
+Notes:
+- You first need to install R and RStudio (via the NVE Programvaresenteret, outside of the TS10 remote desktop connection)
+- You need to have access to hdata to run the app (the program reads flood forecasting data stored there)
+
 ```R
 # IF YOU ARE HAVE NOT INSTALLED THE SHINY PACKAGE
-# Install the "shiny" package. Open RStudio, go to Tools -> Install packages and type "shiny"
-# If it is the first package you install I will likely suggest a path to install future packages. It is usually a sensible path, so check and click accept.
+
+# Install the "shiny" package: Open RStudio, go to Tools -> Install packages and type "shiny"
+# If it is the first package you install I will likely suggest a path to install future packages. It is usually a sensible path, so
+# check and click accept.
 
 # Another way to install the package is to type
 install.packages('shiny')
-# But this command chooses strange default paths so please use the RStudio buttons for installing your first package.
+# This command usually chooses a strange default installation directory for R packages so please use the RStudio buttons for
+# installing your first package.
+# For subsequent packages, you can then use "install.packages('PACKAGE_NAME') and it will use the directory chosen earlier.
 
 # ----------------------------------------------- #
 # IF YOU HAVE ALREADY INSTALLED SHINY
