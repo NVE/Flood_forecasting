@@ -15,7 +15,7 @@
    install_github("fbaffie/leaflet")
  }
  
- packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS", "DT")
+ packages <- c("munsell", "labeling", "curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS", "DT")
  ipak(packages)
  # sp: For the point.in.polygon function
 
