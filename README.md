@@ -20,9 +20,9 @@ Notes:
 
 # Another way to install the package is to type
 install.packages('shiny')
-# This command usually chooses a strange default installation directory for R packages so please use the RStudio buttons for
-# installing your first package.
-# For subsequent packages, you can then use "install.packages('PACKAGE_NAME') and it will use the directory chosen earlier.
+# If no packages have been installed previously, this command will usually choose a strange default installation directory for R
+# packages so please use the RStudio buttons for installing your first package.
+# For subsequent packages, you can then use "install.packages('PACKAGE_NAME') and it will use the directory selected earlier.
 
 # ----------------------------------------------- #
 # IF YOU HAVE ALREADY INSTALLED SHINY
