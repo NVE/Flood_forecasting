@@ -184,12 +184,12 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
   observe({
     if ("Input" %in% input$type_choice) {
       
-      subset2plot_m1 <- reactive(subset2plot_m1 <- dplyr::filter(model_1, nbname %in% map_input$station & Type == "Input") )
-      subset2plot_m2 <- reactive(subset2plot_m1 <- dplyr::filter(model_2, nbname %in% map_input$station & Type == "Input") )
-      subset2plot_m3 <- reactive(subset2plot_m1 <- dplyr::filter(model_3, nbname %in% map_input$station & Type == "Input") )
+      subset2plot_i1 <- dplyr::filter(model_1, nbname %in% map_input$station & Type == "Input") 
+      subset2plot_i2 <- dplyr::filter(model_2, nbname %in% map_input$station & Type == "Input") 
+      subset2plot_i3 <- dplyr::filter(model_3, nbname %in% map_input$station & Type == "Input") 
       
-      output$plot_input <- renderPlotly(forecast_plot(subset2plot_m1(), subset2plot_m2(), 
-                                                      subset2plot_m3()))
+      output$plot_input <- renderPlotly(multimod_forecast_plot(subset2plot_i1, subset2plot_i2, 
+                                                      subset2plot_i3))
     }
   })
   

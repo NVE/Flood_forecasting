@@ -56,7 +56,7 @@ hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n
 # This creates the global variable
 
 
-setwd("C:/Users/hvflom/Documents/GitHub/Flood_forecasting")    # UPDATE PATH!
+# setwd("C:/Users/hvflom/Documents/GitHub/Flood_forecasting")    # UPDATE PATH!
 # setwd("//nve/fil/h/Fastgrupper/Varslingstjenester-flom-jordskred/VarslingsVerktoy")
 
 

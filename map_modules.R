@@ -48,26 +48,35 @@ mapModule <- function(input, output, session) {
                       label = "Choose a station", choices = station_nbname)
   })
   
-#   observeEvent(input$catchments, {
-#     if (input$catchments == TRUE) {
-#       proxy %>% addGeoJSON(hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
-#     } else {proxy %>% clearGeoJSON()}
-#   })
-  
-#   observeEvent(input$popups, {
-#     if (length(selected_long()) > 0 && input$popups == TRUE) {
-#       proxy %>% clearPopups()
-#       for (i in seq(along = selected_long())) {
-#         proxy %>% addPopups(selected_long()[i], selected_lat()[i], paste("Station:", input$station[i], sep = " "),
-#                             options = popupOptions(closeButton = FALSE, maxWidth = 100))
-#         
-#       }
+#   observeEvent({ input$stations
+#                  input$popups
+#                  input$variable
+#                  input$map_marker_click}, {
+observe({
+    if (length(selected_long()) > 0 && input$popups == TRUE) {
+      proxy %>% clearPopups()
+      for (i in seq(along = selected_long())) {
+        station_index <- which(stations$nbname ==  input$station[i])
+        long <- stations$longitude[station_index]
+        lat <- stations$latitude[station_index]
+        
+        if (input$variable == "flood_warning") {
+          proxy %>% addPopups(long, lat, paste(input$station[i], "Ratio:", round(stations$flood_warning[station_index],2), sep = " "),
+                              options = popupOptions(closeButton = FALSE, maxWidth = 100))
+        }
+        else if (input$variable == "uncertainty") {
+          proxy %>% addPopups(long, lat, paste(input$station[i], "Ratio:", round(stations$uncertainty[station_index],2), sep = " "),
+                              options = popupOptions(closeButton = FALSE, maxWidth = 100))
+          
+        } else {
+          
+        proxy %>% addPopups(long, lat, paste(input$station[i], sep = " "),
+                                 options = popupOptions(closeButton = FALSE, maxWidth = 100))
+        }
+      }
       
-      
-#       proxy %>% addPopups(selected_long(), selected_lat(), paste("Station:", input$station, sep = " "),
-#                           options = popupOptions(closeButton = FALSE, maxWidth = 100))
-#     } else {proxy %>% clearPopups()}
-#   })
+    } else {proxy %>% clearPopups()}
+  })
   
   
   return(input)
