@@ -50,10 +50,10 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
   d <- ggplot() + scale_colour_manual(
     values = c("Obs" = cbPalette[1],"SimRaw" = cbPalette[2],"Sim.sim" = cbPalette[2],
                "SimCorr" = cbPalette[3],"Sim.sim.corr" = cbPalette[3], "Sim.obs" = cbPalette[4],
-               "Sim" = cbPalette[5],"SimPrecipM50" = cbPalette[6], "SimPrecipP50" = cbPalette[6],
+               "DDD.Sim" = cbPalette[5],"SimPrecipM50" = cbPalette[6], "SimPrecipP50" = cbPalette[6],
                "SimH50" = cbPalette[7], "SimL50" = cbPalette[7],
                "SimH90" = cbPalette[8], "SimL90" = cbPalette[8],
-               "1Y" = "yellow", "5Y" = "orange", "50Y" = "red"))
+               "mean" = "yellow", "5Y" = "orange", "50Y" = "red"))
   p <- 0
   # We check every that each dataset is not an empty data frame.
   if (is.data.frame(dat_1) && nrow(dat_1) > 0) {
@@ -102,16 +102,24 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
     d <- d +
       facet_grid(regine.main ~ . , scales = "free") +
       theme_bw() + 
-      scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
+      scale_x_date(date_breaks = "1 day", date_labels = "%m %d") +
+      theme(axis.title.x = element_blank()) +   # Remove x-axis label
+      ylab("Runoff (m3/s)")                       # Set y-axis label
+      # theme(axis.text.x = element_text(angle = 90, size = 12) ) # plot.margin = unit(c(10,0,0,0),"mm")
+    # theme(plot.margin=unit(c(0,0,0,0),"mm")) 
+      
   }
 
+  # l <- plotly_build(d)  # %>%  layout(margin = list(l=100)) 
+  # l$layout$margin$l <- l$layout$margin$l + 100
   return(ggplotly(d))
+  # return(l)
 }
 
 multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL) {
   
-  print("prout")
-  print(summary(dat_1))
+#   print("prout")
+#   print(summary(dat_1))
   d <- ggplot()
   
   if (length(dat_1) > 0) {
@@ -135,7 +143,10 @@ multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL,
   }
   d <- d +
     theme_bw() + 
-    scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
+    scale_x_date(date_breaks = "1 day", date_labels = "%m %d") +
+    theme(axis.title.x = element_blank()) +   # Remove x-axis label
+    ylab("Runoff (m3/s)")                       # Set y-axis label
+    
   
   # if (length(dat_1) > 0 | length(dat_2) > 0 | length(dat_3) > 0 | length(dat_4) > 0) {
   d <- d +
