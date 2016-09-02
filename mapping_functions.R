@@ -81,14 +81,26 @@ single_station_map <- function(stations, selected_nbname = NULL,
       ) %>%
       addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
                 title = "Max forecast / mean annual flood",
-                opacity = 1) %>%
-      addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
-                       popup = paste(as.character(stations$nbname),"Warning ratio:", round(stations$flood_warning,2),
-                                     sep = " "), radius = ~my.radius.func(OK_stations$flood_warning), 
+                opacity = 1)
+      # Adding transparent markers with layerID = selected stations so that the map interactivity remains
+      if (popups == FALSE) {
+      map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
+                       popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$flood_warning,2), sep = " "), 
+                       radius = ~my.radius.func(OK_stations$flood_warning), 
                        color = "white", weight = 0, stroke = TRUE,
                        fillOpacity = 0, fillColor = "white",
                        # group = "Selectable stations",
                        layerId = stations$nbname)
+      } else {
+        map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
+                         # popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$flood_warning,2), sep = " "), 
+                         radius = ~my.radius.func(OK_stations$flood_warning), 
+                         color = "white", weight = 0, stroke = TRUE,
+                         fillOpacity = 0, fillColor = "white",
+                         # group = "Selectable stations",
+                         layerId = stations$nbname)
+        
+      }
   }
   
     if (variable2plot == "uncertainty")  {
@@ -114,23 +126,55 @@ single_station_map <- function(stations, selected_nbname = NULL,
           ) %>%
           addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
                     title = "Max forecast / mean annual flood",
-                    opacity = 1) %>%
-          addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
-                           popup = paste(as.character(stations$nbname),"Warning ratio:", round(stations$uncertainty,2),
-                                         sep = " "),
-                           
-                           
-                           radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
-                           color = "white", weight = 0, stroke = TRUE,
-                           fillOpacity = 0, fillColor = "white",
-                           # group = "Selectable stations",
-                           layerId = stations$nbname)
+                    opacity = 1)
+        
+        if (popups == FALSE) {
+          map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
+                                  popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations_uncertainty$uncertainty,2), sep = " "), 
+                                  radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
+                                  color = "white", weight = 0, stroke = TRUE,
+                                  fillOpacity = 0, fillColor = "white",
+                                  # group = "Selectable stations",
+                                  layerId = stations$nbname)
+        } else {
+          map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
+                                  # popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$uncertainty,2), sep = " "), 
+                                  radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
+                                  color = "white", weight = 0, stroke = TRUE,
+                                  fillOpacity = 0, fillColor = "white",
+                                  # group = "Selectable stations",
+                                  layerId = stations$nbname)
+          
+        }
+   
+        
+        
+#         if (length(selected_long) > 0 && popups == TRUE) {
+#           for (i in seq(along = selected_long)) {
+#             print(selected_nbname[i])
+#             long <- stations$longitude[which(stations$nbname ==  selected_nbname[i])]
+#             print(long)
+#             print(selected_long[i])  
+#             lat <- stations$latitude[which(stations$nbname ==  selected_nbname[i])]
+#             print(lat)
+#             print(selected_lat[i])
+#             
+#             map <- map %>% addPopups(long, lat, paste("Stat:", selected_nbname[i], sep = " "),
+#                                 options = popupOptions(closeButton = FALSE, maxWidth = 100))
+#             
+# #             map <- map %>% addPopups(selected_long[i], selected_lat[i], paste("Stat:", selected_nbname[i], sep = " "),
+# #                                      options = popupOptions(closeButton = FALSE, maxWidth = 100))
+#             
+#           }
+#         }
+        
+        
         
     } 
   if (variable2plot == "none") {
     map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                           popup = paste(as.character(stations$nbname),
-                                         sep = " "), radius = 5, 
+                          popup = paste(as.character(stations$nbname), sep = " "),
+                           radius = 5, 
                            color = "black", weight = 4, stroke = TRUE,
                            fillOpacity = 1, fillColor = "black",
                            # group = "Selectable stations",
