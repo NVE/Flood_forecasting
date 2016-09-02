@@ -17,7 +17,7 @@
 # 
 # packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS")
 # ipak(packages)
-# # sp: For the point.in.polygon function
+# sp: For the point.in.polygon function
 
 ############################################################
 # This section below could/should be cut and pasted into a makefile running on the webserver so that
