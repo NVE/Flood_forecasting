@@ -1,4 +1,4 @@
-﻿# Flood_forecasting
+# Flood_forecasting
 A Shiny app to present flood forecasting results at NVE.
 If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
 
@@ -11,7 +11,6 @@ Provide the flood forecasters with an easy to use and customizable graphical use
 This branch is intended to be run as a demonstration branch. It is not yet available on shinyapps.io
 you can also run it locally as follows:
 
-
 #### Directly from Github
 
 ```R
@@ -20,7 +19,6 @@ install.packages('shiny')
 
 # Then load the package and run the app:
 library(shiny)
-
 
 runGitHub("Flood_forecasting", "fbaffie", ref = "demo")
 
