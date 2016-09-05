@@ -18,7 +18,7 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install_github("fbaffie/leaflet")
 }
 
-packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet")
+packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS", "DT")
 ipak(packages)
 # sp: For the point.in.polygon function
 
@@ -29,17 +29,18 @@ if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
 library(devtools)
 remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
 # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
-install_github("fbaffie/NVEDATA", ref = "florian")
+install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
 
 library(NVEDATA)
 
 load_flood_data()
 ############################################################################################################
 
-
 stopApp()
-runApp(launch.browser = TRUE)
+runGitHub("Flood_forecasting", "fbaffie", ref = "operational", launch.browser = TRUE)
+# runApp(launch.browser = TRUE)
 
+# http://127.0.0.1:3921/
 
 
 # unlink("reports", recursive = TRUE, force = FALSE)

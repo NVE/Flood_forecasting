@@ -53,7 +53,7 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
                "DDD.Sim" = cbPalette[5],"SimPrecipM50" = cbPalette[6], "SimPrecipP50" = cbPalette[6],
                "SimH50" = cbPalette[7], "SimL50" = cbPalette[7],
                "SimH90" = cbPalette[8], "SimL90" = cbPalette[8],
-               "1Y" = "yellow", "5Y" = "orange", "50Y" = "red"))
+               "mean" = "yellow", "5Y" = "orange", "50Y" = "red"))
   p <- 0
   # We check every that each dataset is not an empty data frame.
   if (is.data.frame(dat_1) && nrow(dat_1) > 0) {
@@ -110,10 +110,10 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
       
   }
 
-  l <- plotly_build(d)  # %>%  layout(margin = list(l=100)) 
+  # l <- plotly_build(d)  # %>%  layout(margin = list(l=100)) 
   # l$layout$margin$l <- l$layout$margin$l + 100
-  # return(ggplotly(d))
-  return(l)
+  return(ggplotly(d))
+  # return(l)
 }
 
 multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL) {

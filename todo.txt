@@ -15,8 +15,6 @@ Add a tab with tables. We need to be able to search for a station by name.
 Need to think about the design and maybe coming bak to the idea of doing a station selection tab.
 An option to save groups of stations could be very interesting!
 
-a -10000 remains in HBV_2016 and maybe in return levels too: double check
-
 In NVEDATA: add ODM by reading the http json/txt (webchartservice)
 Grid data could be added at a later stage: "grid time series" in wiki
 htsr = hydra observed
