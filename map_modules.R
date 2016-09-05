@@ -6,30 +6,30 @@ mapModuleUI <- function(id, multiple_choice = FALSE) {
   fluidRow(
     column(8, leafletOutput(ns("map")) ),
     column(4,
-  selectInput(ns("station"), selected = station_nbname[1], 
-              label = "Choose a station", choices = station_nbname, multiple = multiple_choice)),
-  column(2,
-         radioButtons(ns("map_layer"), selected = "open streetmap", 
-                     label = "Choose a map layer", choices = c("open streetmap", "topo map", "aerial"))
+           selectInput(ns("station"), selected = station_nbname[1], 
+                       label = "Choose a station", choices = station_nbname, multiple = multiple_choice)),
+    column(2,
+           radioButtons(ns("map_layer"), selected = "open streetmap", 
+                        label = "Choose a map layer", choices = c("open streetmap", "topo map", "aerial"))
     ),
-  column(2,
-         checkboxInput(ns("catchments"), "Show catchment boundaries", FALSE)
-  ),
-  column(2,
-         checkboxInput(ns("popups"), "Pop-ups for selected stations", FALSE)
-  ),
-  column(2,
-         radioButtons(ns("variable"), selected = "none", 
-                      label = "Select a color markers", choices = c("none", "flood_warning", "uncertainty"))
-  )
-  
+    column(2,
+           checkboxInput(ns("catchments"), "Show catchment boundaries", FALSE)
+    ),
+    column(2,
+           checkboxInput(ns("popups"), "Pop-ups for selected stations", FALSE)
+    ),
+    column(2,
+           radioButtons(ns("variable"), selected = "none", 
+                        label = "Select a color markers", choices = c("none", "flood_warning", "uncertainty"))
+    )
+    
   )
   
 }
 
 mapModule <- function(input, output, session) {
   # stations is global but gets send to the mapping function so that this function can be used in other settings!
-
+  
   selected_long <- reactive(stations$long[which(station_nbname %in% input$station)])
   selected_lat <-  reactive(stations$lat[which(station_nbname %in% input$station)])
   
@@ -48,11 +48,11 @@ mapModule <- function(input, output, session) {
                       label = "Choose a station", choices = station_nbname)
   })
   
-#   observeEvent({ input$stations
-#                  input$popups
-#                  input$variable
-#                  input$map_marker_click}, {
-observe({
+  #   observeEvent({ input$stations
+  #                  input$popups
+  #                  input$variable
+  #                  input$map_marker_click}, {
+  observe({
     if (length(selected_long()) > 0 && input$popups == TRUE) {
       proxy %>% clearPopups()
       for (i in seq(along = selected_long())) {
@@ -70,8 +70,8 @@ observe({
           
         } else {
           
-        proxy %>% addPopups(long, lat, paste(input$station[i], sep = " "),
-                                 options = popupOptions(closeButton = FALSE, maxWidth = 100))
+          proxy %>% addPopups(long, lat, paste(input$station[i], sep = " "),
+                              options = popupOptions(closeButton = FALSE, maxWidth = 100))
         }
       }
       
@@ -96,13 +96,13 @@ mapModule_polygonFeature <- function(input, output, session) {
   
   # Create map and update the color of the completed polygon to green
   map <- reactive(multiple_station_map(stations, selected_regine_main(),
-                              selected_name(), selected_long(), selected_lat()) %>% 
-                  addGeoJSON(input$map_selectbox_features, color="green"))
+                                       selected_name(), selected_long(), selected_lat()) %>% 
+                    addGeoJSON(input$map_selectbox_features, color="green"))
   
   output$map <- renderLeaflet( map()   ) 
-                  
+  
   output$print_selection <- renderText({ paste("-", selected_regine_main()) })
-         
+  
   # return(selected_regine_main)
 }
 
@@ -111,21 +111,21 @@ mapModule_polygonFeatureUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
   
-# fluidPage(
-fluidRow(
-  
-      column(6, leafletOutput(ns("map")) ),
-      column(6,
-             wellPanel(h4('Select a group of stations with the map, using the polygon or rectangle tools')),
-#              wellPanel(
-#   selectInput(ns("model"), selected = "HBV_2014", 
-#               label = "Choose a model", choices = c("HBV_2014", "HBV_2016", "DDD"))
-#   ),
-  wellPanel(
-        h4('Selected stations'),    
-        verbatimTextOutput(ns("print_selection"))
-        )
-  ))
+  # fluidPage(
+  fluidRow(
+    
+    column(6, leafletOutput(ns("map")) ),
+    column(6,
+           wellPanel(h4('Select a group of stations with the map, using the polygon or rectangle tools')),
+           #              wellPanel(
+           #   selectInput(ns("model"), selected = "HBV_2014", 
+           #               label = "Choose a model", choices = c("HBV_2014", "HBV_2016", "DDD"))
+           #   ),
+           wellPanel(
+             h4('Selected stations'),    
+             verbatimTextOutput(ns("print_selection"))
+           )
+    ))
 }
 
 
@@ -147,7 +147,7 @@ fluidRow(
 # })
 
 OLD_mapModule_polygonFeature <- function(input, output, session) {
-
+  
   map <- multiple_station_map(stations, single_poly = FALSE)
   output$map <- renderLeaflet( map )
   ns <- session$ns
@@ -159,7 +159,7 @@ OLD_mapModule_polygonFeature <- function(input, output, session) {
   selected_name <- reactive(stations$name[selected_stations_indices()])
   selected_long <- reactive(stations$long[selected_stations_indices()])
   selected_lat <-  reactive(stations$lat[selected_stations_indices()])
-
+  
   observeEvent(input$catchments, {
     if (input$catchments == TRUE) {
       proxy %>% addGeoJSON(hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
@@ -173,18 +173,18 @@ OLD_mapModule_polygonFeature <- function(input, output, session) {
                           options = popupOptions(closeButton = FALSE, maxWidth = 100))
     } else {proxy %>% clearPopups()}
   })
-
+  
   output$print_selection <- renderText({ "Please select stations with the map drawing tools. You can draw several polygons / rectangles. You can delete them to modify your selection" })
   
-    observeEvent({input$variable_1
-                  input$variable_2
-                  input$variable_3
-                  input$variable_4
-                  input$type_rl
-                  input$map_selectbox_features$features}, {
-    callModule(OLD_multimod_forecast_plot, "multi_station_plot", as.character(selected_regine_main()), HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell,
-               input$variable_1, input$variable_2, input$variable_3, input$variable_4, input$type_rl)
-    output$print_selection <- renderText( paste("-", selected_regine_main()) )
+  observeEvent({input$variable_1
+    input$variable_2
+    input$variable_3
+    input$variable_4
+    input$type_rl
+    input$map_selectbox_features$features}, {
+      callModule(OLD_multimod_forecast_plot, "multi_station_plot", as.character(selected_regine_main()), HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell,
+                 input$variable_1, input$variable_2, input$variable_3, input$variable_4, input$type_rl)
+      output$print_selection <- renderText( paste("-", selected_regine_main()) )
     })
 }
 
@@ -209,26 +209,26 @@ OLD_mapModule_polygonFeatureUI <- function(id) {
       column(3,
              checkboxInput(ns("popups"), "Pop-ups for selected stations", FALSE)
       )
-      ),
+    ),
     fluidRow(
       column(2,
-               selectInput(ns("variable_1"), label = "Variables for HBV_2014", 
-                           choices = unique(filter(HBV_2014, Type == "Runoff")$Variable), multiple = TRUE) ),
+             selectInput(ns("variable_1"), label = "Variables for HBV_2014", 
+                         choices = unique(filter(HBV_2014, Type == "Runoff")$Variable), multiple = TRUE) ),
       column(2,
-               selectInput(ns("variable_2"), label = "Variables for HBV_2016", 
-                           choices = unique(filter(HBV_2016, Type == "Runoff")$Variable), multiple = TRUE) ),
+             selectInput(ns("variable_2"), label = "Variables for HBV_2016", 
+                         choices = unique(filter(HBV_2016, Type == "Runoff")$Variable), multiple = TRUE) ),
       column(2,  
-               selectInput(ns("variable_3"), label = "Variables for DDD", 
-                           choices = unique(filter(DDD, Type == "Runoff")$Variable), multiple = TRUE) ),
+             selectInput(ns("variable_3"), label = "Variables for DDD", 
+                         choices = unique(filter(DDD, Type == "Runoff")$Variable), multiple = TRUE) ),
       column(2,
-               selectInput(ns("variable_4"), label = "Variables for HBV_past_year", selected = "Obs",
-                           choices = unique(filter(HBV_past_year, Type == "Runoff")$Variable), multiple = TRUE) ),
-    column(2,
-           selectInput(ns("type_rl"), label = "Choose a method for return periods", 
-                       choices = unique(filter(flomtabell)$Type), multiple = TRUE) )),
+             selectInput(ns("variable_4"), label = "Variables for HBV_past_year", selected = "Obs",
+                         choices = unique(filter(HBV_past_year, Type == "Runoff")$Variable), multiple = TRUE) ),
+      column(2,
+             selectInput(ns("type_rl"), label = "Choose a method for return periods", 
+                         choices = unique(filter(flomtabell)$Type), multiple = TRUE) )),
     OLD_forecast_plot_modUI(ns("multi_station_plot"))
-#     fluidRow(uiOutput(ns("print_msg")),
-#              plotlyOutput(ns("plot"), height = "800px")
-#     )
+    #     fluidRow(uiOutput(ns("print_msg")),
+    #              plotlyOutput(ns("plot"), height = "800px")
+    #     )
   )
 }
