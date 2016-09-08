@@ -47,18 +47,20 @@ ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
                  #                  ),
                  
                  navbarMenu("Multi-station / Multi-model", icon = icon("random"),
-                            tabPanel("DropDown station selection", 
-                                     mapModuleUI("multistation_map", multiple = TRUE),
-                                     multimod_forecast_selection_modUI("multistation_plot"),
-                                     forecast_plot_modUI("multistation_plot")
-                            ),
-                            tabPanel("Polygon selection",
-                                     ## Commented: first intended way to do the multi-station multi-model tab
-                                     #                                      mapModule_polygonFeatureUI("map_polygon"),
-                                     #                                      multimod_forecast_selection_modUI("multi_plot")
-                                     # forecast_plot_modUI("multi_plot")
-                                     OLD_mapModule_polygonFeatureUI("map_polygon")
-                            )),
+
+                  tabPanel("DropDown station selection", 
+                          mapModuleUI("multistation_map", multiple = TRUE),
+                          multimod_forecast_selection_modUI("multistation_plot"),
+                          forecast_plot_modUI("multistation_plot")
+                  ),
+                  tabPanel("Polygon selection",
+                           ## Commented: first intended way to do the multi-station multi-model tab
+         #                                      mapModule_polygonFeatureUI("map_polygon"),
+         #                                      multimod_forecast_selection_modUI("multi_plot")
+         # forecast_plot_modUI("multi_plot")
+                          NEW_mapModule_polygonFeatureUI("map_polygon")
+                  )),
+
                  navbarMenu("Forecast - single model", icon = icon("line-chart"),
                             tabPanel("HBV_2014",
                                      mapModuleUI("map_HBV_2014"),

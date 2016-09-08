@@ -100,7 +100,7 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
 #                       color = "blue", size=1)
   if (p == 1) {
     d <- d +
-      facet_grid(regine.main ~ . , scales = "free") +
+      facet_grid(nbname ~ . , scales = "free") +
       theme_bw() + 
       scale_x_date(date_breaks = "1 day", date_labels = "%m %d") +
       theme(axis.title.x = element_blank()) +   # Remove x-axis label
@@ -150,7 +150,7 @@ multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL,
   
   # if (length(dat_1) > 0 | length(dat_2) > 0 | length(dat_3) > 0 | length(dat_4) > 0) {
   d <- d +
-    facet_grid(regine.main ~ . , scales = "free")
+    facet_grid(nbname ~ . , scales = "free")
   # }
   
   return(ggplotly(d))
