@@ -40,17 +40,6 @@ renderInputs <- function(prefix) {
              #                        length menu so we can display 5 rows per page.')
       )
       
-      ## HACK FLO
-      
-#       column(2, wellPanel(
-#         selectInput(inputId='station', selected =  station$number[37], 
-#                     label = "Pick a station", choices = station$number)
-#       )
-#       ),
-#       column(4, leafletOutput('map'))
-      
-      ## HACK FLO END
-      
       ))
   
 } 
@@ -69,35 +58,34 @@ ui <- fluidPage(theme="simplex.min.css",
                   tags$h2("Hydrological modelling with different model types"), 
                   p("Model comparisons of HBV, DDD and DDM"), 
                   
-                  dygraphOutput("mydygraph",height = 600),
+                  mydygraphModuleUI("main_page"),
 
-                
-                
-                
-                  textOutput("message", container = h3),
-                  
-                  hr(), 
-                  
-                  
+
+#                   textOutput("message", container = h3),
+#                   
+#                   hr(), 
+#                   
+#                   
+#                   fluidRow( 
+#                     
+#                     tags$h3("Model, Catchment, Zoom to period, and forecast period selection:")
+#                   ), 
+#                   fluidRow( 
+#                     
+#                     renderInputs("a")
+#                   ), 
+#                   
+#                   
                   fluidRow( 
-                    
-                    tags$h3("Model, Catchment, Zoom to period, and forecast period selection:")
-                  ), 
-                  fluidRow( 
-                    
-                    renderInputs("a")
-                  ), 
-                  
-                  
-                  fluidRow( 
-                    column(5, 
-                           
-                           dygraphOutput("mydygraph2",height = 600)
-                           
-                    ), 
-                    column(3, 
-                           plotOutput('TDplot', height = "600px") 
-                    ), 
+# #                     column(5, 
+# #                            
+# #                            mydygraph2ModuleUI("dygraph2")
+# #                            
+# #                     ), 
+#                     column(3, 
+#                            TD_moduleUI("TD_plot")
+#                            
+#                     ), 
                     
                     column(4,
                            mainPanel(
@@ -113,12 +101,5 @@ ui <- fluidPage(theme="simplex.min.css",
                     
                     
                   )
-                ,
-                # fluidRow(
-                mydygraphModuleUI("dygraph1"),
-                mydygraphModuleUI("dygraph2"),
-                mydygraphModuleUI("dygraph3")
-                # )
-                  
-                  
+                
 )

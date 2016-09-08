@@ -25,14 +25,16 @@ ipak(packages)
 
 # Loading NVEDATA to make sure I can update the data
 
-# if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
-# library(devtools)
+if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
+library(devtools)
+if (!'NVEDATA' %in% installed.packages()) {install_github("fbaffie/NVEDATA", ref = "shiny_compatible")}
+
 # remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
 # # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
 # install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
-# 
-# library(NVEDATA)
-# load_flood_data()
+
+library(NVEDATA)
+load_flood_data()
 
 ############################################################
 
