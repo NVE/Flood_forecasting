@@ -8,9 +8,8 @@ library(topmodel)
 library(DT)
 
 
-setwd("D:/Github/Flood_forecasting/byman/data")
 
-load("AllStationsAllModels1.RData")
+load("./data/AllStationsAllModels1.RData")
 
 #row.names(stnDatMaster) <- seq(nrow(stnDatMaster)) #removes strange row names from the data frame
 
@@ -19,14 +18,14 @@ load("AllStationsAllModels1.RData")
 stationNames<-unique(stnDatMaster$stN)
 modelNames<-unique(stnDatMaster$model)
 
-listForecast<-list.files(path="D:/workspace/DDM/ML/forecast/",pattern = "_AllStationsForecasts.RData")
+listForecast<-list.files(path="./data/",pattern = "_AllStationsForecasts.RData")
 
-load(paste("D:/workspace/DDM/ML/forecast/", listForecast[1],sep = ""))
+load(paste("./data/", listForecast[1],sep = ""))
 names(ddmFdataM)[5]<-strsplit(listForecast[1],"_")[[1]][1]
 forecastDat<-ddmFdataM
 
 for (i in 2:length(listForecast)){
-  load(paste("D:/workspace/DDM/ML/forecast/", listForecast[i],sep = ""))
+  load(paste("./data/", listForecast[i],sep = ""))
   forecastDat<-cbind(forecastDat,ddmFdataM[,5])
   names(forecastDat)[i+4]<-strsplit(listForecast[i],"_")[[1]][1]
 }

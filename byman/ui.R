@@ -5,8 +5,6 @@ library(zoo)
 library(DT)
 library(plotrix)
 
-
-setwd("D:/Github/Flood_forecasting/byman")
 renderInputs <- function(prefix) {
   wellPanel( 
     fluidRow( 

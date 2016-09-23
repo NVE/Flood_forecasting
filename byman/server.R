@@ -5,8 +5,6 @@ library(zoo)
 library(DT)
 library(plotrix)
 
-setwd("D:/Github/Flood_forecasting/byman")
-
 
 shinyServer(function(input, output,session) {
   
