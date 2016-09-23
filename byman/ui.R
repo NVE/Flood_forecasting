@@ -1,64 +1,62 @@
+library(shiny)
+library(ggplot2)
+library(dygraphs)
+library(zoo)
+library(DT)
+library(plotrix)
+
+
+setwd("D:/Github/Flood_forecasting/byman")
 renderInputs <- function(prefix) {
   wellPanel( 
     fluidRow( 
-      column(3, 
-             selectInput('catch', 'Catchment to analyse', as.character(unique(alldat$Catchment))),
-             
-             
-             dateRangeInput('dateRange',
-                            label = ' Zoom plot: Start Date range input: dd/mm/yy',
-                            start = range(mydat$myDate)[1]+90, end = range(mydat$myDate)[1]+190
-             ),
-             
-             dateRangeInput('dateRange2',
-                            label = paste('Forecasting data range: ,',
-                                          'dd/mm/yy'),
-                            start = Sys.Date() - 1, end = Sys.Date() +10,
-                            min = Sys.Date() , max = Sys.Date() + 10,
-                            separator = " to ", format = "yyyy-mm-dd"
-                            
-             )),
-      column(5,
-             h3(textOutput('myText'))
-             
-      ),
       column(2, 
+             selectInput('catch', 'Catchment to analyse', choices=c("",as.character(unique(stnDatMaster$stN))),selected = "2.11_Narsjo")),
+      
+      column(1, 
              checkboxGroupInput('show_vars',
                                 'Model Selection:',
                                 c("HBV",  "DDD", "DDM"),
-                                selected=c("HBV",  "DDD", "DDM")
-             )),
+                                selected=c("HBV",  "DDD", "DDM"))),
+      
       column(2,
              
              checkboxGroupInput('show_meas','Model fitness performance:',
-                                names(allmeas)[3:8],selected = names(allmeas)[3:8])
+                                c("model","RMSE","NSE","KGE"),selected = c("model","RMSE","NSE","KGE"))
+             #names(evTable)[2:6],selected = names(evTable)[2:6])
              #                   helpText('For the efficiency measures data, we can select variables
              #                        to show in the table; for the mtcars example, we
              #                        use orderClasses = TRUE so that sorted columns 
              #                        are colored since they have special CSS classes 
              #                        attached; for the data, we customize the 
              #                        length menu so we can display 5 rows per page.')
-      )
+      ),
+      column(3,
+             h3(textOutput('myText'))),
       
-      ## HACK FLO
+      column(2,
+             #h3(textOutput('myText'))
+             dateRangeInput('dateRange',
+                            label = ' Zoom plot: Start Date range input: dd/mm/yy',
+                            start = range(range(stnDatMaster$Date))[1]+90, end = range(range(stnDatMaster$Date))[1]+190),
+             
+             
+             dateRangeInput('dateRange2',
+                            label = paste('Forecasting data range: ,',
+                                          'dd/mm/yy'),
+                            start = Sys.Date() - 1, end = Sys.Date() +10,
+                            min = Sys.Date() , max = Sys.Date() + 10,
+                            separator = " to ", format = "yyyy-mm-dd"))#,
       
-#       column(2, wellPanel(
-#         selectInput(inputId='station', selected =  station$number[37], 
-#                     label = "Pick a station", choices = station$number)
-#       )
-#       ),
-#       column(4, leafletOutput('map'))
-      
-      ## HACK FLO END
-      
-      ))
+      #             column(2,
+      #               h3(textOutput('myText'))
+      #                   )
+    ))
   
 } 
 
-
-
 # Define UI for application that plots 
-ui <- fluidPage(theme="simplex.min.css", 
+shinyUI(fluidPage(theme="simplex.min.css", 
                   tags$style(type="text/css", 
                              "label {font-size: 12px;}", 
                              ".recalculating {opacity: 1.0;}" 
@@ -69,15 +67,10 @@ ui <- fluidPage(theme="simplex.min.css",
                   tags$h2("Hydrological modelling with different model types"), 
                   p("Model comparisons of HBV, DDD and DDM"), 
                   
-                  dygraphOutput("mydygraph",height = 600),
-
-                
-                
-                
+                  dygraphOutput("mydygraph",height = 650),
                   textOutput("message", container = h3),
                   
                   hr(), 
-                  
                   
                   fluidRow( 
                     
@@ -90,35 +83,29 @@ ui <- fluidPage(theme="simplex.min.css",
                   
                   
                   fluidRow( 
-                    column(5, 
-                           
-                           dygraphOutput("mydygraph2",height = 600)
-                           
-                    ), 
-                    column(3, 
-                           plotOutput('TDplot', height = "600px") 
-                    ), 
+                    column(3, 'Model Performance', DT::dataTableOutput("mytable")),
                     
-                    column(4,
+                    column(3, 
+                           plotOutput('TDplot', height = "600px")), 
+                    
+                    column(6,'Forecasts - plots and table',
                            mainPanel(
                              tabsetPanel(
-                               tabPanel('Only Selected',
-                                        dataTableOutput("mytable2")),
-                               tabPanel('All Others',
-                                        dataTableOutput("mytable3"))
+                               tabPanel('Plot - 9 days ahead',
+                                        # dygraphOutput("mygraph2",height = 600)),
+                                        plotOutput('mygraph3', height = "600px")),
+                               tabPanel('Table- 9 days ahead',
+                                        DT::dataTableOutput("mytable1")),
+                               tabPanel('Plot - past 20 days ',
+                                        # dygraphOutput("mygraph2",height = 600)),
+                                        plotOutput('mygraph2', height = "600px")),
+                               
+                               tabPanel('Month Table',
+                                        DT::dataTableOutput("mytable2"))
                                
                              ))
-                    )
-                    
-                    
-                    
+                    ) 
                   )
-                ,
-                # fluidRow(
-                mydygraphModuleUI("dygraph1"),
-                mydygraphModuleUI("dygraph2"),
-                mydygraphModuleUI("dygraph3")
-                # )
-                  
-                  
-)
+))
+
+
