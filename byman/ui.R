@@ -81,12 +81,23 @@ shinyUI(fluidPage(theme="simplex.min.css",
                   
                   
                   fluidRow( 
-                    column(3, 'Model Performance', DT::dataTableOutput("mytable")),
+                    column(4, 
+                           mainPanel(
+                             tabsetPanel(
+                        tabPanel('Model performnce',
+                                 # dygraphOutput("mygraph2",height = 600)),
+                                 DT::dataTableOutput("mytable")),
+                        tabPanel('Peaks: False alarms',
+                                 DT::dataTableOutput("mytable10")),
+                        tabPanel('Bias: Accumulated Difference',
+                                 DT::dataTableOutput("mytable11"))
+                        
+                      ))),
                     
                     column(3, 
                            plotOutput('TDplot', height = "600px")), 
                     
-                    column(6,'Forecasts - plots and table',
+                    column(5,
                            mainPanel(
                              tabsetPanel(
                                tabPanel('Plot - 9 days ahead',

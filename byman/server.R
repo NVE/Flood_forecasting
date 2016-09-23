@@ -46,6 +46,7 @@ shinyServer(function(input, output,session) {
     
     output$mytable = renderDataTable({
       toEval<-subset(stnDatMaster, stnDatMaster$stN %in% input$catch & stnDatMaster$Date > as.character(input$dateRange[1]) & stnDatMaster$Date < as.character(input$dateRange[2]))
+      toEval <- toEval[complete.cases(toEval), ]
       evTable0 <-rbind( 
         as.data.frame(cbind(
           round(cor(toEval[,4],toEval[,5],use="pairwise.complete.obs"),3),
@@ -220,10 +221,19 @@ shinyServer(function(input, output,session) {
     
      #for making the box -rectangle shading 
      
-     barplot(stnForecast$nedb, yaxt = "n", space = NULL, col="lightblue",
-             ylim = rev(c(0, 4 * max(na.omit(stnForecast$nedb)))),xaxt = "n")
+     barplot(stnForecast$nedb, yaxt = "n", space = NULL, col="lightblue",border = NA,
+             ylim = rev(c(0, 4 * max(na.omit(stnForecast$nedb)))),xaxt = "n",ylab = "Stremflow -  m^3/s")
+     axis(side = 3, pos = 0, tck = 0,xaxt = "n")
+     axis(side = 4, at = seq(0, floor(max(na.omit(stnForecast$nedb)) + 
+                                        1), length = (1 + ifelse(floor(max(na.omit(stnForecast$nedb)) + 
+                                                                         1) < 10, floor(max(na.omit(stnForecast$nedb)) + 1), 
+                                                                 4))), labels = as.integer(seq(0, floor(max(na.omit(stnForecast$nedb)) + 
+                                                                                                          1), length = (1 + ifelse(floor(max(na.omit(stnForecast$nedb)) + 
+                                                                                                                                           1) < 10, floor(max(na.omit(stnForecast$nedb)) + 1), 
+                                                                                                                                   4)))))
+     mtext("Precip                            ", side=4, line = 1.1, cex = 1.2, adj = 1)
      par(new=TRUE)
-     plot(foreZoo2[,1],ylim=c(ymn,ymx),cex.main = 0.8, type = "l", col = "black", lwd=0.8, ylab="")
+     plot(foreZoo2[,1],ylim=c(ymn,ymx),cex.main = 0.8, type = "l", col = "black", lwd=0.8, ylab="",xlab="Dates")
      rect(2,-4,4,4,col = rgb(0.5,0.5,0.5,1/4))
      lines(foreZoo2[23:31,2],col="blue", lty=2, lwd=2)
      lines(foreZoo2[23:31,3],col="red", lty=2, lwd=2)
@@ -257,10 +267,20 @@ shinyServer(function(input, output,session) {
     ForeTs2<-as.ts(foreZoo2)
     
     #for making the box -rectangle shading 
-    barplot(stnForecast[23:31,2], yaxt = "n", space = NULL, col="lightblue",
-            ylim = rev(c(0, 4 * max(na.omit(stnForecast[23:31,2])))),xaxt = "n")
+    barplot(stnForecast[23:31,2], yaxt = "n", space = NULL, col="lightblue",border = NA,
+            ylim = rev(c(0, 4 * max(na.omit(stnForecast[23:31,2])))),xaxt = "n",ylab = "Stremflow -  m^3/s")
+    #axis(side = 3, pos = 0, tck = 0,xaxt = "n")
+    axis(side = 4, at = seq(0, floor(max(na.omit(stnForecast$nedb)) + 
+                                       1), length = (1 + ifelse(floor(max(na.omit(stnForecast$nedb)) + 
+                                                                        1) < 10, floor(max(na.omit(stnForecast$nedb)) + 1), 
+                                                                4))), labels = as.integer(seq(0, floor(max(na.omit(stnForecast$nedb)) + 
+                                                                                                         1), length = (1 + ifelse(floor(max(na.omit(stnForecast$nedb)) + 
+                                                                                                                                          1) < 10, floor(max(na.omit(stnForecast$nedb)) + 1), 
+                                                                                                                                  4)))))
+    mtext("Precip                            ", side=4, line = 1.1, cex = 1.2, adj = 1)
+    
     par(new=TRUE)
-    plot(foreZoo2[23:31,1],ylim=c(ymn,ymx),cex.main = 0.8, type = "l", col = "white", lwd=0.8, ylab="")
+    plot(foreZoo2[23:31,1],ylim=c(ymn,ymx),cex.main = 0.8, type = "l", col = "white", lwd=0.8, ylab="",xlab="Dates")
     rect(2,-4,4,4,col = rgb(0.5,0.5,0.5,1/4))
     lines(foreZoo2[23:31,2],col="blue", lty=2, lwd=2)
     lines(foreZoo2[23:31,3],col="red", lty=2, lwd=2)
