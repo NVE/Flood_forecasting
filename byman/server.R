@@ -40,6 +40,22 @@ shinyServer(function(input, output,session) {
       ddmFdataM
     })
     
+    # hits & false alarms
+    
+    output$tablehits<-renderDataTable({
+      htab0<-subset(stnDatMaster, stnDatMaster$stN %in% input$catch & stnDatMaster$Date > as.character(input$dateRange[1]) & stnDatMaster$Date < as.character(input$dateRange[2]))
+      htab<-zoo(htab0[,4:10],htab0$Date)
+      htab <- htab[complete.cases(htab0), ]
+      
+      myhtab <- hrs.f(obs=htab[,1], sim=htab[,2])
+      myhtab <- rbind(myhtab, hrs.f(obs=htab[,1], sim=htab[,3]))
+      myhtab <- rbind(myhtab, hrs.f(obs=htab[,1], sim=htab[,4]))
+      myhtab <- rbind(myhtab, hrs.f(obs=htab[,1], sim=htab[,5]))
+      myhtab <- rbind(myhtab, hrs.f(obs=htab[,1], sim=htab[,6]))
+      myhtab <- rbind(myhtab, hrs.f(obs=htab[,1], sim=htab[,7]))
+      myhtab<-head(myhtab)
+    })
+    
     
     # choose columns to display
     # sorted columns are colored now because CSS are attached to them
@@ -132,7 +148,6 @@ shinyServer(function(input, output,session) {
       row.names(stnForecast2)<-NULL
       stnForecast2
       
-      
     })
     
     
@@ -220,7 +235,9 @@ shinyServer(function(input, output,session) {
      ForeTs2<-as.ts(foreZoo2)
     
      #for making the box -rectangle shading 
-     
+     par(mar=c(5,4,4,4)+0.1)
+     plot(stnForecast$temp,type="l",yaxt = "n", space = NULL, col="brown",ylim = rev(c(0, 4 * max(na.omit(stnForecast$temp)))),xaxt = "n")
+     par(new=TRUE)
      barplot(stnForecast$nedb, yaxt = "n", space = NULL, col="lightblue",border = NA,
              ylim = rev(c(0, 4 * max(na.omit(stnForecast$nedb)))),xaxt = "n",ylab = "Stremflow -  m^3/s")
      axis(side = 3, pos = 0, tck = 0,xaxt = "n")
@@ -267,6 +284,9 @@ shinyServer(function(input, output,session) {
     ForeTs2<-as.ts(foreZoo2)
     
     #for making the box -rectangle shading 
+    par(mar=c(5,4,4,4)+0.1)
+    plot(stnForecast[23:31,3],type="l",yaxt = "n", space = NULL, col="brown",ylim = rev(c(0, 4 * max(na.omit(stnForecast[23:31,3])))),xaxt = "n",ylab = "")
+    par(new=TRUE)
     barplot(stnForecast[23:31,2], yaxt = "n", space = NULL, col="lightblue",border = NA,
             ylim = rev(c(0, 4 * max(na.omit(stnForecast[23:31,2])))),xaxt = "n",ylab = "Stremflow -  m^3/s")
     #axis(side = 3, pos = 0, tck = 0,xaxt = "n")

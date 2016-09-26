@@ -87,10 +87,10 @@ shinyUI(fluidPage(theme="simplex.min.css",
                         tabPanel('Model performnce',
                                  # dygraphOutput("mygraph2",height = 600)),
                                  DT::dataTableOutput("mytable")),
-                        tabPanel('Peaks: False alarms',
-                                 DT::dataTableOutput("mytable10")),
-                        tabPanel('Bias: Accumulated Difference',
-                                 DT::dataTableOutput("mytable11"))
+                        tabPanel('Peaks: Hits/Misses',
+                                 DT::dataTableOutput("tablehits"))
+                        # tabPanel('Accum. Diff.',
+                        #          DT::dataTableOutput("mytable11"))
                         
                       ))),
                     

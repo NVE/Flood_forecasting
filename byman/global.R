@@ -10,7 +10,7 @@ library(DT)
 
 
 load("./data/AllStationsAllModels1.RData")
-
+source(file = "//nve/fil/h/Fastgrupper/Flomvarsling/FoU/Prosjekt/80103_Hydrologiske_prognoser/arbeidspakker/AP5/DDM/skript/script/hitrate.function.R")
 #row.names(stnDatMaster) <- seq(nrow(stnDatMaster)) #removes strange row names from the data frame
 
 #names(stnDatMaster)[11]<-"Catchment"
