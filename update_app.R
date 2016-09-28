@@ -37,7 +37,7 @@ load_flood_data()
 ############################################################################################################
 
 stopApp()
-runGitHub("Flood_forecasting", "fbaffie", ref = "operational", launch.browser = TRUE)
+runGitHub("Flood_forecasting", "fbaffie", ref = "operational_manual", launch.browser = TRUE)
 # runApp(launch.browser = TRUE)
 
 # http://127.0.0.1:3921/

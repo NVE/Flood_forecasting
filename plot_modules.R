@@ -12,7 +12,8 @@ OLD_forecast_plot_modUI <- function(id) {
   ns <- NS(id)
   
   fluidRow(uiOutput(ns("print_msg")),
-           plotlyOutput(ns("plot"), height = "800px")
+           # plotlyOutput(ns("plot"), height = "800px")
+           uiOutput(ns("rendered_plot"), width = "100%")
   )
 }
 
@@ -60,7 +61,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
       
       if (!is.null(model_1)) {
         output$model1_selection <- renderUI({
-          selectInput(ns("variable_1"), label = paste("Variables for", name_model1), c("SimRaw", "SimCorr"),
+          selectInput(ns("variable_1"), label = paste("Variables for", name_model1), selected  = c("SimRaw", "SimCorr", "SimL50", "SimH50"),
                       choices = unique(filter(model_1, Type == "Runoff")$Variable), multiple = TRUE) 
         })
       }
@@ -75,7 +76,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
       
       if (!is.null(model_2)) {
         output$model2_selection <- renderUI({
-          selectInput(ns("variable_2"), label = paste("Variables for", name_model2), c("SimRaw", "SimCorr"),
+          selectInput(ns("variable_2"), label = paste("Variables for", name_model2), selected  = c("SimRaw", "SimCorr", "SimP50"),
                       choices = unique(filter(model_2, Type == "Runoff")$Variable), multiple = TRUE) 
         })
       }
@@ -90,7 +91,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
       
       if (!is.null(model_3)) {
         output$model3_selection <- renderUI({
-          selectInput(ns("variable_3"), label = paste("Variables for", name_model3), selected = c("Sim", "Obs"), 
+          selectInput(ns("variable_3"), label = paste("Variables for", name_model3), selected = c("DDD.Sim", "Obs"), 
                       choices = unique(filter(model_3, Type == "Runoff")$Variable), multiple = TRUE) 
         })
       }
@@ -214,6 +215,8 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
 OLD_multimod_forecast_plot <- function(input, output, session, selected_stations = NULL, model_1, model_2, model_3, model_4, 
                                        return_levels = NULL, variable_1, variable_2, variable_3, variable_4, type_rl) {
   
+  ns <- session$ns
+  
   subset2plot_m1 = NULL
   subset2plot_m2 = NULL
   subset2plot_m3 = NULL
@@ -242,6 +245,8 @@ OLD_multimod_forecast_plot <- function(input, output, session, selected_stations
     }
   }
   output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_m1, subset2plot_m2, subset2plot_m3, subset2plot_m4, subset2plot_rl))
+  output$rendered_plot <- renderUI( plotlyOutput(ns("plot"), 
+                                                 height = paste(400 * length(selected_stations), "px", sep ="")) ) 
 }
 
 multimod_forecast_plot_modUI <- function(id) {
