@@ -1,4 +1,6 @@
+
 # Flood_forecasting
+
 A Shiny app to present flood forecasting results at NVE.
 If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
 
@@ -29,11 +31,11 @@ install.packages('shiny')
 
 # Load the shiny package and run the app:
 library(shiny)
-runGitHub("Flood_forecasting", "fbaffie", ref = "operational_manual")
+runGitHub("Flood_forecasting", "fbaffie")
 
 # If you want to update the data used by the app, first press the "Stop" button on RStudio to stop the app (Top right of the console). # Then run again:
 library(shiny)
-runGitHub("Flood_forecasting", "fbaffie", ref = "operational_manual")
+runGitHub("Flood_forecasting", "fbaffie")
 ```
 
 ## Filing issues

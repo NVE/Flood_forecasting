@@ -28,7 +28,7 @@ ipak(packages)
 if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
 library(devtools)
 
-if (!'NVEDATA' %in% installed.packages()) {install_github("fbaffie/NVEDATA", ref = "shiny_compatible")}
+if (!'NVEDATA' %in% installed.packages()) {install_github("fbaffie/NVEDATA")}
 
 # remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
 # # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
