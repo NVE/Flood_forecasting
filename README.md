@@ -5,7 +5,7 @@ A Shiny app to present flood forecasting results at NVE.
 If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
 
 ## Aim
-Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation.
+Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation. Eventually, we want the app to run continuously on the intranet, and update data 4 times a day: 8:00, 11:00, 13:00, 20:00.
 
 ## Running the app
 
