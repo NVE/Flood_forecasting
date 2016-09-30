@@ -24,4 +24,4 @@ system(sprintf("schtasks /create /sc %s /tn %s /tr \"%s\" /st %s", recurrence, t
 # browseURL("https://msdn.microsoft.com/en-us/library/windows/desktop/bb736357%28v=vs.85%29.aspx")
 
 ## Open the scheduled tasks
- # system("control schedtasks")
+# system("control schedtasks")
