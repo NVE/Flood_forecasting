@@ -1,7 +1,7 @@
 recurrence <- "daily"
-task_name <- "update_app_13h15"
+task_name <- "update_app_13h30"
 bat_loc <- "C:\\Users\\flbk\\Documents\\GitHub\\Flood_forecasting\\update_app.bat"
-time <- "13:15"
+time <- "13:30"
 
 system(sprintf("schtasks /create /sc %s /tn %s /tr \"%s\" /st %s", recurrence, task_name, bat_loc, time))
 
