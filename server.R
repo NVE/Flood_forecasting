@@ -5,7 +5,7 @@
 server <- function(input, output, session) {
   
   # Below is the code to have a file load that updates itself, 
-  # but it creates a reactive whih ends up being probably more trouble than usefulness...
+  # but it creates a reactive which ends up being probably more trouble than usefulness...
   # HBV_2014_GG <<- reactiveFileReader(10000, session = NULL, filePath = "./HBV_2014_GG.Rdata", load, envir = .GlobalEnv)
 
   input4multimod_plot <- callModule(mapModule,"multimod_forecast_map")
