@@ -57,7 +57,7 @@ ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
          #                                      mapModule_polygonFeatureUI("map_polygon"),
          #                                      multimod_forecast_selection_modUI("multi_plot")
          # forecast_plot_modUI("multi_plot")
-                          OLD_mapModule_polygonFeatureUI("map_polygon")
+                          NEW_mapModule_polygonFeatureUI("map_polygon")
                   )),
                  navbarMenu("Forecast - single model", icon = icon("line-chart"),
                             tabPanel("HBV_2014",

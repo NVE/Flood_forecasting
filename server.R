@@ -5,7 +5,7 @@
 server <- function(input, output, session) {
   
   # Below is the code to have a file load that updates itself, 
-  # but it creates a reactive whih ends up being probably more trouble than usefulness...
+  # but it creates a reactive which ends up being probably more trouble than usefulness...
   # HBV_2014_GG <<- reactiveFileReader(10000, session = NULL, filePath = "./HBV_2014_GG.Rdata", load, envir = .GlobalEnv)
 
   input4multimod_plot <- callModule(mapModule,"multimod_forecast_map")
@@ -25,8 +25,12 @@ server <- function(input, output, session) {
   input4plot_DDD <- callModule(mapModule,"map_DDD")
   callModule(forecast_plot_mod,"forecast_plot_DDD", input4plot_DDD, DDD)
 
-  callModule(OLD_mapModule_polygonFeature,"map_polygon")  
+  ## Commented: first intended way to do the multi-station multi-model tab
+# stations_model_vect <- callModule(mapModule_polygonFeature,"map_polygon") 
+#   callModule(multimod_forecast_plot_EXP, "multi_plot", "2.11", HBV_2014, HBV_2016, DDD)
   
+  callModule(NEW_mapModule_polygonFeature,"map_polygon")  
+
   callModule(table_mod,"metadata_table", meta_data) 
   callModule(table_mod,"RL_table", flomtabell) 
   callModule(table_mod,"HBV_2014_table", HBV_2014) 
