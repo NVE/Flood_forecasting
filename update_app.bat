@@ -1,18 +1,20 @@
 @echo off
+
 REM "C:\Users\flbk\Documents\R\R-3.3.0\bin\i386\R.exe" CMD BATCH C:\Users\flbk\Documents\GitHub\Flood_forecasting\update_app.R
 REM timeout 100
 
 cd C:\Users\flbk\Mine dokumenter\Github\Flood_forecasting
 git checkout demo
-git rm --cached *.RData 
-timeout 2
 
-git add --force HBV_2014.RData
-git add --force HBV_2016.RData
-git add --force HBV_past_year.RData
-git add --force flomtabell.RData
-git add --force DDD.RData
-timeout 2
+REM git rm --cached *.RData 
+REM timeout 2
+
+REM git add --force HBV_2014.RData
+REM git add --force HBV_2016.RData
+REM git add --force HBV_past_year.RData
+REM git add --force flomtabell.RData
+REM git add --force DDD.RData
+REM timeout 2
 
 git status
 timeout 2
