@@ -1,23 +1,23 @@
-# # Installing and loading required packages (https://gist.github.com/stevenworthington/3178163)
-# ipak <- function(pkg){
-#   new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-#   if (length(new.pkg)) 
-#     install.packages(new.pkg, dependencies = TRUE)
-#   sapply(pkg, library, character.only = TRUE)
-# }
-# 
-# 
-# # Special case for leaflet which comes from a fork of Rcura on my repo
-# packages <- c("leaflet")
-# if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-#   install.packages('devtools')
-#   library(devtools)
-#   install_github("fbaffie/leaflet")
-# }
-# 
-# packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS")
-# ipak(packages)
-# sp: For the point.in.polygon function
+ # Installing and loading required packages (https://gist.github.com/stevenworthington/3178163)
+ ipak <- function(pkg){
+   new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+   if (length(new.pkg)) 
+     install.packages(new.pkg, dependencies = TRUE)
+   sapply(pkg, library, character.only = TRUE)
+ }
+ 
+ 
+ # Special case for leaflet which comes from a fork of Rcura on my repo
+ packages <- c("leaflet")
+ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+   install.packages('devtools')
+   library(devtools)
+   install_github("fbaffie/leaflet")
+ }
+ 
+ packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS")
+ ipak(packages)
+ # sp: For the point.in.polygon function
 
 ## My modules: either load package or source modules from this directory
 # library(ShinyModules)
@@ -42,26 +42,6 @@ load("DDD.RData")
 load("flomtabell.RData")
 load("HBV_past_year.RData")
 load("meta_data.rda")
-
-
-
-# setwd("C:/Users/hvflom/Documents/GitHub/Flood_forecasting")    # UPDATE PATH!
-# setwd("//nve/fil/h/Fastgrupper/Varslingstjenester-flom-jordskred/VarslingsVerktoy")
-
-
-load(paste(getwd(), "/HBV_2014.RData", sep = ""))
-load(paste(getwd(), "/HBV_2016.RData", sep = ""))
-load(paste(getwd(), "/DDD.RData", sep = ""))
-load(paste(getwd(), "/flomtabell.RData", sep = ""))
-load(paste(getwd(), "/HBV_past_year.RData", sep = ""))
-load(paste(getwd(), "/meta_data.rda", sep = ""))
-
-# load("HBV_2014.RData")
-# load("HBV_2016.RData")
-# load("DDD.RData")
-# load("flomtabell.RData")
-# load("HBV_past_year.RData")
-# load("meta_data.rda")
 
 station_numbers <- as.character(unique(HBV_2014$regine.main))  # All of the HBV_2016 and DD stations are in HBV_2014
 station_names <- as.character(unique(HBV_2014$station.name))  # May not be optimal (if 2 stations had same name), but it works
@@ -96,9 +76,3 @@ HBV_2014_diff$Values <- HBV_2014_SimH90$Values - HBV_2014_SimL90$Values
 
 HBV_2014_diff_maxed <- group_by(HBV_2014_diff, nbname, regine.main) %>% dplyr::summarise(maxed = max(Values, na.rm = TRUE))
 stations$uncertainty <- HBV_2014_diff_maxed$maxed[index_HBV] / flom_obs1Y$Values[index_flomtabell[index_HBV]]
-
-
-# library(shinyjs)
-
-# jsResetCode <- "shinyjs.reset = function() {history.go(0)}"
-
