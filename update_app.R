@@ -27,7 +27,7 @@ ipak(packages)
 
 if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
 library(devtools)
-# remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
+remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
 # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
 install_github("fbaffie/NVEDATA")
 
