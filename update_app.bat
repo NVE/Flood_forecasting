@@ -15,10 +15,10 @@ REM git add --force HBV_past_year.RData
 REM git add --force flomtabell.RData
 REM git add --force DDD.RData
 REM timeout 2
+REM git status
+REM timeout 2
 
-git status
-timeout 2
-
+git checkout demo
 git add -A
 git status
 timeout 2
@@ -29,8 +29,8 @@ timeout 2
 git push origin
 timeout 2
 
-git revert HEAD
-timeout 2
+REM git revert HEAD
+REM timeout 2
 
 git status
 timeout 2
