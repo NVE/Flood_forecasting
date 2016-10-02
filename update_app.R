@@ -1,4 +1,4 @@
-setwd("D:/Github/Flood_forecasting")
+setwd("C:/Users/flbk/Documents/GitHub/Flood_forecasting")
 
 ############################################################################################################
 ## Installing and loading required packages (https://gist.github.com/stevenworthington/3178163)
@@ -27,17 +27,20 @@ ipak(packages)
 
 if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
 library(devtools)
-remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
+# remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
 # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
-install_github("fbaffie/NVEDATA", ref = "shiny_compatible")
+# install_github("fbaffie/NVEDATA")
 
 library(NVEDATA)
 
 load_flood_data()
 ############################################################################################################
 
-stopApp()
-runGitHub("Flood_forecasting", "fbaffie", ref = "operational", launch.browser = TRUE)
+# stopApp()
+# runGitHub("Flood_forecasting", "fbaffie", ref = "operational", launch.browser = TRUE)
+
+
+
 # runApp(launch.browser = TRUE)
 
 # http://127.0.0.1:3921/
@@ -51,5 +54,4 @@ runGitHub("Flood_forecasting", "fbaffie", ref = "operational", launch.browser = 
 #                           subject="Updating FlomVarsling data", "Seems to run fine! find it there http://127.0.0.1:4148/"))
 # Error: oauth_listener() needs an interactive environment.
 # Execution halted
-
 
