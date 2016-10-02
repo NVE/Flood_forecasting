@@ -12,8 +12,8 @@ OLD_forecast_plot_modUI <- function(id) {
   ns <- NS(id)
   
   fluidRow(uiOutput(ns("print_msg")),
-           plotlyOutput(ns("plot"), height = "800px")
-           # uiOutput(ns("rendered_plot"), width = "100%")
+           # plotlyOutput(ns("plot"), height = "800px")
+           uiOutput(ns("rendered_plot"), width = "100%")
   )
 }
 
@@ -247,6 +247,27 @@ OLD_multimod_forecast_plot <- function(input, output, session, selected_stations
   output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_m1, subset2plot_m2, subset2plot_m3, subset2plot_m4, subset2plot_rl))
   output$rendered_plot <- renderUI( plotlyOutput(ns("plot"), 
                                                  height = paste(400 * length(selected_stations), "px", sep ="")) ) 
+}
+
+multimod_forecast_plot_modUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  fluidRow(plotlyOutput(ns("plot"), height = "800px"
+  ))
+}
+
+multimod_forecast_selection_modUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  fluidRow(
+    column(2, selectInput(ns("type_choice"), label = "Choose the type of variable to plot", selected = "Runoff",
+                          choices = c("Input", "Runoff", "State"), multiple = TRUE) ),
+    column(2, uiOutput(ns("model1_selection"))),
+    column(2, uiOutput(ns("model2_selection"))),
+    column(2, uiOutput(ns("model3_selection"))),
+    column(2, uiOutput(ns("model4_selection"))),
+    column(2, uiOutput(ns("return_levels")))
+  )
 }
 
 multimod_forecast_plot_modUI <- function(id) {
