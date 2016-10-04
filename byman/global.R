@@ -10,6 +10,9 @@ library(DT)
 
 
 load("./data/AllStationsAllModels1.RData") # Calibration data for all models (DDD, DDM, HBV)
+# The scripts behind this file should probably be intergated into https://github.com/fbaffie/NVEDATA/tree/byman
+
+
 source(file = "//nve/fil/h/Fastgrupper/Flomvarsling/FoU/Prosjekt/80103_Hydrologiske_prognoser/arbeidspakker/AP5/DDM/skript/script/hitrate.function.R")  # Copy this function into the app.
 # Either directly into global.r or source it from global
 
