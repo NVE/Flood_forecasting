@@ -61,9 +61,9 @@
 	
 	<div id="test">
   <h1>Documentation</h1>
-  <ul class="docs">
-    {% for doc in paginator.docs %}
-      <li><span>{{ doc.date | date_to_string }}</span> &raquo; <a href="{{ doc.url }}">{{ doc.title }}</a></li>
+  <ul class="posts">
+    {% for post in paginator.posts %}
+      <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>
 
