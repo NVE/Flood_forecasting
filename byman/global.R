@@ -9,8 +9,9 @@ library(DT)
 
 
 
-load("./data/AllStationsAllModels1.RData")
-source(file = "//nve/fil/h/Fastgrupper/Flomvarsling/FoU/Prosjekt/80103_Hydrologiske_prognoser/arbeidspakker/AP5/DDM/skript/script/hitrate.function.R")
+load("./data/AllStationsAllModels1.RData") # Calibration data for all models (DDD, DDM, HBV)
+source(file = "//nve/fil/h/Fastgrupper/Flomvarsling/FoU/Prosjekt/80103_Hydrologiske_prognoser/arbeidspakker/AP5/DDM/skript/script/hitrate.function.R")  # Copy this function into the app
+# we will probably have to split the script in 2 once the app runs on the shiny server
 #row.names(stnDatMaster) <- seq(nrow(stnDatMaster)) #removes strange row names from the data frame
 
 #names(stnDatMaster)[11]<-"Catchment"
@@ -18,7 +19,8 @@ source(file = "//nve/fil/h/Fastgrupper/Flomvarsling/FoU/Prosjekt/80103_Hydrologi
 stationNames<-unique(stnDatMaster$stN)
 modelNames<-unique(stnDatMaster$model)
 
-listForecast<-list.files(path="./data/",pattern = "_AllStationsForecasts.RData")
+listForecast<-list.files(path="./data/",pattern = "_AllStationsForecasts.RData")  # Rename DDM.RData and let's see how to make it run operationally
+# Putting the DDM model cod on github would be a good idea
 
 load(paste("./data/", listForecast[1],sep = ""))
 names(ddmFdataM)[5]<-strsplit(listForecast[1],"_")[[1]][1]
