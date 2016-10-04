@@ -4,19 +4,11 @@ title: "test-post"
 categories: test
 ---
 
-Test
-
-Work in progress
-
-test list
-
-Test ob writing from tablet 
-
-* a
-* b
-* L
-* 
-<iframe width="100%" height="100" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/271908914&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>  
+Models used in the app:
+- DDD
+- DDM
+- HBV
+- ODM
 
 
 
