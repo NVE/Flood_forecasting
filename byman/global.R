@@ -10,7 +10,9 @@ library(DT)
 
 
 load("./data/AllStationsAllModels1.RData") # Calibration data for all models (DDD, DDM, HBV)
-source(file = "//nve/fil/h/Fastgrupper/Flomvarsling/FoU/Prosjekt/80103_Hydrologiske_prognoser/arbeidspakker/AP5/DDM/skript/script/hitrate.function.R")  # Copy this function into the app
+source(file = "//nve/fil/h/Fastgrupper/Flomvarsling/FoU/Prosjekt/80103_Hydrologiske_prognoser/arbeidspakker/AP5/DDM/skript/script/hitrate.function.R")  # Copy this function into the app.
+# Either directly into global.r or source it from global
+
 # we will probably have to split the script in 2 once the app runs on the shiny server
 #row.names(stnDatMaster) <- seq(nrow(stnDatMaster)) #removes strange row names from the data frame
 
