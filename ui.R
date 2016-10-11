@@ -105,6 +105,7 @@ ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
                             tabPanel("Calibration results")
                  )
 )
+<<<<<<< HEAD
 
 
 # # From Radiant app. To integrate
@@ -119,3 +120,6 @@ ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
 #     })
 #   }
 # )
+=======
+
+>>>>>>> refs/remotes/origin/demo

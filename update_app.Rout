@@ -1,0 +1,620 @@
+
+R version 3.3.0 (2016-05-03) -- "Supposedly Educational"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> setwd("C:/Users/flbk/Documents/GitHub/Flood_forecasting")
+> 
+> ############################################################################################################
+> ## Installing and loading required packages (https://gist.github.com/stevenworthington/3178163)
+> ipak <- function(pkg){
++   new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
++   if (length(new.pkg)) 
++     install.packages(new.pkg, dependencies = TRUE)
++   sapply(pkg, library, character.only = TRUE)
++ }
+> 
+> 
+> ## Special case for leaflet which comes from a fork of Rcura on my repo
+> packages <- c("leaflet")
+> if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
++   install.packages('devtools')
++   library(devtools)
++   install_github("fbaffie/leaflet")
++ }
+> 
+> packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS", "DT")
+> ipak(packages)
+Loading required package: ggplot2
+
+Attaching package: 'plotly'
+
+The following object is masked from 'package:ggplot2':
+
+    last_plot
+
+The following object is masked from 'package:stats':
+
+    filter
+
+The following object is masked from 'package:graphics':
+
+    layout
+
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: 'lubridate'
+
+The following object is masked from 'package:base':
+
+    date
+
+
+Attaching package: 'DT'
+
+The following objects are masked from 'package:shiny':
+
+    dataTableOutput, renderDataTable
+
+$curl
+[1] "curl"      "stats"     "graphics"  "grDevices" "utils"     "datasets" 
+[7] "methods"   "base"     
+
+$shiny
+[1] "shiny"     "curl"      "stats"     "graphics"  "grDevices" "utils"    
+[7] "datasets"  "methods"   "base"     
+
+$magrittr
+ [1] "magrittr"  "shiny"     "curl"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$sp
+ [1] "sp"        "magrittr"  "shiny"     "curl"      "stats"     "graphics" 
+ [7] "grDevices" "utils"     "datasets"  "methods"   "base"     
+
+$plotly
+ [1] "plotly"    "ggplot2"   "sp"        "magrittr"  "shiny"     "curl"     
+ [7] "stats"     "graphics"  "grDevices" "utils"     "datasets"  "methods"  
+[13] "base"     
+
+$dplyr
+ [1] "dplyr"     "plotly"    "ggplot2"   "sp"        "magrittr"  "shiny"    
+ [7] "curl"      "stats"     "graphics"  "grDevices" "utils"     "datasets" 
+[13] "methods"   "base"     
+
+$ggplot2
+ [1] "dplyr"     "plotly"    "ggplot2"   "sp"        "magrittr"  "shiny"    
+ [7] "curl"      "stats"     "graphics"  "grDevices" "utils"     "datasets" 
+[13] "methods"   "base"     
+
+$lubridate
+ [1] "lubridate" "dplyr"     "plotly"    "ggplot2"   "sp"        "magrittr" 
+ [7] "shiny"     "curl"      "stats"     "graphics"  "grDevices" "utils"    
+[13] "datasets"  "methods"   "base"     
+
+$leaflet
+ [1] "leaflet"   "lubridate" "dplyr"     "plotly"    "ggplot2"   "sp"       
+ [7] "magrittr"  "shiny"     "curl"      "stats"     "graphics"  "grDevices"
+[13] "utils"     "datasets"  "methods"   "base"     
+
+$shinyBS
+ [1] "shinyBS"   "leaflet"   "lubridate" "dplyr"     "plotly"    "ggplot2"  
+ [7] "sp"        "magrittr"  "shiny"     "curl"      "stats"     "graphics" 
+[13] "grDevices" "utils"     "datasets"  "methods"   "base"     
+
+$DT
+ [1] "DT"        "shinyBS"   "leaflet"   "lubridate" "dplyr"     "plotly"   
+ [7] "ggplot2"   "sp"        "magrittr"  "shiny"     "curl"      "stats"    
+[13] "graphics"  "grDevices" "utils"     "datasets"  "methods"   "base"     
+
+Warning messages:
+1: package 'curl' was built under R version 3.3.1 
+2: package 'shiny' was built under R version 3.3.1 
+3: package 'sp' was built under R version 3.3.1 
+4: package 'ggplot2' was built under R version 3.3.1 
+5: package 'dplyr' was built under R version 3.3.1 
+6: package 'lubridate' was built under R version 3.3.1 
+7: package 'shinyBS' was built under R version 3.3.1 
+8: package 'DT' was built under R version 3.3.1 
+> # sp: For the point.in.polygon function
+> 
+> ############################################################################################################
+> ## Loading NVEDATA to make sure I can update the data
+> 
+> if (!'devtools' %in% installed.packages()) {install.packages('devtools')}
+> library(devtools)
+Warning message:
+package 'devtools' was built under R version 3.3.1 
+> # remove.packages('NVEDATA')  # Added this for the moment as the NVEDATA package may have been updated in the meantime
+> # To tidy up later by tracking the version number rather than uninstalling arbitrarily!
+> # install_github("fbaffie/NVEDATA")
+> 
+> library(NVEDATA)
+> 
+> load_flood_data()
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"aamot.dat\")"
+[1] "aamot"
+[1] 104
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"aardal.dat\")"
+[1] "aardal"
+[1] 59
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"akslen.dat\")"
+[1] "akslen"
+[1] 8
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"atnasjo.dat\")"
+[1] "atnasjo"
+[1] 3
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"aulestad.dat\")"
+[1] "aulestad"
+[1] 2
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"austenaa.dat\")"
+[1] "austenaa"
+[1] 50
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"bagn.dat\")"
+[1] "bagn"
+[1] 35
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"berget.dat\")"
+[1] "berget"
+[1] 119
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"bergheim.dat\")"
+[1] "bergheim"
+[1] 25
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"bjordal.dat\")"
+[1] "bjordal"
+[1] 62
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"bjoreio.dat\")"
+[1] "bjoreio"
+[1] 73
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"bjornegaards.dat\")"
+[1] "bjornegaards"
+[1] 22
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"bjornstad.dat\")"
+[1] "bjornstad"
+[1] 114
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"borgaai.dat\")"
+[1] "borgaai"
+[1] 39
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"boyumselv.dat\")"
+[1] "boyumselv"
+[1] 84
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"brekkebru.dat\")"
+[1] "brekkebru"
+[1] 79
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"bulken.dat\")"
+[1] "bulken"
+[1] 76
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"buvatn.dat\")"
+[1] "buvatn"
+[1] 27
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"coarveveij.dat\")"
+[1] "coarveveij"
+[1] 127
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"dalavatn.dat\")"
+[1] "dalavatn"
+[1] 101
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"dalsbovatn.dat\")"
+[1] "dalsbovatn"
+[1] 92
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"dillfoss.dat\")"
+[1] "dillfoss"
+[1] 111
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"djupadalsvatn.dat\")"
+[1] "djupadalsvatn"
+[1] 65
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"djupevad.dat\")"
+[1] "djupevad"
+[1] 68
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"dyrdalsvatn.dat\")"
+[1] "dyrdalsvatn"
+[1] 75
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"eggafoss.dat\")"
+[1] "eggafoss"
+[1] 106
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"eggedal.dat\")"
+[1] "eggedal"
+[1] 29
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"eibyelva.dat\")"
+[1] "eibyelva"
+[1] 138
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"elverhoybru.dat\")"
+[1] "elverhoybru"
+[1] 102
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"elverum.dat\")"
+[1] "elverum"
+[1] 15
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"engeren.dat\")"
+[1] "engeren"
+[1] 146
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"etna.dat\")"
+[1] "etna"
+[1] 24
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"farstad.dat\")"
+[1] "farstad"
+[1] 99
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"fetvatn.dat\")"
+[1] "fetvatn"
+[1] 93
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"fiskum.dat\")"
+[1] "fiskum"
+[1] 31
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"fonnerdalsvatn.dat\")"
+[1] "fonnerdalsvatn"
+[1] 69
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"fura.dat\")"
+[1] "fura"
+[1] 11
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"fustvatn.dat\")"
+[1] "fustvatn"
+[1] 118
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"garhammerfoss.dat\")"
+[1] "garhammerfoss"
+[1] 26
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"gaulfoss.dat\")"
+[1] "gaulfoss"
+[1] 105
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"gjerstad.dat\")"
+[1] "gjerstad"
+[1] 48
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"gjuvaa.dat\")"
+[1] "gjuvaa"
+[1] 45
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"gjuvvatn.dat\")"
+[1] "gjuvvatn"
+[1] 57
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"gloppenelv.dat\")"
+[1] "gloppenelv"
+[1] 90
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"grosettjern.dat\")"
+[1] "grosettjern"
+[1] 42
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"grovaai.dat\")"
+[1] "grovaai"
+[1] 44
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"gryta.dat\")"
+[1] "gryta"
+[1] 20
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"halledalsvatn.dat\")"
+[1] "halledalsvatn"
+[1] 38
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"halsnes.dat\")"
+[1] "halsnes"
+[1] 139
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"haugland.dat\")"
+[1] "haugland"
+[1] 64
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"helleland.dat\")"
+[1] "helleland"
+[1] 63
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"hogfoss.dat\")"
+[1] "hogfoss"
+[1] 19
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"hoggaasbru.dat\")"
+[1] "hoggaasbru"
+[1] 109
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"holen.dat\")"
+[1] "holen"
+[1] 72
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"holervatn.dat\")"
+[1] "holervatn"
+[1] 28
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"horgheim.dat\")"
+[1] "horgheim"
+[1] 96
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"horte.dat\")"
+[1] "horte"
+[1] 47
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"hovefoss.dat\")"
+[1] "hovefoss"
+[1] 88
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"hugdalbru.dat\")"
+[1] "hugdalbru"
+[1] 107
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"istreelva.dat\")"
+[1] "istreelva"
+[1] 41
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"jaegervatn.dat\")"
+[1] "jaegervatn"
+[1] 134
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"jaren.dat\")"
+[1] "jaren"
+[1] 34
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"jogla.dat\")"
+[1] "jogla"
+[1] 60
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"jondalselv.dat\")"
+[1] "jondalselv"
+[1] 37
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"junkerdalselv.dat\")"
+[1] "junkerdalselv"
+[1] 124
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"karpelva.dat\")"
+[1] "karpelva"
+[1] 144
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"kjelstad.dat\")"
+[1] "kjelstad"
+[1] 108
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"kjolemo.dat\")"
+[1] "kjolemo"
+[1] 52
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"knabaani.dat\")"
+[1] "knabaani"
+[1] 58
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"knappom.dat\")"
+[1] "knappom"
+[1] 5
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"kraakfoss.dat\")"
+[1] "kraakfoss"
+[1] 9
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"krinsvatn.dat\")"
+[1] "krinsvatn"
+[1] 112
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"krokenelv.dat\")"
+[1] "krokenelv"
+[1] 81
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"kvarstadsetra.dat\")"
+[1] "kvarstadsetra"
+[1] 12
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"kvenna.dat\")"
+[1] "kvenna"
+[1] 46
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"lena.dat\")"
+[1] "lena"
+[1] 18
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"libru.dat\")"
+[1] "libru"
+[1] 14
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"lilleelv.dat\")"
+[1] "lilleelv"
+[1] 49
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"lislefjodd.dat\")"
+[1] "lislefjodd"
+[1] 51
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"lombola.dat\")"
+[1] "lombola"
+[1] 140
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"losna.dat\")"
+[1] "losna"
+[1] 6
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"lovatn.dat\")"
+[1] "lovatn"
+[1] 91
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"magnor.dat\")"
+[1] "magnor"
+[1] 147
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"malangsfoss.dat\")"
+[1] "malangsfoss"
+[1] 132
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"manndalenbru.dat\")"
+[1] "manndalenbru"
+[1] 135
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"masi.dat\")"
+[1] "masi"
+[1] 137
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"mevatnet.dat\")"
+[1] "mevatnet"
+[1] 116
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"middal.dat\")"
+[1] "middal"
+[1] 66
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"morsvikbru.dat\")"
+[1] "morsvikbru"
+[1] 126
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"moska.dat\")"
+[1] "moska"
+[1] 55
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"myglevatn.dat\")"
+[1] "myglevatn"
+[1] 53
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"myrkdalsvatn.dat\")"
+[1] "myrkdalsvatn"
+[1] 77
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"narsjo.dat\")"
+[1] "narsjo"
+[1] 1
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"nautsundvatn.dat\")"
+[1] "nautsundvatn"
+[1] 86
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"nervoll.dat\")"
+[1] "nervoll"
+[1] 117
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"nessedalselv.dat\")"
+[1] "nessedalselv"
+[1] 85
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"nigardsbrevatn.dat\")"
+[1] "nigardsbrevatn"
+[1] 82
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"nordmannset.dat\")"
+[1] "nordmannset"
+[1] 141
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"nybergsund.dat\")"
+[1] "nybergsund"
+[1] 145
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"orsjoren.dat\")"
+[1] "orsjoren"
+[1] 40
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"osenelv.dat\")"
+[1] "osenelv"
+[1] 98
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"ovrevatn.dat\")"
+[1] "ovrevatn"
+[1] 131
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"ovstevatn.dat\")"
+[1] "ovstevatn"
+[1] 128
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"oye.dat\")"
+[1] "oye"
+[1] 94
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"oyungen.dat\")"
+[1] "oyungen"
+[1] 113
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"polmak.dat\")"
+[1] "polmak"
+[1] 143
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"refsvatn.dat\")"
+[1] "refsvatn"
+[1] 61
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"reinsnosvatn.dat\")"
+[1] "reinsnosvatn"
+[1] 71
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"rinna.dat\")"
+[1] "rinna"
+[1] 103
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"risefoss.dat\")"
+[1] "risefoss"
+[1] 100
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"rosten.dat\")"
+[1] "rosten"
+[1] 16
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"roykenes.dat\")"
+[1] "roykenes"
+[1] 74
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"saeternbekken.dat\")"
+[1] "saeternbekken"
+[1] 23
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"sandvenvatn.dat\")"
+[1] "sandvenvatn"
+[1] 70
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"sinnerdammen.dat\")"
+[1] "sinnerdammen"
+[1] 21
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"skarsvatn.dat\")"
+[1] "skarsvatn"
+[1] 123
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"skauvoll.dat\")"
+[1] "skauvoll"
+[1] 121
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"skjerdalselv.dat\")"
+[1] "skjerdalselv"
+[1] 89
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"skogsfjordvatn.dat\")"
+[1] "skogsfjordvatn"
+[1] 133
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"sneisvatn.dat\")"
+[1] "sneisvatn"
+[1] 130
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"sogndalsvatn.dat\")"
+[1] "sogndalsvatn"
+[1] 83
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"sogne.dat\")"
+[1] "sogne"
+[1] 54
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"stordalsvatn.dat\")"
+[1] "stordalsvatn"
+[1] 67
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"storeskar.dat\")"
+[1] "storeskar"
+[1] 33
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"storholen.dat\")"
+[1] "storholen"
+[1] 95
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"stortorp.dat\")"
+[1] "stortorp"
+[1] 17
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"strandaa.dat\")"
+[1] "strandaa"
+[1] 125
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"sula.dat\")"
+[1] "sula"
+[1] 80
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"sundbyfoss.dat\")"
+[1] "sundbyfoss"
+[1] 30
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"svartavatn.dat\")"
+[1] "svartavatn"
+[1] 78
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"svartfossberget.dat\")"
+[1] "svartfossberget"
+[1] 136
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"tannsvatn.dat\")"
+[1] "tannsvatn"
+[1] 43
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"taraldsvikelv.dat\")"
+[1] "taraldsvikelv"
+[1] 129
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"tingvatn.dat\")"
+[1] "tingvatn"
+[1] 56
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"tollaaga.dat\")"
+[1] "tollaaga"
+[1] 122
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"tora.dat\")"
+[1] "tora"
+[1] 10
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"trangen.dat\")"
+[1] "trangen"
+[1] 115
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"unsetaaa.dat\")"
+[1] "unsetaaa"
+[1] 7
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"urula.dat\")"
+[1] "urula"
+[1] 32
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"vaekkava.dat\")"
+[1] "vaekkava"
+[1] 142
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"vassvatn.dat\")"
+[1] "vassvatn"
+[1] 120
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"veravatn.dat\")"
+[1] "veravatn"
+[1] 110
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"viksvatn.dat\")"
+[1] "viksvatn"
+[1] 87
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"vismunda.dat\")"
+[1] "vismunda"
+[1] 13
+[1] "c(\"C:/Users/flbk/Documents/R/R-3.3.0/library/NVEDATA/demodata/\", \"vistdal.dat\")"
+[1] "vistdal"
+[1] 97
+There were 50 or more warnings (use warnings() to see the first 50)
+> ############################################################################################################
+> 
+> # stopApp()
+> # runGitHub("Flood_forecasting", "fbaffie", ref = "operational", launch.browser = TRUE)
+> 
+> 
+> 
+> # runApp(launch.browser = TRUE)
+> 
+> # http://127.0.0.1:3921/
+> 
+> 
+> # unlink("reports", recursive = TRUE, force = FALSE)
+> # rmarkdown::render("apple_microsoft.Rmd", "all", output_dir = "reports")
+> 
+> # library(gmailr)
+> # gmailr::send_message(mime(from="fbaffie@gmail.com", to="flbk@nve.no",
+> #                           subject="Updating FlomVarsling data", "Seems to run fine! find it there http://127.0.0.1:4148/"))
+> # Error: oauth_listener() needs an interactive environment.
+> # Execution halted
+> 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  70.52    0.39   73.60 

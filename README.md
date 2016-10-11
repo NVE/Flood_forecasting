@@ -5,9 +5,10 @@ A Shiny app to present flood forecasting results at NVE.
 If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
 
 ## Aim
-Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation. Eventually, we want the app to run continuously on the intranet, and update data 4 times a day: 8:00, 11:00, 13:00, 20:00.
 
-## Running the app
+Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation. Eventually, we want the app to run continuously on the intranet, and update data 4 times a day: 8:00, 11:00, 13:00, 20:00.
+It is not yet available on shinyapps.io
+you can also run it locally as follows:
 
 Notes:
 - You first need to install R and RStudio (via the NVE Programvaresenteret, outside of the TS10 remote desktop connection)
@@ -19,7 +20,6 @@ Notes:
 # Install the "shiny" package: Open RStudio, go to Tools -> Install packages and type "shiny"
 # If it is the first package you install I will likely suggest a path to install future packages. It is usually a sensible path, so
 # check and click accept.
-
 # Another way to install the package is to type
 install.packages('shiny')
 # If no packages have been installed previously, this command will usually choose a strange default installation directory for R

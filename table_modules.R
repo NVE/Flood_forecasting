@@ -1,4 +1,4 @@
-library(DT)
+# library(DT)
 
 table_modUI <- function(id) {
   # Create a namespace function using the provided id

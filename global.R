@@ -39,8 +39,6 @@ load_flood_data()
 
 ############################################################
 
-
-
 ## My modules: either load package or source modules from this directory
 # library(ShinyModules)
 source('map_modules.R')
@@ -58,24 +56,12 @@ hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
 
-
-# setwd("C:/Users/hvflom/Documents/GitHub/Flood_forecasting")    # UPDATE PATH!
-# setwd("//nve/fil/h/Fastgrupper/Varslingstjenester-flom-jordskred/VarslingsVerktoy")
-
-
-load(paste(getwd(), "/HBV_2014.RData", sep = ""))
-load(paste(getwd(), "/HBV_2016.RData", sep = ""))
-load(paste(getwd(), "/DDD.RData", sep = ""))
-load(paste(getwd(), "/flomtabell.RData", sep = ""))
-load(paste(getwd(), "/HBV_past_year.RData", sep = ""))
-load(paste(getwd(), "/meta_data.rda", sep = ""))
-
-# load("HBV_2014.RData")
-# load("HBV_2016.RData")
-# load("DDD.RData")
-# load("flomtabell.RData")
-# load("HBV_past_year.RData")
-# load("meta_data.rda")
+load("HBV_2014.RData")
+load("HBV_2016.RData")
+load("DDD.RData")
+load("flomtabell.RData")
+load("HBV_past_year.RData")
+load("meta_data.rda")
 
 station_numbers <- as.character(unique(HBV_2014$regine.main))  # All of the HBV_2016 and DD stations are in HBV_2014
 station_names <- as.character(unique(HBV_2014$station.name))  # May not be optimal (if 2 stations had same name), but it works
@@ -110,9 +96,3 @@ HBV_2014_diff$Values <- HBV_2014_SimH90$Values - HBV_2014_SimL90$Values
 
 HBV_2014_diff_maxed <- group_by(HBV_2014_diff, nbname, regine.main) %>% dplyr::summarise(maxed = max(Values, na.rm = TRUE))
 stations$uncertainty <- HBV_2014_diff_maxed$maxed[index_HBV] / flom_obs1Y$Values[index_flomtabell[index_HBV]]
-
-
-# library(shinyjs)
-
-# jsResetCode <- "shinyjs.reset = function() {history.go(0)}"
-
