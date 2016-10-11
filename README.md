@@ -10,7 +10,10 @@ Provide the flood forecasters with an easy to use and customizable graphical use
 ## Running the app
 
 
-This branch is intended to be run as a demonstration branch. It is not yet available on shinyapps.io
+This branch is intended to be run as a demonstration branch. 
+The data is updated automatically twice a day: 8:15 and 11:30
+
+It is not yet available on shinyapps.io
 you can also run it locally as follows:
 
 #### Directly from Github
