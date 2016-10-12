@@ -3,7 +3,7 @@ cache: packages
 
 env:
   global:
-    - GITHUB_REPO: "fbaffie/bookdown-demo"
+    - GITHUB_REPO: "fbaffie/Flood_forecasting"
     - GITHUB_PAT
 
 before_script:
