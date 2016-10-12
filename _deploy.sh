@@ -7,7 +7,7 @@ set -e
 
 # configure your name and email if you have not done so
 git config --global user.email "fbaffie@gmail.com"
-git config --global user.name "Florian Kobierska Baffie"
+git config --global user.name "fbaffie"
 
 # clone the repository to the book-output directory
 git clone -b gh-pages https://${GITHUB_PAT_FLOOD}@github.com/Flood_forecasting.git book-output
