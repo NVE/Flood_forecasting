@@ -15,8 +15,6 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-[Previously saved workspace restored]
-
 > setwd("C:/Users/flbk/Documents/GitHub/Flood_forecasting")
 > 
 > ############################################################################################################
@@ -617,4 +615,4 @@ There were 50 or more warnings (use warnings() to see the first 50)
 > 
 > proc.time()
    user  system elapsed 
-  70.52    0.39   73.60 
+  70.77    0.67   97.84 
