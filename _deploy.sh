@@ -6,7 +6,7 @@ set -e
 [ "${TRAVIS_BRANCH}" != "master" ] && exit 0
 
 # clone the repository to the book-output directory
-git clone -b gh-pages https://${GITHUB_PAT}@github.com/bookdown-demo.git book-output
+git clone -b gh-pages https://${GITHUB_PAT}@github.com/Flood_forecasting.git book-output
 cd book-output
 cp -r ../_book/* ./
 git add --all *
