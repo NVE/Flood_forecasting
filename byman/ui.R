@@ -1,26 +1,22 @@
-library(shiny)
-library(ggplot2)
-library(dygraphs)
-library(zoo)
-library(DT)
-library(plotrix)
+
 
 renderInputs <- function(prefix) {
+  
   wellPanel( 
     fluidRow( 
       column(2, 
-             selectInput('catch', 'Catchment to analyse', choices=c("",as.character(unique(stnDatMaster$stN))),selected = "2.11_Narsjo")),
+             selectInput('catch', 'Catchment to analyse', choices=c("",as.character(unique(stnDatMaster$stN))),selected = "2.323_Fura")),
       
       column(1, 
              checkboxGroupInput('show_vars',
                                 'Model Selection:',
-                                c("HBV",  "DDD", "DDM"),
-                                selected=c("HBV",  "DDD", "DDM"))),
+                                c("HBV",  "DDD", "DDM","ODM"),
+                                selected=c("HBV",  "DDD", "DDM","ODM"))),
       
       column(2,
              
              checkboxGroupInput('show_meas','Model fitness performance:',
-                                c("model","RMSE","NSE","KGE"),selected = c("model","RMSE","NSE","KGE"))
+                                c("model","RMSE","NSE","KGE","BIAS-%"),selected = c("model","RMSE","NSE","KGE","BIAS-%"))
              #names(evTable)[2:6],selected = names(evTable)[2:6])
              #                   helpText('For the efficiency measures data, we can select variables
              #                        to show in the table; for the mtcars example, we
@@ -36,7 +32,7 @@ renderInputs <- function(prefix) {
              #h3(textOutput('myText'))
              dateRangeInput('dateRange',
                             label = ' Zoom plot: Start Date range input: dd/mm/yy',
-                            start = range(range(stnDatMaster$Date))[1]+90, end = range(range(stnDatMaster$Date))[1]+190),
+                            start = range(range(stnDatMaster$Date))[1], end = range(range(stnDatMaster$Date))[2]),
              
              
              dateRangeInput('dateRange2',
@@ -54,7 +50,7 @@ renderInputs <- function(prefix) {
 } 
 
 # Define UI for application that plots 
-shinyUI(fluidPage(theme="simplex.min.css", 
+shinyUI(fluidPage(theme ="simplex.min.css", 
                   tags$style(type="text/css", 
                              "label {font-size: 12px;}", 
                              ".recalculating {opacity: 1.0;}" 
@@ -65,14 +61,23 @@ shinyUI(fluidPage(theme="simplex.min.css",
                   tags$h2("Hydrological modelling with different model types"), 
                   p("Model comparisons of HBV, DDD and DDM"), 
                   
-                  dygraphOutput("mydygraph",height = 650),
-                  textOutput("message", container = h3),
+                  # mainPanel(
+                     tabsetPanel(
+                      tabPanel("EntirePlot",dygraphOutput("mydygraph",height = 650)),
+                      tabPanel("Annual Plot Rain",plotOutput('annualTemp')),
+                      tabPanel("Annual Plot Temp",plotOutput('annualRainfall')),
+                      tabPanel("Annual Plot Runoff",plotOutput('annualFlow' ))
+                    ),
+                 # ),
+                  
+                  #dygraphOutput("mydygraph",height = 650),
+                  #textOutput("message", container = h3),
                   
                   hr(), 
                   
                   fluidRow( 
                     
-                    tags$h3("Model, Catchment, Zoom to period, and forecast period selection:")
+                    #tags$h3("Model, Catchment, Zoom to period, and forecast period selection:")
                   ), 
                   fluidRow( 
                     
@@ -100,17 +105,19 @@ shinyUI(fluidPage(theme="simplex.min.css",
                     column(5,
                            mainPanel(
                              tabsetPanel(
-                               tabPanel('Plot - 9 days ahead',
+                               tabPanel('Plot - 9 d. ahead',
                                         # dygraphOutput("mygraph2",height = 600)),
                                         plotOutput('mygraph3', height = "600px")),
-                               tabPanel('Table- 9 days ahead',
+                               tabPanel('Table- 9 d. ahead',
                                         DT::dataTableOutput("mytable1")),
-                               tabPanel('Plot - past 20 days ',
+                               tabPanel('Plot - 20 d. past ',
                                         # dygraphOutput("mygraph2",height = 600)),
                                         plotOutput('mygraph2', height = "600px")),
                                
                                tabPanel('Month Table',
-                                        DT::dataTableOutput("mytable2"))
+                                        DT::dataTableOutput("mytable2")),
+                               tabPanel('Plot - 1 year',
+                                        plotOutput('', height = "600px"))
                                
                              ))
                     ) 
