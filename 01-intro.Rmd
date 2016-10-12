@@ -4,7 +4,7 @@ You can label chapter and section titles using `{#label}` after them, e.g., we c
 
 Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
 
-`r
+```{r echo = FALSE}
 source('global.R')
 source('plotting_functions.R')
 # flomtabell
@@ -29,7 +29,7 @@ subset2plot_m3 <- dplyr::filter(model_3, nbname %in% station & Type == "Runoff" 
       
 multimod_forecast_plot(subset2plot_m1, subset2plot_m2, subset2plot_m3)
 
-`
+```
 
 Blabla
 *Blabla*
