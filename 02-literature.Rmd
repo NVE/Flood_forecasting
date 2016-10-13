@@ -3,28 +3,17 @@
 Let's try to integrate the first tab of the shiny app.
 
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, eval=FALSE}
 source('global.R')
 source('plotting_functions.R')
 source('plot_modules.R')
 source('mapping_functions.R')
 source('map_modules.R')
 
-shinyApp(
-  
-  ui = fluidPage(
-                              mapModuleUI("multistation_map", multiple = TRUE),
-                          multimod_forecast_selection_modUI("multistation_plot"),
-                          forecast_plot_modUI("multistation_plot")
-  ),
-  
-  server = function(input, output) {
-  input4multi_forecast_plot <- callModule(mapModule,"multistation_map")
-  callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell)
-  },
-  
-  options = list(height = 500)
-)
+x <- 2+2
+
+single_station_map(stations, selected_nbname = "2.11-narsjo")
+
 ```
 
 
