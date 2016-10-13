@@ -1,15 +1,15 @@
 --- 
-title: "A Minimal Book Example"
-author: "Yihui Xie"
+title: "Automatic flood forecasting report"
+author: "Florian Kobierska Baffie"
 date: "`r Sys.Date()`"
-site: bookdown::bookdown_site
+site: "https://github.com/fbaffie/Flood_forecasting/"
 output: bookdown::gitbook
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-github-repo: rstudio/bookdown-demo
-description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+github-repo: fbaffie/Flood_forecasting
+description: "This is a draft automatic flood forecasting report based on the Bookdown format by yihui at RStudio"
 ---
 
 # Prerequisites
