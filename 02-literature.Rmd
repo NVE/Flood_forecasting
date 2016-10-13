@@ -3,7 +3,7 @@
 Let's try to integrate the first tab of the shiny app.
 
 
-```{r echo=FALSE, message=FALSE, eval=FALSE}
+```{r echo=FALSE, message=FALSE}
 source('global.R')
 source('plotting_functions.R')
 source('plot_modules.R')
