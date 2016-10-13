@@ -13,5 +13,6 @@ bookdown::gitbook:
         <li><a href="./">An automatic flood forecasting report</a></li>
       after: |
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+    download: [pdf, epub, mobi]
     edit:
       link: https://github.com/fbaffie/Flood_forecasting/edit/demo/%s
