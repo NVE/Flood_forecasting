@@ -4,7 +4,7 @@ You can label chapter and section titles using `{#label}` after them, e.g., we c
 
 Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
 
-```{r echo = FALSE}
+```{r echo=FALSE, message=FALSE}
 source('global.R')
 source('plotting_functions.R')
 # flomtabell
