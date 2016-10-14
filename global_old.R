@@ -1,12 +1,6 @@
-# packages <- c("curl", "shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
-# library("curl", lib = "/home/flbk/R")
-library('shiny', lib.loc = "/home/flbk/R")
-library('tidyverse', lib.loc = "/home/flbk/R")
-library('sp', lib = "/home/flbk/R")
-library('plotly', lib = "/home/flbk/R")
-library('leaflet', lib = "/home/flbk/R")
-library('DT', lib = "/home/flbk/R")
-
+packages <- c("curl", "shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
+sapply(packages, library, character.only = TRUE, lib.loc = "/home/flbk/R")
+# sp: For the point.in.polygon function
 
 
 ## My modules: either load package or source modules from this directory
