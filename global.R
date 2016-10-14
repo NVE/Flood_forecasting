@@ -6,6 +6,8 @@
 #  sapply(pkg, library, character.only = TRUE)
 #}
 
+library('devtools', lib = /home/flbk/R/x86_64-unknown-linux-gnu-library/3.1")
+library('DT')
 
 ## Special case for leaflet which comes from a fork of Rcura on my repo
 # packages <- c("leaflet")
