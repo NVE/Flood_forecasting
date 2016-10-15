@@ -15,10 +15,11 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install_github("fbaffie/leaflet")
 }
 
-packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS", "DT")
+packages <- c("curl", "shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
+# packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS", "DT")
 ipak(packages)
 # sp: For the point.in.polygon function
-
+# shinythemes? for chosing various bootstrap themes
 
 ## My modules: either load package or source modules from this directory
 # library(ShinyModules)
