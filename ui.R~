@@ -1,7 +1,5 @@
 # This is the user-interface definition of a Shiny web application.
 
-# test if shinyserver responds
-
 ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
                  
 #                  tabPanel("About", icon = icon("info"),

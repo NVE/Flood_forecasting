@@ -1,19 +1,7 @@
-# packages <- c("curl", "shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
+packages <- c("curl", "shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
+sapply(packages, library, character.only = TRUE, lib.loc = "/home/flbk/R")
+# sp: For the point.in.polygon function
 
-library("curl", lib.loc = "/usr/local/lib/R/site-library")
-library('shiny', lib.loc = "/usr/local/lib/R/site-library")
-library('tidyverse', lib.loc = "/usr/local/lib/R/site-library")
-library('sp', lib.loc = "/usr/local/lib/R/site-library")
-library('plotly', lib.loc = "/usr/local/lib/R/site-library")
-library('DT', lib.loc = "/usr/local/lib/R/site-library")
-library('leaflet', lib.loc = "/usr/local/lib/R/site-library")
-
-#chooseCRANmirror(ind=89)
-#library('devtools', lib = "/usr/local/lib/R/site-library")
-#install_github("fbaffie/leaflet")
-
-if (names(dev.cur()) != "null device") dev.off()
-pdf(NULL)
 
 ## My modules: either load package or source modules from this directory
 source('map_modules.R')
