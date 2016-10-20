@@ -107,21 +107,3 @@ ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
                             tabPanel("Calibration results")
                  )
 )
-<<<<<<< HEAD
-
-
-# # From Radiant app. To integrate
-# help_and_report(modal_title = "Design of Experiments", fun_name = "doe",
-#                 help_file = inclMD(file.path(r_path,"analytics/tools/help/doe.md")))
-
-# output$dtree_save_yaml <- downloadHandler(
-#   filename = function() {"dtree.yaml"},
-#   content = function(file) {
-#     isolate({
-#       cat(paste0(input$dtree_edit,"\n"), file = file)
-#     })
-#   }
-# )
-=======
-
->>>>>>> refs/remotes/origin/demo

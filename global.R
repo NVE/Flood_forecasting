@@ -1,16 +1,14 @@
-# packages <- c("curl", "shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
+#chooseCRANmirror(ind=89)
+#library('devtools', lib = "/usr/local/lib/R/site-library")
+#install_github("fbaffie/leaflet")
 
-library("curl", lib.loc = "/usr/local/lib/R/site-library")
+# library("curl", lib.loc = "/usr/local/lib/R/site-library")
 library('shiny', lib.loc = "/usr/local/lib/R/site-library")
 library('tidyverse', lib.loc = "/usr/local/lib/R/site-library")
 library('sp', lib.loc = "/usr/local/lib/R/site-library")
 library('plotly', lib.loc = "/usr/local/lib/R/site-library")
 library('DT', lib.loc = "/usr/local/lib/R/site-library")
 library('leaflet', lib.loc = "/usr/local/lib/R/site-library")
-
-#chooseCRANmirror(ind=89)
-#library('devtools', lib = "/usr/local/lib/R/site-library")
-#install_github("fbaffie/leaflet")
 
 if (names(dev.cur()) != "null device") dev.off()
 pdf(NULL)
@@ -21,10 +19,6 @@ source('table_modules.R')
 source('plot_modules.R')
 source('plotting_functions.R')
 source('mapping_functions.R')
-
-# Source all files from the RCura version of leaflet DOESNT WORK
-# file.sources = list.files("./leaflet-plugins", pattern="*.R", full.names=TRUE)
-# for (f in file.sources) {source(f) }
 
 hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
 
