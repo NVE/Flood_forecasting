@@ -64,9 +64,9 @@ shinyUI(fluidPage(theme ="simplex.min.css",
                   # mainPanel(
                      tabsetPanel(
                       tabPanel("EntirePlot",dygraphOutput("mydygraph",height = 650)),
-                      tabPanel("Annual Plot Rain",plotOutput('annualTemp')),
-                      tabPanel("Annual Plot Temp",plotOutput('annualRainfall')),
-                      tabPanel("Annual Plot Runoff",plotOutput('annualFlow' ))
+                      tabPanel("Seasonal Plot Temp",plotOutput('annualTemp')),
+                      tabPanel("Seasonal Plot Rain",plotOutput('annualRainfall')),
+                      tabPanel("Seasonal Plot Runoff",plotOutput('annualFlow' ))
                     ),
                  # ),
                   

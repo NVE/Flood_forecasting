@@ -241,14 +241,14 @@ shinyServer(function(input, output,session) {
     mmyts<-as.ts(mdat.z)
     mmyts1<-as.ts(mdat.z1)
     
-    # dygraph(
-    #   mmyts, main= "Rainfall Temperature", group="myTS") %>% 
-    #   dySeries("Rain", stepPlot = TRUE, fillGraph = TRUE, color = "blue",label = "Rainfall (mm)")%>%dyLegend(show = "follow") %>%
-    #   dySeries("Temp",  color = "red",axis = 'y2',label = "Temperature (oC)") %>%dyLegend(show = "follow")
+     dygraph(
+       mmyts, main= "Rainfall Temperature", group="myTS") %>% 
+       dySeries("Rain", stepPlot = TRUE, fillGraph = TRUE, color = "blue",label = "Rainfall (mm)")%>%dyLegend(show = "follow") %>%
+       dySeries("Temp",  color = "red",axis = 'y2',label = "Temperature (oC)") %>%dyLegend(show = "follow")
      
     dygraph(
-            mmyts1, main="Flows",group="myTS") %>% dyOptions(fillGraph = TRUE, fillAlpha = 0.2)%>%dyHighlight(highlightCircleSize = 5, 
-              highlightSeriesBackgroundAlpha = 0.2, hideOnMouseOut = FALSE)%>%dyLegend(show = "follow")#%>%dyRangeSelector())
+            mmyts1, main = "Flows", group = "myTS") %>% dyOptions(fillGraph = TRUE, fillAlpha = 0.2)%>%dyHighlight(highlightSeriesOpts = list(strokeWidth = 3))%>%dyHighlight(highlightCircleSize = 3,
+              highlightSeriesBackgroundAlpha = 0.2, hideOnMouseOut = FALSE)%>%dyLegend(show = "follow")%>%dyRangeSelector()
       #myts#%>%dyRangeSelector()
     
   })
@@ -257,8 +257,8 @@ shinyServer(function(input, output,session) {
   
   output$mygraph2 <- renderPlot({
     # start dygraph with all the states
-    lineNo<-which(forecastDat[,2]==paste("Felt:",input$catch,sep=" "))
-    stnForecast<-forecastDat[(lineNo+3):(lineNo+33),]
+    lineNo<-which(forecastDat[,2] == paste("Felt:",input$catch,sep = " "))
+    stnForecast <- forecastDat[(lineNo + 3):(lineNo + 33),]
     stnForecast$nedb <-as.numeric(as.character(stnForecast$nedb))
     stnForecast$temp <-as.numeric(as.character(stnForecast$temp))
     stnForecast$Obs <-as.numeric(as.character(stnForecast$Obs))
@@ -413,7 +413,6 @@ shinyServer(function(input, output,session) {
   # Show the first "n" observations
   output$view <- renderDataTable({
     perform<-evTable
-    
   },include.rownames=FALSE)
 
   #----------------------------------------Temperature
@@ -438,7 +437,7 @@ shinyServer(function(input, output,session) {
     # create dataframe that represents 1995-2013 historical data
     Past <- datT %>%
       dplyr::group_by(Year, Day) %>%
-      dplyr::arrange(Month) %>%
+      dplyr::arrange(Year) %>%
       dplyr::ungroup() %>%
       dplyr::group_by(Year) %>%
       dplyr::mutate(newDay = seq(1, length(Day))) %>%   # label days as 1:365 (will represent x-axis)         
@@ -456,7 +455,7 @@ shinyServer(function(input, output,session) {
     # create dataframe that represents current year data
     Present <- datT%>%
       group_by(Year, Month)%>%
-      arrange(Month)%>%
+      arrange(Year)%>%
       ungroup()%>%
       group_by(Year)%>%
       mutate(newDay = seq(1, length(Day)))%>%  # create matching x-axis as historical data
@@ -489,7 +488,8 @@ shinyServer(function(input, output,session) {
     #Lastly, to create the appropriate y-axis, I need to generate a function to turn the y-axis labels into the appropriate format with the degree symbol (o) after the numbers. I then create a variable that represents the y-axis labels I want to display using seq() and apply the degree formatting function to these labels. I save it as variable "a" to be used later in my ggplot code.
     
     #The final data I need to process is to create a small line that will represent the legend symbol for the 2014 Temperature. In Tufte's illustration, the highs and lows data for each day were available so it made sense to represent the current year bars; however, in my case I only have access to the average daily temperature for each day. Since I don't have a range of data for the individual days in 2014, I can only represent the data by a single line. This, ultimately, is why my legend differs slightly compared to the original graphic.
-    
+Past<-Past[1:366,]
+
     # function to turn y-axis labels into degree formatted values
     dgr_fmt <- function(x, ...) {
       parse(text = paste(x, "*degree", sep = ""))
@@ -509,8 +509,9 @@ shinyServer(function(input, output,session) {
             panel.background = element_blank(),
             axis.ticks = element_blank(),
             #axis.text = element_blank(),  
-            axis.title = element_blank()) +
-      geom_linerange(Past, mapping=aes(x=newDay, ymin=lower, ymax=upper), colour = "wheat2", alpha=.1)
+            axis.title = element_blank())
+    p <- p +
+      geom_linerange(Past, mapping=aes(x=newDay, ymin=lower, ymax=upper), colour = "gray5", alpha = 0.1)
     
     #print(p)
     
@@ -520,8 +521,8 @@ shinyServer(function(input, output,session) {
     #print(p)
     
     p <- p + 
-      geom_line(Present, mapping=aes(x=newDay, y=Temp, group=1)) +
-      geom_vline(xintercept = 0, colour = "wheat4", linetype=1, size=1)
+      geom_line(Present, mapping=aes(x=newDay, y=Temp, group=1),colour="brown") +
+      geom_vline(xintercept = 0, colour = "wheat4", linetype=1, size=2)
     
     #print(p)
     
@@ -543,18 +544,18 @@ shinyServer(function(input, output,session) {
     #print(p)
     
     p <- p + 
-      geom_vline(xintercept = 31, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 59, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 90, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 120, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 151, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 181, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 212, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 243, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 273, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 304, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 334, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=.5) 
+      geom_vline(xintercept = 31, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 59, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 90, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 120, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 151, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 181, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 212, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 243, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 273, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 304, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 334, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=1) 
     
     #print(p)
     
@@ -567,6 +568,7 @@ shinyServer(function(input, output,session) {
                                     "May", "June", "July", "August", "September",
                                     "October", "November", "December"))
     
+    print(p)
   })
   
   #-------------------------------------------------------------------------------------Rainfall
@@ -588,7 +590,7 @@ shinyServer(function(input, output,session) {
     
     Past <- datR%>%
       group_by(Year, Month)%>%
-      arrange(Month)%>%
+      arrange(Year)%>%
       ungroup()%>%
       group_by(Year)%>%
       mutate(newDay = seq(1, length(Day)))%>%   # label days as 1:365 (will represent x-axis)         
@@ -606,7 +608,7 @@ shinyServer(function(input, output,session) {
     # create dataframe that represents current year data
     Present <- datR%>%
       group_by(Year, Month)%>%
-      arrange(Month)%>%
+      arrange(Year)%>%
       ungroup()%>%
       group_by(Year)%>%
       mutate(newDay = seq(1, length(Day)))%>%  # create matching x-axis as historical data
@@ -638,14 +640,14 @@ shinyServer(function(input, output,session) {
     #Lastly, to create the appropriate y-axis, I need to generate a function to turn the y-axis labels into the appropriate format with the degree symbol (0) after the numbers. I then create a variable that represents the y-axis labels I want to display using seq() and apply the degree formatting function to these labels. I save it as variable "a" to be used later in my ggplot code.
     
     #The final data I need to process is to create a small line that will represent the legend symbol for the 2014 Temperature. In Tufte's illustration, the highs and lows data for each day were available so it made sense to represent the current year bars; however, in my case I only have access to the average daily temperature for each day. Since I don't have a range of data for the individual days in 2014, I can only represent the data by a single line. This, ultimately, is why my legend differs slightly compared to the original graphic.
-    
+    Past<-Past[1:366,]
     # function to turn y-axis labels into degree formatted values
     dgr_fmt <- function(x, ...) {
       parse(text = paste(x, "*degree", sep = ""))
     }
     
     # create y-axis variable
-    a <- dgr_fmt(seq(-10,110, by=10))
+    a <- seq(-5,80, by=5)
     
     # create a small dataframe to represent legend symbol for 2014 Temperature
     legend_data <- data.frame(x=seq(175,182),y=rnorm(8,15,2))
@@ -675,48 +677,54 @@ shinyServer(function(input, output,session) {
     #print(p)
     
     p <- p + 
-      geom_hline(yintercept = -10, colour = "white", linetype=1) +
+      geom_hline(yintercept = -5, colour = "white", linetype=1) +
       geom_hline(yintercept = 0, colour = "white", linetype=1) +
+      geom_hline(yintercept = 5, colour = "white", linetype=1) +
       geom_hline(yintercept = 10, colour = "white", linetype=1) +
+      geom_hline(yintercept = 15, colour = "white", linetype=1) +
       geom_hline(yintercept = 20, colour = "white", linetype=1) +
+      geom_hline(yintercept = 25, colour = "white", linetype=1) +
       geom_hline(yintercept = 30, colour = "white", linetype=1) +
+      geom_hline(yintercept = 35, colour = "white", linetype=1) +
       geom_hline(yintercept = 40, colour = "white", linetype=1) +
+      geom_hline(yintercept = 45, colour = "white", linetype=1) +
       geom_hline(yintercept = 50, colour = "white", linetype=1) +
+      geom_hline(yintercept = 55, colour = "white", linetype=1) +
       geom_hline(yintercept = 60, colour = "white", linetype=1) +
+      geom_hline(yintercept = 65, colour = "white", linetype=1) +
       geom_hline(yintercept = 70, colour = "white", linetype=1) +
-      geom_hline(yintercept = 80, colour = "white", linetype=1) +
-      geom_hline(yintercept = 90, colour = "white", linetype=1) +
-      geom_hline(yintercept = 100, colour = "white", linetype=1) +
-      geom_hline(yintercept = 110, colour = "white", linetype=1)
+      geom_hline(yintercept = 75, colour = "white", linetype=1) +
+      geom_hline(yintercept = 80, colour = "white", linetype=1)
+      
     
     
     #print(p)
     
     p <- p + 
-      geom_vline(xintercept = 31, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 59, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 90, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 120, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 151, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 181, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 212, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 243, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 273, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 304, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 334, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=.5) 
+      geom_vline(xintercept = 31, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 59, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 90, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 120, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 151, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 181, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 212, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 243, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 273, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 304, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 334, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=1) 
     
     #print(p)
     
     p <- p +
-      coord_cartesian(ylim = c(-10,110)) +
-      scale_y_continuous(breaks = seq(-10,110, by=10), labels = a) +
+      coord_cartesian(ylim = c(-5,80)) +
+      scale_y_continuous(breaks = seq(-5,80, by=5), labels = a) +
       scale_x_continuous(expand = c(0, 0), 
                          breaks = c(15,45,75,105,135,165,195,228,258,288,320,350),
                          labels = c("January", "February", "March", "April",
                                     "May", "June", "July", "August", "September",
                                     "October", "November", "December"))
-    
+    print(p)
     
   })
   
@@ -743,7 +751,7 @@ shinyServer(function(input, output,session) {
     
     Past <- datD%>%
       group_by(Year, Month)%>%
-      arrange(Month)%>%
+      arrange(Year)%>%
       ungroup()%>%
       group_by(Year)%>%
       mutate(newDay = seq(1, length(Day)))%>%   # label days as 1:365 (will represent x-axis)         
@@ -761,7 +769,7 @@ shinyServer(function(input, output,session) {
     # create dataframe that represents current year data
     Present <- datD%>%
       group_by(Year, Month)%>%
-      arrange(Month)%>%
+      arrange(Year)%>%
       ungroup()%>%
       group_by(Year)%>%
       mutate(newDay = seq(1, length(Day)))%>%  # create matching x-axis as historical data
@@ -793,14 +801,14 @@ shinyServer(function(input, output,session) {
     #Lastly, to create the appropriate y-axis, I need to generate a function to turn the y-axis labels into the appropriate format with the degree symbol (o) after the numbers. I then create a variable that represents the y-axis labels I want to display using seq() and apply the degree formatting function to these labels. I save it as variable "a" to be used later in my ggplot code.
     
     #The final data I need to process is to create a small line that will represent the legend symbol for the 2014 Temperature. In Tufte's illustration, the highs and lows data for each day were available so it made sense to represent the current year bars; however, in my case I only have access to the average daily temperature for each day. Since I don't have a range of data for the individual days in 2014, I can only represent the data by a single line. This, ultimately, is why my legend differs slightly compared to the original graphic.
-    
+    Past<-Past[1:366,]
     # function to turn y-axis labels into degree formatted values
     dgr_fmt <- function(x, ...) {
       parse(text = paste(x, "*degree", sep = ""))
     }
     
     # create y-axis variable
-    a <- dgr_fmt(seq(-5,40, by=5))
+    a <- seq(-2,20, by=2)
     
     # create a small dataframe to represent legend symbol for 2014 Temperature
     legend_data <- data.frame(x=seq(175,182),y=rnorm(8,15,2))
@@ -830,45 +838,46 @@ shinyServer(function(input, output,session) {
     #print(p)
     
     p <- p + 
-      geom_hline(yintercept = -5, colour = "white", linetype=1) +
+      geom_hline(yintercept = -2, colour = "white", linetype=1) +
       geom_hline(yintercept = 0, colour = "white", linetype=1) +
-      geom_hline(yintercept = 5, colour = "white", linetype=1) +
+      geom_hline(yintercept = 2, colour = "white", linetype=1) +
+      geom_hline(yintercept = 4, colour = "white", linetype=1) +
+      geom_hline(yintercept = 8, colour = "white", linetype=1) +
       geom_hline(yintercept = 10, colour = "white", linetype=1) +
-      geom_hline(yintercept = 15, colour = "white", linetype=1) +
-      geom_hline(yintercept = 20, colour = "white", linetype=1) +
-      geom_hline(yintercept = 25, colour = "white", linetype=1) +
-      geom_hline(yintercept = 30, colour = "white", linetype=1) +
-      geom_hline(yintercept = 35, colour = "white", linetype=1) +
-      geom_hline(yintercept = 40, colour = "white", linetype=1)
-    
+      geom_hline(yintercept = 12, colour = "white", linetype=1) +
+      geom_hline(yintercept = 14, colour = "white", linetype=1) +
+      geom_hline(yintercept = 16, colour = "white", linetype=1) +
+      geom_hline(yintercept = 18, colour = "white", linetype=1) +
+      geom_hline(yintercept = 20, colour = "white", linetype=1)
     
     
     #print(p)
     
     p <- p + 
-      geom_vline(xintercept = 31, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 59, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 90, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 120, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 151, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 181, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 212, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 243, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 273, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 304, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 334, colour = "wheat4", linetype=3, size=.5) +
-      geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=.5) 
+      geom_vline(xintercept = 31, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 59, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 90, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 120, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 151, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 181, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 212, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 243, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 273, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 304, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 334, colour = "wheat4", linetype=3, size=1) +
+      geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=1) 
     
     #print(p)
     
     p <- p +
-      coord_cartesian(ylim = c(-5,40)) +
-      scale_y_continuous(breaks = seq(-5,40, by=5), labels = a) +
+      coord_cartesian(ylim = c(-2,20)) +
+      scale_y_continuous(breaks = seq(-2,20, by=2), labels = a) +
       scale_x_continuous(expand = c(0, 0), 
                          breaks = c(15,45,75,105,135,165,195,228,258,288,320,350),
                          labels = c("January", "February", "March", "April",
                                     "May", "June", "July", "August", "September",
                                     "October", "November", "December"))
+    print(p)
     
   })
   
