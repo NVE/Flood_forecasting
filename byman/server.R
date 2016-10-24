@@ -120,8 +120,10 @@ shinyServer(function(input, output,session) {
       evTable<-cbind(c("NNET","SVM","GBM","M5n","M5c","HBV"),evTable0)
       names(evTable)<-c("model","COR","RMSE","NSE","KGE","BIAS-%")
       rownames(evTable) <- NULL
+    
       
-      evtable1<-DT::datatable(evTable[evTable$model,input$show_meas,drop=FALSE],rownames = FALSE,
+        
+    evtable1<-DT::datatable(evTable[evTable$model,input$show_meas,drop=FALSE],rownames = FALSE,
                               options = list(
                                 initComplete = JS(
                                   "function(settings, json) {",
@@ -256,142 +258,178 @@ shinyServer(function(input, output,session) {
 #Forecasting plot is created here ------------------------------------------------------------
   
   output$mygraph2 <- renderPlot({
-    # start dygraph with all the states
+    #
     lineNo<-which(forecastDat[,2] == paste("Felt:",input$catch,sep = " "))
     stnForecast <- forecastDat[(lineNo + 3):(lineNo + 33),]
-    stnForecast$nedb <-as.numeric(as.character(stnForecast$nedb))
-    stnForecast$temp <-as.numeric(as.character(stnForecast$temp))
-    stnForecast$Obs <-as.numeric(as.character(stnForecast$Obs))
-    stnForecast$gbm <-as.numeric(as.character(stnForecast$gbm))
-    stnForecast$m5c <-as.numeric(as.character(stnForecast$m5c))
-    stnForecast$nnet <-as.numeric(as.character(stnForecast$nnet))
-    stnForecast$svm <-as.numeric(as.character(stnForecast$svm))
-    stnForecast$dates<-as.Date(stnForecast[,1],format="%Y-%m-%d")
-   
-    #limits for plotting
-    ymx<-max(stnForecast[,4:8],na.rm=TRUE)+1
-    ymn<-min(stnForecast[,4:8],na.rm=TRUE)-0.5
+    stnF1<-stnForecast[,1:3]
+    stnF0<-reshape(stnForecast,idvar = "dato",varying = list(names(stnForecast)[2:8]),times = names(stnForecast)[2:8],v.names="Value",direction ="long")
+    stnF0$Value<-as.numeric(stnF0$Value)
     
-    #making time series
-     foreZoo<-zoo(stnForecast[,2:3],stnForecast$dato)
-     ForeTs<-as.ts(foreZoo)
-     foreZoo2<-zoo(stnForecast[,4:8],stnForecast[,1])
-     ForeTs2<-as.ts(foreZoo2)
+    d1<-as.numeric(stnF0$dato[1]-0.5) #first date
+    d2<-as.numeric(unique(stnF0$dato)) # for plotting purpose
+    d0<-as.numeric(Sys.Date())     #todays date
     
-     #for making the box -rectangle shading 
-     par(mar=c(5,4,4,4)+0.1)
-     barplot(stnForecast$nedb, yaxt = "n", space = NULL, col="lightblue",border = NA,
-             ylim = rev(c(0, 4 * max(na.omit(stnForecast$nedb)))),xaxt = "n",ylab = "")
-     par(new=TRUE)
-     plot(stnForecast$temp,type="l",lwd=0.4, yaxt = "n", space = NULL, col="brown",ylim = rev(c(0, 4 * max(na.omit(stnForecast$temp)))),xaxt = "n",ylab = "Streamflow m^3/s",xlab = "Dates")
+    prt<-ggplot(subset(stnF0,time %in%"nedb")) +
+      theme(plot.background = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.grid.major = element_blank(),
+            panel.border = element_blank(),
+            panel.background = element_blank(),
+            axis.ticks = element_blank(),
+            #axis.text = element_blank(),  
+            axis.title = element_blank())+
+      geom_bar( mapping=aes(x=dato, y=Value,group=1),fill="#56B4E9",colour="lightblue", stat="identity") +guides(fill=FALSE)+ 
+      geom_line(subset(stnF0,time %in% "temp"),mapping=aes(x=dato, y=Value, group=1),colour="brown")+
+      theme(axis.ticks = element_blank(), axis.text.x = element_blank())+
+      geom_vline(xintercept = d1, colour = "wheat4", linetype=1, size=2)+
+      geom_vline(xintercept = d0, colour = "#990000", linetype="longdash", size=1)+
+      
+    geom_vline(xintercept = d2[2], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[4], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[6], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[8], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[10], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[12], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[14], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[16], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[18], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[20], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[22], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[24], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[26], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[28], colour = "wheat4", linetype=3, size=0.5) +
+      ylab("Rainfall / Temp")+ggtitle("Rainfal - Temperaure forecasts") 
     
-     axis(side = 3, pos = 0, tck = 0,xaxt = "n")
-     axis(side = 4, at = seq(0, floor(max(na.omit(stnForecast$nedb)) + 
-                                        1), length = (1 + ifelse(floor(max(na.omit(stnForecast$nedb)) + 
-                                                                         1) < 10, floor(max(na.omit(stnForecast$nedb)) + 1), 
-                                                                 4))), labels = as.integer(seq(0, floor(max(na.omit(stnForecast$nedb)) + 
-                                                                                                          1), length = (1 + ifelse(floor(max(na.omit(stnForecast$nedb)) + 
-                                                                                                                                           1) < 10, floor(max(na.omit(stnForecast$nedb)) + 1), 
-                                                                                                                                   4)))))
-     mtext("Precip                                ", side=4, line = 1.1, cex = 1.2, adj = 1)
-     par(new=TRUE)
-     plot(foreZoo2[,1],ylim=c(ymn,ymx),cex.main = 0.8, type = "l", col = "black", lwd=0.8, ylab="",xlab="")
-     
-     rect(2,-4,4,4,col = rgb(0.5,0.5,0.5,1/4))
-     
-     lines(foreZoo2[23:30,2],col="blue", lty=2, type="b", lwd=0.6,pch=18)
-     
-     lines(foreZoo2[23:30,3],col="green", lty=3, type="b", lwd=0.6,pch=19)
-     
-     lines(foreZoo2[23:30,4],col="red", lty=4, type="b", lwd=0.6,pch=20)
     
-     lines(foreZoo2[23:30,5],col="purple", lty=5, type="b", lwd=0.6,pch=21)
-     
-     xb<-c(Sys.Date(),Sys.Date()+11,Sys.Date()+11,Sys.Date())
-     
-     yb<-c(-0.9,-0.9,4 * max(na.omit(stnForecast$temp)),4 * max(na.omit(stnForecast$temp)))
-     
-     polygon(xb, yb, col = "#FFF8DC75",border='grey96')
-     
-     legend(x="topleft",bty = "n",horiz = TRUE,cex=0.9,pt.cex = 0.8,
-            pch = c(15, 32), 
-            col = c("lightblue", "brown"), 
-            lwd=0.4, lty=c(0,1),
-            legend = c("Rainfall", "Temp"))
-     
-     legend( x="bottomleft", bty = "n",horiz = TRUE,cex=0.9,pt.cex = 0.8,
-     legend=c("Observed","NNET","SVM","GBM","M5c"),
-     col=c("black","blue","green","red","purple"), lwd=0.4, lty=c(1,2,3,4,5),
-     pch=c(1,18,19,20,21) )
+    prr1<-ggplot(data=subset(stnF0,time %in% c("Obs","gbm","m5c","nnet","svm")), aes(x=dato, y=Value, group=time, shape=time,colour=time)) + 
+      geom_line(aes(linetype=time), size=0.6) + scale_fill_manual(values=c("red", "purple", "blue","black","green")) +    # Set linetype by sex
+      geom_point(size=1, fill="white") +         # Use larger points, fill with white
+      expand_limits(y=0) +                       # Set y range to include 0
+      scale_colour_hue(name="Model",      # Set legend title
+                       l=30)  +                  # Use darker colors (lightness=30)
+      scale_shape_manual(name="Model",
+                         values=c(21,22,23,20,24)) +      # Use points with a fill color
+      scale_linetype_manual(values=c("dashed", "dotted","dotdash","solid","longdash"))+ # Change linetypes
+      scale_linetype_discrete(name="Model") +
+      theme(plot.background = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.grid.major = element_blank(),
+            panel.border = element_blank(),
+            panel.background = element_blank(),
+            axis.ticks = element_blank(),
+            axis.title = element_blank())+
+      theme(legend.position="bottom")+
+      geom_vline(xintercept = d1, colour = "wheat4", linetype=1, size=2)+
+      geom_vline(xintercept = d0, colour = "#990000", linetype="longdash", size=1)+
+      geom_hline(yintercept = 0, colour = "wheat4", linetype=1, size=2) +geom_vline(xintercept = d1, colour = "wheat4", linetype=1, size=2)+
+      geom_vline(xintercept = d2[2], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[4], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[6], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[8], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[10], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[12], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[14], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[16], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[18], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[20], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[22], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[24], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[26], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[28], colour = "wheat4", linetype=3, size=0.5) +
+      ylab("flow m^3/s")+ggtitle("RiverFlow forecasts")
+    
+    grid.newpage()
+    pushViewport(viewport(layout=grid.layout(2,1,heights=c(0.25,0.75))))
+    print(prt, vp=viewport(layout.pos.row=1,layout.pos.col=1))
+    print(prr1, vp=viewport(layout.pos.row=2,layout.pos.col=1))
       
   })
   
-   # start dygraph with all the states
+   # start graph with all the
   output$mygraph3 <- renderPlot({
    
     lineNo<-which(forecastDat[,2]==paste("Felt:",input$catch,sep=" "))
     stnForecast<-forecastDat[(lineNo+3):(lineNo+33),]
-    stnForecast$nedb <-as.numeric(as.character(stnForecast$nedb))
-    stnForecast$temp <-as.numeric(as.character(stnForecast$temp))
-    stnForecast$Obs <-as.numeric(as.character(stnForecast$Obs))
-    stnForecast$gbm <-as.numeric(as.character(stnForecast$gbm))
-    stnForecast$m5c <-as.numeric(as.character(stnForecast$m5c))
-    stnForecast$nnet <-as.numeric(as.character(stnForecast$nnet))
-    stnForecast$svm <-as.numeric(as.character(stnForecast$svm))
-    stnForecast$dates<-as.Date(stnForecast[,1],format="%Y-%m-%d")
     
-    #limits for plotting
-    ymx<-max(stnForecast[23:31,4:8],na.rm=TRUE)+0.5
-    ymn<-min(stnForecast[23:31,4:8],na.rm=TRUE)-0.5
+    stnF0<-reshape(stnForecast[23:30,],idvar = "dato",varying = list(names(stnForecast)[2:8]),times = names(stnForecast)[2:8],v.names="Value",direction ="long")
+    stnF0$Value<-as.numeric(stnF0$Value)
     
-    #making time series
-    foreZoo<-zoo(stnForecast[,2:3],stnForecast$dato)
-    ForeTs<-as.ts(foreZoo)
-    foreZoo2<-zoo(stnForecast[,4:8],stnForecast[,1])
-    ForeTs2<-as.ts(foreZoo2)
+    d1<-as.numeric(stnF0$dato[1]-0.5) #first date
+    d2<-as.numeric(unique(stnF0$dato)) # for plotting purpose
+    d0<-as.numeric(Sys.Date())     #todays date
     
-    #for making the box -rectangle shading 
-    #for making the box -rectangle shading 
-    par(mar=c(5,4,4,4)+0.1)
-   
-    barplot(stnForecast[23:31,2], yaxt = "n", space = NULL, col="lightblue",border = NA,
-            ylim = rev(c(0, 4 * max(na.omit(stnForecast[23:31,2])))),xaxt = "n",ylab = "")
-    par(new=TRUE)
-    plot(stnForecast[23:31,3],type="l",lwd=0.4,yaxt = "n", space = NULL, col="brown",ylim = rev(c(0, 4 * max(na.omit(stnForecast[23:31,3])))),xaxt = "n",ylab = "Streamflow m^3/s",xlab = "Dates")
+    prt<-ggplot(subset(stnF0,time %in%"nedb")) +
+      theme(plot.background = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.grid.major = element_blank(),
+            panel.border = element_blank(),
+            panel.background = element_blank(),
+            axis.ticks = element_blank(),
+            axis.title = element_blank())+
+      geom_bar( mapping=aes(x=dato, y=Value,group=1),fill="#56B4E9",colour="lightblue", stat="identity") +guides(fill=FALSE)+ 
+      geom_line(subset(stnF0,time %in% "temp"),mapping=aes(x=dato, y=Value, group=1),colour="brown")+
+      theme(axis.ticks = element_blank(), axis.text.x = element_blank())+
+      geom_vline(xintercept = d1, colour = "wheat4", linetype=1, size=2)+
+      geom_vline(xintercept = d0, colour = "#990000", linetype="longdash", size=1)+
+      
+      geom_vline(xintercept = d2[2], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[4], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[6], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[8], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[10], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[12], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[14], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[16], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[18], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[20], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[22], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[24], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[26], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[28], colour = "wheat4", linetype=3, size=0.5) +
+      ylab("Rainfall / Temp")+ggtitle("Rainfal - Temperaure forecasts") 
     
-    #axis(side = 3, pos = 0, tck = 0,xaxt = "n")
-    axis(side = 4, at = seq(0, floor(max(na.omit(stnForecast$nedb)) + 
-                                       1), length = (1 + ifelse(floor(max(na.omit(stnForecast$nedb)) + 
-                                                                        1) < 10, floor(max(na.omit(stnForecast$nedb)) + 1), 
-                                                                4))), labels = as.integer(seq(0, floor(max(na.omit(stnForecast$nedb)) + 
-                                                                                                         1), length = (1 + ifelse(floor(max(na.omit(stnForecast$nedb)) + 
-                                                                                                                                          1) < 10, floor(max(na.omit(stnForecast$nedb)) + 1), 
-                                                                                                                                  4)))))
-    mtext("Precip                              ", side=4, line = 1.1, cex = 1.2, adj = 1)
     
-    par(new=TRUE)
-    plot(foreZoo2[23:31,1],ylim=c(ymn,ymx),cex.main = 0.8, type = "l", col = "brown", lwd=0.4, ylab="",xlab="Dates")
-    rect(2,-4,4,4,col = rgb(0.5,0.5,0.5,1/4))
-    lines(foreZoo2[23:30,2],col="blue", lty=2, type="b", lwd=0.6,pch=18)
+    prr1<-ggplot(data=subset(stnF0,time %in% c("gbm","m5c","nnet","svm")), aes(x=dato, y=Value, group=time, shape=time,colour=time)) + 
+      geom_line(aes(linetype=time), size=0.6) + scale_fill_manual(values=c("red", "purple", "blue","green")) +    # Set linetype by sex
+      geom_point(size=1, fill="white") +         # Use larger points, fill with white
+      expand_limits(y=0) +                       # Set y range to include 0
+      scale_colour_hue(name="Model",      # Set legend title
+                       l=30)  +                  # Use darker colors (lightness=30)
+      scale_shape_manual(name="Model",
+                         values=c(21,22,23,24)) +      # Use points with a fill color
+      scale_linetype_manual(values=c("dashed", "dotted","dotdash","longdash"))+ # Change linetypes
+      scale_linetype_discrete(name="Model") +
+      theme(plot.background = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.grid.major = element_blank(),
+            panel.border = element_blank(),
+            panel.background = element_blank(),
+            axis.ticks = element_blank(),
+            axis.title = element_blank())+
+      theme(legend.position="bottom")+
+      geom_vline(xintercept = d1, colour = "wheat4", linetype=1, size=2)+
+      geom_vline(xintercept = d0, colour = "#990000", linetype="longdash", size=1)+
+      geom_hline(yintercept = 0, colour = "wheat4", linetype=1, size=2) +geom_vline(xintercept = d1, colour = "wheat4", linetype=1, size=2)+
+      geom_vline(xintercept = d2[2], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[4], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[6], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[8], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[10], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[12], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[14], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[16], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[18], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[20], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[22], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[24], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[26], colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = d2[28], colour = "wheat4", linetype=3, size=0.5) +
+      ylab("flow m^3/s")+ggtitle("RiverFlow forecasts")
     
-    lines(foreZoo2[23:30,3],col="green", lty=3, type="b", lwd=0.6,pch=19)
-    
-    lines(foreZoo2[23:30,4],col="red", lty=4, type="b", lwd=0.6,pch=20)
-    
-    lines(foreZoo2[23:30,5],col="purple", lty=5, type="b", lwd=0.6,pch=21)
-    
-    #rect(index(foreZoo2)[22],ymn,index(foreZoo2)[31],ymx,col = rgb(0.5,0.5,0.5,1/4)) #### shading
-    
-    legend(x="topleft",bty = "n",horiz = TRUE,cex=0.9,pt.cex = 0.8,
-           pch = c(15, 32),
-           lwd=0.4, lty=c(0,1),
-           col = c("lightblue", "brown"), 
-           legend = c("Rainfall", "Temp"))
-    
-    legend( x="bottomleft", bty = "n",
-            legend=c("Observed","NNET","SVM","GBM","M5c"),horiz = TRUE,cex=0.9,pt.cex = 0.8,
-            col=c("black","blue","green","red","purple"), lwd=0.4, lty=c(1,2,3,4,5),
-            pch=c(1,18,19,20,21) )
+    grid.newpage()
+    pushViewport(viewport(layout=grid.layout(2,1,heights=c(0.25,0.75))))
+    print(prt, vp=viewport(layout.pos.row=1,layout.pos.col=1))
+    print(prr1, vp=viewport(layout.pos.row=2,layout.pos.col=1))
     
   })
   
@@ -412,16 +450,13 @@ shinyServer(function(input, output,session) {
   }) 
   # Show the first "n" observations
   output$view <- renderDataTable({
-    perform<-evTable
-  },include.rownames=FALSE)
+    perform<-evTable  },include.rownames=FALSE)
 
   #----------------------------------------Temperature
   
   output$annualTemp <- renderPlot({
    
     mTt<-subset(stnDatMaster, stnDatMaster$stN %in% input$catch)
-    
-    
     mTt1<-mTt[,1:4]
     mTt1$Year<-as.numeric(substr(mTt[,1],1,4))
     mTt1$Month<-as.numeric(substr(mTt[,1],6,7))
@@ -430,8 +465,6 @@ shinyServer(function(input, output,session) {
     
     # rename variables
     names(dat2)[3] <- "Runoff"
-    
-    
     datT<-cbind.data.frame(data.frame(dat2[,6]),data.frame(dat2[,5]),data.frame(dat2[,4]),data.frame(dat2[,2])); names(datT)<-c( "Day", "Month", "Year","Temp")
     
     # create dataframe that represents 1995-2013 historical data
@@ -466,9 +499,9 @@ shinyServer(function(input, output,session) {
     # create dataframe that represents the lowest temp for each day for the historical data
     PastLows <- Past %>%
       group_by(newDay) %>%
-      summarise(Pastlow = min(Temp)) # identify lowest temp for each day from 1995-2013
+      summarise(Pastlow = min(Temp)) # identify lowest temp for each day 
     
-    # create dataframe that identifies the days in 2014 in which the temps were lower than all previous 19 years
+    # create dataframe that identifies the days in which the temps were lower than all previous 19 years
     PresentLows <- Present %>%
       left_join(PastLows) %>%  # merge historical lows to current year low data
       mutate(record = ifelse(Temp<Pastlow, "Y", "N")) %>% # identifies if current year was record low
@@ -477,9 +510,9 @@ shinyServer(function(input, output,session) {
     # create dataframe that represents the highest temp for each day for the historical data
     PastHighs <- Past %>%
       group_by(newDay) %>%
-      summarise(Pasthigh = max(Temp))  # identify highest temp for each day from 1995-2013
+      summarise(Pasthigh = max(Temp))  # identify highest temp for each day 
     
-    # create dataframe that identifies the days in 2014 in which the temps were higher than all previous 19 years
+    # create dataframe that identifies the days in which the temps were higher than all previous 19 years
     PresentHighs <- Present %>%
       left_join(PastHighs) %>%  # merge historical highs to current year low data
       mutate(record = ifelse(Temp>Pasthigh, "Y", "N")) %>% # identifies if current year was record high
@@ -496,7 +529,8 @@ Past<-Past[1:366,]
     }
     
     # create y-axis variable
-    a <- dgr_fmt(seq(-30,25, by=5))
+    a <- dgr_fmt(seq(round(min(Past$lower),-1),round(max(Past$upper),-1),by=5))
+    a1 <- seq(round(min(Past$lower),-1),round(max(Past$upper),-1),by=5)
     
     # create a small dataframe to represent legend symbol for 2014 Temperature
     legend_data <- data.frame(x=seq(175,182),y=rnorm(8,15,2))
@@ -511,62 +545,45 @@ Past<-Past[1:366,]
             #axis.text = element_blank(),  
             axis.title = element_blank())
     p <- p +
-      geom_linerange(Past, mapping=aes(x=newDay, ymin=lower, ymax=upper), colour = "gray5", alpha = 0.1)
-    
-    #print(p)
+      geom_linerange(Past, mapping=aes(x=newDay, ymin=lower, ymax=upper), colour = "wheat2", size=3)
     
     p <- p + 
-      geom_linerange(Past, mapping=aes(x=newDay, ymin=avg_lower, ymax=avg_upper), colour = "wheat4")
-    
-    #print(p)
+      geom_linerange(Past, mapping=aes(x=newDay, ymin=avg_lower, ymax=avg_upper), colour = "wheat4",size=3)
     
     p <- p + 
       geom_line(Present, mapping=aes(x=newDay, y=Temp, group=1),colour="brown") +
-      geom_vline(xintercept = 0, colour = "wheat4", linetype=1, size=2)
-    
-    #print(p)
-    
-    p <- p + 
-      geom_hline(yintercept = -30, colour = "white", linetype=1) +
-      geom_hline(yintercept = -25, colour = "white", linetype=1) +
-      geom_hline(yintercept = -20, colour = "white", linetype=1) +
-      geom_hline(yintercept = -15, colour = "white", linetype=1) +
-      geom_hline(yintercept = -10, colour = "white", linetype=1) +
-      geom_hline(yintercept = -5, colour = "white", linetype=1) +
-      geom_hline(yintercept = 0, colour = "white", linetype=1) +
-      geom_hline(yintercept = 5, colour = "white", linetype=1) +
-      geom_hline(yintercept = 10, colour = "white", linetype=1) +
-      geom_hline(yintercept = 15, colour = "white", linetype=1) +
-      geom_hline(yintercept = 20, colour = "white", linetype=1) +
-      geom_hline(yintercept = 25, colour = "white", linetype=1)
-    
-    
-    #print(p)
+      geom_vline(xintercept = 0, colour = "wheat4", linetype=1, size=2)+
+      geom_hline(yintercept = a1[1], colour = "wheat4", linetype=1, size=2)
     
     p <- p + 
-      geom_vline(xintercept = 31, colour = "wheat4", linetype=3, size=1) +
-      geom_vline(xintercept = 59, colour = "wheat4", linetype=3, size=1) +
-      geom_vline(xintercept = 90, colour = "wheat4", linetype=3, size=1) +
-      geom_vline(xintercept = 120, colour = "wheat4", linetype=3, size=1) +
-      geom_vline(xintercept = 151, colour = "wheat4", linetype=3, size=1) +
-      geom_vline(xintercept = 181, colour = "wheat4", linetype=3, size=1) +
-      geom_vline(xintercept = 212, colour = "wheat4", linetype=3, size=1) +
-      geom_vline(xintercept = 243, colour = "wheat4", linetype=3, size=1) +
-      geom_vline(xintercept = 273, colour = "wheat4", linetype=3, size=1) +
-      geom_vline(xintercept = 304, colour = "wheat4", linetype=3, size=1) +
-      geom_vline(xintercept = 334, colour = "wheat4", linetype=3, size=1) +
-      geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=1) 
-    
-    #print(p)
+      geom_vline(xintercept = 31, colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = 59, colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = 90, colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = 120, colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = 151, colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = 181, colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = 212, colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = 243, colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = 273, colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = 304, colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = 334, colour = "wheat4", linetype=3, size=0.5) +
+      geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=0.5) 
     
     p <- p +
       coord_cartesian(ylim = c(-30,25)) +
-      scale_y_continuous(breaks = seq(-30,25, by=5), labels = a) +
+      #scale_y_continuous(breaks = a1, labels = a) +
       scale_x_continuous(expand = c(0, 0), 
                          breaks = c(15,45,75,105,135,165,195,228,258,288,320,350),
                          labels = c("January", "February", "March", "April",
                                     "May", "June", "July", "August", "September",
                                     "October", "November", "December"))
+    p <- p + theme(
+      axis.text.x = element_text(size = 14, vjust = -2),
+      axis.text.y = element_text(size = 12, hjust = 0))
+      
+    p <- p +
+      geom_point(data=PresentLows, aes(x=newDay, y=Temp), colour="blue3") +
+      geom_point(data=PresentHighs, aes(x=newDay, y=Temp), colour="firebrick3")
     
     print(p)
   })
@@ -584,7 +601,6 @@ Past<-Past[1:366,]
     
     # rename variables
     names(dat2)[3] <- "Runoff"
-    
     
     datR<-cbind.data.frame(data.frame(dat2[,6]),data.frame(dat2[,5]),data.frame(dat2[,4]),data.frame(dat2[,1])); names(datR)<-c( "Day", "Month", "Year","Rainfall")
     
@@ -647,7 +663,8 @@ Past<-Past[1:366,]
     }
     
     # create y-axis variable
-    a <- seq(-5,80, by=5)
+    a <- dgr_fmt(seq(round(min(Past$lower),-1),round(max(Past$upper)+4.5,-1),by=5))
+    a1 <- seq(round(min(Past$lower),-1),round(max(Past$upper)+4.5,-1),by=5)
     
     # create a small dataframe to represent legend symbol for 2014 Temperature
     legend_data <- data.frame(x=seq(175,182),y=rnorm(8,15,2))
@@ -661,44 +678,14 @@ Past<-Past[1:366,]
             axis.ticks = element_blank(),
             #axis.text = element_blank(),  
             axis.title = element_blank()) +
-      geom_linerange(Past, mapping=aes(x=newDay, ymin=lower, ymax=upper), colour = "wheat2", alpha=.1)
-    
-    #print(p)
+      geom_linerange(Past, mapping=aes(x=newDay, ymin=lower, ymax=upper), colour = "wheat2", size=3)
     
     p <- p + 
-      geom_linerange(Past, mapping=aes(x=newDay, ymin=avg_lower, ymax=avg_upper), colour = "wheat4")
-    
-    #print(p)
+      geom_linerange(Past, mapping=aes(x=newDay, ymin=avg_lower, ymax=avg_upper), colour = "wheat4", size=3)
     
     p <- p + 
-      geom_line(Present, mapping=aes(x=newDay, y=Rainfall, group=1)) +
+      geom_line(Present, mapping=aes(x=newDay, y=Rainfall, group=1),colour="brown") +
       geom_vline(xintercept = 0, colour = "wheat4", linetype=1, size=1)
-    
-    #print(p)
-    
-    p <- p + 
-      geom_hline(yintercept = -5, colour = "white", linetype=1) +
-      geom_hline(yintercept = 0, colour = "white", linetype=1) +
-      geom_hline(yintercept = 5, colour = "white", linetype=1) +
-      geom_hline(yintercept = 10, colour = "white", linetype=1) +
-      geom_hline(yintercept = 15, colour = "white", linetype=1) +
-      geom_hline(yintercept = 20, colour = "white", linetype=1) +
-      geom_hline(yintercept = 25, colour = "white", linetype=1) +
-      geom_hline(yintercept = 30, colour = "white", linetype=1) +
-      geom_hline(yintercept = 35, colour = "white", linetype=1) +
-      geom_hline(yintercept = 40, colour = "white", linetype=1) +
-      geom_hline(yintercept = 45, colour = "white", linetype=1) +
-      geom_hline(yintercept = 50, colour = "white", linetype=1) +
-      geom_hline(yintercept = 55, colour = "white", linetype=1) +
-      geom_hline(yintercept = 60, colour = "white", linetype=1) +
-      geom_hline(yintercept = 65, colour = "white", linetype=1) +
-      geom_hline(yintercept = 70, colour = "white", linetype=1) +
-      geom_hline(yintercept = 75, colour = "white", linetype=1) +
-      geom_hline(yintercept = 80, colour = "white", linetype=1)
-      
-    
-    
-    #print(p)
     
     p <- p + 
       geom_vline(xintercept = 31, colour = "wheat4", linetype=3, size=1) +
@@ -714,16 +701,24 @@ Past<-Past[1:366,]
       geom_vline(xintercept = 334, colour = "wheat4", linetype=3, size=1) +
       geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=1) 
     
-    #print(p)
-    
     p <- p +
-      coord_cartesian(ylim = c(-5,80)) +
-      scale_y_continuous(breaks = seq(-5,80, by=5), labels = a) +
+      coord_cartesian(ylim = c(c(min(Past$lower),-1),max(Past$upper),-1)) +
+      #scale_y_continuous(breaks = seq(-2,20, by=2), labels = a) +
       scale_x_continuous(expand = c(0, 0), 
                          breaks = c(15,45,75,105,135,165,195,228,258,288,320,350),
                          labels = c("January", "February", "March", "April",
                                     "May", "June", "July", "August", "September",
                                     "October", "November", "December"))
+    
+    p <- p + theme(
+      axis.text.x = element_text(size = 14, hjust = 0),
+      axis.text.y = element_text(size = 12, hjust = 0))
+    
+    p <- p +
+      geom_point(data=PresentLows, aes(x=newDay, y=Rainfall), colour="blue3") +
+      geom_point(data=PresentHighs, aes(x=newDay, y=Rainfall), colour="firebrick3")
+    
+    
     print(p)
     
   })
@@ -745,9 +740,7 @@ Past<-Past[1:366,]
     # rename variables
     names(dat2)[3] <- "Runoff"
     
-    
     datD<-cbind.data.frame(data.frame(dat2[,6]),data.frame(dat2[,5]),data.frame(dat2[,4]),data.frame(dat2[,3])); names(datD)<-c( "Day", "Month", "Year","Runoff")
-    
     
     Past <- datD%>%
       group_by(Year, Month)%>%
@@ -775,7 +768,6 @@ Past<-Past[1:366,]
       mutate(newDay = seq(1, length(Day)))%>%  # create matching x-axis as historical data
       ungroup()%>%
       filter(Runoff != -99 & Year == 2011)  # filter out missing data & select current year data
-    
     
     # create dataframe that represents the lowest temp for each day for the historical data
     PastLows <- Past %>%
@@ -822,36 +814,14 @@ Past<-Past[1:366,]
             axis.ticks = element_blank(),
             #axis.text = element_blank(),  
             axis.title = element_blank()) +
-      geom_linerange(Past, mapping=aes(x=newDay, ymin=lower, ymax=upper), colour = "wheat2", alpha=.1)
+      geom_linerange(Past, mapping=aes(x=newDay, ymin=lower, ymax=upper), colour = "wheat2", size=3)
     
-    #print(p)
+   p <- p + 
+      geom_linerange(Past, mapping=aes(x=newDay, ymin=avg_lower, ymax=avg_upper), colour = "wheat4", size=3)
     
-    p <- p + 
-      geom_linerange(Past, mapping=aes(x=newDay, ymin=avg_lower, ymax=avg_upper), colour = "wheat4")
-    
-    #print(p)
-    
-    p <- p + 
-      geom_line(Present, mapping=aes(x=newDay, y=Runoff, group=1)) +
+   p <- p + 
+      geom_line(Present, mapping=aes(x=newDay, y=Runoff, group=1),colour="brown") +
       geom_vline(xintercept = 0, colour = "wheat4", linetype=1, size=1)
-    
-    #print(p)
-    
-    p <- p + 
-      geom_hline(yintercept = -2, colour = "white", linetype=1) +
-      geom_hline(yintercept = 0, colour = "white", linetype=1) +
-      geom_hline(yintercept = 2, colour = "white", linetype=1) +
-      geom_hline(yintercept = 4, colour = "white", linetype=1) +
-      geom_hline(yintercept = 8, colour = "white", linetype=1) +
-      geom_hline(yintercept = 10, colour = "white", linetype=1) +
-      geom_hline(yintercept = 12, colour = "white", linetype=1) +
-      geom_hline(yintercept = 14, colour = "white", linetype=1) +
-      geom_hline(yintercept = 16, colour = "white", linetype=1) +
-      geom_hline(yintercept = 18, colour = "white", linetype=1) +
-      geom_hline(yintercept = 20, colour = "white", linetype=1)
-    
-    
-    #print(p)
     
     p <- p + 
       geom_vline(xintercept = 31, colour = "wheat4", linetype=3, size=1) +
@@ -867,16 +837,24 @@ Past<-Past[1:366,]
       geom_vline(xintercept = 334, colour = "wheat4", linetype=3, size=1) +
       geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=1) 
     
-    #print(p)
-    
     p <- p +
-      coord_cartesian(ylim = c(-2,20)) +
-      scale_y_continuous(breaks = seq(-2,20, by=2), labels = a) +
+      coord_cartesian(ylim = c(c(min(Past$lower),-1),max(Past$upper),-1)) +
+      #scale_y_continuous(breaks = seq(-2,20, by=2), labels = a) +
       scale_x_continuous(expand = c(0, 0), 
                          breaks = c(15,45,75,105,135,165,195,228,258,288,320,350),
                          labels = c("January", "February", "March", "April",
                                     "May", "June", "July", "August", "September",
                                     "October", "November", "December"))
+    
+    p <- p + theme(
+      axis.text.x = element_text(size = 14, hjust = 0),
+      axis.text.y = element_text(size = 12, hjust = 0))
+    
+    p <- p +
+      geom_point(data=PresentLows, aes(x=newDay, y=Runoff), colour="blue3") +
+      geom_point(data=PresentHighs, aes(x=newDay, y=Runoff), colour="firebrick3")
+    
+    
     print(p)
     
   })

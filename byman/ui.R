@@ -50,7 +50,7 @@ renderInputs <- function(prefix) {
 } 
 
 # Define UI for application that plots 
-shinyUI(fluidPage(theme ="simplex.min.css", 
+shinyUI(fluidPage(theme = "bootstrap.css",#"simplex.min.css", 
                   tags$style(type="text/css", 
                              "label {font-size: 12px;}", 
                              ".recalculating {opacity: 1.0;}" 
@@ -115,9 +115,9 @@ shinyUI(fluidPage(theme ="simplex.min.css",
                                         plotOutput('mygraph2', height = "600px")),
                                
                                tabPanel('Month Table',
-                                        DT::dataTableOutput("mytable2")),
-                               tabPanel('Plot - 1 year',
-                                        plotOutput('', height = "600px"))
+                                        DT::dataTableOutput("mytable2"))#,
+                               # tabPanel('Plot - 1 year',
+                               #          plotOutput('', height = "600px"))
                                
                              ))
                     ) 
