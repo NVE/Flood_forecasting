@@ -1,4 +1,4 @@
-Flood_forecasting - Visualizations tool for flood forecasters at NVE
+Flood_forecasting - Visualization tool for flood forecasters at NVE
 ========================================================
 
 <h2 id="About">
@@ -66,6 +66,7 @@ Historical hindsight: pull out past interesting events for a specific station or
 
 To be continued...
 -----------------
+[Back to top](#About)
 
 <h2 id="Dataset">
 Dataset
