@@ -36,11 +36,16 @@ library(NVEDATA)
 load_flood_data()
 ############################################################################################################
 
+<<<<<<< HEAD
+stopApp()
+runGitHub("Flood_forecasting", "fbaffie", ref = "operational_manual", launch.browser = TRUE)
+=======
 # stopApp()
 # runGitHub("Flood_forecasting", "fbaffie", ref = "operational", launch.browser = TRUE)
 
 
 
+>>>>>>> refs/remotes/origin/demo
 # runApp(launch.browser = TRUE)
 
 # http://127.0.0.1:3921/

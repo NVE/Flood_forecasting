@@ -4,37 +4,6 @@ You can label chapter and section titles using `{#label}` after them, e.g., we c
 
 Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
 
-```{r echo=FALSE, message=FALSE}
-source('global.R')
-source('plotting_functions.R')
-# flomtabell
-# model4 <- HBV_past_year
-
-model_1 <- HBV_2014
-model_2 <- HBV_2016
-model_3 <- DDD
-selected_nbname <- "2.11-narsjo"
-
-variable_1 <- c("SimRaw", "SimCorr", "SimL50", "SimH50")
-variable_2 <- c("SimRaw", "SimCorr", "SimP50")
-variable_3 <- c("DDD.Sim", "Obs")  
-      
-subset2plot_m1 <- dplyr::filter(model_1, nbname %in% selected_nbname & Type == "Runoff" & Variable %in% variable_1) 
-subset2plot_m2 <- dplyr::filter(model_2, nbname %in% selected_nbname & Type == "Runoff" & Variable %in% variable_2) 
-subset2plot_m3 <- dplyr::filter(model_3, nbname %in% selected_nbname & Type == "Runoff" & Variable %in% variable_3) 
-# subset2plot_m1 <- dplyr::filter(model_1, nbname %in% station & Type == "Runoff" & Variable %in% variable_1)             
-#                choices = unique(filter(model_4, Type == "Runoff")$Variable), multiple = TRUE) 
-# c("Obs", "Sim"), multiple = TRUE) 
-# subset2plot_rl <- dplyr::filter(return_levels, nbname %in% station & Type %in% type_rl) 
-      
-multimod_forecast_plot(subset2plot_m1, subset2plot_m2, subset2plot_m3)
-
-```
-
-Blabla
-*Blabla*
-**Blabla**
-
 ```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
 par(mar = c(4, 4, .1, .1))
 plot(pressure, type = 'b', pch = 19)
@@ -51,5 +20,4 @@ knitr::kable(
 
 You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].
 
-Ok, let's see if this whole thing works!
-try again [@fbaffie2016]
+YES, it's working!

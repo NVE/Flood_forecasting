@@ -5,39 +5,37 @@ A Shiny app to present flood forecasting results at NVE.
 If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
 
 ## Aim
-Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation.
 
-## Running the app
-
-
-This branch is intended to be run as a demonstration branch. 
-The data is updated automatically twice a day: 8:15 and 11:30
-
+Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation. Eventually, we want the app to run continuously on the intranet, and update data 4 times a day: 8:00, 11:00, 13:00, 20:00.
 It is not yet available on shinyapps.io
 you can also run it locally as follows:
 
-#### Directly from Github
+Notes:
+- You first need to install R and RStudio (via the NVE Programvaresenteret, outside of the TS10 remote desktop connection)
+- You need to have access to hdata to run the app (the program reads flood forecasting data stored there)
 
 ```R
-# If you don't have Shiny installed start with:
+# IF YOU ARE HAVE NOT INSTALLED THE SHINY PACKAGE
+
+# Install the "shiny" package: Open RStudio, go to Tools -> Install packages and type "shiny"
+# If it is the first package you install I will likely suggest a path to install future packages. It is usually a sensible path, so
+# check and click accept.
+# Another way to install the package is to type
 install.packages('shiny')
+# If no packages have been installed previously, this command will usually choose a strange default installation directory for R
+# packages so please use the RStudio buttons for installing your first package.
+# For subsequent packages, you can then use "install.packages('PACKAGE_NAME') and it will use the directory selected earlier.
 
-# Then load the package and run the app:
+# ----------------------------------------------- #
+# IF YOU HAVE ALREADY INSTALLED SHINY
+
+# Load the shiny package and run the app:
 library(shiny)
+runGitHub("Flood_forecasting", "fbaffie")
 
-runGitHub("Flood_forecasting", "fbaffie", ref = "demo")
-
-```
-
-#### Locally
-
-To have a copy on your computer, first clone the git repository and then use `runApp()`:
-
-```R
-# First clone the repository with git. If you have cloned it into
-# ~/Flood_forecasting, first go to that directory, then use runApp().
-setwd("~/Flood_forecasting")
-runApp()
+# If you want to update the data used by the app, first press the "Stop" button on RStudio to stop the app (Top right of the console). # Then run again:
+library(shiny)
+runGitHub("Flood_forecasting", "fbaffie")
 ```
 
 ## Filing issues

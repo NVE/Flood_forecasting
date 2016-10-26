@@ -13,7 +13,7 @@ OLD_forecast_plot_modUI <- function(id) {
   
   fluidRow(uiOutput(ns("print_msg")),
            plotlyOutput(ns("plot"), height = "800px")
-           # uiOutput(ns("rendered_plot"), width = "100%")
+           #uiOutput(ns("rendered_plot"), width = "100%")  # Plot height increases auto with more stations
   )
 }
 
