@@ -13,21 +13,18 @@ Table of contents
 -----------------
 
 -   [Aim](#Aim)
--   [How Structure use](#Structure)
+-   [Structure](#Structure)
 -----------------
 
 <h2 id="Aim">
 Aim
 </h2>
------------------
 Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation.
------------------
 
 <h2 id="Structure">
 Structure
 </h2>
------------------
-The GUI will be based on R Shiny, with the following tabs:
+The GUI is based on R Shiny, with the following tabs:
 
 1. Tab 1: Station selection (returns a list of one or more stations) based on 4 methods (many inputs, a few methods, one output list(stations)):
  * Station identification number or name
