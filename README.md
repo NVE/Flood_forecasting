@@ -65,7 +65,8 @@ Historical hindsight: pull out past interesting events for a specific station or
 
 To be continued...
 
-[Back to top](#About)
+<i class="fa fa-level-up" aria-hidden="true">[Back to top](#About)</i>
+
 
 <h2 id="Dataset">
 Dataset
