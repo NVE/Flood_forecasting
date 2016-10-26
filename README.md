@@ -5,13 +5,14 @@ Flood_forecasting - Visualizations tool for flood forecasters at NVE
 About
 </h2>
 A Shiny app to present flood forecasting results at NVE. If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
-----
 
+----
 Table of contents
 
 -   [About](#About)
 -   [Aim](#Aim)
 -   [Structure](#Structure)
+-   [Dataset](#Dataset)
 
 <h2 id="Aim">
 Aim
@@ -66,8 +67,9 @@ Historical hindsight: pull out past interesting events for a specific station or
 To be continued...
 -----------------
 
-## Dataset
-
+<h2 id="Dataset">
+Dataset
+</h2>
 Not all the files have data for the same number of stations (120-145). Check how the station numbers are organized.
 Those files don't include catchment properties, so we will have to agree on the data files for those properties.
 The observed flow and precip/temperature are included in all of those files.
