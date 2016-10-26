@@ -9,6 +9,7 @@ A Shiny app to present flood forecasting results at NVE. If you find a bug or th
 
 Table of contents
 
+-   [About](#About)
 -   [Aim](#Aim)
 -   [Structure](#Structure)
 
