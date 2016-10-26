@@ -21,6 +21,7 @@ Table of contents
 -   [Running the app](#run)
      - [From GitHub](#github)
      - [Locally](#local)
+-    [Filing issues](#issues)
 
 <h2 id="Aim">
 Aim
@@ -137,7 +138,7 @@ This is not a problem for implement the DATE -7 / +9 days model plots.
 
 *[Back to top](#About)*
 
-<h2 id="Dataset">
+<h2 id="datasets">
 Dataset
 </h2>
 
@@ -191,7 +192,9 @@ runApp()
 
 *[Back to top](#About)*
 
-## Filing issues
+<h4 id="issues">
+Filing issues
+</h4>
 
 Please try to follow those guidelines for filing issues:
 
