@@ -13,6 +13,9 @@ Table of contents
 -   [Aim](#Aim)
 -   [Structure](#Structure)
 -   [Dataset](#Dataset)
+-   [Running the app](#run)
+     - [From GitHub](#github)
+     - [Locally](#local)
 
 <h2 id="Aim">
 Aim
@@ -65,7 +68,7 @@ Historical hindsight: pull out past interesting events for a specific station or
 
 
 To be continued...
------------------
+
 [Back to top](#About)
 
 <h2 id="Dataset">
@@ -108,10 +111,15 @@ So, if we want to implement a feature that pulls the x interesting events in the
 
 This is not a problem for implement the DATE -7 / +9 days model plots.
 
+[Back to top](#About)
 
-## Running the app
+<h2 id="run">
+Running the app
+</h2>
 
-#### Directly from Github
+<h4 id="github">
+Directly from GitHub
+</h4>
 
 ```R
 # If you don't have Shiny installed start with:
@@ -124,7 +132,10 @@ runGitHub("Flood_forecasting", "fbaffie", ref = "operational")
 
 ```
 
-#### Locally
+<h4 id="local">
+Locally
+</h4>
+
 
 To have a copy on your computer, first clone the git repository and then use `runApp()`:
 
@@ -134,6 +145,8 @@ To have a copy on your computer, first clone the git repository and then use `ru
 setwd("~/Flood_forecasting")
 runApp()
 ```
+
+[Back to top](#About)
 
 ## Filing issues
 
