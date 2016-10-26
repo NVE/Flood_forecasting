@@ -77,7 +77,7 @@ The observed flow and precip/temperature are included in all of those files.
 
 To be continued...
 
-<p style="float: right>
+<p style="float: right;">
 *[Back to top](#About)*
 </p>
 
