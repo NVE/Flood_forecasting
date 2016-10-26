@@ -9,6 +9,12 @@ Table of contents
 -   [Aim](#Aim)
 -   [Structure](#Structure)
 -   [Dataset](#Dataset)
+-   [Models](Models)
+     - [HBV with uncertainty model (HBV_UM)](#HBV_UM)
+     - [HBV with +/- 50% precipitation (HBV_P)](#HBV_P)
+     - [DDD](#DDD)
+     - [ODM](#ODM)
+     - [Data Driven Model (DDM)](#DDM)
 -   [Running the app](#run)
      - [From GitHub](#github)
      - [Locally](#local)
@@ -74,30 +80,53 @@ Not all the files have data for the same number of stations (120-145). Check how
 Those files don't include catchment properties, so we will have to agree on the data files for those properties.
 The observed flow and precip/temperature are included in all of those files.
 
+<h2 id="Models">
+Models
+</h2>
+
 Results from the daily model runs:
 
-1. HBV with uncertainty model: /hdata/drift/flom/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt 
+<h4 id="HBV_UM">
+HBV with uncertainty model (HBV_UM)
+</h4>
+
+HBV with uncertainty model: /hdata/drift/flom/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt 
  * Pure model run (not processed)
  * Updated: automated update using observed streamflow
  * Output of the uncertainty model: median result based on a distribution of meteo input data
  * A few quantiles (take 5%, 95%), also based on the distribution of meteo data
 Ask Gusong if questions
 
-2. HBV with + 50% precipitation: /hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt
+<h4 id="HBV_P">
+HBV with +/- 50% precipitation (HBV_P)
+</h4>
+
+HBV with + 50% precipitation: /hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt
  * Pure model run (not processed): this is in the dataset but it is the same as in 1., so shouldn't be plotted!
  * Updated: automated update using observed streamflow (different method)
  * Results from a run with precip + 50%
 Ask Gusong if questions
 
-3. DDD model 24 hours: /hdata/drift/flom/DDD24h2015R/24hres.txt
- * Only pure model.
-Ask Selalem if questions
+<h4 id="DDD">
+DDD
+</h4>
 
-4. ODM model 24 hours: /hdata/drift/flood/H-VEPS02/simu_hbv_elev_24h/<catchment>/InputTimeSeries.txt
+DDD model 24 hours: /hdata/drift/flom/DDD24h2015R/24hres.txt
+
+<h4 id="ODM">
+ODM
+</h4>
+
+ODM model 24 hours: /hdata/drift/flood/H-VEPS02/simu_hbv_elev_24h/<catchment>/InputTimeSeries.txt
  * Pure model
  * Updated model
 Ask Bård if questions 
 
+<h4 id="DDM">
+DDM
+</h4>
+
+Data driven model...
 
 
 Potential issue with data:
@@ -107,7 +136,7 @@ So, if we want to implement a feature that pulls the x interesting events in the
 
 This is not a problem for implement the DATE -7 / +9 days model plots.
 
-[Back to top](#About)
+*[Back to top](#About)*
 
 <h2 id="run">
 Running the app
@@ -142,7 +171,7 @@ setwd("~/Flood_forecasting")
 runApp()
 ```
 
-[Back to top](#About)
+*[Back to top](#About)*
 
 ## Filing issues
 
