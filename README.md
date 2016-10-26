@@ -1,12 +1,31 @@
-﻿# Flood_forecasting this my branch
+Flood_forecasting - Visualizations tool for flood forecasters at NVE
+========================================================
+
+<h2 id="usage">
+About
+</h2>
+
 A Shiny app to present flood forecasting results at NVE.
 If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
+----
 
-## Aim
+Table of contents
+-----------------
+
+-   [Aim](#Aim)
+-   [How to use](#usage)
+-   [Slightly more advanced examples](#advanced-examples)
+-----------------
+
+<h2 id="Aim">
+Aim
+</h2>
 Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation.
+-----------------
 
-
-## Structure
+<h2 id="Structure">
+Structure
+</h2>
 The GUI will be based on R Shiny, with the following tabs:
 
 1. Tab 1: Station selection (returns a list of one or more stations) based on 4 methods (many inputs, a few methods, one output list(stations)):
