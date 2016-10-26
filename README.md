@@ -77,9 +77,7 @@ The observed flow and precip/temperature are included in all of those files.
 
 To be continued...
 
-| *[Back to top](#About)* |
-
-*[Back to top](#About)*
+>                   *[Back to top](#About)*
 
 <h2 id="Models">
 Models
