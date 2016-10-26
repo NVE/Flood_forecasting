@@ -8,13 +8,16 @@ Table of contents
 
 -   [Aim](#Aim)
 -   [Structure](#Structure)
--   [Dataset](#Dataset)
 -   [Models](Models)
      - [HBV with uncertainty model (HBV_UM)](#HBV_UM)
      - [HBV with +/- 50% precipitation (HBV_P)](#HBV_P)
      - [DDD](#DDD)
      - [ODM](#ODM)
      - [Data Driven Model (DDM)](#DDM)
+-   [Other datasets](#datasets)
+     - [Return levels](#rls)
+     - [Probability of flooding](#prob)
+     - [Station metadat](#metadata)
 -   [Running the app](#run)
      - [From GitHub](#github)
      - [Locally](#local)
@@ -68,17 +71,13 @@ This station selection would update every other tab that uses groups of stations
 
 Historical hindsight: pull out past interesting events for a specific station or group of stations
 
+Not all the files have data for the same number of stations (120-145). Check how the station numbers are organized.
+Those files don't include catchment properties, so we will have to agree on the data files for those properties.
+The observed flow and precip/temperature are included in all of those files.
 
 To be continued...
 
 *[Back to top](#About)*
-
-<h2 id="Dataset">
-Dataset
-</h2>
-Not all the files have data for the same number of stations (120-145). Check how the station numbers are organized.
-Those files don't include catchment properties, so we will have to agree on the data files for those properties.
-The observed flow and precip/temperature are included in all of those files.
 
 <h2 id="Models">
 Models
@@ -137,6 +136,25 @@ So, if we want to implement a feature that pulls the x interesting events in the
 This is not a problem for implement the DATE -7 / +9 days model plots.
 
 *[Back to top](#About)*
+
+<h2 id="Dataset">
+Dataset
+</h2>
+
+<h4 id="rls">
+Return levels
+</h4>
+Flomtabell.rap
+
+<h4 id="prob">
+Probability of flooding
+</h4>
+take max(next 3days of probability "number of occurence in ensemble" for mean flood) as variable. risiko.rap there: Z:\flom\usikkerhet_grd\utskrift
+
+<h4 id="metadata">
+Station metadata
+</h4>
+A large variety of metadata for all stations come directly from the NVEDATA package.
 
 <h2 id="run">
 Running the app
