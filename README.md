@@ -17,7 +17,7 @@ Table of contents
 -   [Other datasets](#datasets)
      - [Return levels](#rls)
      - [Probability of flooding](#prob)
-     - [Station metadat](#metadata)
+     - [Station metadata](#metadata)
 -   [Running the app](#run)
      - [From GitHub](#github)
      - [Locally](#local)
@@ -154,7 +154,7 @@ take max(next 3days of probability "number of occurence in ensemble" for mean fl
 <h4 id="metadata">
 Station metadata
 </h4>
-A large variety of metadata for all stations come directly from the NVEDATA package.
+A large variety of metadata for all stations come directly from the ´NVEDATA´ package.
 
 <h2 id="run">
 Running the app
