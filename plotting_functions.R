@@ -40,7 +40,7 @@ forecast_plot <- function(dat) {
   return(ggplotly(d))
 }
 
-multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, return_levels = NULL) {
+multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, return_levels = NULL, gg_plot = FALSE) {
   
   # The palette with grey:
   # cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
@@ -112,7 +112,12 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
 
   # l <- plotly_build(d)  # %>%  layout(margin = list(l=100)) 
   # l$layout$margin$l <- l$layout$margin$l + 100
-  return(ggplotly(d))
+  if (gg_plot == TRUE) {
+    return(d)
+  } else {
+    return(ggplotly(d))  
+  }
+  
   # return(l)
 }
 
