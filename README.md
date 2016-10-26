@@ -4,12 +4,10 @@ Flood_forecasting - Visualizations tool for flood forecasters at NVE
 <h2 id="usage">
 About
 </h2>
-
 A Shiny app to present flood forecasting results at NVE. If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
 ----
 
 Table of contents
------------------
 
 -   [Aim](#Aim)
 -   [Structure](#Structure)
