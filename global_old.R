@@ -1,32 +1,7 @@
-# chooseCRANmirror(ind=89)
-# library('devtools', lib = "/usr/local/lib/R/site-library")
-# install_github("fbaffie/leaflet")
-
-# library('shiny', lib.loc = "/usr/local/lib/R/site-library")
-# library('tidyverse', lib.loc = "/usr/local/lib/R/site-library")
-# library('sp', lib.loc = "/usr/local/lib/R/site-library")
-# library('plotly', lib.loc = "/usr/local/lib/R/site-library")
-# library('DT', lib.loc = "/usr/local/lib/R/site-library")
-# library('leaflet', lib.loc = "/usr/local/lib/R/site-library")
-
-library('shiny')
-library('tidyverse')
-library('sp')
-library('plotly')
-library('DT')
-library('leaflet')
-
-<<<<<<< HEAD
 packages <- c("curl", "shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
-# packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS", "DT")
-ipak(packages)
+sapply(packages, library, character.only = TRUE, lib.loc = "/home/flbk/R")
 # sp: For the point.in.polygon function
-# shinythemes? for chosing various bootstrap themes
-=======
 
-if (names(dev.cur()) != "null device") dev.off()
-pdf(NULL)
->>>>>>> 515eb77a7db5c2ccd711c6aaf7ec2602b2df98fc
 
 ## My modules: either load package or source modules from this directory
 source('map_modules.R')
@@ -34,6 +9,10 @@ source('table_modules.R')
 source('plot_modules.R')
 source('plotting_functions.R')
 source('mapping_functions.R')
+
+# Source all files from the RCura version of leaflet DOESNT WORK
+# file.sources = list.files("./leaflet-plugins", pattern="*.R", full.names=TRUE)
+# for (f in file.sources) {source(f) }
 
 hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
 

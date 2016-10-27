@@ -138,52 +138,52 @@ NEW_mapModule_polygonFeature <- function(input, output, session) {
   proxy <- leafletProxy(ns("map"), session) 
   
   
-#   proxy <- addDrawToolbar(proxy,
-#     layerID = "selectbox",
-#     polyline = FALSE,
-#     circle = FALSE,
-#     marker = FALSE,
-#     edit = TRUE,
-#     polygon = TRUE,
-#     rectangle = TRUE,
-#     remove = TRUE,
-#     singleLayer = FALSE)     %>%
-#       addLayersControl(position = "bottomleft", overlayGroups = c("selectbox")) 
+  #   proxy <- addDrawToolbar(proxy,
+  #     layerID = "selectbox",
+  #     polyline = FALSE,
+  #     circle = FALSE,
+  #     marker = FALSE,
+  #     edit = TRUE,
+  #     polygon = TRUE,
+  #     rectangle = TRUE,
+  #     remove = TRUE,
+  #     singleLayer = FALSE)     %>%
+  #       addLayersControl(position = "bottomleft", overlayGroups = c("selectbox")) 
   
-#   observeEvent(input$reset,
-#                {data$drawn_selection <- NULL})
-#   
-#   observeEvent(input$map_selectbox_features$features,
-#   {data$drawn_selection <- input$map_selectbox_features$features})
-
-
+  #   observeEvent(input$reset,
+  #                {data$drawn_selection <- NULL})
+  #   
+  #   observeEvent(input$map_selectbox_features$features,
+  #   {data$drawn_selection <- input$map_selectbox_features$features})
   
   
-#   observeEvent(input$reset, {
-#     drawn_selection <- NULL
-#     #     selected_stations_indices <- NULL
-#     #     selected_regine_main <- NULL
-#     #     selected_name <- NULL
-#     #     selected_lat <-  NULL
-#   })
   
-#   observeEvent(input$map_selectbox_features$features, {
-#     drawn_selection <- input$map_selectbox_features$features
-# #     selected_stations_indices <- which_station_in_polygon(stations, drawn_selection)
-# #     selected_regine_main <- stations$regine_main[selected_stations_indices]
-# #     selected_name <- stations$name[selected_stations_indices]
-# #     selected_long <- stations$long[selected_stations_indices]
-# #     selected_lat <-  stations$lat[selected_stations_indices]         
-#                
-# })
-
   
-
-#   observeEvent(input$reset, {selected_stations_indices <- NULL})
-#   observeEvent(input$reset, {selected_regine_main <- NULL})
-#   observeEvent(input$reset, {selected_name <- NULL})
-#   observeEvent(input$reset, {selected_long <- NULL})
-#   observeEvent(input$reset, {selected_lat <-  NULL})
+  #   observeEvent(input$reset, {
+  #     drawn_selection <- NULL
+  #     #     selected_stations_indices <- NULL
+  #     #     selected_regine_main <- NULL
+  #     #     selected_name <- NULL
+  #     #     selected_lat <-  NULL
+  #   })
+  
+  #   observeEvent(input$map_selectbox_features$features, {
+  #     drawn_selection <- input$map_selectbox_features$features
+  # #     selected_stations_indices <- which_station_in_polygon(stations, drawn_selection)
+  # #     selected_regine_main <- stations$regine_main[selected_stations_indices]
+  # #     selected_name <- stations$name[selected_stations_indices]
+  # #     selected_long <- stations$long[selected_stations_indices]
+  # #     selected_lat <-  stations$lat[selected_stations_indices]         
+  #                
+  # })
+  
+  
+  
+  #   observeEvent(input$reset, {selected_stations_indices <- NULL})
+  #   observeEvent(input$reset, {selected_regine_main <- NULL})
+  #   observeEvent(input$reset, {selected_name <- NULL})
+  #   observeEvent(input$reset, {selected_long <- NULL})
+  #   observeEvent(input$reset, {selected_lat <-  NULL})
   
   
   # Check which stations are inside the polygon
@@ -192,12 +192,12 @@ NEW_mapModule_polygonFeature <- function(input, output, session) {
   selected_name <- reactive(stations$name[selected_stations_indices()])
   selected_long <- reactive(stations$long[selected_stations_indices()])
   selected_lat <-  reactive(stations$lat[selected_stations_indices()])
-
-#   selected_stations_indices <- reactive(which_station_in_polygon(stations, input$map_selectbox_features$features))
-#   selected_regine_main <- reactive(stations$regine_main[selected_stations_indices()])
-#   selected_name <- reactive(stations$name[selected_stations_indices()])
-#   selected_long <- reactive(stations$long[selected_stations_indices()])
-#   selected_lat <-  reactive(stations$lat[selected_stations_indices()])
+  
+  #   selected_stations_indices <- reactive(which_station_in_polygon(stations, input$map_selectbox_features$features))
+  #   selected_regine_main <- reactive(stations$regine_main[selected_stations_indices()])
+  #   selected_name <- reactive(stations$name[selected_stations_indices()])
+  #   selected_long <- reactive(stations$long[selected_stations_indices()])
+  #   selected_lat <-  reactive(stations$lat[selected_stations_indices()])
   
   
   observeEvent(input$catchments, {
@@ -206,34 +206,34 @@ NEW_mapModule_polygonFeature <- function(input, output, session) {
     } else {proxy %>% clearGeoJSON()}
   })
   
-#   observeEvent(input$reset, {
-#     output$map <- renderLeaflet( multiple_station_map(stations, single_poly = FALSE, variable2plot = input$variable, popups = input$popups) )
-#     ns <- session$ns
-#     proxy <- leafletProxy(ns("map"), session)
-#     selected_stations_indices <- NULL
-#     selected_regine_main <- NULL
-#     selected_name <- NULL
-#     selected_long <- NULL
-#     selected_lat <-  NULL
-#   })
+  #   observeEvent(input$reset, {
+  #     output$map <- renderLeaflet( multiple_station_map(stations, single_poly = FALSE, variable2plot = input$variable, popups = input$popups) )
+  #     ns <- session$ns
+  #     proxy <- leafletProxy(ns("map"), session)
+  #     selected_stations_indices <- NULL
+  #     selected_regine_main <- NULL
+  #     selected_name <- NULL
+  #     selected_long <- NULL
+  #     selected_lat <-  NULL
+  #   })
   
-#   proxy <- eventReactive(input$reset, {
-#     output$map <- renderLeaflet( multiple_station_map(stations, single_poly = FALSE, variable2plot = input$variable, popups = input$popups) )
-#     ns <- session$ns
-#     proxy <- leafletProxy(ns("map"), session)
-#     # renderLeaflet( multiple_station_map(stations, single_poly = FALSE, variable2plot = input$variable, popups = input$popups) )
-#   })
-  
-
+  #   proxy <- eventReactive(input$reset, {
+  #     output$map <- renderLeaflet( multiple_station_map(stations, single_poly = FALSE, variable2plot = input$variable, popups = input$popups) )
+  #     ns <- session$ns
+  #     proxy <- leafletProxy(ns("map"), session)
+  #     # renderLeaflet( multiple_station_map(stations, single_poly = FALSE, variable2plot = input$variable, popups = input$popups) )
+  #   })
   
   
-#   observeEvent(input$popups, {
-#     if (length(selected_regine_main()) > 0 && input$popups == TRUE) {
-#       proxy %>% addPopups(selected_long(), selected_lat(), paste("Name:", as.character(selected_name()), "Number:", 
-#                                                                  selected_regine_main(), sep = " "),
-#                           options = popupOptions(closeButton = FALSE, maxWidth = 100))
-#     } else {proxy %>% clearPopups()}
-#   })
+  
+  
+  #   observeEvent(input$popups, {
+  #     if (length(selected_regine_main()) > 0 && input$popups == TRUE) {
+  #       proxy %>% addPopups(selected_long(), selected_lat(), paste("Name:", as.character(selected_name()), "Number:", 
+  #                                                                  selected_regine_main(), sep = " "),
+  #                           options = popupOptions(closeButton = FALSE, maxWidth = 100))
+  #     } else {proxy %>% clearPopups()}
+  #   })
   
   output$print_selection <- renderText({ "Please select stations with the map drawing tools. You can draw several polygons / rectangles. You can delete them to modify your selection" })
   
@@ -307,8 +307,8 @@ NEW_mapModule_polygonFeatureUI <- function(id) {
       column(2,
              radioButtons(ns("variable"), selected = "none", 
                           label = "Select a color markers", choices = c("none", "flood_warning", "uncertainty")))
-
-    ),
+      
+             ),
     fluidRow(
       column(2,
              selectInput(ns("variable_1"), label = "Variables for HBV_2014", 
@@ -332,7 +332,7 @@ NEW_mapModule_polygonFeatureUI <- function(id) {
     #     fluidRow(uiOutput(ns("print_msg")),
     #              plotlyOutput(ns("plot"), height = "800px")
     #     )
-  )
+    )
 }
 
 #######################################################################################
