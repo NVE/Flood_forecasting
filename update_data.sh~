@@ -1,0 +1,4 @@
+RScript update_data.r
+setwd("/srv/shiny-server/Flomvarsling")
+library("NVEDATA")
+load_flood_data()

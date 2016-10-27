@@ -1,24 +1,39 @@
-# Installing and loading required packages (https://gist.github.com/stevenworthington/3178163)
-ipak <- function(pkg){
-  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-  if (length(new.pkg)) 
-    install.packages(new.pkg, dependencies = TRUE)
-  sapply(pkg, library, character.only = TRUE)
-}
+# # Installing and loading required packages (https://gist.github.com/stevenworthington/3178163)
+# ipak <- function(pkg){
+#   new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+#   if (length(new.pkg)) 
+#     install.packages(new.pkg, dependencies = TRUE)
+#   sapply(pkg, library, character.only = TRUE)
+# }
+# 
+# # Special case for leaflet which comes from a fork of Rcura on my repo
+# packages <- c("leaflet")
+# if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+#   install.packages('devtools')
+#   library(devtools)
+#   install_github("fbaffie/leaflet")
+# }
+# 
+# packages <- c("shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
+# ipak(packages)
+# # sp: For the point.in.polygon function
+# # shinythemes? for chosing various bootstrap themes
 
+#####################################################################
 
-# Special case for leaflet which comes from a fork of Rcura on my repo
-packages <- c("leaflet")
-if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-  install.packages('devtools')
-  library(devtools)
-  install_github("fbaffie/leaflet")
-}
+# chooseCRANmirror(ind=89)
+# library('devtools', lib = "/usr/local/lib/R/site-library")
+# install_github("fbaffie/leaflet")
 
-packages <- c("shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
-ipak(packages)
-# sp: For the point.in.polygon function
-# shinythemes? for chosing various bootstrap themes
+library('shiny')
+library('tidyverse')
+library('sp')
+library('plotly')
+library('DT')
+library('leaflet')
+
+if (names(dev.cur()) != "null device") dev.off()
+pdf(NULL)
 
 ## My modules: either load package or source modules from this directory
 source('map_modules.R')
