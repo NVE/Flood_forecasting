@@ -1,5 +1,4 @@
 .Rproj.user
 .Rhistory
 rsconnect/*
-*.rda
-*.RData
+data_all.RData

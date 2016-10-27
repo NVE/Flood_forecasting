@@ -1,39 +1,13 @@
-# # Installing and loading required packages (https://gist.github.com/stevenworthington/3178163)
-# ipak <- function(pkg){
-#   new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-#   if (length(new.pkg)) 
-#     install.packages(new.pkg, dependencies = TRUE)
-#   sapply(pkg, library, character.only = TRUE)
-# }
-# 
-# # Special case for leaflet which comes from a fork of Rcura on my repo
-# packages <- c("leaflet")
-# if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-#   install.packages('devtools')
-#   library(devtools)
-#   install_github("fbaffie/leaflet")
-# }
-# 
-# packages <- c("shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
-# ipak(packages)
-# # sp: For the point.in.polygon function
-# # shinythemes? for chosing various bootstrap themes
+# packages <- c("curl", "shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
+library('curl', lib = "/home/flbk/R")
+library('shiny', lib = "/home/flbk/R")
+library('tidyverse', lib = "/home/flbk/R")
+library('sp', lib = "/home/flbk/R")
+library('plotly', lib = "/home/flbk/R")
+library('leaflet', lib = "/home/flbk/R")
+library('DT', lib = "/home/flbk/R")
 
-#####################################################################
 
-# chooseCRANmirror(ind=89)
-# library('devtools', lib = "/usr/local/lib/R/site-library")
-# install_github("fbaffie/leaflet")
-
-library('shiny')
-library('tidyverse')
-library('sp')
-library('plotly')
-library('DT')
-library('leaflet')
-
-if (names(dev.cur()) != "null device") dev.off()
-pdf(NULL)
 
 ## My modules: either load package or source modules from this directory
 source('map_modules.R')
@@ -41,6 +15,10 @@ source('table_modules.R')
 source('plot_modules.R')
 source('plotting_functions.R')
 source('mapping_functions.R')
+
+# Source all files from the RCura version of leaflet DOESNT WORK
+# file.sources = list.files("./leaflet-plugins", pattern="*.R", full.names=TRUE)
+# for (f in file.sources) {source(f) }
 
 hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
 

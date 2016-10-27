@@ -1,13 +1,37 @@
-﻿# Flood_forecasting this my branch
-A Shiny app to present flood forecasting results at NVE.
-If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
+<h2 id="About">
+Flood_forecasting - Visualization tool for flood forecasters at NVE
+</h2>
+A Shiny app to present flood forecasting results at NVE. If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
 
-## Aim
+----
+Table of contents
+
+-   [Aim](#Aim)
+-   [Structure](#Structure)
+-   [Models](Models)
+     - [HBV with uncertainty model (HBV_UM)](#HBV_UM)
+     - [HBV with +/- 50% precipitation (HBV_P)](#HBV_P)
+     - [DDD](#DDD)
+     - [ODM](#ODM)
+     - [Data Driven Model (DDM)](#DDM)
+-   [Other datasets](#datasets)
+     - [Return levels](#rls)
+     - [Probability of flooding](#prob)
+     - [Station metadata](#metadata)
+-   [Running the app](#run)
+     - [From GitHub](#github)
+     - [Locally](#local)
+-    [Filing issues](#issues)
+
+<h2 id="Aim">
+Aim
+</h2>
 Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation.
 
-
-## Structure
-The GUI will be based on R Shiny, with the following tabs:
+<h2 id="Structure">
+Structure
+</h2>
+The GUI is based on R Shiny, with the following tabs:
 
 1. Tab 1: Station selection (returns a list of one or more stations) based on 4 methods (many inputs, a few methods, one output list(stations)):
  * Station identification number or name
@@ -48,39 +72,61 @@ This station selection would update every other tab that uses groups of stations
 
 Historical hindsight: pull out past interesting events for a specific station or group of stations
 
-
-To be continued...
-
-## Dataset
-
 Not all the files have data for the same number of stations (120-145). Check how the station numbers are organized.
 Those files don't include catchment properties, so we will have to agree on the data files for those properties.
 The observed flow and precip/temperature are included in all of those files.
 
+To be continued...
+
+*[Back to top](#About)*
+
+<h2 id="Models">
+Models
+</h2>
+
 Results from the daily model runs:
 
-1. HBV with uncertainty model: /hdata/drift/flom/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt 
+<h4 id="HBV_UM">
+HBV with uncertainty model (HBV_UM)
+</h4>
+
+HBV with uncertainty model: /hdata/drift/flom/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt 
  * Pure model run (not processed)
  * Updated: automated update using observed streamflow
  * Output of the uncertainty model: median result based on a distribution of meteo input data
  * A few quantiles (take 5%, 95%), also based on the distribution of meteo data
 Ask Gusong if questions
 
-2. HBV with + 50% precipitation: /hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt
+<h4 id="HBV_P">
+HBV with +/- 50% precipitation (HBV_P)
+</h4>
+
+HBV with + 50% precipitation: /hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt
  * Pure model run (not processed): this is in the dataset but it is the same as in 1., so shouldn't be plotted!
  * Updated: automated update using observed streamflow (different method)
  * Results from a run with precip + 50%
 Ask Gusong if questions
 
-3. DDD model 24 hours: /hdata/drift/flom/DDD24h2015R/24hres.txt
- * Only pure model.
-Ask Selalem if questions
+<h4 id="DDD">
+DDD
+</h4>
 
-4. ODM model 24 hours: /hdata/drift/flood/H-VEPS02/simu_hbv_elev_24h/<catchment>/InputTimeSeries.txt
+DDD model 24 hours: /hdata/drift/flom/DDD24h2015R/24hres.txt
+
+<h4 id="ODM">
+ODM
+</h4>
+
+ODM model 24 hours: /hdata/drift/flood/H-VEPS02/simu_hbv_elev_24h/<catchment>/InputTimeSeries.txt
  * Pure model
  * Updated model
 Ask Bård if questions 
 
+<h4 id="DDM">
+DDM
+</h4>
+
+Data driven model...
 
 
 Potential issue with data:
@@ -90,34 +136,65 @@ So, if we want to implement a feature that pulls the x interesting events in the
 
 This is not a problem for implement the DATE -7 / +9 days model plots.
 
+*[Back to top](#About)*
 
-## Running the app
+<h2 id="datasets">
+Dataset
+</h2>
 
-#### Directly from Github
+<h4 id="rls">
+Return levels
+</h4>
+Flomtabell.rap
 
-```R
-# If you don't have Shiny installed start with:
+<h4 id="prob">
+Probability of flooding
+</h4>
+take max(next 3days of probability "number of occurence in ensemble" for mean flood) as variable. risiko.rap there: Z:\flom\usikkerhet_grd\utskrift
+
+<h4 id="metadata">
+Station metadata
+</h4>
+A large variety of metadata for all stations come directly from the [`NVEDATA`](https://github.com/NVE/NVEDATA) package.
+
+<h2 id="run">
+Running the app
+</h2>
+
+<h4 id="github">
+Directly from GitHub
+</h4>
+
+# IF YOU ARE HAVE NOT INSTALLED THE SHINY PACKAGE
+
+# Install the "shiny" package: Open RStudio, go to Tools -> Install packages and type "shiny"
+# If it is the first package you install I will likely suggest a path to install future packages. It is usually a sensible path, so
+# check and click accept.
+# Another way to install the package is to type
 install.packages('shiny')
+# If no packages have been installed previously, this command will usually choose a strange default installation directory for R
+# packages so please use the RStudio buttons for installing your first package.
+# For subsequent packages, you can then use "install.packages('PACKAGE_NAME') and it will use the directory selected earlier.
 
-# Then load the package and run the app:
+# IF YOU HAVE ALREADY INSTALLED SHINY
+# Load the shiny package and run the app:
 library(shiny)
+runGitHub("Flood_forecasting", "fbaffie")
 
-runGitHub("Flood_forecasting", "fbaffie", ref = "operational")
+# If you want to update the data used by the app, first press the "Stop" button on RStudio to stop the app (Top right of the console). # Then run again:
+library(shiny)
+runGitHub("Flood_forecasting", "fbaffie")
 
-```
+<h4 id="local">
+Locally
+</h4>
 
-#### Locally
 
-To have a copy on your computer, first clone the git repository and then use `runApp()`:
+*[Back to top](#About)*
 
-```R
-# First clone the repository with git. If you have cloned it into
-# ~/Flood_forecasting, first go to that directory, then use runApp().
-setwd("~/Flood_forecasting")
-runApp()
-```
-
-## Filing issues
+<h4 id="issues">
+Filing issues
+</h4>
 
 Please try to follow those guidelines for filing issues:
 

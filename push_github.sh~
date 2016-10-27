@@ -1,0 +1,6 @@
+#!/bin/bash
+cd /srv/shiny-server/Flomvarsling
+git checkout master
+git add -f *.RData
+git commit -m "updating data"
+git push origin master:demo
