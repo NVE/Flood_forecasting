@@ -165,25 +165,15 @@ Running the app
 Directly from GitHub
 </h4>
 
-# IF YOU ARE HAVE NOT INSTALLED THE SHINY PACKAGE
+Not working at the moment
+Load the shiny package and run the app:
+```library(shiny)
+runGitHub("Flood_forecasting", "NVE")```
 
-# Install the "shiny" package: Open RStudio, go to Tools -> Install packages and type "shiny"
-# If it is the first package you install I will likely suggest a path to install future packages. It is usually a sensible path, so
-# check and click accept.
-# Another way to install the package is to type
-install.packages('shiny')
-# If no packages have been installed previously, this command will usually choose a strange default installation directory for R
-# packages so please use the RStudio buttons for installing your first package.
-# For subsequent packages, you can then use "install.packages('PACKAGE_NAME') and it will use the directory selected earlier.
-
-# IF YOU HAVE ALREADY INSTALLED SHINY
-# Load the shiny package and run the app:
-library(shiny)
-runGitHub("Flood_forecasting", "fbaffie")
-
-# If you want to update the data used by the app, first press the "Stop" button on RStudio to stop the app (Top right of the console). # Then run again:
-library(shiny)
-runGitHub("Flood_forecasting", "fbaffie")
+If you want to update the data used by the app, first press the "Stop" button on RStudio to stop the app (Top right of the console).
+Then run again:
+```library(shiny)
+runGitHub("Flood_forecasting", "fbaffie")```
 
 <h4 id="local">
 Locally
