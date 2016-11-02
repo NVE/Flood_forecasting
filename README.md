@@ -1,4 +1,5 @@
 `Warning: This project is still under development and is not fully mature`
+`An automatic reporting website is also in experimental stage: http://NVE.github.io/Flood_forecasting/`
 
 <h2 id="About">
 Flood_forecasting - Visualization tool for flood forecasters at NVE
