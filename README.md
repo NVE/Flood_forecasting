@@ -168,7 +168,7 @@ Directly from GitHub
 Not working at the moment
 Load the shiny package and run the app:
 ```library(shiny)
-runGitHub("Flood_forecasting", "NVE")```
+runGitHub("Flood_forecasting", "fbaffie")```
 
 If you want to update the data used by the app, first press the "Stop" button on RStudio to stop the app (Top right of the console).
 Then run again:
