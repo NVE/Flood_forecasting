@@ -16,6 +16,7 @@ Table of contents
      - [HBV with uncertainty model (HBV_UM)](#HBV_UM)
      - [HBV with +/- 50% precipitation (HBV_P)](#HBV_P)
      - [DDD](#DDD)
+     - [DDM](#DDM)
      - [ODM](#ODM)
      - [Data Driven Model (DDM)](#DDM)
 -   [Other datasets](#datasets)
