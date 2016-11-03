@@ -36,11 +36,11 @@ if (names(dev.cur()) != "null device") dev.off()
 pdf(NULL)
 
 ## My modules: either load package or source modules from this directory
-source('map_modules.R')
-source('table_modules.R')
-source('plot_modules.R')
-source('plotting_functions.R')
-source('mapping_functions.R')
+source('R/map_modules.R')
+source('R/table_modules.R')
+source('R/plot_modules.R')
+source('R/plotting_functions.R')
+source('R/mapping_functions.R')
 
 hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
 
