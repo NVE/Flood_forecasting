@@ -1,0 +1,22 @@
+---
+title: "DDM model"
+output: 
+  html_document:
+    highlight: tango
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Overview
+
+This is an example of including a child rmd document
+
+```{r child='content/child1.Rmd'}
+```
+

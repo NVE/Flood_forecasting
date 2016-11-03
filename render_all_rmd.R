@@ -1,0 +1,6 @@
+rmarkdown::render("report/process.Rmd")
+rmarkdown::render("report/app.Rmd")
+rmarkdown::render("report/HBV.Rmd")
+rmarkdown::render("report/DDD.Rmd")
+rmarkdown::render("report/ODM.Rmd")
+rmarkdown::render("report/DDM.Rmd")
