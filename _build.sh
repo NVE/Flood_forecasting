@@ -8,7 +8,7 @@ ls
 Rscript -e "print(getwd())"
 
 
-Rscript -e "rmarkdown::render("process.Rmd")"
+Rscript -e "rmarkdown::render('process.Rmd')"
 #Rscript -e "rmarkdown::render("app.Rmd")"
 #Rscript -e "rmarkdown::render("HBV.Rmd")"
 #Rscript -e "rmarkdown::render("DDD.Rmd")"
