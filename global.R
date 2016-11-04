@@ -26,12 +26,7 @@
 # install_github("fbaffie/leaflet")
 
 library(shiny)
-#library(tidyverse)
-library(dplyr)
-library(ggplot2)
-library(magrittr)
-library(lubridate)
-
+library(tidyverse)
 library(sp)
 library(plotly)
 library(DT)
