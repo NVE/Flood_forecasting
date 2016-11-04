@@ -18,7 +18,7 @@ Table of contents
      - [DDD](#DDD)
      - [DDM](#DDM)
      - [ODM](#ODM)
-     - [Data Driven Model (DDM)](#DDM)
+     - [Data Driven Models (DDMs)](#DDM)
 -   [Other datasets](#datasets)
      - [Return levels](#rls)
      - [Probability of flooding](#prob)
@@ -131,7 +131,7 @@ Ask Bård if questions
 DDM
 </h4>
 
-Data driven model...
+Data driven models...
 
 
 Potential issue with data:
