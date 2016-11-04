@@ -1,5 +1,6 @@
 #!/bin/sh
-cd ..
+pwd
+
 Rscript -e "source("render_all_rmd.R")"
 
 #Rscript -e "rmarkdown::render("report/process.Rmd")"
