@@ -1,11 +1,11 @@
 #!/bin/sh
 pwd
 ls
-Rscript -e print("getwd())"
+Rscript -e "print(getwd())"
 cd report
 pwd
 ls
-Rscript -e print("getwd())"
+Rscript -e "print(getwd())"
 
 
 #Rscript -e "rmarkdown::render("process.Rmd")"
