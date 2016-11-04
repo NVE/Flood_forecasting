@@ -5,7 +5,7 @@ output:
     highlight: tango
     toc: true
     toc_float:
-      collapsed: false
+      collapsed: true
 ---
 
 ```{r setup, include=FALSE}

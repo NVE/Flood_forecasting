@@ -1,5 +1,5 @@
 ---
-title: "DDM model"
+title: "Daily report"
 output: 
   html_document:
     highlight: tango
@@ -34,23 +34,17 @@ always_allow_html: yes
 ---
 -->
 
-
-
 # Main maps
 
 Below are some mapped results:
 
-```{r echo=TRUE, message=FALSE, warning=FALSE}
+```{r echo=TRUE, message=FALSE, warning=TRUE}
 
-getwd()
-
-```
-
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-
-source('global.R')
-
+setwd("..")
+source("global.R")
+model_1 <- HBV_2014
+model_2 <- HBV_2016
+model_3 <- DDD
 
 single_station_map(stations, selected_nbname = "2.11-narsjo")
 
@@ -63,9 +57,6 @@ Interative plots for a few stations
 
 ```{r echo=FALSE, eval=TRUE, message=FALSE, warning=TRUE, results = "asis", fig.height= 10, fig.width= 15, fig.keep = "all"}
 
-model_1 <- HBV_2014
-model_2 <- HBV_2016
-model_3 <- DDD
 # selected_nbname <- "2.11-narsjo"
 
 variable_1 <- c("SimRaw", "SimCorr", "SimL50", "SimH50")
