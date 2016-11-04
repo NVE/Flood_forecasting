@@ -13,6 +13,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Overview
+# What is it?
 
-blabla
+Bla
+
+# Why do we use it?
+
+
+# How to run it?
+
+
+# How is it used by the visualization app

@@ -12,42 +12,41 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-<!---
-Either render the file this way:
-rmarkdown::render('daily_report.Rmd', "html_document", 
-paste("_posts/", Sys.Date(), "-Flood-report.html", sep= ""))
-
-or copy those specificxations above:
-
----
-title: "test"
-author: "FKB"
-date: '`r Sys.Date()`'
-output: html_document
----
-
-
----
-output: word_document
-always_allow_html: yes
----
--->
-
-# Main maps
-
-Below are some mapped results:
-
-```{r echo=TRUE, message=FALSE, warning=TRUE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 setwd("..")
 source("global.R")
 model_1 <- HBV_2014
 model_2 <- HBV_2016
 model_3 <- DDD
+```
 
+# Main maps
+
+Below are some maps summarizing the current flooding situation as well as flooding risk for the coming week.
+
+## Current flow
+
+The map below plots for each flood forecasting station, the ratio of current discharge by the mean annual flood
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 single_station_map(stations, selected_nbname = "2.11-narsjo")
+```
 
+## Flood warning ratio
+
+The map below plots for each flood forecasting station, the ratio of current discharge by the mean annual flood
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+single_station_map(stations, selected_nbname = "2.11-narsjo")
+```
+
+## Uncertainty ratio
+
+The map below plots for each flood forecasting station, the ratio of current discharge by the mean annual flood
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+single_station_map(stations, selected_nbname = "2.11-narsjo")
 ```
 
 # Multimodel plots

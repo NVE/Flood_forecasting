@@ -13,12 +13,25 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Aim
+# What is it?
 
-Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation.
+An R Shiny app to interactively visualize flood forecasting data and model results.
+
+# Why was it developed?
+
+A full-blown website is already used daily for the flood warning service: [xgeo](www.xgeo.no)
+It is however open to the public and can slow down during periods of intense use. It also does not allow plotting multiple model results at once.
+This R application was developed to complement xgeo and serve as a prototyping platform before new ideas are eventually implemented in xgeo.
+
+# How to run it?
+
+After installing the `shiny`R package, you can run this application from anywhere with the following commands:
+`library(shiny)`
+`runGitHub("Flood_forecasting", "fbaffie")`
+The aim is to have the .RData files that are read by the application
 
 
-## Structure
+# What does it do?
 
 The GUI is based on R Shiny, with the following tabs:
 
@@ -65,4 +78,7 @@ Not all the files have data for the same number of stations (120-145). Check how
 Those files don't include catchment properties, so we will have to agree on the data files for those properties.
 The observed flow and precip/temperature are included in all of those files.
 
-To be continued...
+# Use
+
+
+

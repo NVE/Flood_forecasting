@@ -249,12 +249,20 @@ $(".main-container").removeClass("main-container").removeClass("container-fluid"
 </div>
 
 
-<div id="aim" class="section level2">
-<h2>Aim</h2>
-<p>Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation.</p>
+<div id="what-is-it" class="section level1">
+<h1>What is it?</h1>
+<p>An R Shiny app to interactively visualize flood forecasting data and model results.</p>
 </div>
-<div id="structure" class="section level2">
-<h2>Structure</h2>
+<div id="why-was-it-developed" class="section level1">
+<h1>Why was it developed?</h1>
+<p>A full-blown website is already used daily for the flood warning service: <a href="www.xgeo.no">xgeo</a> It is however open to the public and can slow down during periods of intense use. It also does not allow plotting multiple model results at once. This R application was developed to complement xgeo and serve as a prototyping platform before new ideas are eventually implemented in xgeo.</p>
+</div>
+<div id="how-to-run-it" class="section level1">
+<h1>How to run it?</h1>
+<p>After installing the <code>shiny</code>R package, you can run this application from anywhere with the following commands: <code>library(shiny)</code> <code>runGitHub(&quot;Flood_forecasting&quot;, &quot;fbaffie&quot;)</code> The aim is to have the .RData files that are read by the application</p>
+</div>
+<div id="what-does-it-do" class="section level1">
+<h1>What does it do?</h1>
 <p>The GUI is based on R Shiny, with the following tabs:</p>
 <ol style="list-style-type: decimal">
 <li>Tab 1: Station selection (returns a list of one or more stations) based on 4 methods (many inputs, a few methods, one output list(stations)):</li>
@@ -312,7 +320,9 @@ $(".main-container").removeClass("main-container").removeClass("container-fluid"
 </ul>
 <p>Historical hindsight: pull out past interesting events for a specific station or group of stations</p>
 <p>Not all the files have data for the same number of stations (120-145). Check how the station numbers are organized. Those files don’t include catchment properties, so we will have to agree on the data files for those properties. The observed flow and precip/temperature are included in all of those files.</p>
-<p>To be continued…</p>
+</div>
+<div id="use" class="section level1">
+<h1>Use</h1>
 </div>
 
 
