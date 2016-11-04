@@ -23,14 +23,6 @@ A full-blown website is already used daily for the flood warning service: [xgeo]
 It is however open to the public and can slow down during periods of intense use. It also does not allow plotting multiple model results at once.
 This R application was developed to complement xgeo and serve as a prototyping platform before new ideas are eventually implemented in xgeo.
 
-# How to run it?
-
-After installing the `shiny`R package, you can run this application from anywhere with the following commands:
-`library(shiny)`
-`runGitHub("Flood_forecasting", "fbaffie")`
-The aim is to have the .RData files that are read by the application
-
-
 # What does it do?
 
 The GUI is based on R Shiny, with the following tabs:
@@ -44,7 +36,7 @@ The GUI is based on R Shiny, with the following tabs:
 This station selection would update every other tab that uses groups of stations but the other tabs would also have a simple selection tool (i.e. regine + main numbers)
 
 2. Tab 2: FORECASTER'S DASHBOARD - plots and performance of model runs (-7 to +9 days). Only for a single station?
- * Selection of a single station based on region_number, main_number, clicking on map
+ * Selection of a single station based on region number, main number, clicking on map
  * Map markers could represent a selectable variable (temperature / precip...)
  * Plot (plotly, highchart or dygraph to have interactive plot features such as adding/removing lines) of model runs
      - The plot should include flood levels: mean flood and 5 year return level. The plots could be ticked out by default and then plotted when the forecast is within X% of those levels.
@@ -78,7 +70,18 @@ Not all the files have data for the same number of stations (120-145). Check how
 Those files don't include catchment properties, so we will have to agree on the data files for those properties.
 The observed flow and precip/temperature are included in all of those files.
 
-# Use
+# How to run it?
+
+After installing the `shiny`R package, you can run this application from anywhere with the following commands:
+`library(shiny)`
+`runGitHub("Flood_forecasting", "fbaffie")`
+The aim is to have the .RData files that are read by the application
+
+# How to use it?
+
+
+
+# How to modify it or develop it further?
 
 
 
