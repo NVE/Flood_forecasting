@@ -1,0 +1,55 @@
+---
+title: "Process"
+output: 
+  html_document:
+    highlight: tango
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Flood forecasting methodology
+
+How does NVE prepare its flood forecasting service
+
+## Visualization tool
+
+In complement of the website www.xgeo.no, an R shiny app was developed to vizualize together the results of multiple models.
+
+## Models
+
+Blabla
+
+#### [HBV](HBV.html)
+
+Blabla
+
+#### [DDD](DDD.html)
+
+Blabla
+
+#### [ODM](ODM.html)
+
+Blabla
+
+#### [DDM](DDM.html)
+
+Blabla
+
+
+## Data
+
+Blabla
+
+#### Meteo
+
+Blabla
+
+#### Flood return levels
+
+Blabla

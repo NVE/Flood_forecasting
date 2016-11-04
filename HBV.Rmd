@@ -1,0 +1,31 @@
+---
+title: "HBV"
+output: 
+  html_document:
+    highlight: tango
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## HBV with uncertainty model (HBV_UM)
+
+HBV with uncertainty model: /hdata/drift/flom/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt 
+ * Pure model run (not processed)
+ * Updated: automated update using observed streamflow
+ * Output of the uncertainty model: median result based on a distribution of meteo input data
+ * A few quantiles (take 5%, 95%), also based on the distribution of meteo data
+Ask Gusong if questions
+
+## HBV with + 50% precipitation (HBV_P)
+
+HBV with + 50% precipitation: /hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt
+ * Pure model run (not processed): this is in the dataset but it is the same as in 1., so shouldn't be plotted!
+ * Updated: automated update using observed streamflow (different method)
+ * Results from a run with precip + 50%
+Ask Gusong if questions
