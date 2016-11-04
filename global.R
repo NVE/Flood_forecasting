@@ -31,6 +31,7 @@ library('sp')
 library('plotly')
 library('DT')
 library('leaflet')
+library('rmarkdown')
 
 if (names(dev.cur()) != "null device") dev.off()
 pdf(NULL)
