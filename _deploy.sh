@@ -10,8 +10,9 @@ git config --global user.email "fbaffie@gmail.com"
 git config --global user.name "fbaffie"
 
 # clone the repository to the book-output directory
-git clone -b gh-pages https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git report
+git clone -b gh-pages https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git travis_output
+cd travis_output
 cp -r ../report/* ./
 git add --all *
-git commit -m "Update the book"
+git commit -m "Travis update of gh-pages"
 git push origin gh-pages
