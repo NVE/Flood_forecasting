@@ -11,8 +11,6 @@ git config --global user.name "fbaffie"
 
 # clone the repository to the book-output directory
 git clone -b gh-pages https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git report
-cd report
-ls
 cp -r ../report/* ./
 git add --all *
 git commit -m "Update the book"
