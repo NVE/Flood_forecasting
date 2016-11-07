@@ -16,36 +16,29 @@ library('plotly')
 library('DT')
 library('leaflet')
 
-<<<<<<< HEAD
-packages <- c("curl", "shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
 # packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS", "DT")
-ipak(packages)
-# sp: For the point.in.polygon function
-# shinythemes? for chosing various bootstrap themes
-=======
 
 if (names(dev.cur()) != "null device") dev.off()
 pdf(NULL)
->>>>>>> 515eb77a7db5c2ccd711c6aaf7ec2602b2df98fc
 
 ## My modules: either load package or source modules from this directory
-source('map_modules.R')
-source('table_modules.R')
-source('plot_modules.R')
-source('plotting_functions.R')
-source('mapping_functions.R')
+source('R/map_modules.R')
+source('R/table_modules.R')
+source('R/plot_modules.R')
+source('R/plotting_functions.R')
+source('R/mapping_functions.R')
 
 hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
 
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
 
-load("HBV_2014.RData")
-load("HBV_2016.RData")
-load("DDD.RData")
-load("flomtabell.RData")
-load("HBV_past_year.RData")
-load("meta_data.rda")
+load("data/HBV_2014.RData")
+load("data/HBV_2016.RData")
+load("data/DDD.RData")
+load("data/flomtabell.RData")
+load("data/HBV_past_year.RData")
+load("data/meta_data.rda")
 
 station_numbers <- as.character(unique(HBV_2014$regine.main))  # All of the HBV_2016 and DD stations are in HBV_2014
 station_names <- as.character(unique(HBV_2014$station.name))  # May not be optimal (if 2 stations had same name), but it works
