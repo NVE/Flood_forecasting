@@ -1,0 +1,4 @@
+Title: Flood forecasting documentation
+Version: 0.0.1
+Imports: rmarkdown
+Remotes: NVE/Flood_forecasting
