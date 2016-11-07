@@ -12,8 +12,8 @@ OLD_forecast_plot_modUI <- function(id) {
   ns <- NS(id)
   
   fluidRow(uiOutput(ns("print_msg")),
-           # plotlyOutput(ns("plot"), height = "800px")
-           uiOutput(ns("rendered_plot"), width = "100%")  # Plot height increases auto with more stations
+           plotlyOutput(ns("plot"), height = "800px")
+           #uiOutput(ns("rendered_plot"), width = "100%")  # Plot height increases auto with more stations
   )
 }
 
@@ -178,19 +178,19 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
       
     } 
     
-#     else {
-#       
-#       subset2plot_i1 <- dplyr::filter(model_1, nbname %in% map_input$station & Type == "Input") 
-#       subset2plot_i2 <- dplyr::filter(model_2, nbname %in% map_input$station & Type == "Input") 
-#       subset2plot_i3 <- dplyr::filter(model_3, nbname %in% map_input$station & Type == "Input") 
-#       
-#       output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_i1, subset2plot_i2, 
-#                                                          subset2plot_i3))
-#       
-#       output$rendered_plot <- renderUI( plotlyOutput(ns("plot"), 
-#       height = paste(400 * length(map_input$station), "px", sep ="")) ) 
-#       
-#     }
+    #     else {
+    #       
+    #       subset2plot_i1 <- dplyr::filter(model_1, nbname %in% map_input$station & Type == "Input") 
+    #       subset2plot_i2 <- dplyr::filter(model_2, nbname %in% map_input$station & Type == "Input") 
+    #       subset2plot_i3 <- dplyr::filter(model_3, nbname %in% map_input$station & Type == "Input") 
+    #       
+    #       output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_i1, subset2plot_i2, 
+    #                                                          subset2plot_i3))
+    #       
+    #       output$rendered_plot <- renderUI( plotlyOutput(ns("plot"), 
+    #       height = paste(400 * length(map_input$station), "px", sep ="")) ) 
+    #       
+    #     }
     
     
   })
@@ -206,7 +206,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
       subset2plot_i3 <- dplyr::filter(model_3, nbname %in% map_input$station & Type %in% input$type_choice) 
       output$plot_input <- renderPlotly(multimod_forecast_plot(subset2plot_i1, subset2plot_i2, 
                                                                subset2plot_i3))
-     
+      
     }
   })
   
@@ -373,25 +373,25 @@ multimod_forecast_plot_EXP <- function(input, output, session, selected_stations
 
 taylor_mod <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
   
-output$TDplot <- renderPlot({ 
-  mydat0<-subset(alldat, Catchment %in% input$catch)
-  # now add the model
-  taylor.diagram(mydat0[,3], mydat0[,4], pos.cor = TRUE, main = paste("Taylor Diagram for ", input$catch, sep = ""), 
-                 ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
+  output$TDplot <- renderPlot({ 
+    mydat0<-subset(alldat, Catchment %in% input$catch)
+    # now add the model
+    taylor.diagram(mydat0[,3], mydat0[,4], pos.cor = TRUE, main = paste("Taylor Diagram for ", input$catch, sep = ""), 
+                   ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
+    
+    taylor.diagram(mydat0[,3], mydat0[,5],, add = TRUE, col = "grey", 
+                   pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
+    taylor.diagram(mydat0[,3], mydat0[,6],, add = TRUE, col = "blue", 
+                   pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
+    taylor.diagram(mydat0[,3], mydat0[,7],, add = TRUE, col = "brown", 
+                   pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
+    taylor.diagram(mydat0[,3], mydat0[,8],, add = TRUE, col = "green", 
+                   pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
+    
+    lpos<-1.4*sd(mydat0$Observed)
+    legend(lpos,lpos,legend=c("HBV", "NNET", "SVM","GBM","M5","M5c"),pch=19,col=c("red","grey","blue","brown","green","pink"))  
+  }) 
   
-  taylor.diagram(mydat0[,3], mydat0[,5],, add = TRUE, col = "grey", 
-                 pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
-  taylor.diagram(mydat0[,3], mydat0[,6],, add = TRUE, col = "blue", 
-                 pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
-  taylor.diagram(mydat0[,3], mydat0[,7],, add = TRUE, col = "brown", 
-                 pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
-  taylor.diagram(mydat0[,3], mydat0[,8],, add = TRUE, col = "green", 
-                 pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
-  
-  lpos<-1.4*sd(mydat0$Observed)
-  legend(lpos,lpos,legend=c("HBV", "NNET", "SVM","GBM","M5","M5c"),pch=19,col=c("red","grey","blue","brown","green","pink"))  
-}) 
-
 }
 
 taylor_modUI <- function(id) {
@@ -405,34 +405,34 @@ taylor_modUI <- function(id) {
 
 dygraph_mod <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
   
-output$mydygraph <- renderDygraph({
-  
-  alldat$myDate <- as.Date(alldat$myDate)
-  
-  dat1<-subset(alldat, Catchment %in% input$catch)
-  dat_cropped<-dat1[,-2]
-  dat2<-dat_cropped[complete.cases(dat_cropped),]
-  dat.z<-zoo(dat2[,2:8],dat2$myDate)
-  myts<-as.ts(dat.z)
-  dygraph(
-    myts#%>%dyRangeSelector()
-  )
-})
+  output$mydygraph <- renderDygraph({
+    
+    alldat$myDate <- as.Date(alldat$myDate)
+    
+    dat1<-subset(alldat, Catchment %in% input$catch)
+    dat_cropped<-dat1[,-2]
+    dat2<-dat_cropped[complete.cases(dat_cropped),]
+    dat.z<-zoo(dat2[,2:8],dat2$myDate)
+    myts<-as.ts(dat.z)
+    dygraph(
+      myts#%>%dyRangeSelector()
+    )
+  })
 }
 
 dygraph_mod2 <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
   
-output$mydygraph2 <- renderDygraph({
-  # start dygraph with all the states
-  dat3<-subset(alldat, Catchment %in% input$catch &  myDate > as.character(input$dateRange[1]) & myDate <as.character(input$dateRange[2]))
-  dat_cropped<-dat3[,-2]
-  #dat4<-dat3[complete.cases(dat3),]
-  dat.z1<-zoo(dat_cropped[,2:8],dat_cropped$myDate)
-  myts1<-as.ts(dat.z1)
-  dygraph(
-    myts1#%>%dyRangeSelector()
-  )
-})
+  output$mydygraph2 <- renderDygraph({
+    # start dygraph with all the states
+    dat3<-subset(alldat, Catchment %in% input$catch &  myDate > as.character(input$dateRange[1]) & myDate <as.character(input$dateRange[2]))
+    dat_cropped<-dat3[,-2]
+    #dat4<-dat3[complete.cases(dat3),]
+    dat.z1<-zoo(dat_cropped[,2:8],dat_cropped$myDate)
+    myts1<-as.ts(dat.z1)
+    dygraph(
+      myts1#%>%dyRangeSelector()
+    )
+  })
 }
 
 dygraph_modUI <- function(id) {

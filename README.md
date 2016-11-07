@@ -1,6 +1,8 @@
+
 `Warning: This project is still under development and is not fully mature`
 
-`An automatic reporting website is also in experimental stage: http://NVE.github.io/Flood_forecasting/`
+This readme is transitioning to a small website.
+An automatic reporting website (based on RStudio's Rmarkdown) is also in experimental stage: http://NVE.github.io/Flood_forecasting/
 
 <h2 id="About">
 Flood_forecasting - Visualization tool for flood forecasters at NVE
@@ -18,7 +20,7 @@ Table of contents
      - [DDD](#DDD)
      - [DDM](#DDM)
      - [ODM](#ODM)
-     - [Data Driven Model (DDM)](#DDM)
+     - [Data Driven Models (DDMs)](#DDM)
 -   [Other datasets](#datasets)
      - [Return levels](#rls)
      - [Probability of flooding](#prob)
@@ -131,7 +133,7 @@ Ask Bård if questions
 DDM
 </h4>
 
-Data driven model...
+Data driven models...
 
 
 Potential issue with data:
