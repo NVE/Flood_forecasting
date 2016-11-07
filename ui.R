@@ -96,14 +96,6 @@ ui <- navbarPage("Flomvarsling", collapsible = TRUE, theme = "my_style.css",
                             tabPanel("DDD",
                                      table_modUI("DDD_table")
                             )
-                 ),
-                 navbarMenu("Historical tools", icon = icon("history"),
-                            tabPanel("Past forecasting performance"
-                                     #                                      mapModuleUI("past_map"),
-                                     #                                      multimod_forecast_selection_modUI("past_plot"),
-                                     #                                      multimod_forecast_plot_modUI("past_plot")
-                            ),
-                            tabPanel("Past events"),
-                            tabPanel("Calibration results")
                  )
+
 )
