@@ -48,12 +48,12 @@ hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
 
-load("data/HBV_2014.RData")
-load("data/HBV_2016.RData")
-load("data/DDD.RData")
-load("data/flomtabell.RData")
-load("data/HBV_past_year.RData")
-load("data/meta_data.rda")
+load("HBV_2014.RData")
+load("HBV_2016.RData")
+load("DDD.RData")
+load("flomtabell.RData")
+load("HBV_past_year.RData")
+load("meta_data.rda")
 
 station_numbers <- as.character(unique(HBV_2014$regine.main))  # All of the HBV_2016 and DD stations are in HBV_2014
 station_names <- as.character(unique(HBV_2014$station.name))  # May not be optimal (if 2 stations had same name), but it works
