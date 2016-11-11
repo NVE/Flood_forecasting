@@ -10,7 +10,7 @@ Flood_forecasting - Visualization tool for flood forecasters at NVE
 A Shiny app to present flood forecasting results at NVE. If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
 
 ----
-# Table of Contents
+## Table of Contents
 
 -   [Aim](#Aim)
 -   [Structure](#Structure)
@@ -30,7 +30,7 @@ A Shiny app to present flood forecasting results at NVE. If you find a bug or th
      - [Locally](#local)
 -    [Filing issues](#issues)
 
-# Aim
+## Aim
 
 Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation.
 
@@ -163,9 +163,8 @@ Station metadata
 </h4>
 A large variety of metadata for all stations come directly from the [`NVEDATA`](https://github.com/NVE/NVEDATA) package.
 
-<h2 id="run">
-Running the app
-</h2>
+## Running the app
+
 
 <h4 id="github">
 Directly from GitHub
@@ -189,8 +188,7 @@ runGitHub("Flood_forecasting", "fbaffie")
 Locally
 </h4>
 
-
-*[Back to top](#About)*
+**[⬆ back to top](#table-of-contents)**
 
 <h4 id="issues">
 Filing issues
