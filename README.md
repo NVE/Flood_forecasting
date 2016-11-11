@@ -1,5 +1,3 @@
-# Flood forecasting app() {
-
 `Warning: This project is still under development and is not fully mature`
 
 This readme is transitioning to a small website.
@@ -31,8 +29,9 @@ A Shiny app to present flood forecasting results at NVE. If you find a bug or th
      - [Locally](#local)
 -    [Filing issues](#issues)
 
-## Aim
-  <a name="Aim--primitives"></a><a name="1.1"></a>
+<h2 id="Aim">
+Aim
+</h2>
   
 Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation.
 
@@ -165,8 +164,9 @@ Station metadata
 </h4>
 A large variety of metadata for all stations come directly from the [`NVEDATA`](https://github.com/NVE/NVEDATA) package.
 
+<h2 id="run">
 ## Running the app
-
+</h2>
 
 <h4 id="github">
 Directly from GitHub
@@ -205,5 +205,3 @@ One issue for one purpose. Don't add more than one bug, feature request, documen
 - If you need support, e.g., installation issues or upgrade issues, please add **[Support]** at the beginning of the title. This helps us to easily identify the most common support issues, and provide solutions in a separate page.
 - If you have a general question, add **[Question]** at the beginning of the title.
 - If you've an issue that doesn't fall into any of these categories, then it'd be helpful if you could add **[Misc]** to your title.
-
-};
