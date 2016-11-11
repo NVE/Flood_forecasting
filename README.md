@@ -85,7 +85,7 @@ The observed flow and precip/temperature are included in all of those files.
 
 To be continued...
 
-*[Back to top](#About)*
+**[⬆ back to top](#table-of-contents)**
 
 <h2 id="Models">
 Models
@@ -143,7 +143,7 @@ So, if we want to implement a feature that pulls the x interesting events in the
 
 This is not a problem for implement the DATE -7 / +9 days model plots.
 
-*[Back to top](#About)*
+**[⬆ back to top](#table-of-contents)**
 
 <h2 id="datasets">
 Dataset
