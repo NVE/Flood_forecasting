@@ -1,3 +1,21 @@
 Title: Flood forecasting documentation
-Version: 0.0.1
-
+Package: FlomvarslingApp
+Type: Package
+ByteCompile: true
+Title: A list a functions to support the Flomvarsling Shiny app
+Version: 0.1
+Date: 2016-05-31
+Authors@R: person("Florian", "Kobierska Baffie", email = "fbaffie@gmail.com",
+  role = c("aut", "cre"))
+Description: This package was developed for the FlomKart project.
+  It contains functions used by the shiny app
+License: see license.md
+LazyData: TRUE
+RoxygenNote: 5.0.1
+Imports:
+  leaflet,
+  tidyverse
+Suggests:
+  testthat,
+  packagedocs
+VignetteBuilder: packagedocs

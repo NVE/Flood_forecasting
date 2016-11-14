@@ -1,0 +1,50 @@
+## layout the order in which topics are presented in the rd docs
+# 1. get a list of topics with the following:
+#    db <- tools::Rd_db("FlomvarslingApp")
+#    topics <- gsub("\\.Rd", "", names(db))
+#    cat(paste(topics, collapse = "\n"))
+# 2. arrange the topic names into sections as desired in the format below:
+## If you need to see which topics are missing, do the following in addition:
+# cur <- yaml::yaml.load_file("rd_index.yaml")
+# cur <- unlist(lapply(cur, function(x) x$topics))
+# cat(paste(setdiff(topics, cur), collapse = "\n"))
+knitr:
+  eval: true
+
+sections:
+-
+  section_name: Package Functions
+  topics:
+    - dygraph_mod
+    - dygraph_mod2
+    - dygraph_modUI
+    - forecast_plot
+    - forecast_plot_mod
+    - forecast_plot_mod_shading
+    - forecast_plot_mod_shadingUI
+    - forecast_plot_modUI
+    - forecast_plot_shading
+    - mapModule
+    - mapModule_polygonFeature
+    - mapModule_polygonFeatureUI
+    - mapModuleUI
+    - multimod_forecast_plot
+    - multimod_forecast_plot_EXP
+    - multimod_forecast_plot_mod
+    - multimod_forecast_plot_modUI
+    - multimod_forecast_selection_modUI
+    - multiple_station_map
+    - mydygraphModule
+    - mydygraphModuleUI
+    - NEW_mapModule_polygonFeature
+    - NEW_mapModule_polygonFeatureUI
+    - OLD_forecast_plot_modUI
+    - OLD_mapModule_polygonFeature
+    - OLD_mapModule_polygonFeatureUI
+    - OLD_multimod_forecast_plot
+    - single_station_map
+    - table_mod
+    - table_modUI
+    - taylor_mod
+    - taylor_modUI
+    - which_station_in_polygon

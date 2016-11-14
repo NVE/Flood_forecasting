@@ -1,3 +1,17 @@
+#' forecast_plot_mod
+#' @description Shiny server module to plot ...
+#' @param input 
+#' @param output 
+#' @param session 
+#' @param map_input 
+#' @param dat 
+#' @import ggplot2
+#' @importFrom plotly renderPlotly
+#' @importFrom dplyr filter
+#' @return
+#' @export
+#'
+#' @examples
 forecast_plot_mod <- function(input, output, session, map_input, dat) {
   
   subset2plot <- reactive(dplyr::filter(dat, nbname == map_input$station))  # input$station
@@ -7,6 +21,14 @@ forecast_plot_mod <- function(input, output, session, map_input, dat) {
   
 }
 
+#' OLD_forecast_plot_modUI
+#' @description Shiny UI module to plot ...
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 OLD_forecast_plot_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -17,7 +39,14 @@ OLD_forecast_plot_modUI <- function(id) {
   )
 }
 
-
+#' forecast_plot_modUI
+#' @description Shiny UI module to plot ...
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 forecast_plot_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -28,7 +57,16 @@ forecast_plot_modUI <- function(id) {
   )
 }
 
-# Same plot but without plotly to get the shading for the current day
+
+#' forecast_plot_mod_shading
+#' @description Shiny server module to plot ...
+#' Same plot as forecast_plot_mod but without plotly to get the shading for the current day
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 forecast_plot_mod_shading <- function(input, output, session, map_input, dat) {
   
   subset2plot <- reactive(dplyr::filter(dat, nbname == map_input$station))  # input$station
@@ -38,6 +76,14 @@ forecast_plot_mod_shading <- function(input, output, session, map_input, dat) {
   
 }
 
+#' forecast_plot_mod_shadingUI
+#' @description Shiny UI module to be used with "forecast_plot_mod_shading"
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 forecast_plot_mod_shadingUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -46,6 +92,22 @@ forecast_plot_mod_shadingUI <- function(id) {
   )
 }
 
+#' multimod_forecast_plot_mod
+#' @description Shiny server module to do multi-model plots. Needs new parametrization!
+#' @param input 
+#' @param output 
+#' @param session 
+#' @param map_input 
+#' @param model_1 
+#' @param model_2 
+#' @param model_3 
+#' @param model_4 
+#' @param return_levels 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 multimod_forecast_plot_mod <- function(input, output, session, map_input, model_1, model_2, model_3, model_4, return_levels = NULL) {
   
   ns <- session$ns
@@ -212,6 +274,29 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, model_
   
 }
 
+
+
+#' OLD_multimod_forecast_plot
+#' @description Shiny server module to do multi-model plots. Needs tidy up with previous function
+#' @param input 
+#' @param output 
+#' @param session 
+#' @param selected_stations 
+#' @param model_1 
+#' @param model_2 
+#' @param model_3 
+#' @param model_4 
+#' @param return_levels 
+#' @param variable_1 
+#' @param variable_2 
+#' @param variable_3 
+#' @param variable_4 
+#' @param type_rl 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 OLD_multimod_forecast_plot <- function(input, output, session, selected_stations = NULL, model_1, model_2, model_3, model_4, 
                                        return_levels = NULL, variable_1, variable_2, variable_3, variable_4, type_rl) {
   
@@ -249,6 +334,16 @@ OLD_multimod_forecast_plot <- function(input, output, session, selected_stations
                                                  height = paste(400 * length(selected_stations), "px", sep ="")) ) 
 }
 
+
+
+#' multimod_forecast_plot_modUI
+#' @description Shiny UI module to be used with multimod_forecast_plot
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 multimod_forecast_plot_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -256,6 +351,16 @@ multimod_forecast_plot_modUI <- function(id) {
   ))
 }
 
+
+
+#' multimod_forecast_selection_modUI
+#' @description Shiny UI module...
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 multimod_forecast_selection_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -270,27 +375,21 @@ multimod_forecast_selection_modUI <- function(id) {
   )
 }
 
-multimod_forecast_plot_modUI <- function(id) {
-  # Create a namespace function using the provided id
-  ns <- NS(id)
-  fluidRow(plotlyOutput(ns("plot"), height = "800px"
-  ))
-}
-
-multimod_forecast_selection_modUI <- function(id) {
-  # Create a namespace function using the provided id
-  ns <- NS(id)
-  fluidRow(
-    column(2, selectInput(ns("type_choice"), label = "Choose the type of variable to plot", selected = "Runoff",
-                          choices = c("Input", "Runoff", "State"), multiple = TRUE) ),
-    column(2, uiOutput(ns("model1_selection"))),
-    column(2, uiOutput(ns("model2_selection"))),
-    column(2, uiOutput(ns("model3_selection"))),
-    column(2, uiOutput(ns("model4_selection"))),
-    column(2, uiOutput(ns("return_levels")))
-  )
-}
-
+#' multimod_forecast_plot_EXP
+#' @description Shiny server module to do multi-model plots. Needs tidy up with other functions...
+#' @param input 
+#' @param output 
+#' @param session 
+#' @param selected_stations 
+#' @param model_1 
+#' @param model_2 
+#' @param model_3 
+#' @param model_4 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 multimod_forecast_plot_EXP <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
   
   # observeEvent(map_input$station, {js$reset()})
@@ -371,6 +470,22 @@ multimod_forecast_plot_EXP <- function(input, output, session, selected_stations
 
 ############### FROM BYMAN
 
+
+#' taylor_mod
+#' @description This was an attempt to modularize Bymans functions. Server module. May not work...
+#' @param input 
+#' @param output 
+#' @param session 
+#' @param selected_stations 
+#' @param model_1 
+#' @param model_2 
+#' @param model_3 
+#' @param model_4 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 taylor_mod <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
   
   output$TDplot <- renderPlot({ 
@@ -394,6 +509,14 @@ taylor_mod <- function(input, output, session, selected_stations, model_1, model
   
 }
 
+#' taylor_modUI
+#' @description This was an attempt to modularize Bymans functions. UI module to be used with "taylor_mod". May not work...
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 taylor_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -403,6 +526,21 @@ taylor_modUI <- function(id) {
 }
 
 
+#' dygraph_mod
+#' @description This was an attempt to modularize Bymans functions. Server module. May not work...
+#' @param input 
+#' @param output 
+#' @param session 
+#' @param selected_stations 
+#' @param model_1 
+#' @param model_2 
+#' @param model_3 
+#' @param model_4 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 dygraph_mod <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
   
   output$mydygraph <- renderDygraph({
@@ -420,6 +558,21 @@ dygraph_mod <- function(input, output, session, selected_stations, model_1, mode
   })
 }
 
+#' dygraph_mod2
+#' @description This was an attempt to modularize Bymans functions. Server module. May not work...
+#' @param input 
+#' @param output 
+#' @param session 
+#' @param selected_stations 
+#' @param model_1 
+#' @param model_2 
+#' @param model_3 
+#' @param model_4 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 dygraph_mod2 <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
   
   output$mydygraph2 <- renderDygraph({
@@ -435,14 +588,32 @@ dygraph_mod2 <- function(input, output, session, selected_stations, model_1, mod
   })
 }
 
+#' dygraph_modUI
+#' @description This was an attempt to modularize Bymans functions. UI module to be used with "dygraph_mod". May not work...
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 dygraph_modUI <- function(id) {
-  # Create a namespace function using the provided id
+# Create a namespace function using the provided id
   ns <- NS(id)
   
   fluidRow(dygraphOutput("mydygraph",height = 600)
   )
 }
 
+#' mydygraphModule
+#' @description This was an attempt to modularize Bymans functions. Server module. May not work...
+#' @param input 
+#' @param output 
+#' @param session 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 mydygraphModule <- function(input, output, session) {
   
   output$module_graph <- renderDygraph({
@@ -465,6 +636,14 @@ mydygraphModule <- function(input, output, session) {
 }
 
 
+#' mydygraphModuleUI
+#' @description This was an attempt to modularize Bymans functions. UI module to be used with "mydygraphModule". May not work...
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 mydygraphModuleUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)

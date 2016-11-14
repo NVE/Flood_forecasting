@@ -1,0 +1,48 @@
+---
+title: "FlomvarslingApp Package"
+subtitle: "Overview"
+author: ""
+copyright: ""
+output:
+  packagedocs::package_docs:
+    toc: true
+    toc_collapse: false
+redirect: http://NVE.github.io/Flood_forecasting
+vignette: |
+  %\VignetteIndexEntry{FlomvarslingApp Documentation}
+  %\VignetteEngine{packagedocs::redirect}
+navpills: |
+  <li><a href='rd.html'>Packaged R functions</i></a></li>
+  <li><a href='app.html'>Back to main page</i></a></li>
+  <li><a href='https://github.com/NVE/Flood_forecasting'>Github <i class='fa fa-github'></i></a></li>
+---
+
+```{r global_options, include=FALSE}
+# R output pre blocks are styled by default to indicate output
+knitr::opts_chunk$set(comment = NA)
+
+# shorthand for rd_link() - see ?packagedocs::rd_link for more information
+rdl <- function(x) packagedocs::rd_link(deparse(substitute(x)))
+```
+
+# Header 1
+
+Welcome to the FlomvarslingApp Documentation documentation page.
+
+# Example
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+You can embed an R code chunk like this:
+
+```{r}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

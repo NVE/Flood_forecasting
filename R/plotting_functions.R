@@ -3,7 +3,15 @@
 # library(dplyr)
 # library(plotly)
 
-# This function only produces "static" ggplot for the moment, but I need to find a way to do the shading with plotly
+
+#' forecast_plot_shading
+#' @description This function only produces "static" ggplot for the moment, but I need to find a way to do the shading with plotly
+#' @param dat 
+#' 
+#' @return
+#' @export
+#'
+#' @examples
 forecast_plot_shading <- function(dat) {
 
   dat$time <- as.Date(dat$time)
@@ -26,6 +34,14 @@ forecast_plot_shading <- function(dat) {
   
 }
 
+#' forecast_plot
+#'
+#' @param dat 
+#' @importFrom plotly ggplotly
+#' @return
+#' @export
+#'
+#' @examples
 forecast_plot <- function(dat) {
   
   dat$time <- as.Date(dat$time)
@@ -40,6 +56,19 @@ forecast_plot <- function(dat) {
   return(ggplotly(d))
 }
 
+#' multimod_forecast_plot
+#'
+#' @param dat_1 
+#' @param dat_2 
+#' @param dat_3 
+#' @param dat_4 
+#' @param return_levels 
+#' @param gg_plot 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, return_levels = NULL, gg_plot = FALSE) {
   
   # The palette with grey:
@@ -121,6 +150,17 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
   # return(l)
 }
 
+#' multimod_forecast_plot_EXP
+#' @description To tidy up probable double up with multimod_forecast_plot
+#' @param dat_1 
+#' @param dat_2 
+#' @param dat_3 
+#' @param dat_4 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL) {
   
 #   print("prout")

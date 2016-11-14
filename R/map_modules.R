@@ -1,5 +1,14 @@
-# eval(as.symbol(input$model)) transforms a string input into the corresponding data
+# NOTE: eval(as.symbol(input$model)) transforms a string input into the corresponding data
 
+#' mapModuleUI
+#' @description Shiny UI module to be used with "mapModule" ...
+#' @param id 
+#' @param multiple_choice 
+#' @import leaflet
+#' @return
+#' @export
+#'
+#' @examples
 mapModuleUI <- function(id, multiple_choice = FALSE) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -27,6 +36,16 @@ mapModuleUI <- function(id, multiple_choice = FALSE) {
   
 }
 
+#' mapModule
+#' @description Shiny server module to map ...
+#' @param input 
+#' @param output 
+#' @param session 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 mapModule <- function(input, output, session) {
   # stations is global but gets send to the mapping function so that this function can be used in other settings!
   
@@ -83,6 +102,16 @@ mapModule <- function(input, output, session) {
   
 }
 
+#' mapModule_polygonFeature
+#' @description Shiny server module to map ...
+#' @param input 
+#' @param output 
+#' @param session 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 mapModule_polygonFeature <- function(input, output, session) {
   
   # Get coordinates of the selected polygon
@@ -107,6 +136,14 @@ mapModule_polygonFeature <- function(input, output, session) {
 }
 
 
+#' mapModule_polygonFeatureUI
+#' @description Shiny UI module to be used with "mapModule_polygonFeature" ...
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 mapModule_polygonFeatureUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -129,6 +166,20 @@ mapModule_polygonFeatureUI <- function(id) {
 }
 
 ####################################################################################################################
+
+
+
+
+#' NEW_mapModule_polygonFeature
+#' @description Shiny server module to map... TO tidy up with mapModule_polygonFeature
+#' @param input 
+#' @param output 
+#' @param session 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 NEW_mapModule_polygonFeature <- function(input, output, session) {
   # stations is global but gets send to the mapping function so that this function can be used in other settings!
   
@@ -281,6 +332,14 @@ NEW_mapModule_polygonFeature <- function(input, output, session) {
   
 }
 
+#' NEW_mapModule_polygonFeatureUI
+#' @description Shiny UI module to be used with "NEW_mapModule_polygonFeature"
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 NEW_mapModule_polygonFeatureUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -337,6 +396,16 @@ NEW_mapModule_polygonFeatureUI <- function(id) {
 
 #######################################################################################
 
+#' OLD_mapModule_polygonFeature
+#' @description Shiny server module to map... TO tidy up with mapModule_polygonFeature
+#' @param input 
+#' @param output 
+#' @param session 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 OLD_mapModule_polygonFeature <- function(input, output, session) {
   
   map <- multiple_station_map(stations, single_poly = FALSE)
@@ -380,6 +449,14 @@ OLD_mapModule_polygonFeature <- function(input, output, session) {
 }
 
 
+#' OLD_mapModule_polygonFeatureUI
+#' @description Shiny UI module to be used with "OLD_mapModule_polygonFeature"
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 OLD_mapModule_polygonFeatureUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)

@@ -5,6 +5,25 @@
 #   domain = c(0, 1/3, 2/3, 1, 4/3, 5/3))
 # qpal <- colorQuantile("RdYlBu", length.bins, n = 5)
 
+
+
+#' single_station_map
+#' @description mapping function
+#' @param stations 
+#' @param selected_nbname 
+#' @param selected_long 
+#' @param selected_lat 
+#' @param variable2plot 
+#' @param map_layer 
+#' @param catchments 
+#' @param colored_markers 
+#' @param radius_function 
+#' @param popups 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 single_station_map <- function(stations, selected_nbname = NULL,
                                selected_long  = NULL,
                                selected_lat  = NULL, variable2plot = "none", map_layer = "open streetmap", catchments = FALSE, 
@@ -169,6 +188,22 @@ single_station_map <- function(stations, selected_nbname = NULL,
 }
 
 
+#' multiple_station_map
+#' @description mapping function
+#' @param stations 
+#' @param selected_regine_main 
+#' @param selected_name 
+#' @param selected_long 
+#' @param selected_lat 
+#' @param single_poly 
+#' @param variable2plot 
+#' @param radius_function 
+#' @param popups 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 multiple_station_map <- function(stations, selected_regine_main = NULL,
                                  selected_name = NULL,
                                  selected_long = NULL,
@@ -322,6 +357,15 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
 }
 
 
+#' which_station_in_polygon
+#' @description Sub-function use to find which stations are in the polygon the user has drawn
+#' @param stations 
+#' @param map_selection 
+#' @importFrom sp point.in.polygon
+#' @return
+#' @export
+#'
+#' @examples
 which_station_in_polygon <- function(stations, map_selection) {
   
   nb_poly <- length(map_selection)
