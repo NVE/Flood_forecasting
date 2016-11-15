@@ -13,38 +13,50 @@ knitr:
 
 sections:
 -
-  section_name: Package Functions
-  topics:
-    - dygraph_mod
-    - dygraph_mod2
-    - dygraph_modUI
+  section_name: Plot functions
+    topics:
     - forecast_plot
+    - forecast_plot_shading
+    - multimod_forecast_plot
+    - multimod_forecast_plot_EXP
+    - OLD_multimod_forecast_plot
+-
+  section_name: Plot modules  
+  topics:
     - forecast_plot_mod
     - forecast_plot_mod_shading
     - forecast_plot_mod_shadingUI
     - forecast_plot_modUI
-    - forecast_plot_shading
+    - OLD_forecast_plot_modUI
+    - multimod_forecast_plot_mod
+    - multimod_forecast_plot_modUI
+    - multimod_forecast_selection_modUI
+    - dygraph_mod
+    - dygraph_mod2
+    - dygraph_modUI
+    - mydygraphModule
+    - mydygraphModuleUI
+-
+  section_name: Map functions  
+  topics:
+    - multiple_station_map
+    - single_station_map
+    - which_station_in_polygon
+-
+  section_name: Map modules  
+  topics:
     - mapModule
     - mapModule_polygonFeature
     - mapModule_polygonFeatureUI
     - mapModuleUI
-    - multimod_forecast_plot
-    - multimod_forecast_plot_EXP
-    - multimod_forecast_plot_mod
-    - multimod_forecast_plot_modUI
-    - multimod_forecast_selection_modUI
-    - multiple_station_map
-    - mydygraphModule
-    - mydygraphModuleUI
     - NEW_mapModule_polygonFeature
     - NEW_mapModule_polygonFeatureUI
-    - OLD_forecast_plot_modUI
     - OLD_mapModule_polygonFeature
     - OLD_mapModule_polygonFeatureUI
-    - OLD_multimod_forecast_plot
-    - single_station_map
+-
+  section_name: Table modules  
+  topics:
     - table_mod
     - table_modUI
     - taylor_mod
     - taylor_modUI
-    - which_station_in_polygon
