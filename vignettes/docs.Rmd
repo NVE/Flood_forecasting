@@ -32,7 +32,7 @@ This is an R shiny app to visualize the results of flood forecasting models at N
 # How was it coded?
 
 In [Package Ref](http://NVE.github.io/Flood_forecasting/rd.html), you'll find the documentation of all the packaged functions that are used by the app.
-The app uses `.Rdata` files that are produced by the `NVEDATA` package ([documentation](http://NVE.github.io/FlomKart) and [code](http://github.com/NVE/FlomKart)) through the default call:
+The app uses `.Rdata` files that are produced by the `NVEDATA` package ([documentation](http://NVE.github.io/NVEDATA) and [code](http://github.com/NVE/NVEDATA)) through the default function call:
 
 `load_flood_data()`
 
