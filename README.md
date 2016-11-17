@@ -1,7 +1,7 @@
 `Warning: This project is still under development and is not fully mature`
 
 This readme is transitioning to a small website.
-An automatic reporting website (based on RStudio's Rmarkdown) is also in experimental stage: http://NVE.github.io/Flood_forecasting/
+An automatic reporting website (based on RStudio's Rmarkdown) is also in experimental stage: http://NVE.github.io/Flood_forecasting/process
 
 <h2 id="About">
 Flood_forecasting - Visualization tool for flood forecasters at NVE
