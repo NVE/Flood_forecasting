@@ -27,14 +27,18 @@ This R application was developed to complement xgeo and serve as a prototyping p
 
 The GUI is based on R Shiny, with the following tabs:
 
-1. Tab 1a: Multi-model forecaster's dashboard.
+1. Multi-model forecaster's dashboard.
+**Tab 1a:**
 
 Plots of model runs from -20 to +9 days. It is also possible to view the last year of forecast data. 
 
- > Selection of a multiple stations based on region number, main number, clicking on map
- > Map markers can represent a selectable variable (currently flood_warning and uncertainty. could be extended to temperature / precip...)
- > Interactive multi-model plot: available models are HBV and DDD for the moment. The plot can include flood levels: mean flood and 5 year return level.
-   Tab 1b: Same plots but a polygon selection tool allows selecting multiple neighbouring stations.
+    - Selection of a multiple stations based on region number, main number, clicking on map
+    - Map markers can represent a selectable variable (currently flood_warning and uncertainty. could be extended to temperature / precip...)
+    - Interactive multi-model plot: available models are HBV and DDD for the moment. The plot can include flood levels: mean flood and 5 year return level.
+
+**Tab 1b:**
+
+Same plots but a polygon selection tool allows selecting multiple neighbouring stations.
  
 ![Screenshot of the multi-model forecaster's dashboard](images/tab1.png)
 
@@ -44,16 +48,15 @@ Plots of model runs from -20 to +9 days. It is also possible to view the last ye
  
 2. Tab 2: Single model / Single station
 
- > In addition to *discharge*, the plot also shows *state* (soil moisture, snow height) and *input* (temperature, precipitation) data.
+In addition to *discharge*, the plot also shows *state* (soil moisture, snow height) and *input* (temperature, precipitation) data.
 
 3. Tab 3: Modeller's dashboard
 
 Analysis of model performance / properties during the calibration period.
- > time series graphs, available time period, zoom functionality, tick on/off which models:
- > discharge: observations and all models
- > temperature and precipitation
-
- > Summary of model performance. There is the tricky question of how long of a time-interval to use. All perf indicators should use the same interval. 1 year is probably a good choice
+  - time series graphs, available time period, zoom functionality, tick on/off which models:
+  - discharge: observations and all models
+  - temperature and precipitation
+  - Summary of model performance. There is the tricky question of how long of a time-interval to use. All perf indicators should use the same interval. 1 year is probably a good choice
      - NSE
      - KGE
      - Taylor diagram
