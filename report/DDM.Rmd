@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # What is it?
 
+Peter and Byman to provide a quick explanation of DDM.
 This is an example of including a child rmd document
 
 ```{r child='content/child1.Rmd'}

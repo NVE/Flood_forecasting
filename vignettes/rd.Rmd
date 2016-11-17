@@ -17,5 +17,5 @@ navpills: |
   <li><a href='https://github.com/NVE/Flood_forecasting'>Github <i class='fa fa-github'></i></a></li>
 ---
 
-```{r auto-gen-child, child="modified_auto-generated-rd.Rmd"}
+```{r auto-gen-child, child="auto-generated-rd.Rmd"}
 ```

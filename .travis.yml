@@ -1,13 +1,29 @@
 language: r
 cache: packages
 
+r_packages:
+  - roxygen2
+  - shiny
+  - sp
+  - plotly
+  - DT
+  - rmarkdown
+
+r_github_packages:
+  - hafen/packagedocs
+
 env:
   global:
     - GITHUB_REPO: "NVE/Flood_forecasting"
     - GITHUB_PAT
 
 before_script:
-  - chmod +x ./_build.sh
+  # install the pkg so it can be used as a vig builder (only necessary for packagedocs)
+  - Rscript -e "devtools::document()"
+  - Rscript -e "devtools::install()"
+  - Rscript -e "packagedocs::build_vignettes()"
+  - Rscript -e "source('render_all_rmd.R')"
+  
   - chmod +x ./_deploy.sh
 
 script:

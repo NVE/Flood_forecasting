@@ -19,7 +19,7 @@ How does NVE prepare its flood forecasting service
 
 ## Visualization tool
 
-In complement of the website www.xgeo.no, an R shiny app was developed to vizualize together the results of multiple models.
+In complement of the website www.xgeo.no, an R shiny app was developed to allow vizualizing in a single graph the results of multiple models.
 
 ## Models
 
@@ -52,4 +52,4 @@ Blabla
 
 #### Flood return levels
 
-Blabla
+Flood return levels are parsed by a specific function in the `NVEDATA`package. Please refer to its documentation for the default path and further details.

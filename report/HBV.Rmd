@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # What is it?
 
-Bla
+Gusong to provide a quick explanation of the operational use of HBV at NVE.
 
 # Why do we use it?
 
@@ -39,7 +39,6 @@ HBV with + 50% precipitation: /hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_us
  * Pure model run (not processed): this is in the dataset but it is the same as in 1., so shouldn't be plotted!
  * Updated: automated update using observed streamflow (different method)
  * Results from a run with precip + 50%
-Ask Gusong if questions
 
 # How is it used by the visualization app
 

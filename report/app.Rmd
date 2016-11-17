@@ -20,49 +20,49 @@ An R Shiny app to interactively visualize flood forecasting data and model resul
 # Why was it developed?
 
 A full-blown website is already used daily for the flood warning service: [xgeo](www.xgeo.no)
-It is however open to the public and can slow down during periods of intense use. It also does not allow plotting multiple model results at once.
+As it is open to the public and can slow down during periods of intense use. It also does not allow plotting multiple model results at once.
 This R application was developed to complement xgeo and serve as a prototyping platform before new ideas are eventually implemented in xgeo.
 
 # What does it do?
 
 The GUI is based on R Shiny, with the following tabs:
 
-1. Tab 1: Station selection (returns a list of one or more stations) based on 4 methods (many inputs, a few methods, one output list(stations)):
- * Station identification number or name
- * Logic on catchment properties and model performance: coordinates, area, elevation, previous model performance...
- * Map selection: click or draw polygon
- * Table selection: navigate on a big DT table (with similar variables as in the logic method) and click on the stations you want
+1. Tab 1a: Multi-model forecaster's dashboard.
 
-This station selection would update every other tab that uses groups of stations but the other tabs would also have a simple selection tool (i.e. regine + main numbers)
+Plots of model runs from -20 to +9 days. It is also possible to view the last year of forecast data. 
 
-2. Tab 2: FORECASTER'S DASHBOARD - plots and performance of model runs (-7 to +9 days). Only for a single station?
- * Selection of a single station based on region number, main number, clicking on map
- * Map markers could represent a selectable variable (temperature / precip...)
- * Plot (plotly, highchart or dygraph to have interactive plot features such as adding/removing lines) of model runs
-     - The plot should include flood levels: mean flood and 5 year return level. The plots could be ticked out by default and then plotted when the forecast is within X% of those levels.
-     - The plot should also include Temperature and precip. If it becomes messy with y scales, the mouse tip indicator with plotly is enough.
-     - Would be good to highlight the current day somehow.
- * Summary of model performance. There is the tricky question of how long of a time-interval to use. All perf indicators should use the same interval. 1 year is probably a good choice
+ > Selection of a multiple stations based on region number, main number, clicking on map
+ > Map markers can represent a selectable variable (currently flood_warning and uncertainty. could be extended to temperature / precip...)
+ > Interactive multi-model plot: available models are HBV and DDD for the moment. The plot can include flood levels: mean flood and 5 year return level.
+   Tab 1b: Same plots but a polygon selection tool allows selecting multiple neighbouring stations.
+ 
+![Screenshot of the multi-model forecaster's dashboard](images/tab1.png)
+
+![Screenshot of the forecaster's dashboard with polygon selection](images/tab2a.png)
+
+![Screenshot of the forecaster's dashboard with flood return levels](images/tab1.png)
+ 
+2. Tab 2: Single model / Single station
+
+ > In addition to *discharge*, the plot also shows *state* (soil moisture, snow height) and *input* (temperature, precipitation) data.
+
+3. Tab 3: Modeller's dashboard
+
+Analysis of model performance / properties during the calibration period.
+ > time series graphs, available time period, zoom functionality, tick on/off which models:
+ > discharge: observations and all models
+ > temperature and precipitation
+
+ > Summary of model performance. There is the tricky question of how long of a time-interval to use. All perf indicators should use the same interval. 1 year is probably a good choice
      - NSE
      - KGE
      - Taylor diagram
-     - A hit/miss/false alarm/correct reject table could be interesting. But, if the timelapse is 1 year, the return level threshold should be discussed, 1 year return period being the maximum we could use.
+     - Hit/miss/false alarm/correct reject table. If the timelapse is 1 year, the return level threshold should be discussed, 1 year return period being the maximum we could use.
 
-3. Tab 3: MODELLER'S DASHBOARD - Analysis of model performance / properties during the calibration period.
- * time series graphs, available time period, zoom functionality, tick on/off which models:
- * discharge: observations and all models
- * temperature and precipitation
- * states/water balance: snow, sub-surface water, evaporation
- * Running bias: accumulated difference observed – modelled discharge
- * model performance
-     - NSE
-     - KGE
-     - hit/miss/false alarm/correct reject table (And / Or success index) on calibration runs. This is not a forecast quality measure but is still useful for assessing the model performance
-     - Taylor diagram
-
-4. Tab 4: Regional analysis of model runs
-  * Ouputs one plot per station of the model runs
-  * Should this include a map with polygon selection or should the group of stations only originate from tab 1?
+Further ideas:
+Regional analysis of model runs
+Ouputs one plot per station of the model runs
+Should this include a map with polygon selection or should the group of stations only originate from tab 1?
 
 Historical hindsight: pull out past interesting events for a specific station or group of stations
 
@@ -79,9 +79,9 @@ The aim is to have the .RData files that are read by the application
 
 # How to use it?
 
-
+Annoted screenshots to come.
 
 # How to modify it or develop it further?
 
-
+Please refer to the package [documentation](http://NVE.github.io/Flood_forecasting/index.html) for the programming details of this app.
 

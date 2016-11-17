@@ -15,7 +15,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Overview
 
-This is a direct copy of the rmarkdown documention website for learning purposes
+This is a direct copy of the rmarkdown documention website for learning purposes.
+Thomas Skaugen to provide a quick description of the DDD model.
 
 
 ## Common Elements

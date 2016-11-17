@@ -25,24 +25,38 @@ knitr::opts_chunk$set(comment = NA)
 rdl <- function(x) packagedocs::rd_link(deparse(substitute(x)))
 ```
 
-# Header 1
+# What is the Flomvarsling app? 
 
-Welcome to the FlomvarslingApp Documentation documentation page.
+This is an R shiny app to visualize the results of flood forecasting models at NVE.
 
-# Example
+# How was it coded?
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+In [Package Ref](http://NVE.github.io/Flood_forecasting/rd.html), you'll find the documentation of all the packaged functions that are used by the app.
+The app uses `.Rdata` files that are produced by the `NVEDATA` package ([documentation](http://NVE.github.io/FlomKart) and [code](http://github.com/NVE/FlomKart)) through the default call:
 
-You can embed an R code chunk like this:
+`load_flood_data()`
 
-```{r}
-summary(cars)
-```
+One data file per model is saved to the `/data` directory and will then be read by the app.
+Please refer to the documentation of `NVEDATA` to see which local network paths are used. Those paths are specified as default directories for the parsing functions.
 
-You can also embed plots, for example:
+## Data structure
 
-```{r, echo=FALSE}
-plot(cars)
-```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Shiny modules
+
+#### Plotting modules
+
+
+#### Mapping modules
+
+
+#### Table modules
+
+
+## General purpose functions
+
+#### Plotting functions
+
+
+#### Mapping functions
+
