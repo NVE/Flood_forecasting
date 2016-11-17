@@ -14,7 +14,7 @@ knitr:
 sections:
 -
   section_name: Plot functions
-    topics:
+  topics:
     - forecast_plot
     - forecast_plot_shading
     - multimod_forecast_plot
