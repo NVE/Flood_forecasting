@@ -8,11 +8,12 @@ output:
       collapsed: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='images/',
+                      echo=FALSE, warning=FALSE, message=FALSE, eval=TRUE)
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r sourcing}
 
 setwd("..")
 source("global.R")
@@ -29,7 +30,7 @@ Below are some maps summarizing the current flooding situation as well as floodi
 
 The map below plots for each flood forecasting station, the ratio of current discharge by the mean annual flood
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r single_station_map, fig.cap='Map of Norway with all stations used for flood forecasting',}
 single_station_map(stations, selected_nbname = "2.11-narsjo")
 ```
 
@@ -37,24 +38,15 @@ single_station_map(stations, selected_nbname = "2.11-narsjo")
 
 The map below plots for each flood forecasting station, the ratio of current discharge by the mean annual flood
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-single_station_map(stations, selected_nbname = "2.11-narsjo")
-```
-
 ## Uncertainty ratio
 
 The map below plots for each flood forecasting station, the ratio of current discharge by the mean annual flood
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-single_station_map(stations, selected_nbname = "2.11-narsjo")
-```
-
 # Multimodel plots
 
-Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
-Interative plots for a few stations
+Multi-model plot for all stations.
 
-```{r echo=FALSE, eval=TRUE, message=FALSE, warning=TRUE, results = "asis", fig.height= 10, fig.width= 15, fig.keep = "all"}
+```{r defining_variables}
 
 # selected_nbname <- "2.11-narsjo"
 
@@ -66,28 +58,8 @@ plot_list <- htmltools::tagList()
 stations <- unique(HBV_2014$nbname)
 ```
 
-```{r echo=FALSE, eval=FALSE, message=FALSE, warning=TRUE, results = "asis", fig.height= 10, fig.width= 15, fig.keep = "all"}
 
-for (i in seq_along(stations)) {
-
-subset2plot_m1 <- dplyr::filter(model_1, nbname == stations[i] & Type == "Runoff" & Variable %in% variable_1) 
-subset2plot_m2 <- dplyr::filter(model_2, nbname == stations[i] & Type == "Runoff" & Variable %in% variable_2) 
-# subset2plot_m3 <- dplyr::filter(model_3, nbname == stations[i] & Type == "Runoff" & Variable %in% variable_3) 
-# subset2plot_m1 <- dplyr::filter(model_1, nbname %in% station & Type == "Runoff" & Variable %in% variable_1)             
-#                choices = unique(filter(model_4, Type == "Runoff")$Variable), multiple = TRUE) 
-# c("Obs", "Sim"), multiple = TRUE) 
-# subset2plot_rl <- dplyr::filter(return_levels, nbname %in% station & Type %in% type_rl) 
-      
-plot_list[[i]] <- multimod_forecast_plot(subset2plot_m1, subset2plot_m2)
-
-}
-plot_list
-
-```
-
-List of static plots for a few stations:
-
-```{r echo=FALSE, message=FALSE, warning=FALSE, results = "asis", fig.height= 10, fig.width= 15, fig.keep = "all"}
+```{r multimodel_plots, results = "asis", fig.height= 10, fig.width= 15, fig.keep = "all",, fig.align='center'}
 
 for (i in seq_along(stations)) {
 
@@ -102,19 +74,11 @@ cat('\n')
 
 }
 
-
 ```
 
 Blabla
 
-
-
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
-```
-
-Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
+Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:single_station_map). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
 
 ```{r nice-tab, tidy=FALSE}
 knitr::kable(
