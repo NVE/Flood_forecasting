@@ -29,7 +29,7 @@ server <- function(input, output, session) {
 # stations_model_vect <- callModule(mapModule_polygonFeature,"map_polygon") 
 #   callModule(multimod_forecast_plot_EXP, "multi_plot", "2.11", HBV_2014, HBV_2016, DDD)
   
-  callModule(NEW_mapModule_polygonFeature,"map_polygon")  
+  callModule(mapModule_polygonFeature,"map_polygon")  
 
   callModule(table_mod,"metadata_table", meta_data) 
   callModule(table_mod,"RL_table", flomtabell) 

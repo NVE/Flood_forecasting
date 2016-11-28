@@ -72,21 +72,21 @@ stations$nbname <- paste(stations$regine_main, "-", station_names[match(stations
 # I want to have it under the "stations" list for the moment as this list is used by the map functions
 ## WARNING: this first implementation has potential bugs and requires decisions on which variables o use!
 
-HBV_2014_SimCorr <- dplyr::filter(HBV_2014, Type == "Runoff" & Variable == "SimCorr")
+HBV_2014_SimCorr <- dplyr::filter(HBV_2014, Type == "Runoff" & Variable == "HBV.UM.korr")
 HBV_2014_SimCorr_maxed <- group_by(HBV_2014_SimCorr, nbname, regine.main) %>% dplyr::summarise(maxed = max(na.omit(Values)))
 
-flom_obs1Y <- dplyr::filter(flomtabell, Type == "Obs" & Variable == "mean") 
+flom_obs_mean <- dplyr::filter(flomtabell, Type == "Obs" & Variable == "mean") 
 
 index_HBV <- match(stations$regine_main, HBV_2014_SimCorr_maxed$regine.main)
 index_flomtabell <- match(HBV_2014_SimCorr_maxed$regine.main, flom_obs1Y$regine.main)
 
-stations$flood_warning <- HBV_2014_SimCorr_maxed$maxed[index_HBV] / flom_obs1Y$Values[index_flomtabell[index_HBV]]
+stations$flood_warning <- HBV_2014_SimCorr_maxed$maxed[index_HBV] / flom_obs_mean$Values[index_flomtabell[index_HBV]]
 
 
-HBV_2014_SimH90 <- dplyr::filter(HBV_2014, Type == "Runoff" & Variable == "SimH90")
-HBV_2014_SimL90 <- dplyr::filter(HBV_2014, Type == "Runoff" & Variable == "SimL90")
+HBV_2014_SimH90 <- dplyr::filter(HBV_2014, Type == "Runoff" & Variable == "Hi90")
+HBV_2014_SimL90 <- dplyr::filter(HBV_2014, Type == "Runoff" & Variable == "Lo90")
 HBV_2014_diff <- HBV_2014_SimH90
 HBV_2014_diff$Values <- HBV_2014_SimH90$Values - HBV_2014_SimL90$Values
 
 HBV_2014_diff_maxed <- group_by(HBV_2014_diff, nbname, regine.main) %>% dplyr::summarise(maxed = max(Values, na.rm = TRUE))
-stations$uncertainty <- HBV_2014_diff_maxed$maxed[index_HBV] / flom_obs1Y$Values[index_flomtabell[index_HBV]]
+stations$uncertainty <- HBV_2014_diff_maxed$maxed[index_HBV] / flom_obs_mean$Values[index_flomtabell[index_HBV]]

@@ -76,13 +76,28 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
   # The palette with black:
   cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
   
-  d <- ggplot() + scale_colour_manual(
-    values = c("Obs" = cbPalette[1],"SimRaw" = cbPalette[2],"Sim.sim" = cbPalette[2],
-               "SimCorr" = cbPalette[3],"Sim.sim.corr" = cbPalette[3], "Sim.obs" = cbPalette[4],
-               "DDD.Sim" = cbPalette[5],"SimPrecipM50" = cbPalette[6], "SimPrecipP50" = cbPalette[6],
-               "SimH50" = cbPalette[7], "SimL50" = cbPalette[7],
-               "SimH90" = cbPalette[8], "SimL90" = cbPalette[8],
-               "mean" = "yellow", "5Y" = "orange", "50Y" = "red"))
+#   d <- ggplot() + scale_colour_manual(
+#     values = c("Obs" = cbPalette[1],"SimRaw" = cbPalette[2],"Sim.sim" = cbPalette[2],
+#                "SimCorr" = cbPalette[3],"Sim.sim.corr" = cbPalette[3], "Sim.obs" = cbPalette[4],
+#                "DDD.Sim" = cbPalette[5],"SimPrecipM50" = cbPalette[6], "SimPrecipP50" = cbPalette[6],
+#                "SimH50" = cbPalette[7], "SimL50" = cbPalette[7],
+#                "SimH90" = cbPalette[8], "SimL90" = cbPalette[8],
+#                "mean" = "yellow", "5Y" = "orange", "50Y" = "red")) +
+    
+    d <- ggplot() + scale_colour_manual(
+      values = c("Obs" = "black", "HBV.UM.sim" = "cyan", "HBV.UM.korr" = "cyan", "Lo50" = "cyan", "Lo90" = "cyan", "Hi50" = "cyan", "Hi90" = "cyan",
+                 "HBV.P.sim" = "blue", "HBV.P.korr" = "blue", "P.m50" = "blue", "P.p50" = "blue",
+                 "DDD.sim" = "orange",
+                 "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
+                 "Q.Obs" = "black", "HBV.UM.sim.med.obsMet" = "cyan"
+                   )) +
+    scale_linetype_manual( 
+      values = c("Obs" = 1, "HBV.UM.sim" = 2, "HBV.UM.korr" = 1, "Lo50" = 3, "Lo90" = 4, "Hi50" = 3, "Hi90" = 4,
+                                      "HBV.P.sim" = 2, "HBV.P.korr" = 1, "P.m50" = 3, "P.p50" = 3,
+                                      "DDD.sim" = 1,
+                                      "mean" = 5, "5Y" = 5, "50Y" = 5,
+                                      "Q.Obs" = 1, "HBV.UM.sim.med.obsMet" = 2
+    ))
   p <- 0
   # We check every that each dataset is not an empty data frame.
   if (is.data.frame(dat_1) && nrow(dat_1) > 0) {

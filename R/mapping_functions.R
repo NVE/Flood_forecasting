@@ -26,7 +26,7 @@
 #' @examples
 single_station_map <- function(stations, selected_nbname = NULL,
                                selected_long  = NULL,
-                               selected_lat  = NULL, variable2plot = "none", map_layer = "open streetmap", catchments = FALSE, 
+                               selected_lat  = NULL, variable2plot = "Ingen", map_layer = "Openstreetmap", catchments = FALSE, 
                                colored_markers = FALSE, radius_function = TRUE, popups = FALSE)  {
   
   ## Functions controling color and size of markers
@@ -55,7 +55,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
   map <- leaflet() %>% setView(13, 64, zoom = 5)
   
   ## Color the markers to indicate potential flood issues
-  if (variable2plot == "flood_warning") {
+  if (variable2plot == "Fare for flom") {
     
     index <- is.na(stations$flood_warning)
     NA_stations <- lapply(stations, function(x) x[index])
@@ -100,7 +100,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
     }
   }
   
-  if (variable2plot == "uncertainty")  {
+  if (variable2plot == "Usikkerhet")  {
     
     index <- is.na(stations$uncertainty)
     NA_stations_uncertainty <- lapply(stations, function(x) x[index])
@@ -145,7 +145,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
     }
   }
   
-  if (variable2plot == "none") {
+  if (variable2plot == "Ingen") {
     map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
                             popup = paste(as.character(stations$nbname), sep = " "),
                             radius = 5, 
@@ -161,7 +161,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
   if (catchments == TRUE) {
     map <- addGeoJSON(map, hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
   }
-  if (map_layer == "topo map") {
+  if (map_layer == "Topo kart") {
     map <- addWMSTiles(map,
                        "http://wms.geonorge.no/skwms1/wms.topo2",
                        layers = "topo2_WMS",
@@ -169,7 +169,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
                        tileOptions(tms = TRUE),
                        attribution = "Kartverket")
   }
-  if (map_layer == "aerial") {
+  if (map_layer == "Flyfoto") {
     map <- addProviderTiles(map, "Esri.WorldImagery", group = "Esri.WorldImagery") 
     #       addWMSTiles(map, "http://wms.geonorge.no/skwms1/wms.nib",
     #                        layers = "ortofoto",
@@ -180,7 +180,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
     #                        tileOptions(tms = TRUE),
     #                        attribution = "Kartverket")
   }
-  if (map_layer == "open streetmap") {
+  if (map_layer == "Openstreetmap") {
     map <- addTiles(map)
   }
   
@@ -207,7 +207,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
 multiple_station_map <- function(stations, selected_regine_main = NULL,
                                  selected_name = NULL,
                                  selected_long = NULL,
-                                 selected_lat = NULL, single_poly = FALSE, variable2plot = "none", radius_function = TRUE, popups = FALSE) {
+                                 selected_lat = NULL, single_poly = FALSE, variable2plot = "Ingen", radius_function = TRUE, popups = FALSE) {
   
   ## Functions controling color and size of markers WILL NEED TO BE GENERALIZED WITH SINGLE STATION FUNCTION!
   my.colors <- c("blue", "green", "yellow", "orange", "red", "black")
@@ -250,7 +250,7 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
 #                      layerId = stations$regine_main)   %>%
   
   ## Color the markers to indicate potential flood issues
-  if (variable2plot == "flood_warning") {
+  if (variable2plot == "Fare for flom") {
     
     index <- is.na(stations$flood_warning)
     NA_stations <- lapply(stations, function(x) x[index])
@@ -296,7 +296,7 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
 #     }
   }
   
-  if (variable2plot == "uncertainty")  {
+  if (variable2plot == "Usikkerhet")  {
     
     index <- is.na(stations$uncertainty)
     NA_stations_uncertainty <- lapply(stations, function(x) x[index])
@@ -341,7 +341,7 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
 #     }
   }
   
-  if (variable2plot == "none") {
+  if (variable2plot == "Ingen") {
     map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
                             popup = paste(as.character(stations$nbname), sep = " "),
                             radius = 5, 
