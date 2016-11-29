@@ -292,10 +292,10 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
       subset2plot_m4 <- reactive(NULL)
       subset2plot_rl <- reactive(NULL)
     
-    } 
+    } else {
     
     
-    else if ("State" %in% input$type_choice) {
+    # else if ("State" %in% input$type_choice) {
       
       # if (!is.null(model_1)) {
       output$model1_selection <- renderUI({
@@ -396,6 +396,10 @@ poly_multimod_forecast_plot_mod <- function(input, output, session, selected_sta
   subset2plot_rl = NULL
   
   if (length(selected_stations) > 0) {
+    
+    subset2plot_OBS <- dplyr::filter(OBS, regine.main %in% selected_stations & Variable == "Obs") 
+    
+    
     if (!is.null(variable_1)) {
       subset2plot_m1 <- dplyr::filter(model_1, regine.main %in% selected_stations & Type == "Runoff" & Variable %in% variable_1) 
     }
@@ -416,7 +420,7 @@ poly_multimod_forecast_plot_mod <- function(input, output, session, selected_sta
       subset2plot_rl <- dplyr::filter(return_levels, regine.main %in% selected_stations & Type %in% type_rl) 
     }
   }
-  output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_m1, subset2plot_m2, subset2plot_m3, subset2plot_m4, subset2plot_rl))
+  output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_OBS, subset2plot_m1, subset2plot_m2, subset2plot_m3, subset2plot_m4, subset2plot_rl))
   output$rendered_plot <- renderUI( plotlyOutput(ns("plot"), 
                                                  height = paste(400 * length(selected_stations), "px", sep ="")) ) 
 }
@@ -452,8 +456,8 @@ multimod_forecast_selection_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
   fluidRow(
-    column(2, selectInput(ns("type_choice"), label = "Choose the type of variable to plot", selected = "Input",
-                          choices = c("Input", "Runoff", "State"), multiple = FALSE) ),
+    column(2, radioButtons(ns("type_choice"), label = "Hvilken type variabel vil du plotte?", selected = "State",
+                          choices = c("Input", "Runoff", "State")) ),
     # column(2, uiOutput(ns("OBS_choice"))),
     column(2, uiOutput(ns("model1_selection"))),
     column(2, uiOutput(ns("model2_selection"))),

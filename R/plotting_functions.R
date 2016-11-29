@@ -71,8 +71,9 @@ forecast_plot <- function(OBS, dat) {
   
   
   d <- d +
-    geom_bar(data = subset(dat, Variable=="Precip"), aes(x = time, y = Values, linetype = Variable), stat="identity", width = 0.4, fill = "gray75") + 
-    geom_line(data = subset(dat, Variable!="Precip"), aes(x = time, y = Values, col = Variable, linetype = Variable)) +
+    geom_bar(data = subset(dat, Variable == "Precip"), aes(x = time, y = Values), stat="identity", width = 0.4, fill = "gray75", colour = "gray75") + 
+    geom_line(data = subset(dat, Variable != "Precip"), aes(x = time, y = Values, col = Variable, linetype = Variable)) +
+    
     geom_line(data = OBS, aes(x = time, y = Values, col = Variable, linetype = Variable)) +
     
     facet_grid(Type ~ ., scales = "free_y") +
@@ -135,36 +136,38 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
     
   p <- 0
   # We check every that each dataset is not an empty data frame.
-  if (is.data.frame(obs_data) && nrow(obs_data) > 0) {
+  if (is.null(obs_data) == FALSE && is.data.frame(obs_data) && nrow(obs_data) > 0) {
     obs_data$time <- as.Date(obs_data$time)
     d <- d + geom_line(data = obs_data, aes(x = time, y = Values, col = Variable, linetype = Variable))
     p <- 1
   }
   
   
-  if (is.data.frame(dat_1) && nrow(dat_1) > 0) {
+  if (is.null(dat_1) == FALSE && is.data.frame(dat_1) && nrow(dat_1) > 0) {
     dat_1$time <- as.Date(dat_1$time)
-   
-    d <- d + geom_bar(data = subset(dat_1, Variable == "Precip"), aes(x = time, y = Values, linetype = Variable), stat="identity", width = 0.4, fill = "gray75")
-      
+    
+    precip_subset <- subset(dat_1, Variable == "Precip")
+   if (is.data.frame(precip_subset) && nrow(precip_subset) > 0) { 
+    d <- d + geom_bar(data = precip_subset, aes(x = time, y = Values, linetype = Variable), stat="identity", width = 0.4, fill = "gray75")
+   }
     d <- d + geom_line(data = subset(dat_1, Variable != "Precip"), aes(x = time, y = Values, col = Variable, linetype = Variable))
     p <- 1
   }
   
-  if (is.data.frame(dat_2) && nrow(dat_2) > 0) {
+  if (is.null(dat_2) == FALSE && is.data.frame(dat_2) && nrow(dat_2) > 0) {
     dat_2$time <- as.Date(dat_2$time)
     d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable, linetype = Variable))
     p <- 1
     print(p)
   }
   
-  if (is.data.frame(dat_3) && nrow(dat_3) > 0) {
+  if (is.null(dat_3) == FALSE && is.data.frame(dat_3) && nrow(dat_3) > 0) {
     dat_3$time <- as.Date(dat_3$time)
     d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable, linetype = Variable))
     p <- 1
   }
   
-  if (is.data.frame(dat_4) && nrow(dat_4) > 0) {
+  if (is.null(dat_4) == FALSE && is.data.frame(dat_4) && nrow(dat_4) > 0) {
     dat_4$time <- as.Date(dat_4$time)
     d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable, linetype = Variable))
     
@@ -173,7 +176,7 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
     p <- 1
   }
   
-  if (is.data.frame(return_levels) && nrow(return_levels) > 0) {
+  if (is.null(return_levels) == FALSE && is.data.frame(return_levels) && nrow(return_levels) > 0) {
     # return_levels$time <- as.Date(dat_1$time)
     print("return_levels")
         print(return_levels)

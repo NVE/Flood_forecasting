@@ -71,7 +71,7 @@ stations$nbname <- paste(stations$regine_main, "-", station_names[match(stations
 
 OBS <- dplyr::filter(DDD, Type == "Runoff", Variable == "Obs")
 OBS$time<- as.Date(OBS$time)
-
+DDD <- dplyr::filter(DDD, Variable != "Obs")
 
 # Calculation of a stations$flood_warning indicator for the forecast period
 # I want to have it under the "stations" list for the moment as this list is used by the map functions

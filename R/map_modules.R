@@ -227,7 +227,7 @@ mapModule_polygonFeature <- function(input, output, session) {
     input$variable_4
     input$type_rl
     input$map_selectbox_features$features}, {
-      callModule(poly_multimod_forecast_plot_mod, "multi_station_plot", as.character(selected_regine_main()), OBS, HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell,
+      callModule(poly_multimod_forecast_plot_mod, "multi_station_plot", as.character(selected_regine_main()), HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell,
                  input$variable_1, input$variable_2, input$variable_3, input$variable_4, input$type_rl)
       output$print_selection <- renderText( paste("-", selected_regine_main()) )
     })
