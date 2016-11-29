@@ -211,14 +211,18 @@ div.tocify {
     <div id="menu">
       <div id="menuToggler"></div>
       <div id="menuItems">
-        <a class="menuItem" href="process.html">Flood forecasting process</a>
+        <a class="menuItem" href="process.html">Forecasting process</a>
         <a class="menuItem" href="app.html">Visualization tool</a>
-        <a class="menuItem" href="HBV.html">HBV model</a>
-        <a class="menuItem" href="DDD.html">DDD model</a>
-        <a class="menuItem" href="ODM.html">ODM model</a>
-		<a class="menuItem" href="DDM.html">DDM model</a>
-		<a class="menuItem" href="index.html">Packaged R functions </a>
-		<a class="menuItem" href="daily_report.html">Automatic daily report</a>
+	   
+	<ul class="nav navbar-nav">
+	<li><a class="menuItem" href="HBV.html">HBV model</a></li>
+        <li><a class="menuItem" href="DDD.html">DDD model</a></li>
+        <li><a class="menuItem" href="ODM.html">ODM model</a></li>
+	<li><a class="menuItem" href="DDM.html">DDM model</a></li>
+      	</ul>
+	
+	<a class="menuItem" href="index.html">Packaged R functions </a>
+	<a class="menuItem" href="daily_report.html">Automatic daily report</a>
         <a class="menuItem gitHub" href="https://github.com/NVE/Flood_forecasting"></a>
         <a class="menuItem gitHubText" href="https://github.com/NVE/Flood_forecasting">Source on GitHub</a>
       </div>
@@ -252,7 +256,7 @@ $(".main-container").removeClass("main-container").removeClass("container-fluid"
 
 <div id="what-is-it" class="section level1">
 <h1>What is it?</h1>
-<p>Bla</p>
+<p>Stein / Bard to provide a quick presentation of ODM.</p>
 </div>
 <div id="why-do-we-use-it" class="section level1">
 <h1>Why do we use it?</h1>
@@ -262,6 +266,7 @@ $(".main-container").removeClass("main-container").removeClass("container-fluid"
 </div>
 <div id="how-is-it-used-by-the-visualization-app" class="section level1">
 <h1>How is it used by the visualization app</h1>
+<p>The ODM data will be read via the NVE chart-server API by a specific function implement in the <code>NVEDATA</code>package.</p>
 </div>
 
 

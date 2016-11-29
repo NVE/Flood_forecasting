@@ -57,6 +57,9 @@ load("data/flomtabell.RData")
 load("data/HBV_past_year.RData")
 load("data/meta_data.rda")
 
+meta_data <- dplyr::filter(meta_data, br23_HBV == "Y" | br9_Flomvarsling == "Y")
+
+
 station_numbers <- as.character(unique(HBV_2014$regine.main))  # All of the HBV_2016 and DD stations are in HBV_2014
 station_names <- as.character(unique(HBV_2014$station.name))  # May not be optimal (if 2 stations had same name), but it works
 station_nbname <- as.character(unique(HBV_2014$nbname))

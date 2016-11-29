@@ -4,7 +4,7 @@
 \alias{forecast_plot}
 \title{forecast_plot}
 \usage{
-forecast_plot(dat)
+forecast_plot(OBS, dat)
 }
 \arguments{
 \item{dat}{}

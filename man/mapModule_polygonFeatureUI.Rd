@@ -10,6 +10,6 @@ mapModule_polygonFeatureUI(id)
 \item{id}{}
 }
 \description{
-Shiny UI module to be used with "mapModule_polygonFeature" ...
+Shiny UI module to be used with "mapModule_polygonFeature"
 }
 

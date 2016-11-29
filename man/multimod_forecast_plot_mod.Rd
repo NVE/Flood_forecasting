@@ -4,8 +4,8 @@
 \alias{multimod_forecast_plot_mod}
 \title{multimod_forecast_plot_mod}
 \usage{
-multimod_forecast_plot_mod(input, output, session, map_input, model_1, model_2,
-  model_3, model_4, return_levels = NULL)
+multimod_forecast_plot_mod(input, output, session, map_input, OBS, model_1,
+  model_2, model_3, model_4, return_levels = NULL)
 }
 \arguments{
 \item{input}{}

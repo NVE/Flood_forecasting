@@ -12,7 +12,4 @@ forecast_plot_shading(dat)
 \description{
 This function only produces "static" ggplot for the moment, but I need to find a way to do the shading with plotly
 }
-\examples{
-forecast_plot_shading(Mistake, Mist)
-}
 

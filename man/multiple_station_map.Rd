@@ -6,7 +6,7 @@
 \usage{
 multiple_station_map(stations, selected_regine_main = NULL,
   selected_name = NULL, selected_long = NULL, selected_lat = NULL,
-  single_poly = FALSE, variable2plot = "none", radius_function = TRUE,
+  single_poly = FALSE, variable2plot = "Ingen", radius_function = TRUE,
   popups = FALSE)
 }
 \arguments{

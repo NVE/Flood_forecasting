@@ -82,10 +82,68 @@ The aim is to have the .RData files that are read by the application
 
 # How to use it?
 
-Annoted screenshots to come.
+Below is an annotated screenshot of the first tab:
 
-1. Station selection
+![Screenshot of the multi-model forecaster's dashboard](images/app_first_tab.png)
 
+**1. Available tabs**
+
+The selected tab presents a multi-model and multi-station visualization using a dropdown selector. If you click on *Multistasjon*, you also get the option to select a group of stations by drawing rectangles or polygons.
+
+The next set of tabs presents single-model and single-station plots of all the available variables (model input, model state and runoff).
+
+The model results and metadata on the available stations (br23_HBV = "Y" and br9_Flomvarsling = "Y") are then available in the next set of tabs.
+
+Finally historical results such as calibration results, past performance and seasonal averages are available under *Historisk*.
+
+The last set of tabs links back to specific pages of this website.
+
+**2. Station selection**
+
+The station selection on this tab is cumulative. You can select stations either by clicking in the dropdown menu, or directly on the map by clicking on the station markers. To delete selected stations, click on them in the dropdown selector and press *delete*.
+
+The last station selected will always be highlighted by a pop-up on the map. You can also tick the *show pop-ups* button to show all selected stations. In this screenshot, the catchment boundaries are also selected. This is not the case by default and this selection causes the app to slow down significantly.
+
+**3. Quantitative map markers**
+
+- *Risk for flood*
+
+If *M* is the maximum value of the corrected HBV_UM during the forecast period and *RL* is the observed mean annual flood at this station, then:
+
+*Risk for flood* = *M* / *RL*   
+
+- *Forecast uncertainty*
+
+If *Diff* is the maximum difference between the Hi90 and Lo90 estimates of HBV_UM during the forecast period and **RL** is the observed mean annual flood at this station, then:
+
+*Forecast uncertainty* = *Diff* / *RL*   
+
+**4. Choice of variable type**
+
+The variable are group in 3 types: *inputs* to the model (temperature, precipitation), *state* of the model (groundwater level, soil moisture, snow storage) and *runoff* which includes measured discharge and various type of model output (confidence intervals, ensemble results).
+
+**5. Choice of model-specific variables**
+
+Here you can choose, in a cumulative way, which model-specific variables you want to plot. Those selectors either change or become redundant when changing the *variable type* selector.
+
+**6. Past year results**
+
+Here you can plot 3 different types of HBV_UM results for last yeat:
+
+*HBV.UM.sim* represents the uncorrected model results using forecast input data.
+
+*HBV.UM.korr* represents the corrected model results using forecast input data.
+
+*HBV.UM.korr.med.obsMet* represents the corrected model results using measured input data.
+
+**7. Return levels**
+
+You can select *observed* and *simulated* return levels for the mean annual flood, the 5 and 50-year return floods.
+
+**8. Interactive plots**
+
+The plots are interactive. Hover over the lines to read values of all variables at specific times.
+Explore the interactivity options at the uppe right of the plot. There are many different ways to interact with it.
 
 
 # How to modify it or develop it further?

@@ -456,7 +456,7 @@ multimod_forecast_selection_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
   fluidRow(
-    column(2, radioButtons(ns("type_choice"), label = "Hvilken type variabel vil du plotte?", selected = "State",
+    column(2, radioButtons(ns("type_choice"), label = "Hvilken type variabel vil du plotte?", selected = "Runoff",
                           choices = c("Input", "Runoff", "State")) ),
     # column(2, uiOutput(ns("OBS_choice"))),
     column(2, uiOutput(ns("model1_selection"))),

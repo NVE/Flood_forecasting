@@ -101,7 +101,7 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
   # The palette with grey:
   # cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
   # The palette with black:
-  cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+  # cbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
   
 #   d <- ggplot() + scale_colour_manual(
 #     values = c("Obs" = cbPalette[1],"SimRaw" = cbPalette[2],"Sim.sim" = cbPalette[2],
@@ -158,7 +158,6 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
     dat_2$time <- as.Date(dat_2$time)
     d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable, linetype = Variable))
     p <- 1
-    print(p)
   }
   
   if (is.null(dat_3) == FALSE && is.data.frame(dat_3) && nrow(dat_3) > 0) {

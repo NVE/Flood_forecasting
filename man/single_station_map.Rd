@@ -5,8 +5,8 @@
 \title{single_station_map}
 \usage{
 single_station_map(stations, selected_nbname = NULL, selected_long = NULL,
-  selected_lat = NULL, variable2plot = "none",
-  map_layer = "open streetmap", catchments = FALSE,
+  selected_lat = NULL, variable2plot = "Ingen",
+  map_layer = "Openstreetmap", catchments = FALSE,
   colored_markers = FALSE, radius_function = TRUE, popups = FALSE)
 }
 \arguments{

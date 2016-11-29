@@ -4,8 +4,8 @@
 \alias{multimod_forecast_plot}
 \title{multimod_forecast_plot}
 \usage{
-multimod_forecast_plot(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL,
-  dat_4 = NULL, return_levels = NULL, gg_plot = FALSE)
+multimod_forecast_plot(obs_data = NULL, dat_1 = NULL, dat_2 = NULL,
+  dat_3 = NULL, dat_4 = NULL, return_levels = NULL, gg_plot = FALSE)
 }
 \arguments{
 \item{dat_1}{}

@@ -14,6 +14,6 @@ mapModule_polygonFeature(input, output, session)
 \item{session}{}
 }
 \description{
-Shiny server module to map ...
+Shiny server module to map... TO tidy up with mapModule_polygonFeature
 }
 

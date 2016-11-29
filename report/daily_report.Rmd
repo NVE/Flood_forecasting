@@ -17,9 +17,10 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='images/',
 
 setwd("..")
 source("global.R")
-model_1 <- HBV_2014
-model_2 <- HBV_2016
-model_3 <- DDD
+# OBS <- OBS
+# model_1 <- HBV_2014
+# model_2 <- HBV_2016
+# model_3 <- DDD
 ```
 
 # Main maps
@@ -50,9 +51,9 @@ Multi-model plot for all stations.
 
 # selected_nbname <- "2.11-narsjo"
 
-variable_1 <- c("SimRaw", "SimCorr", "SimL50", "SimH50")
-variable_2 <- c("SimRaw", "SimCorr", "SimP50")
-variable_3 <- c("DDD.Sim", "Obs")  
+# variable_1 <- c("SimRaw", "SimCorr", "SimL50", "SimH50")
+# variable_2 <- c("SimRaw", "SimCorr", "SimP50")
+# variable_3 <- c("DDD.Sim", "Obs")  
 
 plot_list <- htmltools::tagList()
 stations <- unique(HBV_2014$nbname)
@@ -63,12 +64,13 @@ stations <- unique(HBV_2014$nbname)
 
 for (i in seq_along(stations)) {
 
-subset2plot_m1 <- dplyr::filter(model_1, nbname == stations[i] & Type == "Runoff" & Variable %in% variable_1) 
-subset2plot_m2 <- dplyr::filter(model_2, nbname == stations[i] & Type == "Runoff" & Variable %in% variable_2) 
-# subset2plot_m3 <- dplyr::filter(model_3, nbname == stations[i] & Type == "Runoff" & Variable %in% variable_3) 
+subset2plot_m1 <- dplyr::filter(HBV_2014, nbname == stations[i] & Type == "Runoff") 
+subset2plot_m2 <- dplyr::filter(HBV_2016, nbname == stations[i] & Type == "Runoff") 
+# subset2plot_m3 <- dplyr::filter(model_3, nbname == stations[i] & Type == "Runoff") 
+# subset2plot_obs <- dplyr::filter(OBS, nbname == stations[i] & Variable == "Obs") 
 
 cat("\n## Station ", as.character(stations[i]), "  \n")     
-d <- multimod_forecast_plot(subset2plot_m1, subset2plot_m2, gg_plot = TRUE)
+d <- multimod_forecast_plot(obs_data = NULL, dat_1 = NULL, subset2plot_m2, gg_plot = TRUE)
 plot(d)
 cat('\n') 
 
