@@ -42,16 +42,42 @@ forecast_plot_shading <- function(dat) {
 #' @export
 #'
 #' @examples
-forecast_plot <- function(dat) {
+forecast_plot <- function(OBS, dat) {
   
   dat$time <- as.Date(dat$time)
 
-  d <- ggplot() +
-    geom_line(data = subset(dat, Variable!="Precip"), aes(x = time, y = Values, col = Variable), size = 1) +
-    geom_bar(data = subset(dat, Variable=="Precip"), aes(x = time, y = Values, col = Variable), size = 1, stat="identity", width = 0.4) + 
+
+  d <- ggplot() + scale_colour_manual(
+    values = c("Obs" = "black", 
+               "HBV.UM.sim" = "cyan3", "HBV.UM.korr" = "cyan3", "Lo50" = "cyan", "Lo90" = "cyan", "Hi50" = "cyan", "Hi90" = "cyan",
+               "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue3", "P.m50" = "blue", "P.p50" = "blue",
+               "DDD.sim" = "orange",
+               "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
+               "HBV.UM.sim.med.obsMet" = "cyan3",
+               "Temp" = "red", "Precip" = "gray75",
+               "Snow" = "blue", "GW" = "sienna", "Soil" = "green"
+    )) 
+  
+  d <- d + scale_linetype_manual( 
+    values = c("Obs" = "solid", 
+               "HBV.UM.sim" = "F1", "HBV.UM.korr4" = "solid", "Lo50" = "dashed", "Lo90" = "dotted",  "Hi50" = "dashed",  "Hi90" = "dotted",
+               "HBV.P.sim" = "twodash", "HBV.P.korr4" = "solid", "P.m50" = "dashed", "P.p50" = "dashed",
+               "DDD.sim" = "solid",
+               "mean" = "dotdash", "5Y" = "dotdash", "50Y" = "dotdash",
+               "HBV.UM.sim.med.obsMet" = "dotted",
+               "Temp" = "solid", "Precip" = "solid",
+               "Snow" = "solid", "GW" = "solid", "Soil" = "solid"
+    ))
+  
+  
+  d <- d +
+    geom_bar(data = subset(dat, Variable=="Precip"), aes(x = time, y = Values, linetype = Variable), stat="identity", width = 0.4, fill = "gray75") + 
+    geom_line(data = subset(dat, Variable!="Precip"), aes(x = time, y = Values, col = Variable, linetype = Variable)) +
+    geom_line(data = OBS, aes(x = time, y = Values, col = Variable, linetype = Variable)) +
+    
     facet_grid(Type ~ ., scales = "free_y") +
     theme_bw() +
-    scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
+    scale_x_date(date_breaks = "2 day", date_labels = "%m %d")
   
   return(ggplotly(d))
 }
@@ -69,7 +95,7 @@ forecast_plot <- function(dat) {
 #' @export
 #'
 #' @examples
-multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, return_levels = NULL, gg_plot = FALSE) {
+multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, return_levels = NULL, gg_plot = FALSE) {
   
   # The palette with grey:
   # cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
@@ -84,43 +110,63 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
 #                "SimH90" = cbPalette[8], "SimL90" = cbPalette[8],
 #                "mean" = "yellow", "5Y" = "orange", "50Y" = "red")) +
     
-    d <- ggplot() + scale_colour_manual(
-      values = c("Obs" = "black", "HBV.UM.sim" = "cyan", "HBV.UM.korr" = "cyan", "Lo50" = "cyan", "Lo90" = "cyan", "Hi50" = "cyan", "Hi90" = "cyan",
-                 "HBV.P.sim" = "blue", "HBV.P.korr" = "blue", "P.m50" = "blue", "P.p50" = "blue",
-                 "DDD.sim" = "orange",
-                 "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
-                 "Q.Obs" = "black", "HBV.UM.sim.med.obsMet" = "cyan"
-                   )) +
-    scale_linetype_manual( 
-      values = c("Obs" = 1, "HBV.UM.sim" = 2, "HBV.UM.korr" = 1, "Lo50" = 3, "Lo90" = 4, "Hi50" = 3, "Hi90" = 4,
-                                      "HBV.P.sim" = 2, "HBV.P.korr" = 1, "P.m50" = 3, "P.p50" = 3,
-                                      "DDD.sim" = 1,
-                                      "mean" = 5, "5Y" = 5, "50Y" = 5,
-                                      "Q.Obs" = 1, "HBV.UM.sim.med.obsMet" = 2
+  d <- ggplot() + scale_colour_manual(
+    values = c("Obs" = "black", 
+               "HBV.UM.sim" = "cyan3", "HBV.UM.korr" = "cyan3", "Lo50" = "cyan", "Lo90" = "cyan", "Hi50" = "cyan", "Hi90" = "cyan",
+               "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue3", "P.m50" = "blue", "P.p50" = "blue",
+               "DDD.sim" = "orange",
+               "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
+               "HBV.UM.sim.med.obsMet" = "cyan3",
+               "Temp" = "red", "Precip" = "gray75",
+               "Snow" = "blue", "GW" = "sienna", "Soil" = "green"
+    )) 
+  
+  d <- d + scale_linetype_manual( 
+    values = c("Obs" = "solid", 
+               "HBV.UM.sim" = "F1", "HBV.UM.korr4" = "solid", "Lo50" = "dashed", "Lo90" = "dotted",  "Hi50" = "dashed",  "Hi90" = "dotted",
+               "HBV.P.sim" = "twodash", "HBV.P.korr4" = "solid", "P.m50" = "dashed", "P.p50" = "dashed",
+               "DDD.sim" = "solid",
+               "mean" = "dotdash", "5Y" = "dotdash", "50Y" = "dotdash",
+               "HBV.UM.sim.med.obsMet" = "dotted",
+               "Temp" = "solid", "Precip" = "solid",
+               "Snow" = "solid", "GW" = "solid", "Soil" = "solid"
     ))
+  
+    
   p <- 0
   # We check every that each dataset is not an empty data frame.
+  if (is.data.frame(obs_data) && nrow(obs_data) > 0) {
+    obs_data$time <- as.Date(obs_data$time)
+    d <- d + geom_line(data = obs_data, aes(x = time, y = Values, col = Variable, linetype = Variable))
+    p <- 1
+  }
+  
+  
   if (is.data.frame(dat_1) && nrow(dat_1) > 0) {
     dat_1$time <- as.Date(dat_1$time)
-    d <- d + geom_line(data = dat_1, aes(x = time, y = Values, col = Variable), size = 1, linetype = 2)
+   
+    d <- d + geom_bar(data = subset(dat_1, Variable == "Precip"), aes(x = time, y = Values, linetype = Variable), stat="identity", width = 0.4, fill = "gray75")
+      
+    d <- d + geom_line(data = subset(dat_1, Variable != "Precip"), aes(x = time, y = Values, col = Variable, linetype = Variable))
     p <- 1
   }
   
   if (is.data.frame(dat_2) && nrow(dat_2) > 0) {
     dat_2$time <- as.Date(dat_2$time)
-    d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
+    d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable, linetype = Variable))
     p <- 1
+    print(p)
   }
   
   if (is.data.frame(dat_3) && nrow(dat_3) > 0) {
     dat_3$time <- as.Date(dat_3$time)
-    d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
+    d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable, linetype = Variable))
     p <- 1
   }
   
   if (is.data.frame(dat_4) && nrow(dat_4) > 0) {
     dat_4$time <- as.Date(dat_4$time)
-    d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
+    d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable, linetype = Variable))
     
 #     d <- d + geom_line(data = subset(dat_4, Variable="Obs"), aes(x = time, y = Values), size = 1)
 #     d <- d + geom_line(data = subset(dat_4, Variable="Sim.obs"), aes(x = time, y = Values), size = 1)
@@ -132,7 +178,7 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
     print("return_levels")
         print(return_levels)
     d <- d + 
-      geom_hline(data = return_levels, aes(yintercept = Values, col = Variable), size = 1, linetype = 5)
+      geom_hline(data = return_levels, aes(yintercept = Values, col = Variable, linetype = Variable))
     p <- 1
   }
 
@@ -146,7 +192,7 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
     d <- d +
       facet_grid(nbname ~ . , scales = "free") +
       theme_bw() + 
-      scale_x_date(date_breaks = "1 day", date_labels = "%m %d") +
+      scale_x_date(date_breaks = "2 day", date_labels = "%m %d") +
       theme(axis.title.x = element_blank()) +   # Remove x-axis label
       ylab("Runoff (m3/s)")                       # Set y-axis label
       # theme(axis.text.x = element_text(angle = 90, size = 12) ) # plot.margin = unit(c(10,0,0,0),"mm")
@@ -154,6 +200,14 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
       
   }
 
+#   d <- d + scale_linetype_manual( 
+#     values = c("Obs" = "solid", "HBV.UM.sim" = "longdash", "HBV.UM.korr" = "solid", "Lo50" = "dashed", "Lo90" = "dotted", "Hi50" = "dashed", "Hi90" = "dotted",
+#                "HBV.P.sim" = "longdash", "HBV.P.korr" = "solid", "P.m50" = "dashed", "P.p50" = "dashed",
+#                "DDD.sim" = "solid",
+#                "mean" = "dotdash", "5Y" = "dotdash", "50Y" = "dotdash",
+#                "Q.Obs" = "solid", "HBV.UM.sim.med.obsMet" = "longdash"
+#     ))
+  
   # l <- plotly_build(d)  # %>%  layout(margin = list(l=100)) 
   # l$layout$margin$l <- l$layout$margin$l + 100
   if (gg_plot == TRUE) {
@@ -165,54 +219,58 @@ multimod_forecast_plot <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat
   # return(l)
 }
 
-#' multimod_forecast_plot_EXP
-#' @description To tidy up probable double up with multimod_forecast_plot
-#' @param dat_1 
-#' @param dat_2 
-#' @param dat_3 
-#' @param dat_4 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL) {
-  
-#   print("prout")
-#   print(summary(dat_1))
-  d <- ggplot()
-  
-  if (length(dat_1) > 0) {
-    dat_1$time <- as.Date(dat_1$time)
-    d <- d + geom_line(data = dat_1, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
-  }
-  
-  if (length(dat_2) > 0) {
-    dat_2$time <- as.Date(dat_2$time)
-    d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable), size = 1, linetype = 2)
-  }
-  
-  if (length(dat_3) > 0) {
-    dat_3$time <- as.Date(dat_3$time)
-    d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1, linetype = 3)
-  }
-  
-  if (length(dat_4) > 0) {
-    dat_4$time <- as.Date(dat_4$time)
-    d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable), size = 1, linetype = 4)
-  }
-  d <- d +
-    theme_bw() + 
-    scale_x_date(date_breaks = "1 day", date_labels = "%m %d") +
-    theme(axis.title.x = element_blank()) +   # Remove x-axis label
-    ylab("Runoff (m3/s)")                       # Set y-axis label
-    
-  
-  # if (length(dat_1) > 0 | length(dat_2) > 0 | length(dat_3) > 0 | length(dat_4) > 0) {
-  d <- d +
-    facet_grid(nbname ~ . , scales = "free")
-  # }
-  
-  return(ggplotly(d))
-  
-}
+
+# 
+# 
+# 
+# #' multimod_forecast_plot_EXP
+# #' @description To tidy up probable double up with multimod_forecast_plot
+# #' @param dat_1 
+# #' @param dat_2 
+# #' @param dat_3 
+# #' @param dat_4 
+# #'
+# #' @return
+# #' @export
+# #'
+# #' @examples
+# multimod_forecast_plot_EXP <- function(dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL) {
+#   
+# #   print("prout")
+# #   print(summary(dat_1))
+#   d <- ggplot()
+#   
+#   if (length(dat_1) > 0) {
+#     dat_1$time <- as.Date(dat_1$time)
+#     d <- d + geom_line(data = dat_1, aes(x = time, y = Values, col = Variable), size = 1, linetype = 1)
+#   }
+#   
+#   if (length(dat_2) > 0) {
+#     dat_2$time <- as.Date(dat_2$time)
+#     d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable), size = 1, linetype = 2)
+#   }
+#   
+#   if (length(dat_3) > 0) {
+#     dat_3$time <- as.Date(dat_3$time)
+#     d <- d + geom_line(data = dat_3, aes(x = time, y = Values, col = Variable), size = 1, linetype = 3)
+#   }
+#   
+#   if (length(dat_4) > 0) {
+#     dat_4$time <- as.Date(dat_4$time)
+#     d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable), size = 1, linetype = 4)
+#   }
+#   d <- d +
+#     theme_bw() + 
+#     scale_x_date(date_breaks = "1 day", date_labels = "%m %d") +
+#     theme(axis.title.x = element_blank()) +   # Remove x-axis label
+#     ylab("Runoff (m3/s)")                       # Set y-axis label
+#     
+#   
+#   # if (length(dat_1) > 0 | length(dat_2) > 0 | length(dat_3) > 0 | length(dat_4) > 0) {
+#   d <- d +
+#     facet_grid(nbname ~ . , scales = "free")
+#   # }
+#   
+#   return(ggplotly(d))
+#   
+# }
