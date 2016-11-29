@@ -77,7 +77,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
                        # layerId = NA_stations$regine_main
       ) %>%
       addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
-                title = "Max forecast / mean annual flood",
+                title = "Verdien av farge markoer",
                 opacity = 1)
     # Adding transparent markers with layerID = selected stations so that the map interactivity remains
     if (popups == FALSE) {
@@ -122,7 +122,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
                        # layerId = NA_stations_uncertainty$regine_main
       ) %>%
       addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
-                title = "Max forecast / mean annual flood",
+                title = "Verdien av farge markoer",
                 opacity = 1)
     
     if (popups == FALSE) {
@@ -272,7 +272,7 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
                        # layerId = NA_stations$regine_main
       ) %>%
       addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
-                title = "Max forecast / mean annual flood",
+                title = "Verdien av farge markoer",
                 opacity = 1)
     # Adding transparent markers with layerID = selected stations so that the map interactivity remains
     # if (popups == FALSE) {
@@ -318,7 +318,7 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
                        # layerId = NA_stations_uncertainty$regine_main
       ) %>%
       addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
-                title = "Max forecast / mean annual flood",
+                title = "Verdien av farge markoer",
                 opacity = 1)
     
     # if (popups == FALSE) {

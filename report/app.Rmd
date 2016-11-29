@@ -84,6 +84,10 @@ The aim is to have the .RData files that are read by the application
 
 Annoted screenshots to come.
 
+1. Station selection
+
+
+
 # How to modify it or develop it further?
 
 Please refer to the package [documentation](http://NVE.github.io/Flood_forecasting/index.html) for the programming details of this app.
