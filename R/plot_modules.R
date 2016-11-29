@@ -295,61 +295,61 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
     } 
     
     
-#     else if ("State" %in% input$type_choice) {
-#       
-#       # if (!is.null(model_1)) {
-#       output$model1_selection <- renderUI({
-#         selectInput(ns("model1_selection"), label = "Tilstandsvariabler HBV_UM", selected  = "Snow",
-#                     choices = "Snow", multiple = TRUE) 
-#       })
-#       # }
-#       
-#       output$model2_selection <- renderUI({
-#         selectInput(ns("model2_selection"), label = "Tilstandsvariabler HBV_P", selected  = "Snow",
-#                     choices = "Snow") 
-#       })
-#       output$model3_selection <- renderUI({
-#         selectInput(ns("model3_selection"), label = "Tilstandsvariabler DDD", selected  = c("Snow", "GW", "Soil"),
-#                     choices = c("Snow", "GW", "Soil")) 
-#       })
-#       output$model4_selection <- renderUI({
-#         selectInput(ns("model4_selection"), label = "", selected  = "-",
-#                     choices = "-") 
-#       })
-#       output$return_levels <- renderUI({
-#         selectInput(ns("return_levels"), label = "", selected  = "-",
-#                     choices = "-") 
-#       })
-#       
-#       subset2plot_m1 <- eventReactive({ input$model1_selection
-#         map_input$station},
-#         if (is.null(input$model1_selection)) {
-#           subset2plot_m1 <- NULL
-#         } else {
-#           subset2plot_m1 <- dplyr::filter(model_1, nbname %in% map_input$station & Type == "State" & Variable %in% input$model1_selection) 
-#         })
-#       
-#       subset2plot_m2 <- eventReactive({ input$model2_selection
-#         map_input$station},
-#         if (is.null(input$model2_selection)) {
-#           subset2plot_m2 <- NULL
-#         } else {
-#           subset2plot_m2 <- dplyr::filter(model_2, nbname %in% map_input$station & Type == "State" & Variable %in% input$model2_selection) 
-#         })
-#       
-#       subset2plot_m3 <- eventReactive({ input$model3_selection
-#         map_input$station},
-#         if (is.null(input$model1_selection)) {
-#           subset2plot_m3 <- NULL
-#         } else {
-#           subset2plot_m3 <- dplyr::filter(model_3, nbname %in% map_input$station & Type == "State" & Variable %in% input$model3_selection) 
-#         })
-#       
-#       subset2plot_OBS <- reactive(NULL)
-#       subset2plot_m4 <- reactive(NULL)
-#       subset2plot_rl <- reactive(NULL)
-#       
-#     }
+    else if ("State" %in% input$type_choice) {
+      
+      # if (!is.null(model_1)) {
+      output$model1_selection <- renderUI({
+        selectInput(ns("model1_selection"), label = "Tilstandsvariabler HBV_UM", selected  = "Snow",
+                    choices = "Snow", multiple = TRUE) 
+      })
+      # }
+      
+      output$model2_selection <- renderUI({
+        selectInput(ns("model2_selection"), label = "Tilstandsvariabler HBV_P", selected  = "Snow",
+                    choices = "Snow", multiple = TRUE) 
+      })
+      output$model3_selection <- renderUI({
+        selectInput(ns("model3_selection"), label = "Tilstandsvariabler DDD", selected  = c("Snow", "GW", "Soil"),
+                    choices = c("Snow", "GW", "Soil"), multiple = TRUE) 
+      })
+      output$model4_selection <- renderUI({
+        selectInput(ns("model4_selection"), label = "", selected  = "-",
+                    choices = "-") 
+      })
+      output$return_levels <- renderUI({
+        selectInput(ns("return_levels"), label = "", selected  = "-",
+                    choices = "-") 
+      })
+      
+      subset2plot_m1 <- eventReactive({ input$model1_selection
+        map_input$station},
+        if (is.null(input$model1_selection)) {
+          subset2plot_m1 <- NULL
+        } else {
+          subset2plot_m1 <- dplyr::filter(model_1, nbname %in% map_input$station & Type == "State" & Variable %in% input$model1_selection) 
+        })
+      
+      subset2plot_m2 <- eventReactive({ input$model2_selection
+        map_input$station},
+        if (is.null(input$model2_selection)) {
+          subset2plot_m2 <- NULL
+        } else {
+          subset2plot_m2 <- dplyr::filter(model_2, nbname %in% map_input$station & Type == "State" & Variable %in% input$model2_selection) 
+        })
+      
+      subset2plot_m3 <- eventReactive({ input$model3_selection
+        map_input$station},
+        if (is.null(input$model1_selection)) {
+          subset2plot_m3 <- NULL
+        } else {
+          subset2plot_m3 <- dplyr::filter(model_3, nbname %in% map_input$station & Type == "State" & Variable %in% input$model3_selection) 
+        })
+      
+      subset2plot_OBS <- reactive(NULL)
+      subset2plot_m4 <- reactive(NULL)
+      subset2plot_rl <- reactive(NULL)
+      
+    }
     
     output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_OBS(), subset2plot_m1(), subset2plot_m2(), 
                                                        subset2plot_m3(), subset2plot_m4(), subset2plot_rl()))
