@@ -50,29 +50,47 @@ forecast_plot <- function(OBS, dat) {
   d <- ggplot() + scale_colour_manual(
     values = c("Obs" = "black", 
                "HBV.UM.sim" = "cyan3", "HBV.UM.korr" = "cyan3", "Lo50" = "cyan", "Lo90" = "cyan", "Hi50" = "cyan", "Hi90" = "cyan",
+               "HBV.UM.Snow" = "blue",
                "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue3", "P.m50" = "blue", "P.p50" = "blue",
+               "HBV.P.Snow" = "blue",
                "DDD.sim" = "orange",
+               "DDD.Snow" = "blue", "DDD.GW" = "sienna", "DDD.Soil" = "green",
                "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
                "HBV.UM.sim.med.obsMet" = "cyan3",
-               "Temp" = "red", "Precip" = "gray75",
-               "Snow" = "blue", "GW" = "sienna", "Soil" = "green"
+               "Temp" = "red", "Precip" = "gray75"
+
     )) 
   
   d <- d + scale_linetype_manual( 
     values = c("Obs" = "solid", 
-               "HBV.UM.sim" = "F1", "HBV.UM.korr4" = "solid", "Lo50" = "dashed", "Lo90" = "dotted",  "Hi50" = "dashed",  "Hi90" = "dotted",
-               "HBV.P.sim" = "twodash", "HBV.P.korr4" = "solid", "P.m50" = "dashed", "P.p50" = "dashed",
+               "HBV.UM.sim" = "F1", "HBV.UM.korr" = "solid", "Lo50" = "dashed", "Lo90" = "dotted",  "Hi50" = "dashed",  "Hi90" = "dotted",
+               "HBV.UM.Snow" = "F1",
+               "HBV.P.sim" = "twodash", "HBV.P.korr" = "solid", "P.m50" = "dashed", "P.p50" = "dashed",
+               "HBV.P.Snow" = "twodash",
                "DDD.sim" = "solid",
+               "DDD.Snow" = "solid", "DDD.GW" = "solid", "DDD.Soil" = "solid",
                "mean" = "dotdash", "5Y" = "dotdash", "50Y" = "dotdash",
                "HBV.UM.sim.med.obsMet" = "dotted",
-               "Temp" = "solid", "Precip" = "solid",
-               "Snow" = "solid", "GW" = "solid", "Soil" = "solid"
+               "Temp" = "solid", "Precip" = "solid"
+
     ))
-  
+  d <- d + scale_shape_manual(
+    values = c("Obs" = 46,
+               "HBV.UM.sim" = 46, "HBV.UM.korr" = 46, "Lo50" = 46, "Lo90" = 46,  "Hi50" = 46,  "Hi90" = 46,
+               "HBV.UM.Snow" = 1,
+               "HBV.P.sim" = 46, "HBV.P.korr" = 46, "P.m50" = 46, "P.p50" = 46,
+               "HBV.P.Snow" = 2,
+               "DDD.sim" = 46,
+               "DDD.Snow" = 3, "DDD.GW" = 46, "DDD.Soil" = 46,
+               "mean" = 46, "5Y" = 46, "50Y" = 46,
+               "HBV.UM.sim.med.obsMet" = 46,
+               "Temp" = 46, "Precip" = 46
+               
+  ))
   
   d <- d +
     geom_bar(data = subset(dat, Variable == "Precip"), aes(x = time, y = Values), stat="identity", width = 0.4, fill = "gray75", colour = "gray75") + 
-    geom_line(data = subset(dat, Variable != "Precip"), aes(x = time, y = Values, col = Variable, linetype = Variable)) +
+    geom_line(data = subset(dat, Variable != "Precip"), aes(x = time, y = Values, col = Variable, linetype = Variable, pch = Variable)) +
     
     geom_line(data = OBS, aes(x = time, y = Values, col = Variable, linetype = Variable)) +
     
@@ -114,23 +132,29 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
   d <- ggplot() + scale_colour_manual(
     values = c("Obs" = "black", 
                "HBV.UM.sim" = "cyan3", "HBV.UM.korr" = "cyan3", "Lo50" = "cyan", "Lo90" = "cyan", "Hi50" = "cyan", "Hi90" = "cyan",
+               "HBV.UM.Snow" = "blue",
                "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue3", "P.m50" = "blue", "P.p50" = "blue",
+               "HBV.P.Snow" = "blue",
                "DDD.sim" = "orange",
+               "DDD.Snow" = "blue", "DDD.GW" = "sienna", "DDD.Soil" = "green",
                "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
                "HBV.UM.sim.med.obsMet" = "cyan3",
-               "Temp" = "red", "Precip" = "gray75",
-               "Snow" = "blue", "GW" = "sienna", "Soil" = "green"
+               "Temp" = "red", "Precip" = "gray75"
+               
     )) 
   
   d <- d + scale_linetype_manual( 
     values = c("Obs" = "solid", 
-               "HBV.UM.sim" = "F1", "HBV.UM.korr4" = "solid", "Lo50" = "dashed", "Lo90" = "dotted",  "Hi50" = "dashed",  "Hi90" = "dotted",
-               "HBV.P.sim" = "twodash", "HBV.P.korr4" = "solid", "P.m50" = "dashed", "P.p50" = "dashed",
+               "HBV.UM.sim" = "F1", "HBV.UM.korr" = "solid", "Lo50" = "dashed", "Lo90" = "dotted",  "Hi50" = "dashed",  "Hi90" = "dotted",
+               "HBV.UM.Snow" = "F1",
+               "HBV.P.sim" = "twodash", "HBV.P.korr" = "solid", "P.m50" = "dashed", "P.p50" = "dashed",
+               "HBV.P.Snow" = "twodash",
                "DDD.sim" = "solid",
+               "DDD.Snow" = "solid", "DDD.GW" = "solid", "DDD.Soil" = "solid",
                "mean" = "dotdash", "5Y" = "dotdash", "50Y" = "dotdash",
                "HBV.UM.sim.med.obsMet" = "dotted",
-               "Temp" = "solid", "Precip" = "solid",
-               "Snow" = "solid", "GW" = "solid", "Soil" = "solid"
+               "Temp" = "solid", "Precip" = "solid"
+               
     ))
   
     
