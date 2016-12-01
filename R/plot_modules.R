@@ -299,18 +299,18 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
       
       # if (!is.null(model_1)) {
       output$model1_selection <- renderUI({
-        selectInput(ns("model1_selection"), label = "Tilstandsvariabler HBV_UM", selected  = "Snow",
-                    choices = "Snow", multiple = TRUE) 
+        selectInput(ns("model1_selection"), label = "Tilstandsvariabler HBV_UM", selected  = "HBV.UM.Snow",
+                    choices = "HBV.UM.Snow", multiple = TRUE) 
       })
       # }
       
       output$model2_selection <- renderUI({
-        selectInput(ns("model2_selection"), label = "Tilstandsvariabler HBV_P", selected  = "Snow",
-                    choices = "Snow", multiple = TRUE) 
+        selectInput(ns("model2_selection"), label = "Tilstandsvariabler HBV_P", selected  = "HBV.P.Snow",
+                    choices = "HBV.P.Snow", multiple = TRUE) 
       })
       output$model3_selection <- renderUI({
-        selectInput(ns("model3_selection"), label = "Tilstandsvariabler DDD", selected  = c("Snow", "GW", "Soil"),
-                    choices = c("Snow", "GW", "Soil"), multiple = TRUE) 
+        selectInput(ns("model3_selection"), label = "Tilstandsvariabler DDD", selected  = c("DDD.Snow", "DDD.GW", "DDD.Soil"),
+                    choices = c("DDD.Snow", "DDD.GW", "DDD.Soil"), multiple = TRUE) 
       })
       output$model4_selection <- renderUI({
         selectInput(ns("model4_selection"), label = "", selected  = "-",

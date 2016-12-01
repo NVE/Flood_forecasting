@@ -49,30 +49,30 @@ forecast_plot <- function(OBS, dat) {
 
   d <- ggplot() + scale_colour_manual(
     values = c("Obs" = "black", 
-               "HBV.UM.sim" = "cyan3", "HBV.UM.korr" = "cyan3", "Lo50" = "cyan", "Lo90" = "cyan", "Hi50" = "cyan", "Hi90" = "cyan",
-               "HBV.UM.Snow" = "blue",
-               "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue3", "P.m50" = "blue", "P.p50" = "blue",
-               "HBV.P.Snow" = "blue",
+               "HBV.UM.sim" = "cyan3", "HBV.UM.korr" = "cyan4", "Lo50" = "cyan", "Lo90" = "cyan", "Hi50" = "cyan", "Hi90" = "cyan",
+               "HBV.UM.Snow" = "cyan4",
+               "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue4", "P.m50" = "blue", "P.p50" = "blue",
+               "HBV.P.Snow" = "blue4",
                "DDD.sim" = "orange",
-               "DDD.Snow" = "blue", "DDD.GW" = "sienna", "DDD.Soil" = "green",
+               "DDD.Snow" = "purple4", "DDD.GW" = "sienna", "DDD.Soil" = "green",
                "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
                "HBV.UM.sim.med.obsMet" = "cyan3",
                "Temp" = "red", "Precip" = "gray75"
-
+               
     )) 
   
   d <- d + scale_linetype_manual( 
     values = c("Obs" = "solid", 
                "HBV.UM.sim" = "F1", "HBV.UM.korr" = "solid", "Lo50" = "dashed", "Lo90" = "dotted",  "Hi50" = "dashed",  "Hi90" = "dotted",
-               "HBV.UM.Snow" = "F1",
+               "HBV.UM.Snow" = "twodash",
                "HBV.P.sim" = "twodash", "HBV.P.korr" = "solid", "P.m50" = "dashed", "P.p50" = "dashed",
-               "HBV.P.Snow" = "twodash",
+               "HBV.P.Snow" = "dotted",
                "DDD.sim" = "solid",
                "DDD.Snow" = "solid", "DDD.GW" = "solid", "DDD.Soil" = "solid",
                "mean" = "dotdash", "5Y" = "dotdash", "50Y" = "dotdash",
                "HBV.UM.sim.med.obsMet" = "dotted",
                "Temp" = "solid", "Precip" = "solid"
-
+               
     ))
   d <- d + scale_shape_manual(
     values = c("Obs" = 46,
@@ -90,7 +90,7 @@ forecast_plot <- function(OBS, dat) {
   
   d <- d +
     geom_bar(data = subset(dat, Variable == "Precip"), aes(x = time, y = Values), stat="identity", width = 0.4, fill = "gray75", colour = "gray75") + 
-    geom_line(data = subset(dat, Variable != "Precip"), aes(x = time, y = Values, col = Variable, linetype = Variable, pch = Variable)) +
+    geom_line(data = subset(dat, Variable != "Precip"), aes(x = time, y = Values, col = Variable, linetype = Variable)) +
     
     geom_line(data = OBS, aes(x = time, y = Values, col = Variable, linetype = Variable)) +
     
@@ -131,12 +131,12 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
     
   d <- ggplot() + scale_colour_manual(
     values = c("Obs" = "black", 
-               "HBV.UM.sim" = "cyan3", "HBV.UM.korr" = "cyan3", "Lo50" = "cyan", "Lo90" = "cyan", "Hi50" = "cyan", "Hi90" = "cyan",
-               "HBV.UM.Snow" = "blue",
-               "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue3", "P.m50" = "blue", "P.p50" = "blue",
-               "HBV.P.Snow" = "blue",
+               "HBV.UM.sim" = "cyan3", "HBV.UM.korr" = "cyan4", "Lo50" = "cyan", "Lo90" = "cyan", "Hi50" = "cyan", "Hi90" = "cyan",
+               "HBV.UM.Snow" = "cyan4",
+               "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue4", "P.m50" = "blue", "P.p50" = "blue",
+               "HBV.P.Snow" = "blue4",
                "DDD.sim" = "orange",
-               "DDD.Snow" = "blue", "DDD.GW" = "sienna", "DDD.Soil" = "green",
+               "DDD.Snow" = "purple4", "DDD.GW" = "sienna", "DDD.Soil" = "green",
                "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
                "HBV.UM.sim.med.obsMet" = "cyan3",
                "Temp" = "red", "Precip" = "gray75"
@@ -146,9 +146,9 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
   d <- d + scale_linetype_manual( 
     values = c("Obs" = "solid", 
                "HBV.UM.sim" = "F1", "HBV.UM.korr" = "solid", "Lo50" = "dashed", "Lo90" = "dotted",  "Hi50" = "dashed",  "Hi90" = "dotted",
-               "HBV.UM.Snow" = "F1",
+               "HBV.UM.Snow" = "twodash",
                "HBV.P.sim" = "twodash", "HBV.P.korr" = "solid", "P.m50" = "dashed", "P.p50" = "dashed",
-               "HBV.P.Snow" = "twodash",
+               "HBV.P.Snow" = "dotted",
                "DDD.sim" = "solid",
                "DDD.Snow" = "solid", "DDD.GW" = "solid", "DDD.Soil" = "solid",
                "mean" = "dotdash", "5Y" = "dotdash", "50Y" = "dotdash",
@@ -156,6 +156,7 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
                "Temp" = "solid", "Precip" = "solid"
                
     ))
+  
   
     
   p <- 0
@@ -166,6 +167,12 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
     p <- 1
   }
   
+  # Model 2 before to have light blue second
+  if (is.null(dat_2) == FALSE && is.data.frame(dat_2) && nrow(dat_2) > 0) {
+    dat_2$time <- as.Date(dat_2$time)
+    d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable, linetype = Variable))
+    p <- 1
+  }
   
   if (is.null(dat_1) == FALSE && is.data.frame(dat_1) && nrow(dat_1) > 0) {
     dat_1$time <- as.Date(dat_1$time)
@@ -175,12 +182,6 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
     d <- d + geom_bar(data = precip_subset, aes(x = time, y = Values, linetype = Variable), stat="identity", width = 0.4, fill = "gray75")
    }
     d <- d + geom_line(data = subset(dat_1, Variable != "Precip"), aes(x = time, y = Values, col = Variable, linetype = Variable))
-    p <- 1
-  }
-  
-  if (is.null(dat_2) == FALSE && is.data.frame(dat_2) && nrow(dat_2) > 0) {
-    dat_2$time <- as.Date(dat_2$time)
-    d <- d + geom_line(data = dat_2, aes(x = time, y = Values, col = Variable, linetype = Variable))
     p <- 1
   }
   

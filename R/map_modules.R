@@ -316,8 +316,9 @@ mapModule_polygonFeature <- function(input, output, session) {
   #     } else {proxy %>% clearPopups()}
   #   })
   
-  output$print_selection <- renderText({ "Velg stasjoner med karttegneverktoey . Du kan tegne flere polygoner / rektangler. 
-                                          Du kan slette dem for a endre ditt valg" })
+  output$print_selection <- renderText({ "Velg stasjoner med karttegneverktoey: 
+Du kan tegne flere polygoner / rektangler. 
+Du kan slette dem for a endre ditt valg." })
   
   observeEvent({input$variable_1
     input$variable_2
