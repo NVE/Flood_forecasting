@@ -337,8 +337,9 @@ $(".main-container").removeClass("main-container").removeClass("container-fluid"
 <h1>Ideas for further development</h1>
 <p><strong>Forecaster’s dashboard</strong></p>
 <p>Plots of model runs from -20 to +9 days. It is also possible to view the last year of forecast data.</p>
-<p>The metadata table should allow exporting groups of stations to the first tab.</p>
-<p>There could be more quantitative map marker options: temperature, precip…</p>
+<p>The metadata table should allow exporting groups of stations to the first tab. Station metadata comes directly from the <a href="https://github.com/NVE/NVEDATA"><code>NVEDATA</code></a> package.</p>
+<p>There could be more quantitative map marker options: temperature, precip… Probability of flooding take max(next 3days of probability “number of occurence in ensemble” for mean flood) as variable. risiko.rap there: Z:_grd</p>
+<p>DDM model 24 hours: /hdata/drift/flood/H-VEPS02/simu_hbv_elev_24h/<catchment>/InputTimeSeries.txt</p>
 <p><strong>Modeller’s dashboard</strong></p>
 <p>Analysis of model performance / properties during the calibration period. - time series graphs, available time period, zoom functionality, tick on/off which models: - discharge: observations and all models - temperature and precipitation - Summary of model performance. There is the tricky question of how long of a time-interval to use. All perf indicators should use the same interval. 1 year is probably a good choice - NSE - KGE - Taylor diagram - Hit/miss/false alarm/correct reject table. If the timelapse is 1 year, the return level threshold should be discussed, 1 year return period being the maximum we could use.</p>
 <p>Further ideas: Regional analysis of model runs Ouputs one plot per station of the model runs Should this include a map with polygon selection or should the group of stations only originate from tab 1?</p>
