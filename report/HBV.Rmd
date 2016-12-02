@@ -27,11 +27,9 @@ Two different versions of HBV are run operationally at NVE.
 ## HBV_UM: uncertainty model
 
 HBV with uncertainty model: /hdata/drift/flom/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt 
- * Pure model run (not processed)
- * Updated: automated update using observed streamflow
- * Output of the uncertainty model: median result based on a distribution of meteo input data
- * A few quantiles (take 5%, 95%), also based on the distribution of meteo data
-Ask Gusong if questions
+
+Output of the uncertainty model: median result based on a distribution of meteo input data
+A few quantiles (take 10%, 90%), also based on the distribution of meteo data
 
 ## HBV_P: +/- 50% precipitation
 

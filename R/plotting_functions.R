@@ -87,6 +87,8 @@ forecast_plot <- function(OBS, dat) {
   #              
   # ))
   
+  levels(as.factor(dat$Type)) <- c("Input (mm or degree celcius)", "Runoff (m3/s)", "State (m)")
+  
   precip_subset <- subset(dat, Variable == "Precip")
   
   d <- d +
@@ -95,7 +97,7 @@ forecast_plot <- function(OBS, dat) {
     
     geom_line(data = OBS, aes(x = time, y = Values, col = Variable, linetype = Variable)) +
     
-    facet_grid(Type ~ ., scales = "free_y", labeller(c("Input" ="bla", "Runoff" ="bla", "state" ="bla"))) +
+    facet_grid(Type ~ ., scales = "free_y") +
     
     theme_bw() +
     scale_x_date(date_breaks = "2 day", date_labels = "%m %d")

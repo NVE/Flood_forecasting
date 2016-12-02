@@ -141,9 +141,13 @@ Please refer to the package [documentation](http://NVE.github.io/Flood_forecasti
 Plots of model runs from -20 to +9 days. It is also possible to view the last year of forecast data. 
 
 The metadata table should allow exporting groups of stations to the first tab.
+Station metadata comes directly from the [`NVEDATA`](https://github.com/NVE/NVEDATA) package.
 
 There could be more quantitative map marker options: temperature, precip...
+Probability of flooding
+take max(next 3days of probability "number of occurence in ensemble" for mean flood) as variable. risiko.rap there: Z:\flom\usikkerhet_grd\utskrift
 
+DDM model 24 hours: /hdata/drift/flood/H-VEPS02/simu_hbv_elev_24h/<catchment>/InputTimeSeries.txt
 
 **Modeller's dashboard**
 
@@ -167,3 +171,14 @@ Historical hindsight: pull out past interesting events for a specific station or
 Not all the files have data for the same number of stations (120-145). Check how the station numbers are organized.
 Those files don't include catchment properties, so we will have to agree on the data files for those properties.
 The observed flow and precip/temperature are included in all of those files.
+
+
+
+
+
+
+
+
+
+
+
