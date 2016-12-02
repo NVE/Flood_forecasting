@@ -54,17 +54,18 @@ ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\
                             )
                  ),
                  navbarMenu("Historikk", icon = icon("history"),
-                            tabPanel("Tidligere prognosekvalitet"
+                            tabPanel("Kalibreringsresultater"
                                      #                                      mapModuleUI("past_map"),
                                      #                                      multimod_forecast_selection_modUI("past_plot"),
                                      #                                      multimod_forecast_plot_modUI("past_plot")
                             ),
-                            tabPanel("Tidligere hendelser"),
-                            tabPanel("Kalibreringsresultater")
+                            tabPanel("Årsstatistikken: Temperatur"),
+                            tabPanel("Årsstatistikken: Nedbør"),
+                            tabPanel("Vannføring: Nedbør")
                  ),
                  navbarMenu("Dokumentasjon", icon = icon("question"),
-                            tabPanel(title = HTML("<a href=\"http://nve.github.io/Flood_forecasting/app.html#how_to_use_it\">Hvordan man bruker app</a>")),
-                            tabPanel(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\">Hvordan ble det programmert</a>")),
+                            tabPanel(title = HTML("<a href=\"http://nve.github.io/Flood_forecasting/app.html#how_to_use_it\">Hvordan man bruker app?</a>")),
+                            tabPanel(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\">Hvordan ble det programmert?</a>")),
                             tabPanel(title = HTML("<a href=\"http://nve.github.io/Flood_forecasting/process.html\">Om modeller</a>"))
                  )
 )

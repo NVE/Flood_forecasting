@@ -247,26 +247,6 @@ mapModule_polygonFeature <- function(input, output, session) {
                }
   })
   
-  
-  #   observeEvent(input$map_selectbox_features$features, {
-  #     drawn_selection <- input$map_selectbox_features$features
-  # #     selected_stations_indices <- which_station_in_polygon(stations, drawn_selection)
-  # #     selected_regine_main <- stations$regine_main[selected_stations_indices]
-  # #     selected_name <- stations$name[selected_stations_indices]
-  # #     selected_long <- stations$long[selected_stations_indices]
-  # #     selected_lat <-  stations$lat[selected_stations_indices]         
-  #                
-  # })
-  
-  
-  
-  #   observeEvent(input$reset, {selected_stations_indices <- NULL})
-  #   observeEvent(input$reset, {selected_regine_main <- NULL})
-  #   observeEvent(input$reset, {selected_name <- NULL})
-  #   observeEvent(input$reset, {selected_long <- NULL})
-  #   observeEvent(input$reset, {selected_lat <-  NULL})
-  
-  
   # Check which stations are inside the polygon
   selected_stations_indices <- reactive(which_station_in_polygon(stations, input$map_selectbox_features$features))
   selected_regine_main <- reactive(stations$regine_main[selected_stations_indices()])
@@ -274,47 +254,11 @@ mapModule_polygonFeature <- function(input, output, session) {
   selected_long <- reactive(stations$long[selected_stations_indices()])
   selected_lat <-  reactive(stations$lat[selected_stations_indices()])
   
-  #   selected_stations_indices <- reactive(which_station_in_polygon(stations, input$map_selectbox_features$features))
-  #   selected_regine_main <- reactive(stations$regine_main[selected_stations_indices()])
-  #   selected_name <- reactive(stations$name[selected_stations_indices()])
-  #   selected_long <- reactive(stations$long[selected_stations_indices()])
-  #   selected_lat <-  reactive(stations$lat[selected_stations_indices()])
-  
-  
   observeEvent(input$catchments, {
     if (input$catchments == TRUE) {
       proxy %>% addGeoJSON(hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
     } else {proxy %>% clearGeoJSON()}
   })
-  
-  #   observeEvent(input$reset, {
-  #     output$map <- renderLeaflet( multiple_station_map(stations, single_poly = FALSE, variable2plot = input$variable, popups = input$popups) )
-  #     ns <- session$ns
-  #     proxy <- leafletProxy(ns("map"), session)
-  #     selected_stations_indices <- NULL
-  #     selected_regine_main <- NULL
-  #     selected_name <- NULL
-  #     selected_long <- NULL
-  #     selected_lat <-  NULL
-  #   })
-  
-  #   proxy <- eventReactive(input$reset, {
-  #     output$map <- renderLeaflet( multiple_station_map(stations, single_poly = FALSE, variable2plot = input$variable, popups = input$popups) )
-  #     ns <- session$ns
-  #     proxy <- leafletProxy(ns("map"), session)
-  #     # renderLeaflet( multiple_station_map(stations, single_poly = FALSE, variable2plot = input$variable, popups = input$popups) )
-  #   })
-  
-  
-  
-  
-  #   observeEvent(input$popups, {
-  #     if (length(selected_regine_main()) > 0 && input$popups == TRUE) {
-  #       proxy %>% addPopups(selected_long(), selected_lat(), paste("Name:", as.character(selected_name()), "Number:", 
-  #                                                                  selected_regine_main(), sep = " "),
-  #                           options = popupOptions(closeButton = FALSE, maxWidth = 100))
-  #     } else {proxy %>% clearPopups()}
-  #   })
   
   output$print_selection <- renderText({ "Velg stasjoner med karttegneverktoey: 
 Du kan tegne flere polygoner / rektangler. 
@@ -334,7 +278,6 @@ Du kan slette dem for a endre ditt valg." })
   
   observe({
     if (length(selected_stations_indices()) > 0 && input$popups == TRUE) {
-      # proxy %>% clearPopups()
       for (i in selected_regine_main()) {
         station_index <- which(stations$regine_main ==  i)
         long <- stations$longitude[station_index]
@@ -358,9 +301,6 @@ Du kan slette dem for a endre ditt valg." })
     }
     else {proxy %>% clearPopups()}
   })
-  
-  
-  # return(input)
   
 }
 
@@ -418,9 +358,6 @@ mapModule_polygonFeatureUI <- function(id) {
              selectInput(ns("type_rl"), label = "Gjentaksintervallgrunnlag", 
                        choices = unique(filter(flomtabell)$Type), multiple = TRUE) )),
     forecast_plot_modUI(ns("multi_station_plot"))
-    #     fluidRow(uiOutput(ns("print_msg")),
-    #              plotlyOutput(ns("plot"), height = "800px")
-    #     )
     )
 }
 
@@ -457,7 +394,7 @@ SUPERCEDED_mapModule_polygonFeature <- function(input, output, session) {
   
   output$print_selection <- renderText({ paste("-", selected_regine_main()) })
   
-  # return(selected_regine_main)
+  return(selected_regine_main)
 }
 
 

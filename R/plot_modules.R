@@ -120,13 +120,6 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
   observe({
     if ("Runoff" %in% input$type_choice) {
 
-#       if (!is.null(OBS)) {
-#         output$OBS_selection <- renderUI({
-#           selectInput(ns("OBS_choice"), label = "Observert", selected  = c("Obs"),
-#                       choices = "Obs", multiple = TRUE) 
-#         })
-#       }
-      
       subset2plot_OBS <- eventReactive({map_input$station},
           subset2plot_OBS <- dplyr::filter(OBS, nbname %in% map_input$station & Variable == "Obs") 
         )
@@ -242,14 +235,8 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
           verbatimTextOutput(ns("msg"))
         }) 
       })
-      
-      
-      ## plot was there before
     } 
-#   })
-#   
-#   observe({
-#     
+  
    
     
      else if ("Input" %in% input$type_choice) {
