@@ -32,11 +32,16 @@ After installing the `shiny` R package, you can run this application from anywhe
 Note that the .RData files read by the app will probably be out-of-date. 
 Our aim is to have them updated automatically every day.
 
+For internal use at NVE, the app is updated every day at 8:15, 11:15, 13:15 and 20:15 by the shiny server.
+
 # Which features are implemented? How to use it?
 
-Below is an annotated screenshot of the first tab:
+**Multi-model forecaster's dashboard**
+
+Below is an annotated screenshot of the first tab, which is a multi-model forecaster's dashboard:
 
 ![Screenshot of the multi-model forecaster's dashboard](images/app_first_tab.png)
+
 
 **1. Available tabs**
 
@@ -97,6 +102,33 @@ You can select *observed* and *simulated* return levels for the mean annual floo
 The plots are interactive. Hover over the lines to read values of all variables at specific times.
 Explore the interactivity options at the uppe right of the plot. There are many different ways to interact with it.
 
+**Multi-model forecaster's dashboard with polygon station selection**
+
+Below is an annotated screenshot of the second tab, which presents the option to draw polygons for selecting groups of stations:
+
+![Screenshot of the multi-model forecaster's dashboard with polygon selection](images/app_second_tab.png)
+
+**1. Drawing tool box**
+
+You can select gorups of stations by drawing rectagles or polygons. You can draw as many shapes as you wish but clicking on a map marker will not create a single station selection (you need to draw a rectangle around it).
+
+You can individually delete drawn polygons. For a quick way to delete many shapes at once, you can always press the *refresh* button.
+
+
+**2. Map markers**
+
+As in the first tab, you can switch between different quantitative map markers. The polygon selection will remain, allowing you for instance to select both the stations that are forecast to flood and those that have hight uncertainty.
+
+**Table tabs**
+
+Below is an annotated screenshot of one of the available table tabs, presenting as an excel spreadsheet the return level data:
+
+![Screenshot of the table tab for streamflow return levels](images/app_table_tab.png)
+
+**1. Excel-like features**
+
+You can filter collumns like you would do with the excel filter. At the upper right, you can also search for specific terms in the whole table.
+
 
 # How to modify it or develop it further?
 
@@ -104,30 +136,16 @@ Please refer to the package [documentation](http://NVE.github.io/Flood_forecasti
 
 # Ideas for further development
 
-1. Multi-model forecaster's dashboard.
-**Tab 1a:**
+**Forecaster's dashboard**
 
 Plots of model runs from -20 to +9 days. It is also possible to view the last year of forecast data. 
 
-    - Selection of a multiple stations based on region number, main number, clicking on map
-    - Map markers can represent a selectable variable (currently flood_warning and uncertainty. could be extended to temperature / precip...)
-    - Interactive multi-model plot: available models are HBV and DDD for the moment. The plot can include flood levels: mean flood and 5 year return level.
+The metadata table should allow exporting groups of stations to the first tab.
 
-**Tab 1b:**
+There could be more quantitative map marker options: temperature, precip...
 
-Same plots but a polygon selection tool allows selecting multiple neighbouring stations.
- 
-![Screenshot of the multi-model forecaster's dashboard](images/tab1.png)
 
-![Screenshot of the forecaster's dashboard with polygon selection](images/tab2a.png)
-
-![Screenshot of the forecaster's dashboard with flood return levels](images/tab1.png)
- 
-2. Tab 2: Single model / Single station
-
-In addition to *discharge*, the plot also shows *state* (soil moisture, snow height) and *input* (temperature, precipitation) data.
-
-3. Tab 3: Modeller's dashboard
+**Modeller's dashboard**
 
 Analysis of model performance / properties during the calibration period.
   - time series graphs, available time period, zoom functionality, tick on/off which models:

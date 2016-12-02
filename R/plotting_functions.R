@@ -95,7 +95,8 @@ forecast_plot <- function(OBS, dat) {
     
     geom_line(data = OBS, aes(x = time, y = Values, col = Variable, linetype = Variable)) +
     
-    facet_grid(Type ~ ., scales = "free_y") +
+    facet_grid(Type ~ ., scales = "free_y", labeller(c("Input" ="bla", "Runoff" ="bla", "state" ="bla"))) +
+    
     theme_bw() +
     scale_x_date(date_breaks = "2 day", date_labels = "%m %d")
 
