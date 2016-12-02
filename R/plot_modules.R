@@ -1,3 +1,5 @@
+# This file contains all the plot modules developed for the Flomvarsling shiny app
+
 #' forecast_plot_mod
 #' @description Shiny server module to plot ...
 #' @param input 
@@ -111,12 +113,7 @@ forecast_plot_mod_shadingUI <- function(id) {
 multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, model_1, model_2, model_3, model_4, return_levels = NULL) {
   
   ns <- session$ns
-  # To get the name in char of the data sent to the module
-  name_model1 <- as.character(substitute(model_1))
-  name_model2 <- as.character(substitute(model_2))
-  name_model3 <- as.character(substitute(model_3))
-  name_model4 <- as.character(substitute(model_4))
-  
+
   observe({
     if ("Runoff" %in% input$type_choice) {
 
@@ -199,47 +196,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
         } else {
           subset2plot_rl <- dplyr::filter(return_levels, nbname %in% map_input$station & Type %in% input$type_rl) 
         })
-      
-      ## This is to detect which stations were missing a model
-      observe({
-        is_msg <- FALSE
-        info_msg <- character()
-        if (is.data.frame(subset2plot_m1()) && nrow(subset2plot_m1()) == 0) {
-          info_msg <- paste(name_model1)
-          is_msg <- TRUE
-        }
-        if (is.data.frame(subset2plot_m2()) && nrow(subset2plot_m2()) == 0) {
-          info_msg <- paste(info_msg, name_model2)
-          is_msg <- TRUE
-        }
-        if (is.data.frame(subset2plot_m3()) && nrow(subset2plot_m3()) == 0) {
-          info_msg <- paste(info_msg, name_model3)
-          is_msg <- TRUE
-        }
-        if (is.data.frame(subset2plot_m4()) && nrow(subset2plot_m4()) == 0) {
-          info_msg <- paste(info_msg, name_model4)
-          is_msg <- TRUE
-        }
-        if (is.data.frame(subset2plot_rl()) && nrow(subset2plot_rl()) == 0) {
-          info_msg <- paste(info_msg, "return levels")
-          is_msg <- TRUE
-        }
-        
-        if (is_msg) {
-          output$msg <- renderText( paste("The following data are unavailable at this station:", info_msg, sep = " ") )
-          
-        } else {
-          output$msg <- renderText("")
-        }
-        output$print_msg <- renderUI({
-          verbatimTextOutput(ns("msg"))
-        }) 
-      })
-    } 
-  
-   
-    
-     else if ("Input" %in% input$type_choice) {
+    } else if ("Input" %in% input$type_choice) {
       
       # if (!is.null(model_1)) {
         output$model1_selection <- renderUI({
@@ -731,3 +688,43 @@ mydygraphModuleUI <- function(id) {
     dygraphOutput(ns("module_graph"),height = 600)
   )
 }
+
+
+
+################ Some old code that could be reused later
+
+# ## This is to detect which stations were missing a model
+# observe({
+#   is_msg <- FALSE
+#   info_msg <- character()
+#   if (is.data.frame(subset2plot_m1()) && nrow(subset2plot_m1()) == 0) {
+#     info_msg <- paste(name_model1)
+#     is_msg <- TRUE
+#   }
+#   if (is.data.frame(subset2plot_m2()) && nrow(subset2plot_m2()) == 0) {
+#     info_msg <- paste(info_msg, name_model2)
+#     is_msg <- TRUE
+#   }
+#   if (is.data.frame(subset2plot_m3()) && nrow(subset2plot_m3()) == 0) {
+#     info_msg <- paste(info_msg, name_model3)
+#     is_msg <- TRUE
+#   }
+#   if (is.data.frame(subset2plot_m4()) && nrow(subset2plot_m4()) == 0) {
+#     info_msg <- paste(info_msg, name_model4)
+#     is_msg <- TRUE
+#   }
+#   if (is.data.frame(subset2plot_rl()) && nrow(subset2plot_rl()) == 0) {
+#     info_msg <- paste(info_msg, "return levels")
+#     is_msg <- TRUE
+#   }
+#   
+#   if (is_msg) {
+#     output$msg <- renderText( paste("The following data are unavailable at this station:", info_msg, sep = " ") )
+#     
+#   } else {
+#     output$msg <- renderText("")
+#   }
+#   output$print_msg <- renderUI({
+#     verbatimTextOutput(ns("msg"))
+#   }) 
+# })

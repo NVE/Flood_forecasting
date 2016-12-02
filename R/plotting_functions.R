@@ -1,3 +1,5 @@
+# This file contains all the plotting functions developed for the Flomvarsling shiny app
+
 # library(lubridate)
 # library(ggplot2)
 # library(dplyr)
@@ -19,9 +21,6 @@ forecast_plot_shading <- function(dat) {
   #Shading for current day
   today <- Sys.Date()
   current_day <- data.frame(start = as.Date(today), end = as.Date(today + 1) )
-#   current_day = read.table(textConnection("start, end
-#       2016-07-11, 2016-07-12"), sep=',',
-#       colClasses=c('Date', 'Date'), header=TRUE)
 
   d <- ggplot() +
       geom_line(data = dat, aes(x = time, y = Values, col = Variable), size = 1) +
@@ -30,7 +29,6 @@ forecast_plot_shading <- function(dat) {
       theme_bw() + 
       scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
 
-  # p <- ggplotly(d) # %>% add_trace(x = c(ymd(2016-07-11), ymd(2016-07-12)), y = c(10, 10), fill = "tonexty")
   return(d)
   
 }
@@ -179,14 +177,10 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
   if (is.null(dat_4) == FALSE && is.data.frame(dat_4) && nrow(dat_4) > 0) {
     dat_4$time <- as.Date(dat_4$time)
     d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable, linetype = Variable))
-    
-#     d <- d + geom_line(data = subset(dat_4, Variable="Obs"), aes(x = time, y = Values), size = 1)
-#     d <- d + geom_line(data = subset(dat_4, Variable="Sim.obs"), aes(x = time, y = Values), size = 1)
     p <- 1
   }
   
   if (is.null(return_levels) == FALSE && is.data.frame(return_levels) && nrow(return_levels) > 0) {
-    # return_levels$time <- as.Date(dat_1$time)
     print("return_levels")
         print(return_levels)
     d <- d + 
