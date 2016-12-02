@@ -87,7 +87,7 @@ forecast_plot <- function(OBS, dat) {
   #              
   # ))
   
-  levels(as.factor(dat$Type)) <- c("Input (mm or degree celcius)", "Runoff (m3/s)", "State (m)")
+  # levels(as.factor(dat$Type)) <- c("Input (mm or degree celcius)", "Runoff (m3/s)", "State (m)")
   
   precip_subset <- subset(dat, Variable == "Precip")
   
