@@ -1,11 +1,4 @@
-# library(leaflet)
-
-# pal <- colorNumeric(
-#   palette = heat.colors(5),
-#   domain = c(0, 1/3, 2/3, 1, 4/3, 5/3))
-# qpal <- colorQuantile("RdYlBu", length.bins, n = 5)
-
-
+# This file contains all the mapping functions developed for the Flomvarsling shiny app
 
 #' single_station_map
 #' @description mapping function

@@ -1,3 +1,4 @@
+# This file contains all the mapping modules developed for the Flomvarsling shiny app
 # NOTE: eval(as.symbol(input$model)) transforms a string input into the corresponding data
 
 #' mapModuleUI
@@ -272,6 +273,10 @@ Du kan slette dem for a endre ditt valg." })
     input$map_selectbox_features$features}, {
       callModule(poly_multimod_forecast_plot_mod, "multi_station_plot", as.character(selected_regine_main()), HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell,
                  input$variable_1, input$variable_2, input$variable_3, input$variable_4, input$type_rl)
+  
+      # To do the simpler call below I would need to come back to the initial attempt at the polygon map module output/input relationship. Would be better...    
+      # callModule(multimod_forecast_plot_mod,"multi_station_plot", as.character(selected_regine_main()), OBS, HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell)
+
       output$print_selection <- renderText( paste("-", selected_regine_main()) )
     })
   

@@ -54,11 +54,7 @@ ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\
                             )
                  ),
                  navbarMenu("Historikk", icon = icon("history"),
-                            tabPanel("Kalibreringsresultater"
-                                     #                                      mapModuleUI("past_map"),
-                                     #                                      multimod_forecast_selection_modUI("past_plot"),
-                                     #                                      multimod_forecast_plot_modUI("past_plot")
-                            ),
+                            tabPanel("Kalibreringsresultater"),
                             tabPanel("Årsstatistikken: Temperatur"),
                             tabPanel("Årsstatistikken: Nedbør"),
                             tabPanel("Vannføring: Nedbør")
