@@ -1,5 +1,6 @@
 `Warning: This project is still under development and is not fully mature`
 
+<<<<<<< HEAD
 This readme is transitioning to a small website.
 An automatic reporting website (based on RStudio's Rmarkdown) is also in experimental stage: http://NVE.github.io/Flood_forecasting/process
 
@@ -185,16 +186,24 @@ Then run again:
 library(shiny)
 runGitHub("Flood_forecasting", "fbaffie")
 ```
+=======
+A Shiny app to present flood forecasting results at NVE. If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
 
-<h4 id="local">
-Locally
-</h4>
+# Contributing
+>>>>>>> docsite_with_rmd
 
+## Improving the documentation
+
+<<<<<<< HEAD
 **[⬆ back to top](#table-of-contents)**
+=======
+The documentation is a work-in-progress at http://NVE.github.io/Flood_forecasting/app
+It is build automatically by travis-ci from Rmd files.
+An automatic report (also based on RStudio's Rmarkdown) is being tested by not updated everyday.
 
-<h4 id="issues">
-Filing issues
-</h4>
+>>>>>>> docsite_with_rmd
+
+## Filing issues
 
 Please try to follow those guidelines for filing issues:
 

@@ -1,13 +1,25 @@
-# library(leaflet)
+# This file contains all the mapping functions developed for the Flomvarsling shiny app
 
-# pal <- colorNumeric(
-#   palette = heat.colors(5),
-#   domain = c(0, 1/3, 2/3, 1, 4/3, 5/3))
-# qpal <- colorQuantile("RdYlBu", length.bins, n = 5)
-
+#' single_station_map
+#' @description mapping function
+#' @param stations 
+#' @param selected_nbname 
+#' @param selected_long 
+#' @param selected_lat 
+#' @param variable2plot 
+#' @param map_layer 
+#' @param catchments 
+#' @param colored_markers 
+#' @param radius_function 
+#' @param popups 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 single_station_map <- function(stations, selected_nbname = NULL,
                                selected_long  = NULL,
-                               selected_lat  = NULL, variable2plot = "none", map_layer = "open streetmap", catchments = FALSE, 
+                               selected_lat  = NULL, variable2plot = "Ingen", map_layer = "Openstreetmap", catchments = FALSE, 
                                colored_markers = FALSE, radius_function = TRUE, popups = FALSE)  {
   
   ## Functions controling color and size of markers
@@ -36,7 +48,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
   map <- leaflet() %>% setView(13, 64, zoom = 5)
   
   ## Color the markers to indicate potential flood issues
-  if (variable2plot == "flood_warning") {
+  if (variable2plot == "Fare for flom") {
     
     index <- is.na(stations$flood_warning)
     NA_stations <- lapply(stations, function(x) x[index])
@@ -58,7 +70,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
                        # layerId = NA_stations$regine_main
       ) %>%
       addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
-                title = "Max forecast / mean annual flood",
+                title = "Verdien av farge markoer",
                 opacity = 1)
     # Adding transparent markers with layerID = selected stations so that the map interactivity remains
     if (popups == FALSE) {
@@ -81,55 +93,55 @@ single_station_map <- function(stations, selected_nbname = NULL,
     }
   }
   
-  if (variable2plot == "uncertainty")  {
-    
+  if (variable2plot == "Usikkerhet")  {
+
     index <- is.na(stations$uncertainty)
     NA_stations_uncertainty <- lapply(stations, function(x) x[index])
     OK_stations_uncertainty <- lapply(stations, function(x) x[!index])
-    
+
     map <- map %>%
-      addCircleMarkers(data = OK_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
-                       radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
-                       color = ~my.color.func(OK_stations_uncertainty$uncertainty, my.colors), 
+      addCircleMarkers(data = OK_stations_uncertainty, lng = ~ longitude, lat = ~ latitude,
+                       radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ),
+                       color = ~my.color.func(OK_stations_uncertainty$uncertainty, my.colors),
                        stroke = FALSE, fillOpacity = 1,
                        group = "Uncertainty of HBV_2014"
                        # layerId = OK_stations_uncertainty$regine_main
       ) %>%
-      addCircleMarkers(data = NA_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
-                       radius = 4, 
-                       color = "blue", 
+      addCircleMarkers(data = NA_stations_uncertainty, lng = ~ longitude, lat = ~ latitude,
+                       radius = 4,
+                       color = "blue",
                        stroke = FALSE, fillOpacity = 1,
                        group = "No uncertainty figure"
                        # layerId = NA_stations_uncertainty$regine_main
       ) %>%
       addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
-                title = "Max forecast / mean annual flood",
+                title = "Verdien av farge markoer",
                 opacity = 1)
-    
+
     if (popups == FALSE) {
-      map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                              popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations_uncertainty$uncertainty,2), sep = " "), 
-                              radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
+      map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude,
+                              popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations_uncertainty$uncertainty,2), sep = " "),
+                              radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ),
                               color = "white", weight = 0, stroke = TRUE,
                               fillOpacity = 0, fillColor = "white",
                               # group = "Selectable stations",
                               layerId = stations$nbname)
     } else {
-      map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                              # popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$uncertainty,2), sep = " "), 
-                              radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
+      map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude,
+                              # popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$uncertainty,2), sep = " "),
+                              radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ),
                               color = "white", weight = 0, stroke = TRUE,
                               fillOpacity = 0, fillColor = "white",
                               # group = "Selectable stations",
                               layerId = stations$nbname)
-      
+
     }
   }
-  
-  if (variable2plot == "none") {
-    map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
+
+  if (variable2plot == "Ingen") {
+    map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude,
                             popup = paste(as.character(stations$nbname), sep = " "),
-                            radius = 5, 
+                            radius = 5,
                             color = "black", weight = 4, stroke = TRUE,
                             fillOpacity = 1, fillColor = "black",
                             # group = "Selectable stations",
@@ -142,7 +154,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
   if (catchments == TRUE) {
     map <- addGeoJSON(map, hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
   }
-  if (map_layer == "topo map") {
+  if (map_layer == "Topo kart") {
     map <- addWMSTiles(map,
                        "http://wms.geonorge.no/skwms1/wms.topo2",
                        layers = "topo2_WMS",
@@ -150,7 +162,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
                        tileOptions(tms = TRUE),
                        attribution = "Kartverket")
   }
-  if (map_layer == "aerial") {
+  if (map_layer == "Flyfoto") {
     map <- addProviderTiles(map, "Esri.WorldImagery", group = "Esri.WorldImagery") 
     #       addWMSTiles(map, "http://wms.geonorge.no/skwms1/wms.nib",
     #                        layers = "ortofoto",
@@ -161,7 +173,7 @@ single_station_map <- function(stations, selected_nbname = NULL,
     #                        tileOptions(tms = TRUE),
     #                        attribution = "Kartverket")
   }
-  if (map_layer == "open streetmap") {
+  if (map_layer == "Openstreetmap") {
     map <- addTiles(map)
   }
   
@@ -169,28 +181,44 @@ single_station_map <- function(stations, selected_nbname = NULL,
 }
 
 
+#' multiple_station_map
+#' @description mapping function
+#' @param stations 
+#' @param selected_regine_main 
+#' @param selected_name 
+#' @param selected_long 
+#' @param selected_lat 
+#' @param single_poly 
+#' @param variable2plot 
+#' @param radius_function 
+#' @param popups 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 multiple_station_map <- function(stations, selected_regine_main = NULL,
                                  selected_name = NULL,
                                  selected_long = NULL,
-                                 selected_lat = NULL, single_poly = FALSE, variable2plot = "none", radius_function = TRUE, popups = FALSE) {
+                                 selected_lat = NULL, single_poly = FALSE, variable2plot = "Ingen", radius_function = TRUE, popups = FALSE) {
   
-  ## Functions controling color and size of markers WILL NEED TO BE GENERALIZED WITH SINGLE STATION FUNCTION!
-  my.colors <- c("blue", "green", "yellow", "orange", "red", "black")
-  
-  my.color.func <- function(x2plot, my.colors) {
-    color.bins <- c(0, 1/3, 2/3, 1, 4/3, 5/3)
-    color <- my.colors[trunc(x2plot * 3) + 2]
-    invisible(color)
-  }
-  if (radius_function) {
-    my.radius.func <- function(x2plot) {
-      radius <- 4 * exp(x2plot * 2)
-    }
-  } else {
-    my.radius.func <- function(x2plot) {
-      radius <- 4
-    }
-  }
+  # ## Functions controling color and size of markers WILL NEED TO BE GENERALIZED WITH SINGLE STATION FUNCTION!
+  # my.colors <- c("blue", "green", "yellow", "orange", "red", "black")
+  # 
+  # my.color.func <- function(x2plot, my.colors) {
+  #   color.bins <- c(0, 1/3, 2/3, 1, 4/3, 5/3)
+  #   color <- my.colors[trunc(x2plot * 3) + 2]
+  #   invisible(color)
+  # }
+  # if (radius_function) {
+  #   my.radius.func <- function(x2plot) {
+  #     radius <- 4 * exp(x2plot * 2)
+  #   }
+  # } else {
+  #   my.radius.func <- function(x2plot) {
+  #     radius <- 4
+  #   }
+  # }
   
   
   
@@ -206,115 +234,103 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
                           polygon = TRUE,
                           rectangle = TRUE,
                           remove = TRUE,
-                          singleLayer = FALSE)  # %>% addLayersControl(position = "bottomleft", overlayGroups = c("selectbox")) 
-#     addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
-#                      popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
-#                                    sep = " "), radius = 5, 
-#                      color = "black", 
-#                      stroke = FALSE, fillOpacity = 0.5,
-#                      layerId = stations$regine_main)   %>%
+                          singleLayer = FALSE) %>% # %>% addLayersControl(position = "bottomleft", overlayGroups = c("selectbox")) 
+    # addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude,
+    #                  popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
+    #                                sep = " "), radius = 5,
+    #                  color = "black",
+    #                  stroke = FALSE, fillOpacity = 0.5,
+    #                  layerId = stations$regine_main)   
+    
+    addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
+                     popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
+                                   sep = " "), radius = 5,
+                     color = "black", weight = 4, stroke = TRUE,
+                     fillOpacity = 1, fillColor = "black",
+                     # group = "Selectable stations",
+                     layerId = stations$nbname)
   
   ## Color the markers to indicate potential flood issues
-  if (variable2plot == "flood_warning") {
     
-    index <- is.na(stations$flood_warning)
-    NA_stations <- lapply(stations, function(x) x[index])
-    OK_stations <- lapply(stations, function(x) x[!index])
-    
-    map <- map %>%
-      addCircleMarkers(data = OK_stations, lng = ~ longitude, lat = ~ latitude, 
-                       radius = ~my.radius.func(OK_stations$flood_warning), 
-                       color = ~my.color.func(OK_stations$flood_warning, my.colors), 
-                       stroke = FALSE, fillOpacity = 1,
-                       group = "Warning ratio available"
-                       # layerId = OK_stations$regine_main
-      ) %>%
-      addCircleMarkers(data = NA_stations, lng = ~ longitude, lat = ~ latitude, 
-                       radius = 4, 
-                       color = "blue", 
-                       stroke = FALSE, fillOpacity = 1,
-                       group = "No warning ratio"
-                       # layerId = NA_stations$regine_main
-      ) %>%
-      addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
-                title = "Max forecast / mean annual flood",
-                opacity = 1)
-    # Adding transparent markers with layerID = selected stations so that the map interactivity remains
-    # if (popups == FALSE) {
-      map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                              popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$flood_warning,2), sep = " "), 
-                              radius = ~my.radius.func(OK_stations$flood_warning), 
-                              color = "white", weight = 0, stroke = TRUE,
-                              fillOpacity = 0, fillColor = "white",
-                              # group = "Selectable stations",
-                              layerId = stations$nbname) 
-    # } 
-#     else {
-#       map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-#                               # popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$flood_warning,2), sep = " "), 
-#                               radius = ~my.radius.func(OK_stations$flood_warning), 
-#                               color = "white", weight = 0, stroke = TRUE,
-#                               fillOpacity = 0, fillColor = "white",
-#                               # group = "Selectable stations",
-#                               layerId = stations$nbname)
-#       
-#     }
-  }
-  
-  if (variable2plot == "uncertainty")  {
-    
-    index <- is.na(stations$uncertainty)
-    NA_stations_uncertainty <- lapply(stations, function(x) x[index])
-    OK_stations_uncertainty <- lapply(stations, function(x) x[!index])
-    
-    map <- map %>%
-      addCircleMarkers(data = OK_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
-                       radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
-                       color = ~my.color.func(OK_stations_uncertainty$uncertainty, my.colors), 
-                       stroke = FALSE, fillOpacity = 1,
-                       group = "Uncertainty of HBV_2014"
-                       # layerId = OK_stations_uncertainty$regine_main
-      ) %>%
-      addCircleMarkers(data = NA_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
-                       radius = 4, 
-                       color = "blue", 
-                       stroke = FALSE, fillOpacity = 1,
-                       group = "No uncertainty figure"
-                       # layerId = NA_stations_uncertainty$regine_main
-      ) %>%
-      addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
-                title = "Max forecast / mean annual flood",
-                opacity = 1)
-    
-    # if (popups == FALSE) {
-      map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                              popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations_uncertainty$uncertainty,2), sep = " "), 
-                              radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
-                              color = "white", weight = 0, stroke = TRUE,
-                              fillOpacity = 0, fillColor = "white",
-                              # group = "Selectable stations",
-                              layerId = stations$nbname)  
-#     } else {
-#       map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-#                               # popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$uncertainty,2), sep = " "), 
-#                               radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
-#                               color = "white", weight = 0, stroke = TRUE,
-#                               fillOpacity = 0, fillColor = "white",
-#                               # group = "Selectable stations",
-#                               layerId = stations$nbname)
-#       
-#     }
-  }
-  
-  if (variable2plot == "none") {
-    map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                            popup = paste(as.character(stations$nbname), sep = " "),
-                            radius = 5, 
-                            color = "black", weight = 4, stroke = TRUE,
-                            fillOpacity = 1, fillColor = "black",
-                            # group = "Selectable stations",
-                            layerId = stations$nbname)
-  }
+  # if (variable2plot == "Fare for flom") {
+  #   
+  #   index <- is.na(stations$flood_warning)
+  #   NA_stations <- lapply(stations, function(x) x[index])
+  #   OK_stations <- lapply(stations, function(x) x[!index])
+  #   
+  #   map <- map %>%
+  #     addCircleMarkers(data = OK_stations, lng = ~ longitude, lat = ~ latitude, 
+  #                      radius = ~my.radius.func(OK_stations$flood_warning), 
+  #                      color = ~my.color.func(OK_stations$flood_warning, my.colors), 
+  #                      stroke = FALSE, fillOpacity = 1,
+  #                      group = "Warning ratio available"
+  #                      # layerId = OK_stations$regine_main
+  #     ) %>%
+  #     addCircleMarkers(data = NA_stations, lng = ~ longitude, lat = ~ latitude, 
+  #                      radius = 4, 
+  #                      color = "blue", 
+  #                      stroke = FALSE, fillOpacity = 1,
+  #                      group = "No warning ratio"
+  #                      # layerId = NA_stations$regine_main
+  #     ) %>%
+  #     addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
+  #               title = "Verdien av farge markoer",
+  #               opacity = 1)
+  #   # Adding transparent markers with layerID = selected stations so that the map interactivity remains
+  #   # if (popups == FALSE) {
+  #     map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
+  #                             popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$flood_warning,2), sep = " "), 
+  #                             radius = ~my.radius.func(OK_stations$flood_warning), 
+  #                             color = "white", weight = 0, stroke = TRUE,
+  #                             fillOpacity = 0, fillColor = "white",
+  #                             # group = "Selectable stations",
+  #                             layerId = stations$nbname)
+  #     }
+  # 
+  # if (variable2plot == "Usikkerhet")  {
+  #   
+  #   index <- is.na(stations$uncertainty)
+  #   NA_stations_uncertainty <- lapply(stations, function(x) x[index])
+  #   OK_stations_uncertainty <- lapply(stations, function(x) x[!index])
+  #   
+  #   map <- map %>%
+  #     addCircleMarkers(data = OK_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
+  #                      radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
+  #                      color = ~my.color.func(OK_stations_uncertainty$uncertainty, my.colors), 
+  #                      stroke = FALSE, fillOpacity = 1,
+  #                      group = "Uncertainty of HBV_2014"
+  #                      # layerId = OK_stations_uncertainty$regine_main
+  #     ) %>%
+  #     addCircleMarkers(data = NA_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
+  #                      radius = 4, 
+  #                      color = "blue", 
+  #                      stroke = FALSE, fillOpacity = 1,
+  #                      group = "No uncertainty figure"
+  #                      # layerId = NA_stations_uncertainty$regine_main
+  #     ) %>%
+  #     addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
+  #               title = "Verdien av farge markoer",
+  #               opacity = 1)
+  #   
+  #   # if (popups == FALSE) {
+  #     map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
+  #                             popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations_uncertainty$uncertainty,2), sep = " "), 
+  #                             radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
+  #                             color = "white", weight = 0, stroke = TRUE,
+  #                             fillOpacity = 0, fillColor = "white",
+  #                             # group = "Selectable stations",
+  #                             layerId = stations$nbname)  
+  # }
+  # 
+  # if (variable2plot == "Ingen") {
+  #   map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
+  #                           popup = paste(as.character(stations$nbname), sep = " "),
+  #                           radius = 5, 
+  #                           color = "black", weight = 4, stroke = TRUE,
+  #                           fillOpacity = 1, fillColor = "black",
+  #                           # group = "Selectable stations",
+  #                           layerId = stations$nbname)
+  # }
   
 
   
@@ -322,6 +338,15 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
 }
 
 
+#' which_station_in_polygon
+#' @description Sub-function use to find which stations are in the polygon the user has drawn
+#' @param stations 
+#' @param map_selection 
+#' @importFrom sp point.in.polygon
+#' @return
+#' @export
+#'
+#' @examples
 which_station_in_polygon <- function(stations, map_selection) {
   
   nb_poly <- length(map_selection)

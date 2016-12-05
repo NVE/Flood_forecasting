@@ -1,0 +1,47 @@
+---
+title: "HBV"
+output: 
+  html_document:
+    highlight: tango
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# What is it?
+
+Gusong to provide a quick explanation of the operational use of HBV at NVE.
+
+# Why do we use it?
+
+
+# How to run it?
+
+Two different versions of HBV are run operationally at NVE.
+
+## HBV_UM: uncertainty model
+
+HBV with uncertainty model: /hdata/drift/flom/usikkerhet_grd/utskrift/vfpost_usikkerhet.txt 
+
+Output of the uncertainty model: median result based on a distribution of meteo input data
+A few quantiles (take 10%, 90%), also based on the distribution of meteo data
+
+## HBV_P: +/- 50% precipitation
+
+HBV with + 50% precipitation: /hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt
+ * Pure model run (not processed): this is in the dataset but it is the same as in 1., so shouldn't be plotted!
+ * Updated: automated update using observed streamflow (different method)
+ * Results from a run with precip + 50%
+
+# How is it used by the visualization app
+
+## HBV_UM
+
+## HBV_P
+
+

@@ -1,0 +1,31 @@
+---
+title: "DDM: Data driven Model"
+output: 
+  html_document:
+    highlight: tango
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# What is it?
+
+Peter and Byman to provide a quick explanation of DDM.
+This is an example of including a child rmd document
+
+```{r child='content/child1.Rmd'}
+```
+
+
+# Why do we use it?
+
+
+# How to run it?
+
+
+# How is it used by the visualization app

@@ -8,14 +8,9 @@ server <- function(input, output, session) {
   # but it creates a reactive which ends up being probably more trouble than usefulness...
   # HBV_2014_GG <<- reactiveFileReader(10000, session = NULL, filePath = "./HBV_2014_GG.Rdata", load, envir = .GlobalEnv)
 
-  input4multimod_plot <- callModule(mapModule,"multimod_forecast_map")
-  callModule(multimod_forecast_plot_mod,"multimod_forecast_plot", input4multimod_plot, HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell)
-  
-  # Let's try a tab that allows multiple station selection but with the same selector as the first tab
   input4multi_forecast_plot <- callModule(mapModule,"multistation_map")
-  callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell)
-  
-  
+  callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, OBS, HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell)
+
   input4plot_HBV_2014 <- callModule(mapModule,"map_HBV_2014")
   callModule(forecast_plot_mod,"forecast_plot_HBV_2014", input4plot_HBV_2014, HBV_2014)
   
@@ -29,7 +24,7 @@ server <- function(input, output, session) {
 # stations_model_vect <- callModule(mapModule_polygonFeature,"map_polygon") 
 #   callModule(multimod_forecast_plot_EXP, "multi_plot", "2.11", HBV_2014, HBV_2016, DDD)
   
-  callModule(NEW_mapModule_polygonFeature,"map_polygon")  
+  callModule(mapModule_polygonFeature,"map_polygon")  
 
   callModule(table_mod,"metadata_table", meta_data) 
   callModule(table_mod,"RL_table", flomtabell) 
