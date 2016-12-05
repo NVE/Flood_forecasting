@@ -53,12 +53,12 @@ ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\
                                      table_modUI("DDD_table")
                             )
                  ),
-                 navbarMenu("Historikk", icon = icon("history"),
-                            tabPanel("Kalibreringsresultater"),
-                            tabPanel("Årsstatistikken: Temperatur"),
-                            tabPanel("Årsstatistikken: Nedbør"),
-                            tabPanel("Vannføring: Nedbør")
-                 ),
+                 # navbarMenu("Historikk", icon = icon("history"),
+                 #            tabPanel("Kalibreringsresultater"),
+                 #            tabPanel("Årsstatistikken: Temperatur"),
+                 #            tabPanel("Årsstatistikken: Nedbør"),
+                 #            tabPanel("Vannføring: Nedbør")
+                 # ),
                  navbarMenu("Dokumentasjon", icon = icon("question"),
                             tabPanel(title = HTML("<a href=\"http://nve.github.io/Flood_forecasting/app.html#how_to_use_it\">Hvordan man bruker app?</a>")),
                             tabPanel(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\">Hvordan ble det programmert?</a>")),
