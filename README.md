@@ -1,10 +1,16 @@
+`Warning: This project is still under development and is not fully mature`
+
+<<<<<<< HEAD
+This readme is transitioning to a small website.
+An automatic reporting website (based on RStudio's Rmarkdown) is also in experimental stage: http://NVE.github.io/Flood_forecasting/process
+
 <h2 id="About">
 Flood_forecasting - Visualization tool for flood forecasters at NVE
 </h2>
 A Shiny app to present flood forecasting results at NVE. If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
 
 ----
-Table of contents
+## Table of Contents
 
 -   [Aim](#Aim)
 -   [Structure](#Structure)
@@ -12,8 +18,9 @@ Table of contents
      - [HBV with uncertainty model (HBV_UM)](#HBV_UM)
      - [HBV with +/- 50% precipitation (HBV_P)](#HBV_P)
      - [DDD](#DDD)
+     - [DDM](#DDM)
      - [ODM](#ODM)
-     - [Data Driven Model (DDM)](#DDM)
+     - [Data Driven Models (DDMs)](#DDM)
 -   [Other datasets](#datasets)
      - [Return levels](#rls)
      - [Probability of flooding](#prob)
@@ -26,6 +33,7 @@ Table of contents
 <h2 id="Aim">
 Aim
 </h2>
+  
 Provide the flood forecasters with an easy to use and customizable graphical user interface (GUI) for flood forecasting and model evaluation.
 
 <h2 id="Structure">
@@ -78,7 +86,7 @@ The observed flow and precip/temperature are included in all of those files.
 
 To be continued...
 
-*[Back to top](#About)*
+**[⬆ back to top](#table-of-contents)**
 
 <h2 id="Models">
 Models
@@ -126,7 +134,7 @@ Ask Bård if questions
 DDM
 </h4>
 
-Data driven model...
+Data driven models...
 
 
 Potential issue with data:
@@ -136,7 +144,7 @@ So, if we want to implement a feature that pulls the x interesting events in the
 
 This is not a problem for implement the DATE -7 / +9 days model plots.
 
-*[Back to top](#About)*
+**[⬆ back to top](#table-of-contents)**
 
 <h2 id="datasets">
 Dataset
@@ -158,43 +166,44 @@ Station metadata
 A large variety of metadata for all stations come directly from the [`NVEDATA`](https://github.com/NVE/NVEDATA) package.
 
 <h2 id="run">
-Running the app
+## Running the app
 </h2>
 
 <h4 id="github">
 Directly from GitHub
 </h4>
 
-# IF YOU ARE HAVE NOT INSTALLED THE SHINY PACKAGE
-
-# Install the "shiny" package: Open RStudio, go to Tools -> Install packages and type "shiny"
-# If it is the first package you install I will likely suggest a path to install future packages. It is usually a sensible path, so
-# check and click accept.
-# Another way to install the package is to type
-install.packages('shiny')
-# If no packages have been installed previously, this command will usually choose a strange default installation directory for R
-# packages so please use the RStudio buttons for installing your first package.
-# For subsequent packages, you can then use "install.packages('PACKAGE_NAME') and it will use the directory selected earlier.
-
-# IF YOU HAVE ALREADY INSTALLED SHINY
-# Load the shiny package and run the app:
+Not working at the moment
+Load the shiny package and run the app:
+```
 library(shiny)
 runGitHub("Flood_forecasting", "fbaffie")
+```
 
-# If you want to update the data used by the app, first press the "Stop" button on RStudio to stop the app (Top right of the console). # Then run again:
+If you want to update the data used by the app, first press the "Stop" button on RStudio to stop the app (Top right of the console).
+Then run again:
+```
 library(shiny)
 runGitHub("Flood_forecasting", "fbaffie")
+```
+=======
+A Shiny app to present flood forecasting results at NVE. If you find a bug or think of an interesting new feature, please file a new [issue](https://github.com/fbaffie/Flood_forecasting/issues). Please refer to the guidelines for filing issues at the end of this readme.
 
-<h4 id="local">
-Locally
-</h4>
+# Contributing
+>>>>>>> docsite_with_rmd
 
+## Improving the documentation
 
-*[Back to top](#About)*
+<<<<<<< HEAD
+**[⬆ back to top](#table-of-contents)**
+=======
+The documentation is a work-in-progress at http://NVE.github.io/Flood_forecasting/app
+It is build automatically by travis-ci from Rmd files.
+An automatic report (also based on RStudio's Rmarkdown) is being tested by not updated everyday.
 
-<h4 id="issues">
-Filing issues
-</h4>
+>>>>>>> docsite_with_rmd
+
+## Filing issues
 
 Please try to follow those guidelines for filing issues:
 

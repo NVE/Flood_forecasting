@@ -1,0 +1,62 @@
+---
+title: "FlomvarslingApp Package"
+subtitle: "Overview"
+author: ""
+copyright: ""
+output:
+  packagedocs::package_docs:
+    toc: true
+    toc_collapse: false
+redirect: http://NVE.github.io/Flood_forecasting
+vignette: |
+  %\VignetteIndexEntry{FlomvarslingApp Documentation}
+  %\VignetteEngine{packagedocs::redirect}
+navpills: |
+  <li><a href='rd.html'>Packaged R functions</i></a></li>
+  <li><a href='app.html'>Back to main page</i></a></li>
+  <li><a href='https://github.com/NVE/Flood_forecasting'>Github <i class='fa fa-github'></i></a></li>
+---
+
+```{r global_options, include=FALSE}
+# R output pre blocks are styled by default to indicate output
+knitr::opts_chunk$set(comment = NA)
+
+# shorthand for rd_link() - see ?packagedocs::rd_link for more information
+rdl <- function(x) packagedocs::rd_link(deparse(substitute(x)))
+```
+
+# What is the Flomvarsling app? 
+
+This is an R shiny app to visualize the results of flood forecasting models at NVE.
+
+# How was it coded?
+
+In [Package Ref](http://NVE.github.io/Flood_forecasting/rd.html), you'll find the documentation of all the packaged functions that are used by the app.
+The app uses `.Rdata` files that are produced by the `NVEDATA` package ([documentation](http://NVE.github.io/NVEDATA) and [code](http://github.com/NVE/NVEDATA)) through the default function call:
+
+`load_flood_data()`
+
+One data file per model is saved to the `/data` directory and will then be read by the app.
+Please refer to the documentation of `NVEDATA` to see which local network paths are used. Those paths are specified as default directories for the parsing functions.
+
+## Data structure
+
+
+## Shiny modules
+
+#### Plotting modules
+
+
+#### Mapping modules
+
+
+#### Table modules
+
+
+## General purpose functions
+
+#### Plotting functions
+
+
+#### Mapping functions
+
