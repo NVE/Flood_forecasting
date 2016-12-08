@@ -104,63 +104,64 @@ ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\
          ##############################
          #-- byman ####################
          
-                 navbarMenu("Historical tools", icon = icon("history"),
-                            tabPanel("EntirePlot", dygraphOutput("mydygraph",height = 650)),
-                            tabPanel("Seasonal Plot Temp", plotOutput('annualTemp')),
-                            tabPanel("Seasonal Plot Rain", plotOutput('annualRainfall')),
-                            tabPanel("Seasonal Plot Runoff", plotOutput('annualFlow' ))
+                 navbarMenu("Historikk", icon = icon("history"),
+                            tabPanel("Kalibreringsresultater", 
+                                     
+                                     dygraphOutput("mydygraph",height = 650),
+                                     
+                                     hr(), 
+                                     
+                                     fluidRow( 
+                                       
+                                       renderInputs("a")
+                                     ), 
+                                     
+                                     
+                                     fluidRow( 
+                                       column(4, 
+                                              mainPanel(
+                                                tabsetPanel(
+                                                  tabPanel('Model performnce',
+                                                           # dygraphOutput("mygraph2",height = 600)),
+                                                           DT::dataTableOutput("mytable")),
+                                                  tabPanel('Peaks: Hits/Misses',
+                                                           DT::dataTableOutput("tablehits"))
+                                                  # tabPanel('Accum. Diff.',
+                                                  #          DT::dataTableOutput("mytable11"))
+                                                  
+                                                ))),
+                                       
+                                       column(3, 
+                                              plotOutput('TDplot', height = "600px")), 
+                                       
+                                       column(5,
+                                              mainPanel(
+                                                tabsetPanel(
+                                                  tabPanel('Plot - 9 d. ahead',
+                                                           # dygraphOutput("mygraph2",height = 600)),
+                                                           plotOutput('mygraph3', height = "600px")),
+                                                  tabPanel('Table- 9 d. ahead',
+                                                           DT::dataTableOutput("mytable1")),
+                                                  tabPanel('Plot - 20 d. past ',
+                                                           # dygraphOutput("mygraph2",height = 600)),
+                                                           plotOutput('mygraph2', height = "600px")),
+                                                  
+                                                  tabPanel('Month Table',
+                                                           DT::dataTableOutput("mytable2"))#,
+                                                  # tabPanel('Plot - 1 year',
+                                                  #          plotOutput('', height = "600px"))
+                                                  
+                                                ))
+                                       ) 
+                                     )
+                                     
+                                     ),
+                            tabPanel("Årsstatistikken: Temperatur", plotOutput('annualTemp')),
+                            tabPanel("Årsstatistikken: Nedbør", plotOutput('annualRainfall')),
+                            tabPanel("Årsstatistikken: Vannføring", plotOutput('annualFlow' ))
                  ),
-         hr(), 
-         
-         fluidRow( 
+
            
-           renderInputs("a")
-         ), 
-         
-         
-         fluidRow( 
-           column(4, 
-                  mainPanel(
-                    tabsetPanel(
-                      tabPanel('Model performnce',
-                               # dygraphOutput("mygraph2",height = 600)),
-                               DT::dataTableOutput("mytable")),
-                      tabPanel('Peaks: Hits/Misses',
-                               DT::dataTableOutput("tablehits"))
-                      # tabPanel('Accum. Diff.',
-                      #          DT::dataTableOutput("mytable11"))
-                      
-                    ))),
-           
-           column(3, 
-                  plotOutput('TDplot', height = "600px")), 
-           
-           column(5,
-                  mainPanel(
-                    tabsetPanel(
-                      tabPanel('Plot - 9 d. ahead',
-                               # dygraphOutput("mygraph2",height = 600)),
-                               plotOutput('mygraph3', height = "600px")),
-                      tabPanel('Table- 9 d. ahead',
-                               DT::dataTableOutput("mytable1")),
-                      tabPanel('Plot - 20 d. past ',
-                               # dygraphOutput("mygraph2",height = 600)),
-                               plotOutput('mygraph2', height = "600px")),
-                      
-                      tabPanel('Month Table',
-                               DT::dataTableOutput("mytable2"))#,
-                      # tabPanel('Plot - 1 year',
-                      #          plotOutput('', height = "600px"))
-                      
-                    ))
-           ) 
-         ),
-           # navbarMenu("Historikk", icon = icon("history"),
-           #                  tabPanel("Kalibreringsresultater"),
-           #                  tabPanel("Årsstatistikken: Temperatur"),
-           #                  tabPanel("Årsstatistikken: Nedbør"),
-           #                  tabPanel("Vannføring: Nedbør")
-           #       ),
                  navbarMenu("Dokumentasjon", icon = icon("question"),
                             tabPanel(title = HTML("<a href=\"http://nve.github.io/Flood_forecasting/app.html#how_to_use_it\">Hvordan man bruker app?</a>")),
                             tabPanel(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\">Hvordan ble det programmert?</a>")),

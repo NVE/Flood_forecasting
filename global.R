@@ -126,6 +126,7 @@ library(grid)
 
 # Visualizatin development
 
+source('R/hitrate_alt2.function.R')
 
 
 dataDir <- "//nve/fil/h/Fastgrupper/Flomvarsling/FoU/Prosjekt/80103_Hydrologiske_prognoser/arbeidspakker/AP5/DDM/projects/Flood_forecasting/data"
@@ -133,7 +134,7 @@ dataDir <- "//nve/fil/h/Fastgrupper/Flomvarsling/FoU/Prosjekt/80103_Hydrologiske
 load(file.path(dataDir,"AllStationsAllModels0.RData"))
 #source(file = "//nve/fil/h/Fastgrupper/Flomvarsling/FoU/Prosjekt/80103_Hydrologiske_prognoser/arbeidspakker/AP5/DDM/skript/script/hitrate.function.R")
 
-source(file = file.path(dataDir,"hitrate_alt2.function.R"))
+# source(file = file.path(dataDir,"hitrate_alt2.function.R"))
 
 #row.names(stnDatMaster) <- seq(nrow(stnDatMaster)) #removes strange row names from the data frame
 
