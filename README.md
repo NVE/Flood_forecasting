@@ -8,8 +8,10 @@ A Shiny app to present flood forecasting results at NVE. If you find a bug or th
 ## Improving the documentation
 
 The documentation is a work-in-progress at http://NVE.github.io/Flood_forecasting/app
-It is build automatically by travis-ci from Rmd files located in the `/report` directory. 
+It is build automatically by *travis-ci* from *Rmd* files located in the `/report` directory. 
 An automatic report (also based on RStudio's Rmarkdown) is being tested but is not updated everyday yet.
+
+If you want to contribute to this documentation website, either send me your contribution in *mardown* format by email, do a formal pull request to this repository, or ask to be added as collaborator to this project.
 
 
 ## Filing issues
