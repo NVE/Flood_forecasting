@@ -139,20 +139,19 @@ If you want to contribute to this documentation website, either send me your con
 
 ## Filing bugs or ideas for new/better features
 
-If you find a bug, thanks for reporting! First press the refresh button and try again. If this solves your problem, the previous bug may have been cause by a specific clicking sequence. Try to remember the sequence (or better re-create it!) and file your issue [there](https://github.com/NVE/Flood_forecasting/issues) following the guidelines below:
+If you find a bug, thanks for reporting! First press the `refresh` button and try again. If this solves your problem, the previous bug may have been cause by a specific clicking sequence. Try to remember the sequence (or better re-create it!) and file your issue [there](https://github.com/NVE/Flood_forecasting/issues) following the guidelines below:
 
 One issue for one purpose. Don't add more than one bug, feature request, documentation request, question, etc.. on to the same issue.
 
-For a bug report, please add [bug] in the header and don't forget to describe the environment (where, which clicking sequence...) of the bug as precisely as possible.
+- For a bug report, please add `[bug]` in the header and don't forget to describe the environment (where, which clicking sequence...) of the bug as precisely as possible.
 
-If you've a request of some kind, e.g., feature request or documentation request, it'd be much appreciated if you could add [Request] at the beginning of the title. This helps us to prioritise easily without having to go through the entire issue.
-Don't forget to read our already listed [ideas for further development](# Ideas for further development) before submitting new requests!
+- If you've a request of some kind, e.g., feature request or documentation request, it'd be much appreciated if you could add `[Request]` at the beginning of the title. This helps us to prioritise easily without having to go through the entire issue. Don't forget to read our already listed [ideas for further development](#ideas_for_further_development) before submitting new requests!
 
-If you need support, e.g., installation issues or upgrade issues, please add [Support] at the beginning of the title. This helps us to easily identify the most common support issues, and provide solutions in a separate page.
+- If you need support, e.g., installation issues or upgrade issues, please add `[Support]` at the beginning of the title. This helps us to easily identify the most common support issues, and provide solutions in a separate page.
 
-If you have a general question, add [Question] at the beginning of the title.
+- If you have a general question, add `[Question]` at the beginning of the title.
 
-If you've an issue that doesn't fall into any of these categories, then it'd be helpful if you could add [Misc] to your title.
+- If you've an issue that doesn't fall into any of these categories, then it'd be helpful if you could add `[Misc]` to your title.
 
 ## How to modify it or develop it further?
 
