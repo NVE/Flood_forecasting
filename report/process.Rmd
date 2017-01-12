@@ -27,8 +27,7 @@ Blabla
 
 #### [HBV](HBV.html)
 
-I modify
-...... on an on
+HBV has been traditionally used at NVE for...
 
 #### [DDD](DDD.html)
 
