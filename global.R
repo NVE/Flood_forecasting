@@ -1,7 +1,7 @@
 # # Installing and loading required packages (https://gist.github.com/stevenworthington/3178163)
 # ipak <- function(pkg){
 #   new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-#   if (length(new.pkg)) 
+#   if (length(new.pkg))
 #     install.packages(new.pkg, dependencies = TRUE)
 #   sapply(pkg, library, character.only = TRUE)
 # }
@@ -14,8 +14,8 @@
 #   install_github("fbaffie/leaflet")
 # }
 # 
-# packages <- c("shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
-# packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS", "DT")
+# packages <- c("shiny", "tidyverse", "sp", "plotly", "DT")
+# packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "shinyBS", "DT")
 # ipak(packages)
 # # sp: For the point.in.polygon function
 # # shinythemes? for chosing various bootstrap themes

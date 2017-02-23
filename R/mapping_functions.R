@@ -220,21 +220,34 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
   #   }
   # }
   
-  
+  # unused arguments (layerID = "selectbox", remove = TRUE, singleLayer = FALSE)
   
   map <- leaflet() %>%
     addTiles() %>%
     setView(13, 64, zoom = 5)
-    map <- addDrawToolbar(map,
-                          layerID = "selectbox",
-                          polyline = FALSE,
-                          circle = FALSE,
-                          marker = FALSE,
-                          edit = TRUE,
-                          polygon = TRUE,
-                          rectangle = TRUE,
-                          remove = TRUE,
-                          singleLayer = FALSE) %>% # %>% addLayersControl(position = "bottomleft", overlayGroups = c("selectbox")) 
+    # map <- addDrawToolbar(map,
+    #                       layerID = "selectbox",
+    #                       polyline = FALSE,
+    #                       circle = FALSE,
+    #                       marker = FALSE,
+    #                       edit = TRUE,
+    #                       polygon = TRUE,
+    #                       rectangle = TRUE,
+    #                       remove = TRUE,
+    #                       singleLayer = FALSE) %>% # %>% addLayersControl(position = "bottomleft", overlayGroups = c("selectbox")) 
+      
+      # test with new package leaflet.extras
+      map <- addDrawToolbar(map,
+                            targetGroup='draw',
+                            editOptions = editToolbarOptions(selectedPathOptions = selectedPathOptions()),
+                            singleFeature = FALSE)  %>%
+  addLayersControl(overlayGroups = c('draw'), options =
+                     layersControlOptions(collapsed=FALSE)) %>%
+  addStyleEditor()%>%
+      
+
+          
+        
     # addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude,
     #                  popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
     #                                sep = " "), radius = 5,
