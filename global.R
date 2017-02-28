@@ -32,6 +32,7 @@ library(sp)
 library(plotly)
 library(DT)
 library(leaflet)
+library(leaflet.extras)
 
 library(rmarkdown)
 

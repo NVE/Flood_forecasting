@@ -234,16 +234,21 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
     #                       polygon = TRUE,
     #                       rectangle = TRUE,
     #                       remove = TRUE,
-    #                       singleLayer = FALSE) %>% # %>% addLayersControl(position = "bottomleft", overlayGroups = c("selectbox")) 
+    #                       singleLayer = FALSE) %>% # %>% addLayersControl(position = "bottomleft", overlayGroups = c("selectbox"))
       
+  
+  
       # test with new package leaflet.extras
       map <- addDrawToolbar(map,
+                            # targetLayerId = "draw",
                             targetGroup='draw',
                             editOptions = editToolbarOptions(selectedPathOptions = selectedPathOptions()),
                             singleFeature = FALSE)  %>%
-  addLayersControl(overlayGroups = c('draw'), options =
-                     layersControlOptions(collapsed=FALSE)) %>%
-  addStyleEditor()%>%
+        
+        
+  # addLayersControl(overlayGroups = c('draw'), options =
+  #                    layersControlOptions(collapsed=FALSE)) %>%
+  # addStyleEditor()%>%
       
 
           
@@ -361,7 +366,7 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
 #'
 #' @examples
 which_station_in_polygon <- function(stations, map_selection) {
-  
+
   nb_poly <- length(map_selection)
   station_list <- c()
   if (nb_poly == 0) {
