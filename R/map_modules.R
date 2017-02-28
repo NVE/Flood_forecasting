@@ -249,7 +249,7 @@ mapModule_polygonFeature <- function(input, output, session) {
   })
   
   # Check which stations are inside the polygon
-  selected_stations_indices <- reactive(which_station_in_polygon(stations, input$map_selectbox_features$features))
+  selected_stations_indices <- reactive(which_station_in_polygon(stations, input$map_draw_all_features$features))
   selected_regine_main <- reactive(stations$regine_main[selected_stations_indices()])
   selected_name <- reactive(stations$name[selected_stations_indices()])
   selected_long <- reactive(stations$long[selected_stations_indices()])
@@ -270,7 +270,7 @@ Du kan slette dem for a endre ditt valg." })
     input$variable_3
     input$variable_4
     input$type_rl
-    input$map_selectbox_features$features}, {
+    input$map_draw_all_features$features}, {
       callModule(poly_multimod_forecast_plot_mod, "multi_station_plot", as.character(selected_regine_main()), HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell,
                  input$variable_1, input$variable_2, input$variable_3, input$variable_4, input$type_rl)
   

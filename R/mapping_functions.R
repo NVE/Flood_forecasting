@@ -225,22 +225,25 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
   map <- leaflet() %>%
     addTiles() %>%
     setView(13, 64, zoom = 5)
-    map <- addDrawToolbar(map,
-                          layerID = "selectbox",
-                          polyline = FALSE,
-                          circle = FALSE,
-                          marker = FALSE,
-                          edit = TRUE,
-                          polygon = TRUE,
-                          rectangle = TRUE,
-                          remove = TRUE,
-                          singleLayer = FALSE) %>% # %>% addLayersControl(position = "bottomleft", overlayGroups = c("selectbox")) 
-    # addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude,
-    #                  popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
-    #                                sep = " "), radius = 5,
-    #                  color = "black",
-    #                  stroke = FALSE, fillOpacity = 0.5,
-    #                  layerId = stations$regine_main)   
+    # map <- addDrawToolbar(map,
+    #                       layerID = "selectbox",
+    #                       polyline = FALSE,
+    #                       circle = FALSE,
+    #                       marker = FALSE,
+    #                       edit = TRUE,
+    #                       polygon = TRUE,
+    #                       rectangle = TRUE,
+    #                       remove = TRUE,
+    #                       singleLayer = FALSE) %>% # %>% addLayersControl(position = "bottomleft", overlayGroups = c("selectbox")) 
+      
+      map <- addDrawToolbar(map,
+                            targetGroup='draw',
+                            editOptions = editToolbarOptions(selectedPathOptions = selectedPathOptions()),
+                            singleFeature = FALSE)  %>%
+      # addLayersControl(overlayGroups = c('draw'), options =
+      #                       -                     layersControlOptions(collapsed=FALSE)) %>%
+      # addStyleEditor()%>%  
+      # 
     
     addCircleMarkers(data = stations, lng = ~ longitude, lat = ~ latitude, 
                      popup = paste("Name:", as.character(stations$name), "Number:", stations$regine_main,
