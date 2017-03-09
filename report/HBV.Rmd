@@ -31,13 +31,15 @@ Runoff is generated in the ***upper and lower zones*** of the model. The excess 
 
 As a conceptual model, the HBV model has only a minor physical resemblance to the natural processes in the associated catchment. Some physiographical parameters, like catchment area, hypsographic curve etc. can be quantified from GIS data, but the majority of the parameters must be calibrated, i.e. they are adjusted so that model simulated runoff, given a defined input data set, is as similar as possible to the observed runoff. The HBV model is calibrated for the 145 flood forecasting model catchments.
 
+*Figure 1: the structure of the HBV model to the right. Indata for 10 altitude zones is illustrated to the left.* ![](images/HBV_struktur.JPG)
+
 ### Input data
 
 Input data to the model are precipitation and temperature, derived from interpolated grids, covering Norway with a spatial resolution of of 1 x 1 km2 and a temporal resolution of 24 hours, the seNorge grid (ref.).These observation grids are available from 1957 up to present, and similar forecast grids cover the period nine days ahead. The observation grids are made by spatial interpolation of all available point observations of precipitation and temperature, respectively. For the forecast period, the grids are made by applying the precipitation and temperature grids from the operational NWP models and downscale to 1 x 1 km2. Data for each altitude zone are read separately from the grid, and applied directly for each zone, without any altitude correction.
 
 # Where do we use it?
 
-
+145 catchments spread over the country, representing most catchment scales and geographical regions of Norway and 33% of the land surface, are selected as model catchments for the flood forecasting service. For these catchments, hydrological forecasts are made by all the hydrological models applied in the flood forecasting system. Besides the requirement of representativeness, the 145 catchments are selected with an aim to use catchments with a long and high-quality data series, supply flood forecasts for the flood prone river reaches where flood zone maps are developed, and to have a good meteorological station coverage. Figure 2 shows a map where the 145 catchments are highlighted. 
 
 # Why do we use it?
 
