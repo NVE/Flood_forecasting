@@ -57,7 +57,8 @@ seNorge-referanse
 
 The hydrological model forecasts make up a central part of the flood forecaster’s decision support tool. The models are integrated processing units in this system. Updated meteorological data, i.e. observations and weather forecasts, are transferred from the meteorological office several times a day, and updated hydrological forecasts are made. Table 1 shows the present scheme of the daily hydrological model operation.
 
-*Table 1: Operational scheme for the hydrological models* ![](images/modellfeltene.JPG)
+*Table 1: Operational scheme for the hydrological models* ![](images/operasjonell_kjøring.JPG)
+
 Post proce3ssing: Two different versions of HBV are run operationally at NVE.
 
 ## HBV_UM: uncertainty model
