@@ -14,14 +14,37 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 # What is it?
+### The model
 
-Gusong to provide a quick explanation of the operational use of HBV at NVE.
+The HBV model is among the classical, conceptual hydrological precipitation – runoff models. It was developed far back in the seventies (Bergstrøm, 1976), designed for a reasonable demand of computer capacities, as was available at that time. The original model has undergone numerous revisions and improvements, and today there are several implementations of HBV available. In the present application, the “Nordic” HBV model (Killingveit and Sælthun, 1995; Sælthun, 1996) is used. For a detailed review of the model, please refer to these publications. A brief introduction to the model is given below. See figure 1 for an illustration.
+
+The model can be classified as a semi-distributed conceptual model. It uses the subbasin as the primary hydrological unit, and within this, an area-elevation distribution and a crude classification of land use is implemented. All processes contribute directly to runoff at the outlet without internal routing between elevation zones or along the river reaches. The model consists of subroutines for 
+-	snow accumulation and melt 
+-	soil moisture accounting
+-	dynamic part: runoff generation
+
+***The snow routine*** controls snow accumulation and melt, and works separately for each elevation and vegetation zone. Additional snow over a given accumulated storage is distributed according to a lognormal pattern, specified by two parameters. The division of rain from snow and melting from non-melting is controlled by threshold temperatures. Snow melt is estimated by a simple degree-day expression. The water holding capacity of snow has to be exceeded before any runoff is generated. During cold periods, the content of free water in the snow is reduced under the operation of a refreezing coefficient. All the subdivisions of the snow distribution in an altitude zone is treated individually, ensuring a fragmented snow pattern by the end of the winter season. In the present model version, snow on glaciers accumulates and melts at the same rate as snow on non-glacierized areas in the same altitude level.
+
+An essential part of the HBV model is the ***soil moisture accounting routine***. Rain and meltwater from snow and glaciers is separated into input to the soil moisture zone and percolation to the dynamical part of the model. The share of the input retained in the soil moisture zone is controlled by the water content in this zone. In addition, water can be drawn up to the zone from the ground water zones. Actual evapotranspiration is calculated based on the water content in this zone. Once captured in the zone, water is only removed by evapotranspiration.
+
+Runoff is generated in the ***upper and lower zones*** of the model. The excess percolation water from the soil moisture zone is transformed to runoff for the catchment as a whole, by piecewise linear reservoirs with three outlets. The upper level represents the rapid storm flow, whereas the lower one provides for the long-term base flow of the basin. The momentary response is integrated over the time step. As long as there is water in the upper zone, a constant deep percolation feeds the lower zone.
+
+As a conceptual model, the HBV model has only a minor physical resemblance to the natural processes in the associated catchment. Some physiographical parameters, like catchment area, hypsographic curve etc. can be quantified from GIS data, but the majority of the parameters must be calibrated, i.e. they are adjusted so that model simulated runoff, given a defined input data set, is as similar as possible to the observed runoff. The HBV model is calibrated for the 145 flood forecasting model catchments.
+
+### Input data
+
+Input data to the model are precipitation and temperature, derived from interpolated grids, covering Norway with a spatial resolution of of 1 x 1 km2 and a temporal resolution of 24 hours, the seNorge grid (ref.).These observation grids are available from 1957 up to present, and similar forecast grids cover the period nine days ahead. The observation grids are made by spatial interpolation of all available point observations of precipitation and temperature, respectively. For the forecast period, the grids are made by applying the precipitation and temperature grids from the operational NWP models and downscale to 1 x 1 km2. Data for each altitude zone are read separately from the grid, and applied directly for each zone, without any altitude correction.
+
+# Where do we use it?
+
+
 
 # Why do we use it?
 
 
 # How to run it?
 
+Gusong to provide a quick explanation of the operational use of HBV at NVE.
 Two different versions of HBV are run operationally at NVE.
 
 ## HBV_UM: uncertainty model
