@@ -31,7 +31,7 @@ Runoff is generated in the ***upper and lower zones*** of the model. The excess 
 
 As a conceptual model, the HBV model has only a minor physical resemblance to the natural processes in the associated catchment. Some physiographical parameters, like catchment area, hypsographic curve etc. can be quantified from GIS data, but the majority of the parameters must be calibrated, i.e. they are adjusted so that model simulated runoff, given a defined input data set, is as similar as possible to the observed runoff. The HBV model is calibrated for the 145 flood forecasting model catchments.
 
-*Figure 1: the structure of the HBV model to the right. Indata for 10 altitude zones is illustrated to the left.* ![](images/HBV_struktur.JPG)
+*Figure 1: the structure of the HBV model to the right. Input data for 10 altitude zones is illustrated to the left.* ![](images/HBV_struktur.JPG)
 
 ### Input data
 
@@ -49,17 +49,16 @@ seNorge-referanse
 
 # Where do we use it?
 
-145 catchments spread over the country, representing most catchment scales and geographical regions of Norway and 33% of the land surface, are selected as model catchments for the flood forecasting service. For these catchments, hydrological forecasts are made by all the hydrological models applied in the flood forecasting system. Besides the requirement of representativeness, the 145 catchments are selected with an aim to use catchments with a long and high-quality data series, supply flood forecasts for the flood prone river reaches where flood zone maps are developed, and to have a good meteorological station coverage. Figure 2 shows a map where the 145 catchments are highlighted. The map includes two catchments, Numedalslågen at Kongsberg and Mjøsa at the outlet, where regression models have been developed on the basis of HBV catchment models within or close to the catchments.
+145 catchments spread over the country, representing most catchment scales and geographical regions of Norway and 33% of the land surface, are selected as model catchments for the flood forecasting service. For these catchments, hydrological forecasts are made by all the hydrological models applied in the flood forecasting system. Besides the requirement of representativeness, the 145 catchments are selected with an aim to use catchments with a long, high-quality and non-regulated data series, supply flood forecasts for the flood prone river reaches where flood zone maps are developed, and to have a good meteorological station coverage. Figure 2 shows a map where the 145 catchments are highlighted. The map includes two catchments, Numedalslågen at Kongsberg and Mjøsa at the outlet, where regression models have been developed on the basis of HBV catchment models within or close to the catchments.
 
 *Figure 2: The flood forecasting model catchments* ![](images/modellfeltene.JPG)
 
-# Why do we use it?
-
-
 # How to run it?
 
-Gusong to provide a quick explanation of the operational use of HBV at NVE.
-Two different versions of HBV are run operationally at NVE.
+The hydrological model forecasts make up a central part of the flood forecaster’s decision support tool. The models are integrated processing units in this system. Updated meteorological data, i.e. observations and weather forecasts, are transferred from the meteorological office several times a day, and updated hydrological forecasts are made. Table 1 shows the present scheme of the daily hydrological model operation.
+
+*Table 1: Operational scheme for the hydrological models* ![](images/modellfeltene.JPG)
+Post proce3ssing: Two different versions of HBV are run operationally at NVE.
 
 ## HBV_UM: uncertainty model
 
