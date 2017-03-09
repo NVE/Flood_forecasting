@@ -59,7 +59,7 @@ The hydrological model forecasts make up a central part of the flood forecaster‚
 
 *Table 1: Operational scheme for the hydrological models* ![](images/operasjonell_kj√∏ring.JPG)
 
-Post proce3ssing: Two different versions of HBV are run operationally at NVE.
+Post processing: Two different versions of HBV are run operationally at NVE.
 
 ## HBV_UM: uncertainty model
 
