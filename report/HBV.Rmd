@@ -37,9 +37,21 @@ As a conceptual model, the HBV model has only a minor physical resemblance to th
 
 Input data to the model are precipitation and temperature, derived from interpolated grids, covering Norway with a spatial resolution of of 1 x 1 km2 and a temporal resolution of 24 hours, the seNorge grid (ref.).These observation grids are available from 1957 up to present, and similar forecast grids cover the period nine days ahead. The observation grids are made by spatial interpolation of all available point observations of precipitation and temperature, respectively. For the forecast period, the grids are made by applying the precipitation and temperature grids from the operational NWP models and downscale to 1 x 1 km2. Data for each altitude zone are read separately from the grid, and applied directly for each zone, without any altitude correction.
 
+### References
+
+Bergström, S. 1976. Development and application of a conceptual runoff model for Scandinavian catchments. SMHI Report RH07. 
+
+Killingveit, Å. and N. R. Sælthun. 1995. Hydrological models. In Hydropower Development 7: Hydrology. Trondheim: Norwegian Institute of Technology, pp. 99-128.
+
+Sælthun, N.S. 1996. The Nordic HBV Model. NVE Publication no. 07, 26 pp.
+
+seNorge-referanse
+
 # Where do we use it?
 
-145 catchments spread over the country, representing most catchment scales and geographical regions of Norway and 33% of the land surface, are selected as model catchments for the flood forecasting service. For these catchments, hydrological forecasts are made by all the hydrological models applied in the flood forecasting system. Besides the requirement of representativeness, the 145 catchments are selected with an aim to use catchments with a long and high-quality data series, supply flood forecasts for the flood prone river reaches where flood zone maps are developed, and to have a good meteorological station coverage. Figure 2 shows a map where the 145 catchments are highlighted. 
+145 catchments spread over the country, representing most catchment scales and geographical regions of Norway and 33% of the land surface, are selected as model catchments for the flood forecasting service. For these catchments, hydrological forecasts are made by all the hydrological models applied in the flood forecasting system. Besides the requirement of representativeness, the 145 catchments are selected with an aim to use catchments with a long and high-quality data series, supply flood forecasts for the flood prone river reaches where flood zone maps are developed, and to have a good meteorological station coverage. Figure 2 shows a map where the 145 catchments are highlighted. The map includes two catchments, Numedalslågen at Kongsberg and Mjøsa at the outlet, where regression models have been developed on the basis of HBV catchment models within or close to the catchments.
+
+*Figure 2: The flood forecasting model catchments* ![](images/modellfeltene.JPG)
 
 # Why do we use it?
 
