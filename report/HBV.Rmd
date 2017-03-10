@@ -31,7 +31,7 @@ Runoff is generated in the ***upper and lower zones*** of the model. The excess 
 
 As a conceptual model, the HBV model has only a minor physical resemblance to the natural processes in the associated catchment. Some physiographical parameters, like catchment area, hypsographic curve etc. can be quantified from GIS data, but the majority of the parameters must be calibrated, i.e. they are adjusted so that model simulated runoff, given a defined input data set, is as similar as possible to the observed runoff. The HBV model is calibrated for the 145 flood forecasting model catchments.
 
-*Figure 1: the structure of the HBV model to the right. Input data for 10 altitude zones is illustrated to the left.* ![](images/HBV_struktur.JPG)
+*Figure 1: the structure of the HBV model to the right. An illustration of input data for 10 altitude zones is shown to the left.* ![](images/HBV_struktur.JPG)
 
 ### Input data
 
@@ -55,11 +55,9 @@ seNorge-referanse
 
 # How to run it?
 
-The hydrological model forecasts make up a central part of the flood forecaster’s decision support tool. The models are integrated processing units in this system. Updated meteorological data, i.e. observations and weather forecasts, are transferred from the meteorological office several times a day, and updated hydrological forecasts are made. Table 1 shows the present scheme of the daily hydrological model operation.
+The hydrological model forecasts make up a central part of the flood forecaster’s decision support tool. The models are integrated processing units in this system. Updated meteorological data, i.e. observations and weather forecasts, are transferred from the meteorological office several times a day, and updated hydrological forecasts are made. The different hydrological models, HBV, DDD, ODM and the DDMs have been developed on different platforms, and have entered the flood forecaster’s scene successively. This application serves as a common interface for presentation and comparison of the hydrological forecasts from the ensemble of flood forecasting models. Table 1 shows the present scheme of the daily hydrological model operation.
 
 *Table 1: Operational scheme for the hydrological models* ![](images/operasjonell_kjøring.JPG)
-
-The different hydrological models, HBV, DDD, ODM and the DDMs have been developed on different platforms, and have entered the flood forecasters scene succsessively. 
 
 Post processing: Two different versions of HBV are run operationally at NVE.
 
