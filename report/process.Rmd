@@ -33,6 +33,7 @@ Some models operate on a temporal resolution of three hours. For this purpose, t
 
 145 catchments spread over the country, representing most catchment scales and geographical regions of Norway and 33% of the land surface, are selected as model catchments for the flood forecasting service. For these catchments, hydrological forecasts are made by all the hydrological models applied in the flood forecasting system. Besides the requirement of representativeness, the 145 catchments are selected with an aim to use catchments with a long, high-quality and non-regulated data series, supply flood forecasts for the flood prone river reaches where flood zone maps are developed, and to have a good meteorological station coverage. Figure 2 shows a map where the 145 catchments are highlighted. The map includes two catchments, Numedalslågen at Kongsberg and Mjøsa at the outlet, where regression models have been developed on the basis of HBV catchment models within or close to the catchments.
 
+*Figure 2: The flood forecasting model catchments* ![](images/modellfeltene.PNG)
 
 ## Visualization tool
 
