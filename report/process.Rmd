@@ -42,11 +42,11 @@ Lussana, Cristian, Tveito, O. E. and Uboldi, F. 2016. seNorge v2.0, Temperature.
 
 ## Visualization tool
 
-In complement of the website [link](www.xgeo.no), an R shiny app was developed to allow vizualizing in a single graph the results of multiple models.
+In complement of the website [www.xgeo.no](www.xgeo.no), an R shiny app was developed to allow vizualizing in a single graph the results of multiple models.
 
 ## Models
 
-Hydrological catchment models are used to estimate the runoff level development the coming days, as a response to expected precipitation and temperature. The lead time considered is from one to nine days. The model forecasts constitutes a basic part of the flood forecaster’s decision support tool. When flood conditions are expected, a warning is published at [link](www.varsom.no).
+Hydrological catchment models are used to estimate the runoff level development the coming days, as a response to expected precipitation and temperature. The lead time considered is from one to nine days. The model forecasts constitutes a basic part of the flood forecaster’s decision support tool. When flood conditions are expected, a warning is published at [Varsom](www.varsom.no).
 
 #### [HBV](HBV.html)
 
