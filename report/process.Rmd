@@ -50,7 +50,7 @@ Hydrological catchment models are used to estimate the runoff trend the next day
 
 #### [HBV](HBV.html)
 
-The HBV model is a faithful old slogger in NVE.It has served the flood forecasting service with runoff forecasts on a regular basis since 1989. Read more about the model [here](HBV.html).
+The HBV model is a faithful old slogger in NVE. It has served the flood forecasting service with runoff forecasts on a regular basis since 1989. Read more about the model [here](HBV.html).
 
 #### [DDD](DDD.html)
 
