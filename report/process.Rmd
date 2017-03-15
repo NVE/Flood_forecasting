@@ -54,7 +54,7 @@ The HBV model is a faithful old slogger in NVE.It has served the flood forecasti
 
 #### [DDD](DDD.html)
 
-The DDD model
+The DDD model was forst set into operation in ?. Since then it has gone through a comprehensive develoment, implementing ever new connections between catchment physiography and runoff generating processes, reducing the need for calibration parametrers to a minimum. Read more about the DDD model [here](DDD.html).
 
 #### [ODM](ODM.html)
 
