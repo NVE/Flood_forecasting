@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Flood forecasting system
 
-NVE is in charge of the national flood management system that includes a flood warning service. Hydrological catchment models have been used operationally for this purpose on a regular basis since 1989, and constitutes an essential part of the flood forecaster’s decision support tool. The models are integrated units in an operational system that makes updated meteorological data from the Meteorological Institute, i.e. observations and weather forecasts available, and, subsequently, carries out new model runs. Updated hydrological forecasts are, at present, made four times a day, see table 1. The system provides hydrological forecasts up to nine days in advance. 
+NVE is in charge of the national flood management system that includes a flood warning service. Hydrological catchment models have been used operationally for this purpose on a regular basis since 1989, and constitutes an essential part of the flood forecaster’s decision support tool. The models are integrated units in an operational system that makes updated meteorological data from the Meteorological Institute, i.e. observations and weather forecasts, available and, subsequently, carries out new model runs. Updated hydrological forecasts are, at present, made four times a day, see table 1. The system provides hydrological forecasts up to nine days in advance. 
 
 *Table 1: Operational scheme for the hydrological models* ![](images/operasjonell_kjøring.JPG)
 
