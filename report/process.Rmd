@@ -21,9 +21,9 @@ NVE is in charge of the national flood management system that includes a flood w
 
 The aim of the flood forecasting service is to gain time for preparedness measures before flood events strike. Model simulations and -forecasts have, however, a more widespread application. Weekly aggregates of daily climate, runoff and snow storage forecasts are used operationally to estimate energy inflow to reservoirs for hydropower production. Simulated energy inflow is, in turn, used to update the Samkjøringsmodellen (Power Market Simulator) for simulating the hydropower system. Moreover, once a week, an extended ensemble forecast is applied to the models, providing season scenarios for snow storage and –melt, sub-surface water content and runoff.
 
-The catchment model system are made up by four different hydrological models, called HBV, DDD, ODM and DDMs, see the respective links for an explanation. The models have been developed on different platforms, and have entered the flood forecaster’s scene successively. This application serves as a common interface for presentation and comparison of the hydrological forecasts from the versatile ensemble of flood forecasting models. 
+The catchment model system are made up by four different hydrological models, called HBV, DDD, ODM and DDMs, see the respective links for an explanation. The models have been developed on different platforms, and have entered the flood forecaster’s scene successively. The present application serves as a common interface for presentation and comparison of the hydrological forecasts from the versatile ensemble of flood forecasting models. 
 
-In addition to the catchment models, adapted distributed models operates on a 1 x 1 km2 grid covering Norway. Simulations and forecasts of gridded water balance components are shown in xgeo.no. These components are the basis for estimates of various hazard indexes, indicating increased risk of e.g. land- and slush slides.
+In addition to the catchment models, adapted distributed models operates on a 1 x 1 km2 grid covering Norway. Simulations and forecasts of gridded water balance components are shown in [xgeo](www.xgeo.no). These components are the basis for estimates of various hazard indexes, indicating increased risk of e.g. land- and slush slides.
 
 ### Input data
 
