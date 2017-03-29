@@ -27,7 +27,7 @@ In addition to the catchment models, adapted distributed models operates on a 1 
 
 ### Input data
 
-The models have a common base of input data. Input data to the models are precipitation and temperature, derived from interpolated grids, covering Norway with a spatial resolution of of 1 x 1 km2 and a temporal resolution of 24 hours, the seNorge grid (Lussana et al. 2016).These observation grids are available from 1957 up to present. The observation grids are made by spatial interpolation of all available point observations of precipitation and temperature, respectively. Similar forecast grids cover the period from today up to nine days ahead. For the forecast period, the grids are made by applying the precipitation and temperature grids from the operational NWP models and downscale to 1 x 1 km2. At present, forecasts from the mesoscale AROMEMetCoop model is used the first two days and forecasts from the medium-range ECMWF model is used for the rest of the period.
+The models have a common base of input data. Input data to the models are precipitation and temperature, derived from interpolated grids, covering Norway with a spatial resolution of 1 x 1 km2 and a temporal resolution of 24 hours, the seNorge grid (Lussana et al. 2016).These observation grids are available from 1957 up to present. The observation grids are made by spatial interpolation of all available point observations of precipitation and temperature, respectively. Similar forecast grids cover the period from today up to nine days ahead. For the forecast period, the grids are made by applying the precipitation and temperature grids from the operational NWP models and downscale to 1 x 1 km2. At present, forecasts from the mesoscale AROMEMetCoop model is used the first two days and forecasts from the medium-range ECMWF model is used for the rest of the period.
 
 Some models operate on a temporal resolution of three hours. For this purpose, the daily seNorge-grid is disaggregated into eight three-hourly grids (ref).
 
@@ -36,6 +36,11 @@ Some models operate on a temporal resolution of three hours. For this purpose, t
 145 catchments spread over the country, representing most catchment scales and geographical regions of Norway and 33% of the land surface, are selected as model catchments for the flood forecasting service. This selection of catchments applies to all the hydrological models used in the flood forecadting system. Besides the requirement of representativeness, the 145 catchments are selected with an aim to use catchments with a long, high-quality and non-regulated data series, supply flood forecasts for the flood prone river reaches where flood zone maps have been developed, and to have a good meteorological station coverage. Figure 1 shows a map where the 145 catchments are highlighted. The map includes two catchments, Numedalslågen at Kongsberg and Mjøsa at the outlet, where regression models, developed on the basis of HBV catchment models within or close to the catchments, are used.
 
 *Figure 1: The flood forecasting model catchments* ![](images/modellfeltene.PNG)
+
+### Flood return levels
+
+Mean flood, 5-year flood, 50-year flood .....
+Flood return levels are parsed by a specific function in the `NVEDATA`package. Please refer to its documentation for the default path and further details.
 
 ### References
 Lussana, Cristian, Tveito, O. E. and Uboldi, F. 2016. seNorge v2.0, Temperature. An observational gridded dataset of temperature for Norway. METreport 14/2016
@@ -63,16 +68,3 @@ Blabla
 #### [DDM](DDM.html)
 
 Blabla
-
-
-## Data
-
-Blabla
-
-#### Meteo
-
-Blabla
-
-#### Flood return levels
-
-Flood return levels are parsed by a specific function in the `NVEDATA`package. Please refer to its documentation for the default path and further details.
