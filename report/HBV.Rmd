@@ -58,8 +58,6 @@ As a simple measure of how sensitive the runoff forecast is to variations in the
 
 The associated bias corrected runoff forecast, HBV.P.korr, does not take precipitation uncertainty into consideration, and refers to the median in an empirical ensemble, similar to the one described in the above section, but based on temperature uncertainty, solely. Temperature uncertainty obviously plays a role only when snow accumulation and -melt is in question.
 
- * Pure model run (not processed): this is in the dataset but it is the same as in 1., so shouldn't be plotted!
-
 ### References
 
 Bergström, S. 1976. Development and application of a conceptual runoff model for Scandinavian catchments. SMHI Report RH07. 
