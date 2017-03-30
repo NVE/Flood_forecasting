@@ -63,13 +63,20 @@ HBV with + 50% precipitation: /hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_us
 
 Bergström, S. 1976. Development and application of a conceptual runoff model for Scandinavian catchments. SMHI Report RH07. 
 
+Follestad, T. and Høst, G., 1998. A statistical model for the uncertainty of meteorological forecasts with application to the Knappom and Røykenes catchments. HYDRA note no 12, Oslo, Norway
+
 Killingveit, Å. and N. R. Sælthun. 1995. Hydrological models. In Hydropower Development 7: Hydrology. Trondheim: Norwegian Institute of Technology, pp. 99-128.
+
+Langsholt, E. and G. Ruan. 2015. Evaluering av flomvarslingas usikkerhetsmodell. NVE Rapport 47-2015.
+
+Langsrud, Ø., Frigessi, A. and Høst, G., 1998. Pure model error for the HBV model. HYDRA note no 4., Oslo, Norway
+
+Langsrud, Ø., Høst, G., Follestad, T. and Frigessi, A., 1999. Quantifying uncertainty in HBV runoff forecasts by stochastic simulations. HYDRA note no 2., Oslo, Norway
+
+Lussana, C., Tveito, O. E. and Uboldi, F. 2016. seNorge v2.0, Temperature. An observational gridded dataset of temperature for Norway. METreport 14/2016
 
 Sælthun, N.S. 1996. The Nordic HBV Model. NVE Publication no. 07, 26 pp.
 
-seNorge-referanse
-
-Post processing: Two different versions of HBV are run operationally at NVE.
 
 
 
