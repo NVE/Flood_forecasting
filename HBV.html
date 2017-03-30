@@ -279,10 +279,15 @@ $(".main-container").removeClass("main-container").removeClass("container-fluid"
 <p>An algorithm runs Monte Carlo simulations of the HBV model on precipitation and temperature realisations drawn from the estimated distributions for the forecast period. Due to time consumption, only 100 MC runs are applied operationally per catchment. The resulting empirical distribution of the composite error forms the basis for the probability calculations. In the app, the median (HBV.UM.korr) and the confidence interval boundaries (Lo90, Lo50, Hi50 and Hi90), are estimates based on the empirical distribution from the NVE uncertainty model. Probability of exceeding different flood thresholds is another estimate that is widely used by the flood forecasters, and which is suitable as a classifying measure in the application map.</p>
 <p>Unfortunately, there are two problems that prevent optimal adaptation of the uncertainty model to current versions of the model and the input weather data. First, there are frequent updates in either of the variables, which makes it too time consuming to keep the calibration up with new implementations. Second, it is difficult to obtain long time series of weather forecast data, homogeneous with the operational versions, to make a proper calibration. For these reasons, the uncertainty model is, at present, not properly updated, and it will be replaced with a weather forecast ensemble based method when this is established.</p>
 </div>
+<div id="sensitivity-to-precipitation" class="section level4">
+<h4>Sensitivity to precipitation</h4>
+<p>As a simple measure of how sensitive the runoff forecast is to variations in the precipitation, the HBV model is run with three different precipitation forecasts: the operational forecast and the operational reduced and increased by 50 percent, respectively. The effect of this juggling of the input data on the runoff forecast is shown as P.m50 and P.p50 in the app.</p>
+<p>The associated bias corrected runoff forecast, HBV.P.korr, does not take precipitation uncertainty into consideration, and refers to the median in an empirical ensemble, similar to the one described in the above section, but based on temperature uncertainty, solely. Temperature uncertainty obviously plays a role only when snow accumulation and -melt is in question.</p>
+<ul>
+<li>Pure model run (not processed): this is in the dataset but it is the same as in 1., so shouldn’t be plotted!</li>
+</ul>
 </div>
-<div id="hbv_p---50-precipitation" class="section level2">
-<h2>HBV_P: +/- 50% precipitation</h2>
-<p>HBV with + 50% precipitation: /hdata/drift/flom/usikkerhet_grd/ut_test/vfpost_usikkerhet.txt * Pure model run (not processed): this is in the dataset but it is the same as in 1., so shouldn’t be plotted! * Updated: automated update using observed streamflow (different method) * Results from a run with precip + 50%</p>
+</div>
 <div id="references" class="section level3">
 <h3>References</h3>
 <p>Bergström, S. 1976. Development and application of a conceptual runoff model for Scandinavian catchments. SMHI Report RH07.</p>
@@ -293,7 +298,6 @@ $(".main-container").removeClass("main-container").removeClass("container-fluid"
 <p>Langsrud, Ø., Høst, G., Follestad, T. and Frigessi, A., 1999. Quantifying uncertainty in HBV runoff forecasts by stochastic simulations. HYDRA note no 2., Oslo, Norway</p>
 <p>Lussana, C., Tveito, O. E. and Uboldi, F. 2016. seNorge v2.0, Temperature. An observational gridded dataset of temperature for Norway. METreport 14/2016</p>
 <p>Sælthun, N.S. 1996. The Nordic HBV Model. NVE Publication no. 07, 26 pp.</p>
-</div>
 </div>
 </div>
 
