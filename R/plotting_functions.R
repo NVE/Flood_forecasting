@@ -120,6 +120,8 @@ forecast_plot <- function(OBS, dat) {
 #' @examples
 multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, return_levels = NULL, gg_plot = FALSE) {
   
+  ## HACK FLO: need to fix colour scale for ODM
+  
   d <- ggplot() + scale_colour_manual(
     values = c("Obs" = "black", 
                "HBV.UM.sim" = "cyan3", "HBV.UM.korr" = "cyan4", "Lo50" = "cyan", "Lo90" = "cyan", "Hi50" = "cyan", "Hi90" = "cyan",
@@ -127,6 +129,7 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
                "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue4", "P.m50" = "blue", "P.p50" = "blue",
                "HBV.P.Snow" = "blue4",
                "DDD.sim" = "orange",
+               "ODM.sim" = "orange",
                "DDD.Snow" = "purple4", "DDD.GW" = "sienna", "DDD.Soil" = "green",
                "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
                "HBV.UM.sim.med.obsMet" = "cyan3",
@@ -139,6 +142,7 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
                "HBV.P.sim" = "twodash", "HBV.P.korr" = "solid", "P.m50" = "dashed", "P.p50" = "dashed",
                "HBV.P.Snow" = "dotted",
                "DDD.sim" = "solid",
+               "ODM.sim" = "solid",
                "DDD.Snow" = "solid", "DDD.GW" = "solid", "DDD.Soil" = "solid",
                "mean" = "dotdash", "5Y" = "dotdash", "50Y" = "dotdash",
                "HBV.UM.sim.med.obsMet" = "dotted",

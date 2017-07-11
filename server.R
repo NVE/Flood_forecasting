@@ -9,7 +9,7 @@ server <- function(input, output, session) {
   # HBV_2014_GG <<- reactiveFileReader(10000, session = NULL, filePath = "./HBV_2014_GG.Rdata", load, envir = .GlobalEnv)
 
   input4multi_forecast_plot <- callModule(mapModule,"multistation_map")
-  callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, OBS, HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell)
+  callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, OBS, HBV_2014, HBV_2016, ODM, HBV_past_year, flomtabell) ## HACK FLO REPLACED DDD BY ODM
 
   input4plot_HBV_2014 <- callModule(mapModule,"map_HBV_2014")
   callModule(forecast_plot_mod,"forecast_plot_HBV_2014", input4plot_HBV_2014, HBV_2014)

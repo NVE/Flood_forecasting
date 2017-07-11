@@ -151,11 +151,20 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
         } else {
           subset2plot_m2 <- dplyr::filter(model_2, nbname %in% map_input$station & Type == "Runoff" & Variable %in% input$variable_2) 
         })
+    
+      # if (!is.null(model_3)) {
+      #   output$model3_selection <- renderUI({
+      #     selectInput(ns("variable_3"), label = "DDD", selected = "DDD.sim", 
+      #                 choices = "DDD.sim", multiple = TRUE) 
+      #   })
+      # }
+      
+      ## HACK FLO: To integrate as model 4
       
       if (!is.null(model_3)) {
         output$model3_selection <- renderUI({
-          selectInput(ns("variable_3"), label = "DDD", selected = "DDD.sim", 
-                      choices = "DDD.sim", multiple = TRUE) 
+          selectInput(ns("variable_3"), label = "ODM", selected = "ODM.sim", 
+                      choices = "ODM.sim", multiple = TRUE) 
         })
       }
       

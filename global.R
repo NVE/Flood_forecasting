@@ -51,9 +51,12 @@ hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
 
+load("data/update_time.RData")
+
 load("data/HBV_2014.RData")
 load("data/HBV_2016.RData")
 load("data/DDD.RData")
+load("data/ODM.RData")
 load("data/flomtabell.RData")
 load("data/HBV_past_year.RData")
 load("data/meta_data.rda")

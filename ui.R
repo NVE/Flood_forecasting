@@ -63,5 +63,10 @@ ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\
                             tabPanel(title = HTML("<a href=\"http://nve.github.io/Flood_forecasting/app.html#how_to_use_it\">Hvordan man bruker app?</a>")),
                             tabPanel(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\">Hvordan ble det programmert?</a>")),
                             tabPanel(title = HTML("<a href=\"http://nve.github.io/Flood_forecasting/process.html\">Om modeller</a>"))
+                 ),
+                 
+                 navbarMenu(paste("Last update: ",update_time), icon = icon("refresh"),
+                            tabPanel("Yesterday's report",
+                                     table_modUI("metadata_table2"))
                  )
 )
