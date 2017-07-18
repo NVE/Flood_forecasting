@@ -6,25 +6,16 @@
 #   sapply(pkg, library, character.only = TRUE)
 # }
 # 
-# # Special case for leaflet which comes from a fork of Rcura on my repo
-# packages <- c("leaflet")
-# if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-#   install.packages('devtools')
-#   library(devtools)
-#   install_github("fbaffie/leaflet")
-# }
 # 
-# packages <- c("shiny", "tidyverse", "sp", "plotly", "DT")
-# packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "shinyBS", "DT")
+# packages <- c("shiny", "tidyverse", "sp", "plotly", "DT", "leaflet.extras", "leaflet")
 # ipak(packages)
 # # sp: For the point.in.polygon function
-# # shinythemes? for chosing various bootstrap themes
+
+## Useful when installing packages on the linux server
+# chooseCRANmirror(ind=89)  
+# library('devtools', lib = "/usr/local/lib/R/site-library")  
 
 #####################################################################
-
-# chooseCRANmirror(ind=89)
-# library('devtools', lib = "/usr/local/lib/R/site-library")
-# install_github("fbaffie/leaflet")
 
 library(shiny)
 library(tidyverse)

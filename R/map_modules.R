@@ -14,7 +14,7 @@ mapModuleUI <- function(id, multiple_choice = FALSE) {
   # Create a namespace function using the provided id
   ns <- NS(id)
   fluidRow(
-    column(8, leafletOutput(ns("map")) ),
+    column(6, leafletOutput(ns("map")) ),
     column(4,
            selectInput(ns("station"), selected = station_nbname[1], 
                        label = "Velg stasjon", choices = station_nbname, multiple = multiple_choice)),
@@ -120,21 +120,7 @@ mapModule_polygonFeature <- function(input, output, session) {
   
   ns <- session$ns
   proxy <- leafletProxy(ns("map"), session) 
-  
-  
-  #   proxy <- addDrawToolbar(proxy,
-  #     layerID = "selectbox",
-  #     polyline = FALSE,
-  #     circle = FALSE,
-  #     marker = FALSE,
-  #     edit = TRUE,
-  #     polygon = TRUE,
-  #     rectangle = TRUE,
-  #     remove = TRUE,
-  #     singleLayer = FALSE)     %>%
-  #       addLayersControl(position = "bottomleft", overlayGroups = c("selectbox")) 
-  
-  
+
   ## Functions controling color and size of markers WILL NEED TO BE GENERALIZED WITH SINGLE STATION FUNCTION!
   radius_function <- TRUE
   
@@ -147,12 +133,11 @@ mapModule_polygonFeature <- function(input, output, session) {
   }
   if (radius_function) {
     my.radius.func <- function(x2plot) {
-      radius <- 4 * exp(x2plot * 2)
+      radius <- 3 * exp(x2plot * 2)
     }
   } else {
     my.radius.func <- function(x2plot) {
-      radius <- 4
-    }
+      radius <- 3    }
   }
   
   
@@ -185,6 +170,7 @@ mapModule_polygonFeature <- function(input, output, session) {
                    addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
                              title = "Verdien av farge markoer",
                              opacity = 1)
+                 
                  # Adding transparent markers with layerID = selected stations so that the map interactivity remains
                  # if (popups == FALSE) {
                  proxy <- addCircleMarkers(proxy, data = stations, lng = ~ longitude, lat = ~ latitude, 
@@ -366,72 +352,3 @@ mapModule_polygonFeatureUI <- function(id) {
     forecast_plot_modUI(ns("multi_station_plot"))
     )
 }
-
-
-#######################################################################################################################
-
-#' SUPERCEDED_mapModule_polygonFeature
-#' @description Shiny server module to map ...
-#' @param input 
-#' @param output 
-#' @param session 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-SUPERCEDED_mapModule_polygonFeature <- function(input, output, session) {
-  
-  # Get coordinates of the selected polygon
-  map_selection <- reactive(input$map_selectbox_features$features[[1]]$geometry$coordinates[[1]])
-  # Reactive parameters of the stations inside the polygon
-  selected_stations_indices <- reactive(which_station_in_polygon(stations, map_selection()))
-  selected_regine_main <-      reactive(stations$regine_main[selected_stations_indices()])
-  selected_name <-             reactive(stations$name[selected_stations_indices()])
-  selected_long <-             reactive(stations$long[selected_stations_indices()])
-  selected_lat <-              reactive(stations$lat[selected_stations_indices()])
-  
-  # Create map and update the color of the completed polygon to green
-  map <- reactive(multiple_station_map(stations, selected_regine_main(),
-                                       selected_name(), selected_long(), selected_lat()) %>% 
-                    addGeoJSON(input$map_selectbox_features, color="green"))
-  
-  output$map <- renderLeaflet( map()   ) 
-  
-  output$print_selection <- renderText({ paste("-", selected_regine_main()) })
-  
-  return(selected_regine_main)
-}
-
-
-#' SUPERCEDED_mapModule_polygonFeatureUI
-#' @description Shiny UI module to be used with "mapModule_polygonFeature" ...
-#' @param id 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-SUPERCEDED_mapModule_polygonFeatureUI <- function(id) {
-  # Create a namespace function using the provided id
-  ns <- NS(id)
-  
-  # fluidPage(
-  fluidRow(
-    
-    column(6, leafletOutput(ns("map")) ),
-    column(6,
-           wellPanel(h4('Select a group of stations with the map, using the polygon or rectangle tools')),
-           #              wellPanel(
-           #   selectInput(ns("model"), selected = "HBV_2014", 
-           #               label = "Choose a model", choices = c("HBV_2014", "HBV_2016", "DDD"))
-           #   ),
-           wellPanel(
-             h4('Selected stations'),    
-             verbatimTextOutput(ns("print_selection"))
-           )
-    ))
-}
-
-
-
