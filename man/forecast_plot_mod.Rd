@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_modules.R
 \name{forecast_plot_mod}
 \alias{forecast_plot_mod}
-\title{forecast_plot_mod}
+\title{Shiny server module for the single model and single station plot. Used in server.R}
 \usage{
 forecast_plot_mod(input, output, session, map_input, dat)
 }
@@ -18,6 +18,9 @@ forecast_plot_mod(input, output, session, map_input, dat)
 \item{dat}{}
 }
 \description{
-Shiny server module to plot ...
+Shiny server module for the single model and single station plot. Used in server.R
 }
-
+\examples{
+In server.R
+callModule(forecast_plot_mod,"forecast_plot_HBV_2014", input4plot_HBV_2014, HBV_2014)
+}

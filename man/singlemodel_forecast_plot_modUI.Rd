@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_modules.R
 \name{singlemodel_forecast_plot_modUI}
 \alias{singlemodel_forecast_plot_modUI}
-\title{singlemodel_forecast_plot_modUI}
+\title{Shiny UI module for the single model and single station plot. Used in server.R}
 \usage{
 singlemodel_forecast_plot_modUI(id)
 }
@@ -10,6 +10,11 @@ singlemodel_forecast_plot_modUI(id)
 \item{id}{}
 }
 \description{
-Shiny UI module to plot ...
+Shiny UI module for the single model and single station plot. Used in server.R
 }
-
+\examples{
+In UI.R
+tabPanel("HBV med +/- 50\% nedbør",
+mapModuleUI("map_HBV_2016"),
+singlemodel_forecast_plot_modUI("forecast_plot_HBV_2016")),
+}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/table_modules.R
 \name{table_modUI}
 \alias{table_modUI}
-\title{table_modUI}
+\title{Shiny UI module to be used with table_mod}
 \usage{
 table_modUI(id)
 }
@@ -12,4 +12,8 @@ table_modUI(id)
 \description{
 Shiny UI module to be used with table_mod
 }
-
+\examples{
+In UI.R
+tabPanel("Metadata",
+table_modUI("metadata_table")),
+}

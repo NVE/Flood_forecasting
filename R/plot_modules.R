@@ -1,7 +1,6 @@
 # This file contains all the plot modules developed for the Flomvarsling shiny app
 
-#' forecast_plot_mod
-#' @description Shiny server module to plot ...
+#' Shiny server module for the single model and single station plot. Used in server.R
 #' @param input 
 #' @param output 
 #' @param session 
@@ -13,25 +12,28 @@
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples In server.R
+#' callModule(forecast_plot_mod,"forecast_plot_HBV_2014", input4plot_HBV_2014, HBV_2014)
 forecast_plot_mod <- function(input, output, session, map_input, dat) {
   
-  subset2plot <- reactive(dplyr::filter(dat, nbname == map_input$station))  # input$station
-  subset_OBS <- reactive(dplyr::filter(OBS, nbname == map_input$station))  # input$station
+  subset2plot <- reactive(dplyr::filter(dat, nbname == map_input$station))
+  subset_OBS <- reactive(dplyr::filter(OBS, nbname == map_input$station))
   
   output$plot <- renderPlotly(forecast_plot(subset_OBS(), subset2plot())
   )
   
 }
 
-#' singlemodel_forecast_plot_modUI
-#' @description Shiny UI module to plot ...
+#' Shiny UI module for the single model and single station plot. Used in server.R
 #' @param id 
 #'
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples In UI.R
+#' tabPanel("HBV med +/- 50% nedbør",
+#' mapModuleUI("map_HBV_2016"),
+#' singlemodel_forecast_plot_modUI("forecast_plot_HBV_2016")),
 singlemodel_forecast_plot_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -41,14 +43,16 @@ singlemodel_forecast_plot_modUI <- function(id) {
   )
 }
 
-#' forecast_plot_modUI
-#' @description Shiny UI module to plot ...
+#' Shiny UI module for the multimodel and multistation plot. Used in UI.R and in "mapModule_polygonFeatureUI"
 #' @param id 
 #'
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples In UI.R
+#' tabPanel("Velg stasjoner med nedtrekksmeny", 
+#' mapModuleUI("multistation_map", multiple = TRUE),
+#' multimod_forecast_selection_modUI("multistation_plot"), forecast_plot_modUI("multistation_plot"))
 forecast_plot_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -60,42 +64,9 @@ forecast_plot_modUI <- function(id) {
 }
 
 
-#' forecast_plot_mod_shading
-#' @description Shiny server module to plot ...
-#' Same plot as forecast_plot_mod but without plotly to get the shading for the current day
-#' @param id 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-forecast_plot_mod_shading <- function(input, output, session, map_input, dat) {
-  
-  subset2plot <- reactive(dplyr::filter(dat, nbname == map_input$station))  # input$station
-  
-  output$plot <- renderPlot(forecast_plot_shading(subset2plot())
-  )
-  
-}
 
-#' forecast_plot_mod_shadingUI
-#' @description Shiny UI module to be used with "forecast_plot_mod_shading"
-#' @param id 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-forecast_plot_mod_shadingUI <- function(id) {
-  # Create a namespace function using the provided id
-  ns <- NS(id)
-  
-  fluidRow(plotOutput(ns("plot"), height = "800px")
-  )
-}
 
-#' multimod_forecast_plot_mod
-#' @description Shiny server module to do multi-model plots. Needs new parametrization!
+#' Shiny server module for the multimodel and multistation plot. Used in server.R and in "mapModule_polygonFeature"
 #' @param input 
 #' @param output 
 #' @param session 
@@ -109,7 +80,9 @@ forecast_plot_mod_shadingUI <- function(id) {
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples In server.R
+#'  input4multi_forecast_plot <- callModule(mapModule,"multistation_map")
+#'  callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, OBS, HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell)
 multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, model_1, model_2, model_3, model_4, return_levels = NULL) {
   
   ns <- session$ns
@@ -152,21 +125,20 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
           subset2plot_m2 <- dplyr::filter(model_2, nbname %in% map_input$station & Type == "Runoff" & Variable %in% input$variable_2) 
         })
     
-      # if (!is.null(model_3)) {
-      #   output$model3_selection <- renderUI({
-      #     selectInput(ns("variable_3"), label = "DDD", selected = "DDD.sim", 
-      #                 choices = "DDD.sim", multiple = TRUE) 
-      #   })
-      # }
-      
-      ## HACK FLO: To integrate as model 4
-      
       if (!is.null(model_3)) {
         output$model3_selection <- renderUI({
-          selectInput(ns("variable_3"), label = "ODM", selected = "ODM.sim", 
-                      choices = "ODM.sim", multiple = TRUE) 
+          selectInput(ns("variable_3"), label = "DDD", selected = "DDD.sim",
+                      choices = "DDD.sim", multiple = TRUE)
         })
       }
+      
+      ## HACK FLO: This way a quick way to integrate the ODM model. Needs more flexibility
+      # if (!is.null(model_3)) {
+      #   output$model3_selection <- renderUI({
+      #     selectInput(ns("variable_3"), label = "ODM", selected = "ODM.sim", 
+      #                 choices = "ODM.sim", multiple = TRUE) 
+      #   })
+      # }
       
       subset2plot_m3 <- eventReactive({ input$variable_3
         map_input$station},
@@ -206,13 +178,11 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
           subset2plot_rl <- dplyr::filter(return_levels, nbname %in% map_input$station & Type %in% input$type_rl) 
         })
     } else if ("Input" %in% input$type_choice) {
-      
-      # if (!is.null(model_1)) {
-        output$model1_selection <- renderUI({
+          
+          output$model1_selection <- renderUI({
           selectInput(ns("model1_selection"), label = "Input variabler", selected  = c("Precip", "Temp"),
                       choices = c("Precip", "Temp"), multiple = TRUE) 
         })
-      # }
       
       output$model2_selection <- renderUI({
         selectInput(ns("model2_selection"), label = "", selected  = "-",
@@ -247,16 +217,11 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
     
     } else {
     
-    
-    # else if ("State" %in% input$type_choice) {
-      
-      # if (!is.null(model_1)) {
-      output$model1_selection <- renderUI({
+        output$model1_selection <- renderUI({
         selectInput(ns("model1_selection"), label = "Tilstandsvariabler HBV_UM", selected  = "HBV.UM.Snow",
                     choices = "HBV.UM.Snow", multiple = TRUE) 
       })
-      # }
-      
+
       output$model2_selection <- renderUI({
         selectInput(ns("model2_selection"), label = "Tilstandsvariabler HBV_P", selected  = "HBV.P.Snow",
                     choices = "HBV.P.Snow", multiple = TRUE) 
@@ -306,18 +271,17 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
     
     output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_OBS(), subset2plot_m1(), subset2plot_m2(), 
                                                        subset2plot_m3(), subset2plot_m4(), subset2plot_rl()))
+    
     # Using renderUI to automatically increase plotting size when more stations are selected
     output$rendered_plot <- renderUI( plotlyOutput(ns("plot"), 
                                                    height = paste(400 * length(map_input$station), "px", sep ="")) ) 
-    
   })
-  
 }
 
 
 
-#' poly_multimod_forecast_plot_mod
-#' @description Shiny server module to do multi-model plots. Needs tidy up with previous function
+#' Shiny server module to do multi-model plots in the polygon tab (module "mapModule_polygonFeature"). 
+#' Needs tidying up with previous function
 #' @param input 
 #' @param output 
 #' @param session 
@@ -336,7 +300,9 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples In "mapModulePolygonFeature"
+#' callModule(poly_multimod_forecast_plot_mod, "multi_station_plot", as.character(selected_regine_main()), HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell,
+#' input$variable_1, input$variable_2, input$variable_3, input$variable_4, input$type_rl)
 poly_multimod_forecast_plot_mod <- function(input, output, session, selected_stations = NULL, model_1, model_2, model_3, model_4, 
                                        return_levels = NULL, variable_1, variable_2, variable_3, variable_4, type_rl) {
   
@@ -379,32 +345,17 @@ poly_multimod_forecast_plot_mod <- function(input, output, session, selected_sta
 }
 
 
-
-#' multimod_forecast_plot_modUI
-#' @description Shiny UI module to be used with multimod_forecast_plot
+#' Shiny UI module to allow swapping between input/state and runoff results in the first tab of the app. Used in UI.R
 #' @param id 
 #'
 #' @return
 #' @export
 #'
-#' @examples
-multimod_forecast_plot_modUI <- function(id) {
-  # Create a namespace function using the provided id
-  ns <- NS(id)
-  fluidRow(plotlyOutput(ns("plot"), height = "800px"
-  ))
-}
-
-
-
-#' multimod_forecast_selection_modUI
-#' @description Shiny UI module...
-#' @param id 
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#' @examples In UI.R
+#' tabPanel("Velg stasjoner med nedtrekksmeny", 
+#' mapModuleUI("multistation_map", multiple = TRUE),
+#' multimod_forecast_selection_modUI("multistation_plot"),
+#' forecast_plot_modUI("multistation_plot")),
 multimod_forecast_selection_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -419,193 +370,3 @@ multimod_forecast_selection_modUI <- function(id) {
     column(2, uiOutput(ns("return_levels")))
   )
 }
-
-
-
-
-############### FROM BYMAN
-
-
-#' taylor_mod
-#' @description This was an attempt to modularize Bymans functions. Server module. May not work...
-#' @param input 
-#' @param output 
-#' @param session 
-#' @param selected_stations 
-#' @param model_1 
-#' @param model_2 
-#' @param model_3 
-#' @param model_4 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-taylor_mod <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
-  
-  output$TDplot <- renderPlot({ 
-    mydat0<-subset(alldat, Catchment %in% input$catch)
-    # now add the model
-    taylor.diagram(mydat0[,3], mydat0[,4], pos.cor = TRUE, main = paste("Taylor Diagram for ", input$catch, sep = ""), 
-                   ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
-    
-    taylor.diagram(mydat0[,3], mydat0[,5],, add = TRUE, col = "grey", 
-                   pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
-    taylor.diagram(mydat0[,3], mydat0[,6],, add = TRUE, col = "blue", 
-                   pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
-    taylor.diagram(mydat0[,3], mydat0[,7],, add = TRUE, col = "brown", 
-                   pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
-    taylor.diagram(mydat0[,3], mydat0[,8],, add = TRUE, col = "green", 
-                   pos.cor = TRUE, ngamma = 6, sd.arcs = 3, ref.sd = TRUE, grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99))
-    
-    lpos<-1.4*sd(mydat0$Observed)
-    legend(lpos,lpos,legend=c("HBV", "NNET", "SVM","GBM","M5","M5c"),pch=19,col=c("red","grey","blue","brown","green","pink"))  
-  }) 
-  
-}
-
-#' taylor_modUI
-#' @description This was an attempt to modularize Bymans functions. UI module to be used with "taylor_mod". May not work...
-#' @param id 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-taylor_modUI <- function(id) {
-  # Create a namespace function using the provided id
-  ns <- NS(id)
-  
-  fluidRow(plotOutput(ns("plot_input"), height = "400px", width = "100%")
-  )
-}
-
-
-#' dygraph_mod
-#' @description This was an attempt to modularize Bymans functions. Server module. May not work...
-#' @param input 
-#' @param output 
-#' @param session 
-#' @param selected_stations 
-#' @param model_1 
-#' @param model_2 
-#' @param model_3 
-#' @param model_4 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-dygraph_mod <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
-  
-  output$mydygraph <- renderDygraph({
-    
-    alldat$myDate <- as.Date(alldat$myDate)
-    
-    dat1<-subset(alldat, Catchment %in% input$catch)
-    dat_cropped<-dat1[,-2]
-    dat2<-dat_cropped[complete.cases(dat_cropped),]
-    dat.z<-zoo(dat2[,2:8],dat2$myDate)
-    myts<-as.ts(dat.z)
-    dygraph(
-      myts#%>%dyRangeSelector()
-    )
-  })
-}
-
-#' dygraph_mod2
-#' @description This was an attempt to modularize Bymans functions. Server module. May not work...
-#' @param input 
-#' @param output 
-#' @param session 
-#' @param selected_stations 
-#' @param model_1 
-#' @param model_2 
-#' @param model_3 
-#' @param model_4 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-dygraph_mod2 <- function(input, output, session, selected_stations, model_1, model_2, model_3, model_4 = NULL) {
-  
-  output$mydygraph2 <- renderDygraph({
-    # start dygraph with all the states
-    dat3<-subset(alldat, Catchment %in% input$catch &  myDate > as.character(input$dateRange[1]) & myDate <as.character(input$dateRange[2]))
-    dat_cropped<-dat3[,-2]
-    #dat4<-dat3[complete.cases(dat3),]
-    dat.z1<-zoo(dat_cropped[,2:8],dat_cropped$myDate)
-    myts1<-as.ts(dat.z1)
-    dygraph(
-      myts1#%>%dyRangeSelector()
-    )
-  })
-}
-
-#' dygraph_modUI
-#' @description This was an attempt to modularize Bymans functions. UI module to be used with "dygraph_mod". May not work...
-#' @param id 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-dygraph_modUI <- function(id) {
-# Create a namespace function using the provided id
-  ns <- NS(id)
-  
-  fluidRow(dygraphOutput("mydygraph",height = 600)
-  )
-}
-
-#' mydygraphModule
-#' @description This was an attempt to modularize Bymans functions. Server module. May not work...
-#' @param input 
-#' @param output 
-#' @param session 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-mydygraphModule <- function(input, output, session) {
-  
-  output$module_graph <- renderDygraph({
-    
-    alldat$myDate <- as.Date(alldat$myDate)
-    
-    dat_module<-subset(alldat, Catchment %in% input$catchment)
-    
-    
-    dat_cropped<-dat_module[,-2]
-    dat2<-dat_cropped[complete.cases(dat_cropped),]
-    dat.z1<-zoo(dat2[,2:8],dat2$myDate)
-    
-    myts<-as.ts(dat.z1)
-    
-    dygraph(
-      myts#%>%dyRangeSelector()
-    )
-  })
-}
-
-
-#' mydygraphModuleUI
-#' @description This was an attempt to modularize Bymans functions. UI module to be used with "mydygraphModule". May not work...
-#' @param id 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-mydygraphModuleUI <- function(id) {
-  # Create a namespace function using the provided id
-  ns <- NS(id)
-  fluidRow(
-    selectInput(ns("catchment"), 'Catchment to analyse', as.character(unique(alldat$Catchment))),
-    dygraphOutput(ns("module_graph"),height = 600)
-  )
-}
-
-

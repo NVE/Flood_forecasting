@@ -1,15 +1,16 @@
 # This file contains all the mapping modules developed for the Flomvarsling shiny app
 # NOTE: eval(as.symbol(input$model)) transforms a string input into the corresponding data
 
-#' mapModuleUI
-#' @description Shiny UI module to be used with "mapModule" ...
+#' Shiny UI module to be used with the server module "mapModule"
 #' @param id 
 #' @param multiple_choice 
 #' @import leaflet
-#' @return
+#' @import shiny
+#' @return NULL This is a UI module which returns a map, a selection buttons: station name, map layer, catchment boundaries,
+#' pops ups for selected stations and a choice of color markers.
 #' @export
 #'
-#' @examples
+#' @examples See server.R and UI.R for its implementation into the shiny App
 mapModuleUI <- function(id, multiple_choice = FALSE) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -32,33 +33,33 @@ mapModuleUI <- function(id, multiple_choice = FALSE) {
            radioButtons(ns("variable"), selected = "Ingen", 
                         label = "Velg fargemarkoer", choices = c("Ingen", "Fare for flom", "Usikkerhet"))
     )
-    
   )
-  
 }
 
-#' mapModule
-#' @description Shiny server module to map ...
+#' Shiny server module to be used with the UI module "mapModuleUI"
 #' @param input 
 #' @param output 
 #' @param session 
 #'
-#' @return
+#' @return input This is a server module which returns the "input" from the selection buttonsto the UI module "mapModuleUI"
 #' @export
 #'
-#' @examples
+#' @examples See server.R and UI.R for its implementation into the shiny App
 mapModule <- function(input, output, session) {
   # stations is global but gets send to the mapping function so that this function can be used in other settings!
   
   selected_long <- reactive(stations$long[which(station_nbname %in% input$station)])
   selected_lat <-  reactive(stations$lat[which(station_nbname %in% input$station)])
   
-  output$map <- renderLeaflet({single_station_map(stations, input$station,
+  output$map <- renderLeaflet({station_map(stations, input$station,  # "station_map" is in mapping_functions.R
                                                   selected_long(),
-                                                  selected_lat(), variable2plot = input$variable, map_layer = input$map_layer, catchments = input$catchments, colored_markers = FALSE, popups = input$popups)})
+                                                  selected_lat(), variable2plot = input$variable, map_layer = input$map_layer, catchments = input$catchments, popups = input$popups)})
   
+  # The proxy enables modifying the map after having called the function "station_map"
+  # This is useful for adapting the map to user on/off selections
   ns <- session$ns
   proxy <- leafletProxy(ns("map"), session)  
+  
   
   # Interactivity of input between station selector and map
   observeEvent(input$map_marker_click, { # update the map markers and view on map clicks
@@ -68,10 +69,6 @@ mapModule <- function(input, output, session) {
                       label = "Velg stasjon", choices = station_nbname)
   })
   
-  #   observeEvent({ input$stations
-  #                  input$popups
-  #                  input$variable
-  #                  input$map_marker_click}, {
   observe({
     if (length(selected_long()) > 0 && input$popups == TRUE) {
       proxy %>% clearPopups()
@@ -97,50 +94,90 @@ mapModule <- function(input, output, session) {
       
     } else {proxy %>% clearPopups()}
   })
-  
-  
   return(input)
-  
 }
 
-#' mapModule_polygonFeature
-#' @description Shiny server module to map... TO tidy up with mapModule_polygonFeature
+#' Shiny UI module to be used with the server module "mapModule_polygonFeature"
+#' @param id 
+#'
+#' @return NULL This is a UI module which returns a map, a selection buttons: station name, map layer, catchment boundaries,
+#' pops ups for selected stations and a choice of color markers.
+#' @export
+#'
+#' @examples See server.R and UI.R for its implementation into the shiny App
+mapModule_polygonFeatureUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  
+  fluidPage(
+    fluidRow(
+      
+      column(6, leafletOutput(ns("map")) ),
+      column(6,
+             wellPanel(h4('Velg en gruppe av stasjoner med kartet, ved hjelp av polygon eller rektangel verktoey')),
+             wellPanel(
+               h4('Utvalgte stasjoner'),    
+               verbatimTextOutput(ns("print_selection"))
+             )),
+      column(3,
+             checkboxInput(ns("catchments"), "Vis nedboerfelt", FALSE)
+      ),
+      column(3,
+             checkboxInput(ns("popups"), "Pop-ups for valgte stasjoner", FALSE)
+      ),
+      
+      column(2,
+             radioButtons(ns("variable"), selected = "Ingen", 
+                          label = "Velg fargemarkoer", choices = c("Ingen", "Fare for flom", "Usikkerhet")))
+      
+    ),
+    fluidRow(
+      column(2,
+             selectInput(ns("variable_1"), label = "HBV med usikkerhetmodell", 
+                         choices = unique(filter(HBV_2014, Type == "Runoff")$Variable), selected  = c("HBV.UM.sim", "HBV.UM.korr", "Lo50", "Hi50"),
+                         multiple = TRUE) ),
+      column(2,
+             selectInput(ns("variable_2"), label = "HBV med +/- 50% nedboer", 
+                         choices = unique(filter(HBV_2016, Type == "Runoff")$Variable), selected  = c("HBV.P.sim", "HBV.P.korr", "P.p50"),
+                         multiple = TRUE) ),
+      column(2,  
+             selectInput(ns("variable_3"), label = "DDD", 
+                         choices = unique(filter(DDD, Type == "Runoff")$Variable), selected = c("DDD-Sim"),
+                         multiple = TRUE) ),
+      column(2,
+             selectInput(ns("variable_4"), label = "Simuleringer siste ar",
+                         choices = unique(filter(HBV_past_year, Type == "Runoff")$Variable), multiple = TRUE) ),
+      column(2,
+             selectInput(ns("type_rl"), label = "Gjentaksintervallgrunnlag", 
+                         choices = unique(filter(flomtabell)$Type), multiple = TRUE) )),
+    forecast_plot_modUI(ns("multi_station_plot"))
+  )
+}
+
+#' Shiny server module to be used with the UI module "mapModule_polygonFeatureUI"
 #' @param input 
 #' @param output 
 #' @param session 
 #'
-#' @return
+#' @return NULL This is a server module and could return "input" as with "mapModule", but I some problems implementing it in a similar way.
+#' So the plotting is integrated within this module with "poly_multimod_forecast_plot_mod" which makes things a bit confusing.
+#' This implementation could probably be simplified to resemble more "mapModule".
 #' @export
 #'
-#' @examples
+#' @examples See server.R and UI.R for its implementation into the shiny App
 mapModule_polygonFeature <- function(input, output, session) {
   # stations is global but gets send to the mapping function so that this function can be used in other settings!
   
-  output$map <- renderLeaflet( multiple_station_map(stations, single_poly = FALSE, variable2plot = input$variable, popups = input$popups) )
+  output$map <- renderLeaflet(multiple_station_map(stations, single_poly = FALSE, variable2plot = input$variable, popups = input$popups))
   
   ns <- session$ns
   proxy <- leafletProxy(ns("map"), session) 
 
-  ## Functions controling color and size of markers WILL NEED TO BE GENERALIZED WITH SINGLE STATION FUNCTION!
-  radius_function <- TRUE
-  
+  ## my.colors to be used with my.color.func in the mapping code
   my.colors <- c("blue", "green", "yellow", "orange", "red", "black")
   
-  my.color.func <- function(x2plot, my.colors) {
-    color.bins <- c(0, 1/3, 2/3, 1, 4/3, 5/3)
-    color <- my.colors[trunc(x2plot * 3) + 2]
-    invisible(color)
-  }
-  if (radius_function) {
-    my.radius.func <- function(x2plot) {
-      radius <- 3 * exp(x2plot * 2)
-    }
-  } else {
-    my.radius.func <- function(x2plot) {
-      radius <- 3    }
-  }
-  
-  
+  radius_function <- TRUE
+
   observeEvent(input$variable, {
   
                if (input$variable == "Fare for flom") {
@@ -154,7 +191,7 @@ mapModule_polygonFeature <- function(input, output, session) {
                    clearMarkers() %>%
                    # removeMarker(layerId = c("uncertainty1", "uncertainty2")) %>%
                    addCircleMarkers(data = OK_stations, lng = ~ longitude, lat = ~ latitude, 
-                                    radius = ~my.radius.func(OK_stations$flood_warning), 
+                                    radius = ~my.radius.func(OK_stations$flood_warning, radius_function), 
                                     color = ~my.color.func(OK_stations$flood_warning, my.colors), 
                                     stroke = FALSE, fillOpacity = 1,
                                     group = "Warning ratio available"
@@ -167,7 +204,7 @@ mapModule_polygonFeature <- function(input, output, session) {
                                     group = "No warning ratio"
                                     # layerId = "flood_warning2"
                    ) %>%
-                   addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
+                   addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "> 4/3"),
                              title = "Verdien av farge markoer",
                              opacity = 1)
                  
@@ -175,7 +212,7 @@ mapModule_polygonFeature <- function(input, output, session) {
                  # if (popups == FALSE) {
                  proxy <- addCircleMarkers(proxy, data = stations, lng = ~ longitude, lat = ~ latitude, 
                                          popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$flood_warning,2), sep = " "), 
-                                         radius = ~my.radius.func(OK_stations$flood_warning), 
+                                         radius = ~my.radius.func(OK_stations$flood_warning, radius_function), 
                                          color = "white", weight = 0, stroke = TRUE,
                                          fillOpacity = 0, fillColor = "white",
                                          # group = "Selectable stations",
@@ -193,7 +230,7 @@ mapModule_polygonFeature <- function(input, output, session) {
                    clearMarkers() %>%
                    # removeMarker(layerId = c("flood_warning1", "flood_warning2")) %>%
                    addCircleMarkers(data = OK_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
-                                    radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
+                                    radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty), radius_function), 
                                     color = ~my.color.func(OK_stations_uncertainty$uncertainty, my.colors), 
                                     stroke = FALSE, fillOpacity = 1,
                                     group = "Uncertainty of HBV_2014"
@@ -206,14 +243,14 @@ mapModule_polygonFeature <- function(input, output, session) {
                                     group = "No uncertainty figure"
                                     # layerId = "uncertainty1"
                    ) %>%
-                   addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "4/3-5/3"),
+                   addLegend(position = "bottomright", colors = my.colors, labels = c("NA", "0-1/3", "1/3-2/3", "2/3-1", "1-4/3", "> 4/3"),
                              title = "Verdien av farge markoer",
                              opacity = 1)
                  
                  # if (popups == FALSE) {
                  proxy <- addCircleMarkers(proxy, data = stations, lng = ~ longitude, lat = ~ latitude, 
                                          popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations_uncertainty$uncertainty,2), sep = " "), 
-                                         radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty) ), 
+                                         radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty), radius_function), 
                                          color = "white", weight = 0, stroke = TRUE,
                                          fillOpacity = 0, fillColor = "white",
                                          # group = "Selectable stations",
@@ -236,7 +273,7 @@ mapModule_polygonFeature <- function(input, output, session) {
   
 
   # Check which stations are inside the polygon
-  selected_stations_indices <- reactive(which_station_in_polygon(stations, input$map_draw_all_features$features)) #input$map_selectbox_features$features
+  selected_stations_indices <- reactive(which_station_in_polygon(stations, input$map_draw_all_features$features))
   selected_regine_main <- reactive(stations$regine_main[selected_stations_indices()])
   selected_name <- reactive(stations$name[selected_stations_indices()])
   selected_long <- reactive(stations$long[selected_stations_indices()])
@@ -294,61 +331,4 @@ Du kan slette dem for a endre ditt valg." })
     else {proxy %>% clearPopups()}
   })
   
-}
-
-#' mapModule_polygonFeatureUI
-#' @description Shiny UI module to be used with "mapModule_polygonFeature"
-#' @param id 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-mapModule_polygonFeatureUI <- function(id) {
-  # Create a namespace function using the provided id
-  ns <- NS(id)
-  
-  fluidPage(
-    fluidRow(
-      
-      column(6, leafletOutput(ns("map")) ),
-      column(6,
-             wellPanel(h4('Velg en gruppe av stasjoner med kartet, ved hjelp av polygon eller rektangel verktoey')),
-             wellPanel(
-               h4('Utvalgte stasjoner'),    
-               verbatimTextOutput(ns("print_selection"))
-             )),
-      column(3,
-             checkboxInput(ns("catchments"), "Vis nedboerfelt", FALSE)
-      ),
-      column(3,
-             checkboxInput(ns("popups"), "Pop-ups for valgte stasjoner", FALSE)
-      ),
-      
-      column(2,
-             radioButtons(ns("variable"), selected = "Ingen", 
-                          label = "Velg fargemarkoer", choices = c("Ingen", "Fare for flom", "Usikkerhet")))
-      
-             ),
-    fluidRow(
-      column(2,
-             selectInput(ns("variable_1"), label = "HBV med usikkerhetmodell", 
-                         choices = unique(filter(HBV_2014, Type == "Runoff")$Variable), selected  = c("HBV.UM.sim", "HBV.UM.korr", "Lo50", "Hi50"),
-                         multiple = TRUE) ),
-      column(2,
-             selectInput(ns("variable_2"), label = "HBV med +/- 50% nedboer", 
-                         choices = unique(filter(HBV_2016, Type == "Runoff")$Variable), selected  = c("HBV.P.sim", "HBV.P.korr", "P.p50"),
-                         multiple = TRUE) ),
-      column(2,  
-             selectInput(ns("variable_3"), label = "DDD", 
-                         choices = unique(filter(DDD, Type == "Runoff")$Variable), selected = c("DDD-Sim"),
-                         multiple = TRUE) ),
-      column(2,
-             selectInput(ns("variable_4"), label = "Simuleringer siste ar",
-                         choices = unique(filter(HBV_past_year, Type == "Runoff")$Variable), multiple = TRUE) ),
-      column(2,
-             selectInput(ns("type_rl"), label = "Gjentaksintervallgrunnlag", 
-                       choices = unique(filter(flomtabell)$Type), multiple = TRUE) )),
-    forecast_plot_modUI(ns("multi_station_plot"))
-    )
 }

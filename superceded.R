@@ -1,3 +1,83 @@
+#' multimod_forecast_plot_modUI
+#' @description PROBABLY NOT USEFUL ANYMORE
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+multimod_forecast_plot_modUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  fluidRow(plotlyOutput(ns("plot"), height = "800px"
+  ))
+}
+
+
+
+#' forecast_plot_shading
+#' @description This function only produces "static" ggplot for the moment, but I need to find a way to do the shading with plotly.
+#' It is not used by the shiny app anymore
+#' @param dat 
+#' 
+#' @return
+#' @export
+#'
+#' @examples
+forecast_plot_shading <- function(dat) {
+  
+  dat$time <- as.Date(dat$time)
+  #Shading for current day
+  today <- Sys.Date()
+  current_day <- data.frame(start = as.Date(today), end = as.Date(today + 1) )
+  
+  d <- ggplot() +
+    geom_line(data = dat, aes(x = time, y = Values, col = Variable), size = 1) +
+    geom_rect(data=current_day, aes(xmin=start, xmax=end, ymin=-Inf, ymax=Inf), fill='pink', alpha=0.2) +
+    facet_grid(Type ~ ., scales="free_y") +
+    theme_bw() + 
+    scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
+  
+  return(d)
+  
+}
+
+
+#' forecast_plot_mod_shading
+#' @description Shiny server module to plot ...
+#' Same plot as forecast_plot_mod but without plotly to get the shading for the current day
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+forecast_plot_mod_shading <- function(input, output, session, map_input, dat) {
+  
+  subset2plot <- reactive(dplyr::filter(dat, nbname == map_input$station))  # input$station
+  
+  output$plot <- renderPlot(forecast_plot_shading(subset2plot())
+  )
+  
+}
+
+#' forecast_plot_mod_shadingUI
+#' @description Shiny UI module to be used with "forecast_plot_mod_shading"
+#' @param id 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+forecast_plot_mod_shadingUI <- function(id) {
+  # Create a namespace function using the provided id
+  ns <- NS(id)
+  
+  fluidRow(plotOutput(ns("plot"), height = "800px")
+  )
+}
+
+
 #' multimod_forecast_plot_EXP
 #' @description Shiny server module to do multi-model plots. Needs tidy up with other functions...
 #' @param input 
