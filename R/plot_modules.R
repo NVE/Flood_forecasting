@@ -83,7 +83,7 @@ forecast_plot_modUI <- function(id) {
 #' @examples In server.R
 #'  input4multi_forecast_plot <- callModule(mapModule,"multistation_map")
 #'  callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, OBS, HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell)
-multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, model_1, model_2, model_3, model_4, return_levels = NULL) {
+multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, model_1, model_2, model_3, model_4, model_5, return_levels = NULL) {
   
   ns <- session$ns
 
@@ -132,15 +132,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
         })
       }
       
-      ## HACK FLO: This way a quick way to integrate the ODM model. Needs more flexibility
-      # if (!is.null(model_3)) {
-      #   output$model3_selection <- renderUI({
-      #     selectInput(ns("variable_3"), label = "ODM", selected = "ODM.sim", 
-      #                 choices = "ODM.sim", multiple = TRUE) 
-      #   })
-      # }
-      
-      subset2plot_m3 <- eventReactive({ input$variable_3
+      subset2plot_m3<- eventReactive({ input$variable_3
         map_input$station},
         if (is.null(input$variable_3)) {
           subset2plot_m3 <- NULL
@@ -148,20 +140,39 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
           subset2plot_m3 <- dplyr::filter(model_3, nbname %in% map_input$station & Type == "Runoff" & Variable %in% input$variable_3) 
         })
       
+      ## HACK FLO: This way a quick way to integrate the ODM model. Needs more flexibility
       if (!is.null(model_4)) {
         output$model4_selection <- renderUI({
-          selectInput(ns("variable_4"), label = "Simuleringer siste ar", 
-                      choices = unique(filter(model_4, Type == "Runoff")$Variable), multiple = TRUE) 
+          selectInput(ns("variable_4"), label = "ODM", selected = "ODM.sim",
+                      choices = "ODM.sim", multiple = TRUE)
         })
       }
       
       subset2plot_m4 <- eventReactive({ input$variable_4
         map_input$station},
-        if (is.null(input$variable_4)) {
+        if (is.null(input$variable_3)) {
           subset2plot_m4 <- NULL
         } else {
-          subset2plot_m4 <- dplyr::filter(model_4, nbname %in% map_input$station & Type == "Runoff" & Variable %in% input$variable_4)
+          subset2plot_m4 <- dplyr::filter(model_4, nbname %in% map_input$station & Type == "Runoff" & Variable %in% input$variable_4) 
         })
+      ## ODM ENDS
+      
+      if (!is.null(model_5)) {
+        output$model5_selection <- renderUI({
+          selectInput(ns("variable_5"), label = "Simuleringer siste ar", 
+                      choices = unique(filter(model_5, Type == "Runoff")$Variable), multiple = TRUE) 
+        })
+      }
+      
+      subset2plot_m5 <- eventReactive({ input$variable_5
+        map_input$station},
+        if (is.null(input$variable_5)) {
+          subset2plot_m5 <- NULL
+        } else {
+          subset2plot_m5 <- dplyr::filter(model_5, nbname %in% map_input$station & Type == "Runoff" & Variable %in% input$variable_5)
+        })
+      
+      
       
       if (!is.null(return_levels)) {
         output$return_levels <- renderUI({
@@ -194,6 +205,10 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
       })
       output$model4_selection <- renderUI({
         selectInput(ns("model4_selection"), label = "", selected  = "-",
+                    choices = "-") 
+      })
+      output$model5_selection <- renderUI({
+        selectInput(ns("model5_selection"), label = "", selected  = "-",
                     choices = "-") 
       })
       output$return_levels <- renderUI({
@@ -234,6 +249,10 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
         selectInput(ns("model4_selection"), label = "", selected  = "-",
                     choices = "-") 
       })
+      output$model5_selection <- renderUI({
+        selectInput(ns("model5_selection"), label = "", selected  = "-",
+                    choices = "-") 
+      })
       output$return_levels <- renderUI({
         selectInput(ns("return_levels"), label = "", selected  = "-",
                     choices = "-") 
@@ -270,7 +289,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
     }
     
     output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_OBS(), subset2plot_m1(), subset2plot_m2(), 
-                                                       subset2plot_m3(), subset2plot_m4(), subset2plot_rl()))
+                                                       subset2plot_m3(), subset2plot_m4(), subset2plot_m5(), subset2plot_rl()))
     
     # Using renderUI to automatically increase plotting size when more stations are selected
     output$rendered_plot <- renderUI( plotlyOutput(ns("plot"), 
@@ -367,6 +386,7 @@ multimod_forecast_selection_modUI <- function(id) {
     column(2, uiOutput(ns("model2_selection"))),
     column(2, uiOutput(ns("model3_selection"))),
     column(2, uiOutput(ns("model4_selection"))),
+    column(2, uiOutput(ns("model5_selection"))),
     column(2, uiOutput(ns("return_levels")))
   )
 }

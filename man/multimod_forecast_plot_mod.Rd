@@ -32,5 +32,5 @@ Shiny server module for the multimodel and multistation plot. Used in server.R a
 \examples{
 In server.R
  input4multi_forecast_plot <- callModule(mapModule,"multistation_map")
- callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, OBS, HBV_2014, HBV_2016, ODM, HBV_past_year, flomtabell) ## HACK FLO REPLACED DDD BY ODM
+ callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, OBS, HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell)
 }

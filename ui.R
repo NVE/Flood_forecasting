@@ -27,6 +27,10 @@ ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\
                             tabPanel("DDD",
                                      mapModuleUI("map_DDD"),
                                      singlemodel_forecast_plot_modUI("forecast_plot_DDD")
+                            ),
+                            tabPanel("ODM",
+                                     mapModuleUI("map_ODM"),
+                                     singlemodel_forecast_plot_modUI("forecast_plot_ODM")
                             )
                  ),
                  navbarMenu("Tabeller", icon = icon("globe"),
@@ -44,6 +48,9 @@ ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\
                             ),
                             tabPanel("DDD",
                                      table_modUI("DDD_table")
+                            ),
+                            tabPanel("ODM",
+                                     table_modUI("ODM_table")
                             )
                  ),
                  navbarMenu("Historikk", icon = icon("history"),

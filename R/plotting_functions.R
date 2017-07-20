@@ -21,6 +21,7 @@ forecast_plot <- function(OBS, dat) {
                "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue4", "P.m50" = "blue", "P.p50" = "blue",
                "HBV.P.Snow" = "blue4",
                "DDD.sim" = "orange",
+               "ODM.sim" = "red",
                "DDD.Snow" = "purple4", "DDD.GW" = "sienna", "DDD.Soil" = "green",
                "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
                "HBV.UM.sim.med.obsMet" = "cyan3",
@@ -36,6 +37,7 @@ forecast_plot <- function(OBS, dat) {
                "HBV.P.Snow" = "dotted",
                "DDD.sim" = "solid",
                "DDD.Snow" = "solid", "DDD.GW" = "solid", "DDD.Soil" = "solid",
+               "ODM.sim" = "solid",
                "mean" = "dotdash", "5Y" = "dotdash", "50Y" = "dotdash",
                "HBV.UM.sim.med.obsMet" = "dotted",
                "Temp" = "solid", "Precip" = "solid"
@@ -88,7 +90,7 @@ forecast_plot <- function(OBS, dat) {
 #' @examples In multimod_forecast_plot_mod
 #' output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_OBS(), subset2plot_m1(), subset2plot_m2(), 
 #' subset2plot_m3(), subset2plot_m4(), subset2plot_rl()))
-multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, return_levels = NULL, gg_plot = FALSE) {
+multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, dat_5 = NULL, return_levels = NULL, gg_plot = FALSE) {
   
   ## NOTE: ODM will have the same line as DDD with the following code
   d <- ggplot() + scale_colour_manual(
@@ -98,7 +100,7 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
                "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue4", "P.m50" = "blue", "P.p50" = "blue",
                "HBV.P.Snow" = "blue4",
                "DDD.sim" = "orange",
-               "ODM.sim" = "orange",
+               "ODM.sim" = "red",
                "DDD.Snow" = "purple4", "DDD.GW" = "sienna", "DDD.Soil" = "green",
                "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
                "HBV.UM.sim.med.obsMet" = "cyan3",
@@ -153,6 +155,12 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
   if (is.null(dat_4) == FALSE && is.data.frame(dat_4) && nrow(dat_4) > 0) {
     dat_4$time <- as.Date(dat_4$time)
     d <- d + geom_line(data = dat_4, aes(x = time, y = Values, col = Variable, linetype = Variable))
+    p <- 1
+  }
+  
+  if (is.null(dat_5) == FALSE && is.data.frame(dat_5) && nrow(dat_5) > 0) {
+    dat_5$time <- as.Date(dat_5$time)
+    d <- d + geom_line(data = dat_5, aes(x = time, y = Values, col = Variable, linetype = Variable))
     p <- 1
   }
   

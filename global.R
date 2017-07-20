@@ -30,7 +30,8 @@ library(rmarkdown)
 if (names(dev.cur()) != "null device") dev.off()
 pdf(NULL)
 
-## My modules: either load package or source modules from this directory
+## My modules: either load package or source modules from this directory. 
+## Note that the package version of those app functions is not finished for operational use. Only for documnetation purposes
 source('R/map_modules.R')
 source('R/table_modules.R')
 source('R/plot_modules.R')
