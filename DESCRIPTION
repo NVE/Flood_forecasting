@@ -13,6 +13,7 @@ LazyData: TRUE
 RoxygenNote: 6.0.1
 Imports:
   leaflet,
+  leaflet.extras
   tidyverse
 Suggests:
   testthat,

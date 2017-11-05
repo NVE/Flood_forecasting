@@ -65,7 +65,7 @@ ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\
                             tabPanel(title = HTML("<a href=\"http://nve.github.io/Flood_forecasting/process.html\">Om modeller</a>"))
                  ),
                  
-                 navbarMenu(paste("Last update: ",update_time), icon = icon("refresh")
+                 navbarMenu(paste("Last update: ", update_time), icon = icon("refresh")
                             ## We could consider adding a summary of past forecasts under this navbarMenu. Maybe with previously saved rmarkdown reports
                             # ,
                             # tabPanel("Yesterday's report")
