@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 NVE is in charge of the national flood management system that includes a flood warning service. Hydrological catchment models have been used operationally for this purpose on a regular basis since 1989, and constitutes an essential part of the flood forecaster’s decision support tool. The models are integrated units in an operational system that makes updated meteorological data from the Meteorological Institute, i.e. observations and weather forecasts, available and, subsequently, carries out new model runs. Updated hydrological forecasts are, at present, made four times a day, see table 1. The system provides hydrological forecasts up to nine days in advance. 
 
-*Table 1: Operational scheme for the hydrological models* ![](images/operasjonell_kjøring.JPG)
+*Table 1: Operational scheme for the hydrological models* ![](images/operasjonell_kjoering.JPG)
 
 The aim of the flood forecasting service is to gain time for preparedness measures before flood events strike. Model simulations and -forecasts have, however, a more widespread application. Weekly aggregates of daily climate, runoff and snow storage forecasts are used operationally to estimate energy inflow to reservoirs for hydropower production. Simulated energy inflow is, in turn, used to update the Samkjøringsmodellen (Power Market Simulator) for simulating the hydropower system. Moreover, once a week, an extended ensemble forecast is applied to the models, providing season scenarios for snow storage and –melt, sub-surface water content and runoff.
 
