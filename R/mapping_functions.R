@@ -262,6 +262,7 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
       map <- addDrawToolbar(map,
                             # targetLayerId = "draw",
                             targetGroup='draw',
+                            circleOptions = FALSE,
                             editOptions = editToolbarOptions(selectedPathOptions = selectedPathOptions()),
                             singleFeature = FALSE)  %>%
         

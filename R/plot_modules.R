@@ -228,6 +228,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
       subset2plot_m2 <- reactive(NULL)
       subset2plot_m3 <- reactive(NULL)
       subset2plot_m4 <- reactive(NULL)
+      subset2plot_m5 <- reactive(NULL)
       subset2plot_rl <- reactive(NULL)
     
     } else {
@@ -284,6 +285,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
       
       subset2plot_OBS <- reactive(NULL)
       subset2plot_m4 <- reactive(NULL)
+      subset2plot_m5 <- reactive(NULL)
       subset2plot_rl <- reactive(NULL)
       
     }
