@@ -144,7 +144,7 @@ map <- leaflet() %>% setView(13, 64, zoom = 5)
     # Adding transparent markers with layerID = selected stations so that the map interactivity remains
     if (popups == FALSE) {
       map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                              popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$flood_warning,2), sep = " "), 
+                              popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$flood_warning,2), sep = " "),
                               radius = ~my.radius.func(OK_stations$flood_warning, radius_function), 
                               color = "white", weight = 0, stroke = TRUE,
                               fillOpacity = 0, fillColor = "white",
