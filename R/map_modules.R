@@ -159,7 +159,7 @@ mapModule_polygonFeatureUI <- function(id) {
 #' @param output 
 #' @param session 
 #'
-#' @return NULL This is a server module and could return "input" as with "mapModule", but I some problems implementing it in a similar way.
+#' @return NULL This is a server module and could return "input" as with "mapModule", but I had some problems implementing it in a similar way.
 #' So the plotting is integrated within this module with "poly_multimod_forecast_plot_mod" which makes things a bit confusing.
 #' This implementation could probably be simplified to resemble more "mapModule".
 #' @export

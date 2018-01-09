@@ -228,6 +228,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
       subset2plot_m2 <- reactive(NULL)
       subset2plot_m3 <- reactive(NULL)
       subset2plot_m4 <- reactive(NULL)
+      subset2plot_m5 <- reactive(NULL)
       subset2plot_rl <- reactive(NULL)
     
     } else {
@@ -284,6 +285,7 @@ multimod_forecast_plot_mod <- function(input, output, session, map_input, OBS, m
       
       subset2plot_OBS <- reactive(NULL)
       subset2plot_m4 <- reactive(NULL)
+      subset2plot_m5 <- reactive(NULL)
       subset2plot_rl <- reactive(NULL)
       
     }
@@ -358,7 +360,7 @@ poly_multimod_forecast_plot_mod <- function(input, output, session, selected_sta
       subset2plot_rl <- dplyr::filter(return_levels, regine.main %in% selected_stations & Type %in% type_rl) 
     }
   }
-  output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_OBS, subset2plot_m1, subset2plot_m2, subset2plot_m3, subset2plot_m4, subset2plot_rl))
+  output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_OBS, subset2plot_m1, subset2plot_m2, subset2plot_m3, subset2plot_m4, return_levels = subset2plot_rl))
   output$rendered_plot <- renderUI( plotlyOutput(ns("plot"), 
                                                  height = paste(400 * length(selected_stations), "px", sep ="")) ) 
 }

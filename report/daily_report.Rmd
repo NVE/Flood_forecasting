@@ -32,7 +32,7 @@ Below are some maps summarizing the current flooding situation as well as floodi
 The map below plots for each flood forecasting station, the ratio of current discharge by the mean annual flood
 
 ```{r single_station_map, fig.cap='Map of Norway with all stations used for flood forecasting',}
-single_station_map(stations, selected_nbname = "2.11-narsjo")
+station_map(stations, selected_nbname = "2.11-narsjo")
 ```
 
 ## Flood warning ratio
