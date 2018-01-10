@@ -211,8 +211,8 @@ mapModule_polygonFeature <- function(input, output, session) {
                  # Adding transparent markers with layerID = selected stations so that the map interactivity remains
                  # if (popups == FALSE) {
                  proxy <- addCircleMarkers(proxy, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                                         popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$flood_warning,2), sep = " "), 
-                                         radius = ~my.radius.func(OK_stations$flood_warning, radius_function), 
+                                         popup = paste(as.character(stations$nbname), "Ratio:", round(stations$flood_warning,2), sep = " "), 
+                                         radius = ~my.radius.func(stations$flood_warning, radius_function), 
                                          color = "white", weight = 0, stroke = TRUE,
                                          fillOpacity = 0, fillColor = "white",
                                          # group = "Selectable stations",
@@ -228,8 +228,9 @@ mapModule_polygonFeature <- function(input, output, session) {
                  proxy <- proxy %>%
                    clearControls() %>%
                    clearMarkers() %>%
-                   # removeMarker(layerId = c("flood_warning1", "flood_warning2")) %>%
+                   # removeMarker(layerId = c("flood_warning1", "flood_warning2")) %>% 
                    addCircleMarkers(data = OK_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
+                                    popup = paste(as.character(OK_stations_uncertainty$nbname), "Ratio:", round(OK_stations_uncertainty$uncertainty,2), sep = " "),
                                     radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty), radius_function), 
                                     color = ~my.color.func(OK_stations_uncertainty$uncertainty, my.colors), 
                                     stroke = FALSE, fillOpacity = 1,
@@ -249,8 +250,8 @@ mapModule_polygonFeature <- function(input, output, session) {
                  
                  # if (popups == FALSE) {
                  proxy <- addCircleMarkers(proxy, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                                         popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations_uncertainty$uncertainty,2), sep = " "), 
-                                         radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty), radius_function), 
+                                         popup = paste(as.character(stations$nbname), "Ratio:", round(stations$uncertainty,2), sep = " "), 
+                                         radius = ~my.radius.func(stations$uncertainty / max(stations$uncertainty), radius_function), 
                                          color = "white", weight = 0, stroke = TRUE,
                                          fillOpacity = 0, fillColor = "white",
                                          # group = "Selectable stations",
