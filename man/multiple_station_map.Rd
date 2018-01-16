@@ -2,7 +2,7 @@
 % Please edit documentation in R/mapping_functions.R
 \name{multiple_station_map}
 \alias{multiple_station_map}
-\title{multiple_station_map}
+\title{Mapping function used by the server module "mapModule_polygonFeature"}
 \usage{
 multiple_station_map(stations, selected_regine_main = NULL,
   selected_name = NULL, selected_long = NULL, selected_lat = NULL,
@@ -10,7 +10,8 @@ multiple_station_map(stations, selected_regine_main = NULL,
   popups = FALSE)
 }
 \arguments{
-\item{stations}{}
+\item{stations}{It is a global variable in the Shiny App but is included here as a parameter for general use. 
+See global.R for the data preparation}
 
 \item{selected_regine_main}{}
 
@@ -28,7 +29,13 @@ multiple_station_map(stations, selected_regine_main = NULL,
 
 \item{popups}{}
 }
-\description{
-mapping function
+\value{
+map Returns a leaflet map to the "mapModule_polygonFeature" server module
 }
-
+\description{
+Mapping function used by the server module "mapModule_polygonFeature"
+}
+\examples{
+See use in the "mapModule_polygonFeature" module
+output$map <- renderLeaflet(multiple_station_map(stations, single_poly = FALSE, variable2plot = input$variable, popups = input$popups))
+}

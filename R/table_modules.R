@@ -1,14 +1,13 @@
-# library(DT)
 
-
-#' table_modUI
-#' @description Shiny UI module to be used with table_mod
+#' Shiny UI module to be used with table_mod
 #' @param id 
 #' @importFrom DT dataTableOutput
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples In UI.R
+#' tabPanel("Metadata",
+#' table_modUI("metadata_table")),
 table_modUI <- function(id) {
   # Create a namespace function using the provided id
   ns <- NS(id)
@@ -17,8 +16,7 @@ table_modUI <- function(id) {
 }
 
 
-#' table_mod
-#' @description Shiny server module to render data tables
+#' Shiny server module to render data tables
 #' @param input 
 #' @param output 
 #' @param session 

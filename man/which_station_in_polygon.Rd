@@ -2,16 +2,20 @@
 % Please edit documentation in R/mapping_functions.R
 \name{which_station_in_polygon}
 \alias{which_station_in_polygon}
-\title{which_station_in_polygon}
+\title{Sub-function use to find which stations are in the polygon the user has drawn}
 \usage{
 which_station_in_polygon(stations, map_selection)
 }
 \arguments{
-\item{stations}{}
+\item{stations}{It is a global variable in the Shiny App but is included here as a parameter for general use. 
+See global.R for the data preparation}
 
 \item{map_selection}{}
 }
 \description{
 Sub-function use to find which stations are in the polygon the user has drawn
 }
-
+\examples{
+As used in the "mapModule_polygonFeature" server module:
+selected_stations_indices <- reactive(which_station_in_polygon(stations, input$map_draw_all_features$features))
+}

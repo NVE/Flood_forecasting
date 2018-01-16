@@ -11,6 +11,8 @@ r_packages:
 
 r_github_packages:
   - hafen/packagedocs
+  - rstudio/leaflet
+  - bhaskarvk/leaflet.extras
 
 env:
   global:

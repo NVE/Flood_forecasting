@@ -28,7 +28,7 @@ This R application was developed to complement xgeo and serve as a prototyping p
 
 After installing the `shiny` R package, you can run this application from anywhere with the following commands:
 `library(shiny)`
-`runGitHub("NVE/Flood_forecasting", ref = "docsite_with_rmd")`
+`runGitHub("NVE/Flood_forecasting")`
 Note that the .RData files read by the app will probably be out-of-date. 
 Our aim is to have them updated automatically every day.
 
@@ -129,8 +129,31 @@ Below is an annotated screenshot of one of the available table tabs, presenting 
 
 You can filter collumns like you would do with the excel filter. At the upper right, you can also search for specific terms in the whole table.
 
+# Contributing
 
-# How to modify it or develop it further?
+## Improving the documentation
+
+This documentation website is a work-in-progress. It is build automatically by travis-ci from Rmd files located in the /report directory. An automatic report (also based on RStudio's Rmarkdown) is being tested but is not updated everyday yet.
+
+If you want to contribute to this documentation website, either send me your contribution in mardown format by email, do a formal pull request to this repository, or ask to be added as collaborator to this project.
+
+## Filing bugs or ideas for new/better features
+
+If you find a bug, thanks for reporting! First press the `refresh` button and try again. If this solves your problem, the previous bug may have been cause by a specific clicking sequence. Try to remember the sequence (or better re-create it!) and file your issue [there](https://github.com/NVE/Flood_forecasting/issues) following the guidelines below:
+
+One issue for one purpose. Don't add more than one bug, feature request, documentation request, question, etc.. on to the same issue.
+
+- For a bug report, please add `[bug]` in the header and don't forget to describe the environment (where, which clicking sequence...) of the bug as precisely as possible.
+
+- If you've a request of some kind, e.g., feature request or documentation request, it'd be much appreciated if you could add `[Request]` at the beginning of the title. This helps us to prioritise easily without having to go through the entire issue. Don't forget to read our already listed [ideas for further development](#ideas_for_further_development) before submitting new requests!
+
+- If you need support, e.g., installation issues or upgrade issues, please add `[Support]` at the beginning of the title. This helps us to easily identify the most common support issues, and provide solutions in a separate page.
+
+- If you have a general question, add `[Question]` at the beginning of the title.
+
+- If you've an issue that doesn't fall into any of these categories, then it'd be helpful if you could add `[Misc]` to your title.
+
+## How to modify it or develop it further?
 
 Please refer to the package [documentation](http://NVE.github.io/Flood_forecasting/index.html) for the programming details of this app.
 

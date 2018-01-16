@@ -2,7 +2,7 @@
 % Please edit documentation in R/map_modules.R
 \name{mapModule_polygonFeature}
 \alias{mapModule_polygonFeature}
-\title{mapModule_polygonFeature}
+\title{Shiny server module to be used with the UI module "mapModule_polygonFeatureUI"}
 \usage{
 mapModule_polygonFeature(input, output, session)
 }
@@ -13,7 +13,14 @@ mapModule_polygonFeature(input, output, session)
 
 \item{session}{}
 }
-\description{
-Shiny server module to map... TO tidy up with mapModule_polygonFeature
+\value{
+NULL This is a server module and could return "input" as with "mapModule", but I some problems implementing it in a similar way.
+So the plotting is integrated within this module with "poly_multimod_forecast_plot_mod" which makes things a bit confusing.
+This implementation could probably be simplified to resemble more "mapModule".
 }
-
+\description{
+Shiny server module to be used with the UI module "mapModule_polygonFeatureUI"
+}
+\examples{
+See server.R and UI.R for its implementation into the shiny App
+}

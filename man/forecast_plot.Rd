@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting_functions.R
 \name{forecast_plot}
 \alias{forecast_plot}
-\title{forecast_plot}
+\title{Function for single station and single model plots. Used in the server module "forecast_plot_mod"}
 \usage{
 forecast_plot(OBS, dat)
 }
@@ -10,6 +10,9 @@ forecast_plot(OBS, dat)
 \item{dat}{}
 }
 \description{
-forecast_plot
+Function for single station and single model plots. Used in the server module "forecast_plot_mod"
 }
-
+\examples{
+In "forecast_plot_mod"
+output$plot <- renderPlotly(forecast_plot(subset_OBS(), subset2plot())
+}

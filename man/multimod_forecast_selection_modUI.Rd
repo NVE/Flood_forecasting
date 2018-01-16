@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_modules.R
 \name{multimod_forecast_selection_modUI}
 \alias{multimod_forecast_selection_modUI}
-\title{multimod_forecast_selection_modUI}
+\title{Shiny UI module to allow swapping between input/state and runoff results in the first tab of the app. Used in UI.R}
 \usage{
 multimod_forecast_selection_modUI(id)
 }
@@ -10,6 +10,12 @@ multimod_forecast_selection_modUI(id)
 \item{id}{}
 }
 \description{
-Shiny UI module...
+Shiny UI module to allow swapping between input/state and runoff results in the first tab of the app. Used in UI.R
 }
-
+\examples{
+In UI.R
+tabPanel("Velg stasjoner med nedtrekksmeny", 
+mapModuleUI("multistation_map", multiple = TRUE),
+multimod_forecast_selection_modUI("multistation_plot"),
+forecast_plot_modUI("multistation_plot")),
+}

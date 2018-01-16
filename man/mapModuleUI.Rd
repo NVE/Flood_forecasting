@@ -2,7 +2,7 @@
 % Please edit documentation in R/map_modules.R
 \name{mapModuleUI}
 \alias{mapModuleUI}
-\title{mapModuleUI}
+\title{Shiny UI module to be used with the server module "mapModule"}
 \usage{
 mapModuleUI(id, multiple_choice = FALSE)
 }
@@ -11,7 +11,13 @@ mapModuleUI(id, multiple_choice = FALSE)
 
 \item{multiple_choice}{}
 }
-\description{
-Shiny UI module to be used with "mapModule" ...
+\value{
+NULL This is a UI module which returns a map, a selection buttons: station name, map layer, catchment boundaries,
+pops ups for selected stations and a choice of color markers.
 }
-
+\description{
+Shiny UI module to be used with the server module "mapModule"
+}
+\examples{
+See server.R and UI.R for its implementation into the shiny App
+}
