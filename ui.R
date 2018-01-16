@@ -1,4 +1,3 @@
-
 renderInputs <- function(prefix) {
   
   wellPanel( 
@@ -49,6 +48,8 @@ renderInputs <- function(prefix) {
 } 
 
 
+# This is the user-interface logic for the Flood forecasting Shiny App.
+
 ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\">Flomvarsling</a>"), collapsible = TRUE, theme = "my_style.css",
 
                  navbarMenu("Multistasjon / Multimodell", icon = icon("random"),
@@ -59,10 +60,7 @@ ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\
                                      forecast_plot_modUI("multistation_plot")
                             ),
                             tabPanel("Velg stasjoner med polygon",
-                                     ## Commented: first intended way to do the multi-station multi-model tab
-                                     #                                      mapModule_polygonFeatureUI("map_polygon"),
-                                     #                                      multimod_forecast_selection_modUI("multi_plot")
-                                     # forecast_plot_modUI("multi_plot")
+                                     ## First tried to implement this tab the same way as the first, but exchanging the inputs between modules did not work
                                      mapModule_polygonFeatureUI("map_polygon")
                             )),
                  
@@ -75,12 +73,14 @@ ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\
                             tabPanel("HBV med +/- 50% nedbør",
                                      mapModuleUI("map_HBV_2016"),
                                      singlemodel_forecast_plot_modUI("forecast_plot_HBV_2016")
-                                     # forecast_plot_mod_shadingUI("forecast_plot_shading_HBV_2016")
                             ),
                             tabPanel("DDD",
                                      mapModuleUI("map_DDD"),
                                      singlemodel_forecast_plot_modUI("forecast_plot_DDD")
-                                     # forecast_plot_mod_shadingUI("forecast_plot_shading_DDD")
+                            ),
+                            tabPanel("ODM",
+                                     mapModuleUI("map_ODM"),
+                                     singlemodel_forecast_plot_modUI("forecast_plot_ODM")
                             )
                  ),
                  navbarMenu("Tabeller", icon = icon("globe"),
@@ -98,8 +98,12 @@ ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\
                             ),
                             tabPanel("DDD",
                                      table_modUI("DDD_table")
+                            ),
+                            tabPanel("ODM",
+                                     table_modUI("ODM_table")
                             )
                  ),
+
 
          ##############################
          #-- byman ####################
@@ -161,11 +165,17 @@ ui <- navbarPage(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\
                             tabPanel("Årsstatistikken: Vannføring", plotOutput('annualFlow' ))
                  ),
 
-           
+          
                  navbarMenu("Dokumentasjon", icon = icon("question"),
                             tabPanel(title = HTML("<a href=\"http://nve.github.io/Flood_forecasting/app.html#how_to_use_it\">Hvordan man bruker app?</a>")),
                             tabPanel(title = HTML("<a href=\"http://NVE.github.io/Flood_forecasting\">Hvordan ble det programmert?</a>")),
                             tabPanel(title = HTML("<a href=\"http://nve.github.io/Flood_forecasting/process.html\">Om modeller</a>"))
+                 ),
+                 
+                 navbarMenu(paste("Last update: ", update_time), icon = icon("refresh")
+                            ## We could consider adding a summary of past forecasts under this navbarMenu. Maybe with previously saved rmarkdown reports
+                            # ,
+                            # tabPanel("Yesterday's report")
                  )
 )
 

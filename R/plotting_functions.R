@@ -1,46 +1,14 @@
 # This file contains all the plotting functions developed for the Flomvarsling shiny app
 
-# library(lubridate)
-# library(ggplot2)
-# library(dplyr)
-# library(plotly)
-
-
-#' forecast_plot_shading
-#' @description This function only produces "static" ggplot for the moment, but I need to find a way to do the shading with plotly.
-#' It is not used by the shiny app anymore
-#' @param dat 
-#' 
-#' @return
-#' @export
-#'
-#' @examples
-forecast_plot_shading <- function(dat) {
-
-  dat$time <- as.Date(dat$time)
-  #Shading for current day
-  today <- Sys.Date()
-  current_day <- data.frame(start = as.Date(today), end = as.Date(today + 1) )
-
-  d <- ggplot() +
-      geom_line(data = dat, aes(x = time, y = Values, col = Variable), size = 1) +
-    geom_rect(data=current_day, aes(xmin=start, xmax=end, ymin=-Inf, ymax=Inf), fill='pink', alpha=0.2) +
-      facet_grid(Type ~ ., scales="free_y") +
-      theme_bw() + 
-      scale_x_date(date_breaks = "1 day", date_labels = "%m %d")
-
-  return(d)
-  
-}
-
-#' forecast_plot
-#'
+#' Function for single station and single model plots. Used in the server module "forecast_plot_mod"
 #' @param dat 
 #' @importFrom plotly ggplotly
+#' @import ggplot2
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples In "forecast_plot_mod"
+#' output$plot <- renderPlotly(forecast_plot(subset_OBS(), subset2plot())
 forecast_plot <- function(OBS, dat) {
   
   dat$time <- as.Date(dat$time)
@@ -53,6 +21,7 @@ forecast_plot <- function(OBS, dat) {
                "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue4", "P.m50" = "blue", "P.p50" = "blue",
                "HBV.P.Snow" = "blue4",
                "DDD.sim" = "orange",
+               "ODM.sim" = "red",
                "DDD.Snow" = "purple4", "DDD.GW" = "sienna", "DDD.Soil" = "green",
                "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
                "HBV.UM.sim.med.obsMet" = "cyan3",
@@ -68,6 +37,7 @@ forecast_plot <- function(OBS, dat) {
                "HBV.P.Snow" = "dotted",
                "DDD.sim" = "solid",
                "DDD.Snow" = "solid", "DDD.GW" = "solid", "DDD.Soil" = "solid",
+               "ODM.sim" = "solid",
                "mean" = "dotdash", "5Y" = "dotdash", "50Y" = "dotdash",
                "HBV.UM.sim.med.obsMet" = "dotted",
                "Temp" = "solid", "Precip" = "solid"
@@ -105,21 +75,24 @@ forecast_plot <- function(OBS, dat) {
   return(ggplotly(d))
 }
 
-#' multimod_forecast_plot
-#'
+#' Function for multistation and multimodel plots. Used in the server module "multimod_forecast_plot_mod"
 #' @param dat_1 
 #' @param dat_2 
 #' @param dat_3 
 #' @param dat_4 
 #' @param return_levels 
 #' @param gg_plot 
-#'
+#' @importFrom plotly ggplotly
+#' @import ggplot2
 #' @return
 #' @export
 #'
-#' @examples
-multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, return_levels = NULL, gg_plot = FALSE) {
+#' @examples In multimod_forecast_plot_mod
+#' output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_OBS(), subset2plot_m1(), subset2plot_m2(), 
+#' subset2plot_m3(), subset2plot_m4(), subset2plot_rl()))
+multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, dat_3 = NULL, dat_4 = NULL, dat_5 = NULL, return_levels = NULL, gg_plot = FALSE) {
   
+  ## NOTE: ODM will have the same line as DDD with the following code
   d <- ggplot() + scale_colour_manual(
     values = c("Obs" = "black", 
                "HBV.UM.sim" = "cyan3", "HBV.UM.korr" = "cyan4", "Lo50" = "cyan", "Lo90" = "cyan", "Hi50" = "cyan", "Hi90" = "cyan",
@@ -127,6 +100,7 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
                "HBV.P.sim" = "blue3", "HBV.P.korr" = "blue4", "P.m50" = "blue", "P.p50" = "blue",
                "HBV.P.Snow" = "blue4",
                "DDD.sim" = "orange",
+               "ODM.sim" = "red",
                "DDD.Snow" = "purple4", "DDD.GW" = "sienna", "DDD.Soil" = "green",
                "mean" = "yellow", "5Y" = "orange", "50Y" = "red",
                "HBV.UM.sim.med.obsMet" = "cyan3",
@@ -139,6 +113,7 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
                "HBV.P.sim" = "twodash", "HBV.P.korr" = "solid", "P.m50" = "dashed", "P.p50" = "dashed",
                "HBV.P.Snow" = "dotted",
                "DDD.sim" = "solid",
+               "ODM.sim" = "solid",
                "DDD.Snow" = "solid", "DDD.GW" = "solid", "DDD.Soil" = "solid",
                "mean" = "dotdash", "5Y" = "dotdash", "50Y" = "dotdash",
                "HBV.UM.sim.med.obsMet" = "dotted",
@@ -183,6 +158,12 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
     p <- 1
   }
   
+  if (is.null(dat_5) == FALSE && is.data.frame(dat_5) && nrow(dat_5) > 0) {
+    dat_5$time <- as.Date(dat_5$time)
+    d <- d + geom_line(data = dat_5, aes(x = time, y = Values, col = Variable, linetype = Variable))
+    p <- 1
+  }
+  
   if (is.null(return_levels) == FALSE && is.data.frame(return_levels) && nrow(return_levels) > 0) {
     print("return_levels")
         print(return_levels)
@@ -191,6 +172,7 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
     p <- 1
   }
 
+## This below was to highlight the difference between past and forecast
 #   today <- Sys.Date()
 #   today <- which(dat_1$time == today)
 #   print("today")
@@ -204,14 +186,16 @@ multimod_forecast_plot <- function(obs_data = NULL, dat_1 = NULL, dat_2 = NULL, 
       scale_x_date(date_breaks = "2 day", date_labels = "%m %d") +
       theme(axis.title.x = element_blank()) +   # Remove x-axis label
       ylab("Runoff (m3/s)")                       # Set y-axis label
+    ## This below was to try to fix the ylabel cosmetic problem. Did not work
       # theme(axis.text.x = element_text(angle = 90, size = 12) ) # plot.margin = unit(c(10,0,0,0),"mm")
-    # theme(plot.margin=unit(c(0,0,0,0),"mm")) 
+      # theme(plot.margin=unit(c(0,0,0,0),"mm")) 
       
   }
 
-
+## This below was to try to fix the ylabel cosmetic problem. Did not work
   # l <- plotly_build(d)  # %>%  layout(margin = list(l=100)) 
   # l$layout$margin$l <- l$layout$margin$l + 100
+  
   if (gg_plot == TRUE) {
     return(d)
   } else {

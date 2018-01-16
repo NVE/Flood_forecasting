@@ -5,3 +5,6 @@ data_all.RData
 *~
 inst/doc
 /data
+data/*
+*.RData
+

@@ -2,7 +2,7 @@
 % Please edit documentation in R/map_modules.R
 \name{mapModule}
 \alias{mapModule}
-\title{mapModule}
+\title{Shiny server module to be used with the UI module "mapModuleUI"}
 \usage{
 mapModule(input, output, session)
 }
@@ -13,7 +13,12 @@ mapModule(input, output, session)
 
 \item{session}{}
 }
-\description{
-Shiny server module to map ...
+\value{
+input This is a server module which returns the "input" from the selection buttonsto the UI module "mapModuleUI"
 }
-
+\description{
+Shiny server module to be used with the UI module "mapModuleUI"
+}
+\examples{
+See server.R and UI.R for its implementation into the shiny App
+}

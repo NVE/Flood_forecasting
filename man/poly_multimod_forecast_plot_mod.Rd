@@ -2,7 +2,8 @@
 % Please edit documentation in R/plot_modules.R
 \name{poly_multimod_forecast_plot_mod}
 \alias{poly_multimod_forecast_plot_mod}
-\title{poly_multimod_forecast_plot_mod}
+\title{Shiny server module to do multi-model plots in the polygon tab (module "mapModule_polygonFeature"). 
+Needs tidying up with previous function}
 \usage{
 poly_multimod_forecast_plot_mod(input, output, session,
   selected_stations = NULL, model_1, model_2, model_3, model_4,
@@ -39,6 +40,11 @@ poly_multimod_forecast_plot_mod(input, output, session,
 \item{type_rl}{}
 }
 \description{
-Shiny server module to do multi-model plots. Needs tidy up with previous function
+Shiny server module to do multi-model plots in the polygon tab (module "mapModule_polygonFeature"). 
+Needs tidying up with previous function
 }
-
+\examples{
+In "mapModulePolygonFeature"
+callModule(poly_multimod_forecast_plot_mod, "multi_station_plot", as.character(selected_regine_main()), HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell,
+input$variable_1, input$variable_2, input$variable_3, input$variable_4, input$type_rl)
+}

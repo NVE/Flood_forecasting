@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting_functions.R
 \name{multimod_forecast_plot}
 \alias{multimod_forecast_plot}
-\title{multimod_forecast_plot}
+\title{Function for multistation and multimodel plots. Used in the server module "multimod_forecast_plot_mod"}
 \usage{
 multimod_forecast_plot(obs_data = NULL, dat_1 = NULL, dat_2 = NULL,
   dat_3 = NULL, dat_4 = NULL, return_levels = NULL, gg_plot = FALSE)
@@ -21,6 +21,10 @@ multimod_forecast_plot(obs_data = NULL, dat_1 = NULL, dat_2 = NULL,
 \item{gg_plot}{}
 }
 \description{
-multimod_forecast_plot
+Function for multistation and multimodel plots. Used in the server module "multimod_forecast_plot_mod"
 }
-
+\examples{
+In multimod_forecast_plot_mod
+output$plot <- renderPlotly(multimod_forecast_plot(subset2plot_OBS(), subset2plot_m1(), subset2plot_m2(), 
+subset2plot_m3(), subset2plot_m4(), subset2plot_rl()))
+}

@@ -6,25 +6,16 @@
 #   sapply(pkg, library, character.only = TRUE)
 # }
 # 
-# # Special case for leaflet which comes from a fork of Rcura on my repo
-# packages <- c("leaflet")
-# if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-#   install.packages('devtools')
-#   library(devtools)
-#   install_github("fbaffie/leaflet")
-# }
 # 
-# packages <- c("shiny", "tidyverse", "sp", "plotly", "leaflet", "DT")
-# packages <- c("curl", "shiny", "magrittr", "sp", "plotly", "dplyr", "ggplot2", "lubridate", "leaflet", "shinyBS", "DT")
+# packages <- c("shiny", "tidyverse", "sp", "plotly", "DT", "leaflet.extras", "leaflet", "hydroGOF", "topmodel", "dygraphs", "plotrix")
 # ipak(packages)
 # # sp: For the point.in.polygon function
-# # shinythemes? for chosing various bootstrap themes
+
+## Useful when installing packages on the linux server
+# chooseCRANmirror(ind=89)  
+# library('devtools', lib = "/usr/local/lib/R/site-library")  
 
 #####################################################################
-
-# chooseCRANmirror(ind=89)
-# library('devtools', lib = "/usr/local/lib/R/site-library")
-# install_github("fbaffie/leaflet")
 
 library(shiny)
 library(tidyverse)
@@ -34,12 +25,15 @@ library(DT)
 library(leaflet)
 library(leaflet.extras)
 
-library(rmarkdown)
+## Byman's packages
+library(hydroGOF)
+library(topmodel)
+library(dygraphs)
+library(plotrix)
 
-if (names(dev.cur()) != "null device") dev.off()
-pdf(NULL)
 
-## My modules: either load package or source modules from this directory
+## My modules: either load package or source modules from this directory. 
+## Note that the package version of those app functions is not finished for operational use. Only for documnetation purposes
 source('R/map_modules.R')
 source('R/table_modules.R')
 source('R/plot_modules.R')
@@ -51,9 +45,12 @@ hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n
 # Load the Rdata files that were prepared with the NVEDATA package.
 # This creates the global variable
 
+load("data/update_time.RData")
+
 load("data/HBV_2014.RData")
 load("data/HBV_2016.RData")
 load("data/DDD.RData")
+load("data/ODM.RData")
 load("data/flomtabell.RData")
 load("data/HBV_past_year.RData")
 load("data/meta_data.rda")
@@ -130,7 +127,7 @@ library(grid)
 source('R/hitrate_alt2.function.R')
 
 
-dataDir <- "//nve/fil/h/Fastgrupper/Flomvarsling/FoU/Prosjekt/80103_Hydrologiske_prognoser/arbeidspakker/AP5/DDM/projects/Flood_forecasting/data"
+dataDir <- "data/DDM"
 
 load(file.path(dataDir,"AllStationsAllModels0.RData"))
 #source(file = "//nve/fil/h/Fastgrupper/Flomvarsling/FoU/Prosjekt/80103_Hydrologiske_prognoser/arbeidspakker/AP5/DDM/skript/script/hitrate.function.R")

@@ -1,15 +1,9 @@
-# This is the server logic for a Shiny web application.
-
-
+# This is the server logic for the Flood forecasting Shiny App.
 
 server <- function(input, output, session) {
   
-  # Below is the code to have a file load that updates itself, 
-  # but it creates a reactive which ends up being probably more trouble than usefulness...
-  # HBV_2014_GG <<- reactiveFileReader(10000, session = NULL, filePath = "./HBV_2014_GG.Rdata", load, envir = .GlobalEnv)
-
   input4multi_forecast_plot <- callModule(mapModule,"multistation_map")
-  callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, OBS, HBV_2014, HBV_2016, DDD, HBV_past_year, flomtabell)
+  callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, OBS, HBV_2014, HBV_2016, DDD, ODM, HBV_past_year, flomtabell)
 
   input4plot_HBV_2014 <- callModule(mapModule,"map_HBV_2014")
   callModule(forecast_plot_mod,"forecast_plot_HBV_2014", input4plot_HBV_2014, HBV_2014)
@@ -18,11 +12,14 @@ server <- function(input, output, session) {
   callModule(forecast_plot_mod,"forecast_plot_HBV_2016", input4plot_HBV_2016, HBV_2016)
 
   input4plot_DDD <- callModule(mapModule,"map_DDD")
-  callModule(forecast_plot_mod,"forecast_plot_DDD", input4plot_DDD, DDD)
+  callModule(forecast_plot_mod,"forecast_plot_DDD", input4plot_DDD, ODM)
+  
+  input4plot_ODM <- callModule(mapModule,"map_ODM")
+  callModule(forecast_plot_mod,"forecast_plot_ODM", input4plot_ODM, ODM)
 
-  ## Commented: first intended way to do the multi-station multi-model tab
+## COMMENT: first intended way to do the multi-station multi-model tab with polygon selection. Did not work
 # stations_model_vect <- callModule(mapModule_polygonFeature,"map_polygon") 
-#   callModule(multimod_forecast_plot_EXP, "multi_plot", "2.11", HBV_2014, HBV_2016, DDD)
+# callModule(multimod_forecast_plot_EXP, "multi_plot", "2.11", HBV_2014, HBV_2016, DDD)
   
   callModule(mapModule_polygonFeature,"map_polygon")  
 
@@ -31,13 +28,8 @@ server <- function(input, output, session) {
   callModule(table_mod,"HBV_2014_table", HBV_2014) 
   callModule(table_mod,"HBV_2016_table", HBV_2016) 
   callModule(table_mod,"DDD_table", DDD) 
+  callModule(table_mod,"ODM_table", ODM) 
 
-  
-  
-  
-  
-  
-  
   ##############################
   #-- byman ####################
 
@@ -896,7 +888,5 @@ server <- function(input, output, session) {
     print(p)
     
   })
-  
-  
-  
+
 }
