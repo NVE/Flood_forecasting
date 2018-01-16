@@ -144,14 +144,14 @@ map <- leaflet() %>% setView(13, 64, zoom = 5)
     # Adding transparent markers with layerID = selected stations so that the map interactivity remains
     if (popups == FALSE) {
       map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                              popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$flood_warning,2), sep = " "),
-                              radius = ~my.radius.func(OK_stations$flood_warning, radius_function), 
+                              popup = paste(as.character(stations$nbname), "Ratio:", round(stations$flood_warning,2), sep = " "),
+                              radius = ~my.radius.func(stations$flood_warning, radius_function), 
                               color = "white", weight = 0, stroke = TRUE,
                               fillOpacity = 0, fillColor = "white",
                               layerId = stations$nbname)
     } else {
       map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                              radius = ~my.radius.func(OK_stations$flood_warning, radius_function), 
+                              radius = ~my.radius.func(stations$flood_warning, radius_function), 
                               color = "white", weight = 0, stroke = TRUE,
                               fillOpacity = 0, fillColor = "white",
                               layerId = stations$nbname)
@@ -163,6 +163,7 @@ map <- leaflet() %>% setView(13, 64, zoom = 5)
     index <- is.na(stations$uncertainty)
     NA_stations_uncertainty <- lapply(stations, function(x) x[index])
     OK_stations_uncertainty <- lapply(stations, function(x) x[!index])
+
 
     map <- map %>%
       addCircleMarkers(data = OK_stations_uncertainty, lng = ~ longitude, lat = ~ latitude,
