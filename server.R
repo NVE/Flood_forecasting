@@ -2,20 +2,63 @@
 
 server <- function(input, output, session) {
   
+  HBV_2014 <- reactiveFileReader(
+    intervalMillis = 100,
+    filePath       = './data',
+    readFunc       = load("data/HBV_2014.RData")
+  )
+  
+  HBV_2016 <- reactiveFileReader(
+    intervalMillis = 100,
+    filePath       = './data',
+    readFunc       = load("data/HBV_2016.RData")
+  )
+  
+  HBV_past_year <- reactiveFileReader(
+    intervalMillis = 100,
+    filePath       = './data',
+    readFunc       = load("data/HBV_past_year.RData")
+  )
+  
+  DDD <- reactiveFileReader(
+    intervalMillis = 100,
+    filePath       = './data',
+    readFunc       = load("data/DDD.RData")
+  )
+
+OBS <- reactive({dplyr::filter(DDD(), Type == "Runoff", Variable == "Obs")})
+# OBS$time<- as.Date(OBS$time)
+
+# DDD <- reactive({dplyr::filter(DDD, Variable != "Obs")})
+  
+  ODM <- reactiveFileReader(
+    intervalMillis = 100,
+    filePath       = './data',
+    readFunc       = load("data/ODM.RData")
+  )
+  
+  update_time <- reactiveFileReader(
+    intervalMillis = 100,
+    filePath       = './data',
+    readFunc       = load("data/update_time.RData")
+  )
+  
+  
+  
   input4multi_forecast_plot <- callModule(mapModule,"multistation_map")
-  callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, OBS, HBV_2014, HBV_2016, DDD, ODM, HBV_past_year, flomtabell)
+  callModule(multimod_forecast_plot_mod,"multistation_plot", input4multi_forecast_plot, OBS, HBV_2014(), HBV_2016(), DDD(), ODM(), HBV_past_year(), flomtabell)
 
   input4plot_HBV_2014 <- callModule(mapModule,"map_HBV_2014")
-  callModule(forecast_plot_mod,"forecast_plot_HBV_2014", input4plot_HBV_2014, HBV_2014)
+  callModule(forecast_plot_mod,"forecast_plot_HBV_2014", input4plot_HBV_2014, HBV_2014())
   
   input4plot_HBV_2016 <- callModule(mapModule,"map_HBV_2016")
-  callModule(forecast_plot_mod,"forecast_plot_HBV_2016", input4plot_HBV_2016, HBV_2016)
+  callModule(forecast_plot_mod,"forecast_plot_HBV_2016", input4plot_HBV_2016, HBV_2016())
 
   input4plot_DDD <- callModule(mapModule,"map_DDD")
-  callModule(forecast_plot_mod,"forecast_plot_DDD", input4plot_DDD, ODM)
+  callModule(forecast_plot_mod,"forecast_plot_DDD", input4plot_DDD, DDD())
   
   input4plot_ODM <- callModule(mapModule,"map_ODM")
-  callModule(forecast_plot_mod,"forecast_plot_ODM", input4plot_ODM, ODM)
+  callModule(forecast_plot_mod,"forecast_plot_ODM", input4plot_ODM, ODM())
 
 ## COMMENT: first intended way to do the multi-station multi-model tab with polygon selection. Did not work
 # stations_model_vect <- callModule(mapModule_polygonFeature,"map_polygon") 
@@ -25,9 +68,9 @@ server <- function(input, output, session) {
 
   callModule(table_mod,"metadata_table", meta_data) 
   callModule(table_mod,"RL_table", flomtabell) 
-  callModule(table_mod,"HBV_2014_table", HBV_2014) 
-  callModule(table_mod,"HBV_2016_table", HBV_2016) 
-  callModule(table_mod,"DDD_table", DDD) 
-  callModule(table_mod,"ODM_table", ODM) 
+  callModule(table_mod,"HBV_2014_table", HBV_2014()) 
+  callModule(table_mod,"HBV_2016_table", HBV_2016()) 
+  callModule(table_mod,"DDD_table", DDD()) 
+  callModule(table_mod,"ODM_table", ODM()) 
 
 }

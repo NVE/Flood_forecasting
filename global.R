@@ -25,10 +25,14 @@ library(DT)
 library(leaflet)
 library(leaflet.extras)
 
-library(rmarkdown)
 
-if (names(dev.cur()) != "null device") dev.off()
-pdf(NULL)
+
+# library(rmarkdown)
+# 
+# if (names(dev.cur()) != "null device") dev.off()
+# pdf(NULL)
+
+
 
 ## My modules: either load package or source modules from this directory. 
 ## Note that the package version of those app functions is not finished for operational use. Only for documnetation purposes
@@ -38,20 +42,28 @@ source('R/plot_modules.R')
 source('R/plotting_functions.R')
 source('R/mapping_functions.R')
 
+## The catchment data can be global without problem
 hbv_catchments <- readLines("data/hbv_catchments.json") %>% paste(collapse = "\n")
 
 # Load the Rdata files that were prepared with the NVEDATA package.
-# This creates the global variable
+# This creates the meta_ data which can be a global variable without problems
+load("data/meta_data.rda")
 
-load("data/update_time.RData")
+## The flomtabell data can be global as long as it doesn't update itself, which is the case at the moment.
+load("data/flomtabell.RData")
 
 load("data/HBV_2014.RData")
 load("data/HBV_2016.RData")
 load("data/DDD.RData")
 load("data/ODM.RData")
-load("data/flomtabell.RData")
 load("data/HBV_past_year.RData")
-load("data/meta_data.rda")
+load("data/update_time.RData")
+
+
+## This section below needs to be tidied up regarding global variables
+
+load("data/HBV_2014_init.RData")
+
 
 meta_data <- dplyr::filter(meta_data, br23_HBV == "Y" | br9_Flomvarsling == "Y")
 
@@ -67,10 +79,10 @@ stations <- lapply(meta_data, function(x) {x[station_indices]})
 # stations$nbname_SPECIALCHAR <- paste(stations$regine_main, "-", stations$name, sep ="")
 stations$nbname <- paste(stations$regine_main, "-", station_names[match(stations$regine_main, station_numbers)], sep ="")
 
-
 OBS <- dplyr::filter(DDD, Type == "Runoff", Variable == "Obs")
 OBS$time<- as.Date(OBS$time)
 DDD <- dplyr::filter(DDD, Variable != "Obs")
+
 
 # Calculation of a stations$flood_warning indicator for the forecast period
 # I want to have it under the "stations" list for the moment as this list is used by the map functions
@@ -79,7 +91,7 @@ DDD <- dplyr::filter(DDD, Variable != "Obs")
 HBV_2014_SimCorr <- dplyr::filter(HBV_2014, Type == "Runoff" & Variable == "HBV.UM.korr")
 HBV_2014_SimCorr_maxed <- group_by(HBV_2014_SimCorr, nbname, regine.main) %>% dplyr::summarise(maxed = max(na.omit(Values)))
 
-flom_obs_mean <- dplyr::filter(flomtabell, Type == "Obs" & Variable == "mean") 
+flom_obs_mean <- dplyr::filter(flomtabell, Type == "Obs" & Variable == "mean")
 
 index_HBV <- match(stations$regine_main, HBV_2014_SimCorr_maxed$regine.main)
 index_flomtabell <- match(HBV_2014_SimCorr_maxed$regine.main, flom_obs_mean$regine.main)
