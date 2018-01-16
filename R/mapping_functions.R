@@ -181,19 +181,19 @@ map <- leaflet() %>% setView(13, 64, zoom = 5)
                 opacity = 1)
 
     if (popups == FALSE) {
-      map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude,
-                              popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations_uncertainty$uncertainty,2), sep = " "),
+      map <- addCircleMarkers(map, data = OK_stations_uncertainty, lng = ~ longitude, lat = ~ latitude,
+                              popup = paste(as.character(OK_stations_uncertainty$nbname), "Ratio:", round(OK_stations_uncertainty$uncertainty,2), sep = " "),
                               radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty), radius_function),
                               color = "white", weight = 0, stroke = TRUE,
                               fillOpacity = 0, fillColor = "white",
-                              layerId = stations$nbname)
+                              layerId = OK_stations_uncertainty$nbname)
     } else {
-      map <- addCircleMarkers(map, data = stations, lng = ~ longitude, lat = ~ latitude,
+      map <- addCircleMarkers(map, data = OK_stations_uncertainty, lng = ~ longitude, lat = ~ latitude,
                               # popup = paste(as.character(stations$nbname), "Ratio:", round(OK_stations$uncertainty,2), sep = " "),
                               radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty), radius_function),
                               color = "white", weight = 0, stroke = TRUE,
                               fillOpacity = 0, fillColor = "white",
-                              layerId = stations$nbname)
+                              layerId = OK_stations_uncertainty$nbname)
 
     }
   }
@@ -258,7 +258,7 @@ multiple_station_map <- function(stations, selected_regine_main = NULL,
   map <- leaflet() %>%
     addTiles() %>%
     setView(13, 64, zoom = 5)
-  
+
 # Works with the leaflet + leaflet.extras
       map <- addDrawToolbar(map,
                             # targetLayerId = "draw",
