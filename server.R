@@ -12,7 +12,7 @@ server <- function(input, output, session) {
   callModule(forecast_plot_mod,"forecast_plot_HBV_2016", input4plot_HBV_2016, HBV_2016)
 
   input4plot_DDD <- callModule(mapModule,"map_DDD")
-  callModule(forecast_plot_mod,"forecast_plot_DDD", input4plot_DDD, ODM)
+  callModule(forecast_plot_mod,"forecast_plot_DDD", input4plot_DDD, DDD)
   
   input4plot_ODM <- callModule(mapModule,"map_ODM")
   callModule(forecast_plot_mod,"forecast_plot_ODM", input4plot_ODM, ODM)

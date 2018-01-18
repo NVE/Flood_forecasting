@@ -249,13 +249,13 @@ mapModule_polygonFeature <- function(input, output, session) {
                              opacity = 1)
                  
                  # if (popups == FALSE) {
-                 proxy <- addCircleMarkers(proxy, data = stations, lng = ~ longitude, lat = ~ latitude, 
-                                         popup = paste(as.character(stations$nbname), "Ratio:", round(stations$uncertainty,2), sep = " "), 
-                                         radius = ~my.radius.func(stations$uncertainty / max(stations$uncertainty), radius_function), 
+                 proxy <- addCircleMarkers(proxy, data = OK_stations_uncertainty, lng = ~ longitude, lat = ~ latitude, 
+                                         popup = paste(as.character(OK_stations_uncertainty$nbname), "Ratio:", round(OK_stations_uncertainty$uncertainty,2), sep = " "), 
+                                         radius = ~my.radius.func(OK_stations_uncertainty$uncertainty / max(OK_stations_uncertainty$uncertainty), radius_function), 
                                          color = "white", weight = 0, stroke = TRUE,
                                          fillOpacity = 0, fillColor = "white",
                                          # group = "Selectable stations",
-                                         layerId = stations$nbname)  
+                                         layerId = OK_stations_uncertainty$nbname)  
                }
                
                if (input$variable == "Ingen") {
@@ -317,7 +317,8 @@ Du kan slette dem for a endre ditt valg." })
           proxy %>% addPopups(long, lat, paste(i, "Ratio:", round(stations$flood_warning[station_index],2), sep = " "),
                               options = popupOptions(closeButton = FALSE, maxWidth = 100))
         }
-        else if (input$variable == "usikkerhet") {
+        else if (input$variable == "usikkerhet") {  
+  # Small bug remaining here with the popups which don't show the ratio in uncertainty when popups is ticked
           proxy %>% addPopups(long, lat, paste(i, "Ratio:", round(stations$uncertainty[station_index],2), sep = " "),
                               options = popupOptions(closeButton = FALSE, maxWidth = 100))
           
