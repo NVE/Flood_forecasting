@@ -317,7 +317,8 @@ Du kan slette dem for a endre ditt valg." })
           proxy %>% addPopups(long, lat, paste(i, "Ratio:", round(stations$flood_warning[station_index],2), sep = " "),
                               options = popupOptions(closeButton = FALSE, maxWidth = 100))
         }
-        else if (input$variable == "usikkerhet") {
+        else if (input$variable == "usikkerhet") {  
+  # Small bug remaining here with the popups which don't show the ratio in uncertainty when popups is ticked
           proxy %>% addPopups(long, lat, paste(i, "Ratio:", round(stations$uncertainty[station_index],2), sep = " "),
                               options = popupOptions(closeButton = FALSE, maxWidth = 100))
           
