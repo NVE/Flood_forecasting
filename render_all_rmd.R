@@ -1,7 +1,0 @@
-rmarkdown::render('report/process.Rmd', output_dir = "_gh-pages")
-rmarkdown::render('report/app.Rmd', output_dir = "_gh-pages")
-rmarkdown::render('report/HBV.Rmd', output_dir = "_gh-pages")
-rmarkdown::render('report/DDD.Rmd', output_dir = "_gh-pages")
-rmarkdown::render('report/ODM.Rmd', output_dir = "_gh-pages")
-rmarkdown::render('report/DDM.Rmd', output_dir = "_gh-pages")
-# rmarkdown::render('report/daily_report.Rmd', output_dir = "_gh-pages")
