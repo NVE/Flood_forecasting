@@ -214,12 +214,8 @@ map <- leaflet() %>% setView(13, 64, zoom = 5)
     map <- addGeoJSON(map, hbv_catchments, weight = 3, color = "#444444", fill = FALSE)
   }
   if (map_layer == "Topo kart") {
-    map <- addWMSTiles(map,
-                       "http://wms.geonorge.no/skwms1/wms.topo2",
-                       layers = "topo2_WMS",
-                       options = WMSTileOptions(format = "image/png", transparent = TRUE),
-                       tileOptions(tms = TRUE),
-                       attribution = "Kartverket")
+    map <-  addTiles(map, "http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom={z}&x={x}&y={y}", #layers=topo2graatone for grey tones
+             attribution = "Kartverket")
   }
   if (map_layer == "Flyfoto") {
     map <- addProviderTiles(map, "Esri.WorldImagery", group = "Esri.WorldImagery") 
